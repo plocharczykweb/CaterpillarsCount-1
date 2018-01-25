@@ -9,17 +9,23 @@ class Plant
 	private static $DOMAIN_NAME = "caterpillarscount.unc.edu";
 	private static $extraPaths = "";
 	
+	
+	private static $HOST;
+	private static $HOST_USERNAME;
+	private static $HOST_PASSWORD;
+	private static $DATABASE_NAME;
+	
 	if(getenv("Openshift") == 1){
-		private static $HOST = getenv("CATERPILLARSV2_SERVICE_HOST");
-		private static $HOST_USERNAME = getenv("HOST_USERNAME");
-		private static $HOST_PASSWORD = getenv("HOST_PASSWORD");
-		private static $DATABASE_NAME = getenv("DATABASE_NAME");
+		$HOST = getenv("CATERPILLARSV2_SERVICE_HOST");
+		$HOST_USERNAME = getenv("HOST_USERNAME");
+		$HOST_PASSWORD = getenv("HOST_PASSWORD");
+		$DATABASE_NAME = getenv("DATABASE_NAME");
 	}
 	else{
-		private static $HOST = "localhost";
-		private static $HOST_USERNAME = "username";
-		private static $HOST_PASSWORD = "password";
-		private static $DATABASE_NAME = "CaterpillarsCount";
+		$HOST = "localhost";
+		$HOST_USERNAME = "username";
+		$HOST_PASSWORD = "password";
+		$DATABASE_NAME = "CaterpillarsCount";
 	}
 	
 	private $id;							//INT
