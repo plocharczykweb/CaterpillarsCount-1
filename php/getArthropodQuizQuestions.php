@@ -1,8 +1,16 @@
 <?php
-	$HOST = "localhost";
-	$HOST_USERNAME = "username";
-	$HOST_PASSWORD = "password";
-	$DATABASE_NAME = "CaterpillarsCount";
+	if(getenv("Openshift") == 1){
+		private static $HOST = getenv("CATERPILLARSV2_SERVICE_HOST");
+		private static $HOST_USERNAME = getenv("HOST_USERNAME");
+		private static $HOST_PASSWORD = getenv("HOST_PASSWORD");
+		private static $DATABASE_NAME = getenv("DATABASE_NAME");
+	}
+	else{
+		private static $HOST = "localhost";
+		private static $HOST_USERNAME = "username";
+		private static $HOST_PASSWORD = "password";
+		private static $DATABASE_NAME = "CaterpillarsCount";
+	}
 	
 	$dbconn = mysqli_connect($HOST, $HOST_USERNAME, $HOST_PASSWORD, $DATABASE_NAME);
 	$query = mysqli_query($dbconn, "SELECT * FROM `ArthropodQuizQuestions` ORDER BY RAND() LIMIT 10");
