@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Caterpillars Count Master Administrator Tool</title>
+
+        <!--JQuery Assets-->
+            <script src="jquery-1.11.3.min.js"></script>
+
+        <!-- Bootstrap Assets -->
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <script type="text/javascript" src = "../assets/js/bootstrap.min.js"></script>
+        
+<!-- Other Stylesheets -->
+
+        <!-- JQuery/JQueryUI Assets-->
+
+        <!--
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="jquery-ui-1.11.4/jquery-ui.min.css">
+        <script src="jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+        -->
+
+    
+        <link href="../assets/css/ripples.min.css" rel="stylesheet">
+        
+        <link href="../assets/css/material-wfont.min.css" rel="stylesheet">
+
+
+
+        <link href="../assets/css/style.css" rel="stylesheet">
+
+
+        
+        <!-- Admin Assets-->
+        <script src="../assets/js/navbar.js"></script>
+        <script src = 'admin_vertical_pills.js'></script>
+        <script src = "admin.js"></script>
+        <script src = 'review_plant_data.js'></script>
+
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div class="row">
+                <div id="header" class="masthead">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-md-2" id = 'admin_vertical_pills'></div>
+                <div class = "col-md-10">
+                    
+                    <div class = 'container'>
+                        <h3>Choose Plant</h3>
+                        <form class="form-inline" role="form">
+                        <div class="form-group">
+                          <label for="siteID">Site:</label>
+                          <select class="form-control" id="siteID">
+                                <option>117</option>
+                                <option>Site 2</option>
+                                <option>Site 3</option>
+                                <option>Site 4</option>
+                          </select>
+                        </div>
+                        <div class="form-group">
+                          <label for="circle">Circle:</label>
+                            <select class="form-control" id="circle">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                         <label>Survey:</label>
+                            <select class="form-control" id="survey">
+                                <option>A</option>
+                                <option>B</option>
+                                <option>C</option>
+                                <option>D</option>
+                                <option>E</option>
+                            </select>
+                        </div>
+                        <div class="form-group">        
+                          <button type="submit" class="btn btn-default" id = 'getPlantInfo'>Get Info</button>
+                        </div>
+                      </form>
+                    </div>
+
+                    <div class = 'container'>
+                     <form class="form-inline" role="form">
+                        <div>
+                            <label>Official Plant Species: </label><span id = 'officialName'>   --</span>
+                        </div>
+                    <div class="form-group">
+                        <label >Change Official Record:</label>
+                        <input type="text" id = "officialNameInput" class="form-control" placeholder>
+                    </div>
+                    <div class = "form-group">
+                        <button type="submit" class="submit-button btn btn-default">Submit</button>
+                    </div>
+  
+                    </form>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Plant Record Name</th>
+                            <th>Number of Occurences</th>
+                        </tr>
+                    </thead>
+                    <tbody id = 'plantTable'>
+                    </tbody>
+                </table>
+                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+
+                        </div>
+
+                        <!-- Left and right controls -->
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+    </body>
+</html>
