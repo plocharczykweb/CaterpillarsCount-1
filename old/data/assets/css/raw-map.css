@@ -1,0 +1,25 @@
+html, body, #map-canvas{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+svg.marker {
+  position: absolute;
+}
+svg.marker {
+  width: 60px;
+  height: 60px;
+  padding-right: 100px;
+  font: 10px sans-serif;
+}
+svg.marker circle {
+  fill: rgb(128,172,128);
+  stroke: black;
+  stroke-width: 1px;
+}
+svg.marker circle.cactive{
+	fill: #50509B !important;
+}
+svg.marker circle.filteredOut{
+	fill: #B2B2B2;
+}

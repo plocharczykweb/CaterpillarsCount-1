@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!-- edited by Ethan Chu -->
+<html lang="en">
+	<head>
+		<title>Caterpillars Count! Data Map</title>
+		<script type="text/javascript" src="assets/js/library/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="assets/js/library/d3.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="assets/js/library/d3pie.min.js"></script>
+		<script type="text/javascript" src="assets/js/library/slider/js/bootstrap-slider.js"></script>
+		<script type="text/javascript" src="assets/js/library/autocomplete.js"></script>
+		<script type="text/javascript" src="assets/js/pieChart.js"></script>
+		<script type="text/javascript" src="assets/js/iframeViewSetup.js"></script>
+		<script type="text/javascript" src="assets/js/iframeSetup.js"></script>
+
+		<link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../assets/css/ripples.min.css" rel="stylesheet">
+        <link href="../assets/css/material-wfont.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="assets/css/iframeIndex.css"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/whiteLabels.css"/>
+		<link rel="stylesheet" type="text/css" href="assets/js/library/slider/css/slider.css"/>
+		<link rel="stylesheet" type="text/css" href="assets/css/autocomplete.css"/>
+		<link href="../assets/css/style.css" rel="stylesheet">
+
+
+	</head>
+	<body>
+		<nav>
+			<div class="container">
+    			<div class="masthead">
+	    			<script src="../assets/js/navbar.js"></script>
+				</div>
+			</div>
+		</nav>
+		<main>
+			<section id="filtersSection">
+				<button id="arrowFilters">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				</button>
+				<section id="filtersContent">
+					<h1>Explore</h1>
+					<form role="form">
+						<div class="form-group">
+							<label for="yearInput">Year range:&nbsp;&nbsp;&nbsp;</label>
+							<input id="yearInput" type="text" class="form-control span2" value="" data-slider-min="2010" data-slider-max="10000" data-slider-step="1" data-slider-value="[2050,4500]"/>
+						</div>
+						<div class="form-group">
+							<label for="monthInput">Month range:&nbsp;&nbsp;&nbsp;</label>
+							<input id="monthInput" type="text" class="form-control span2" value="" data-slider-min="1" data-slider-max="12" data-slider-step="1" data-slider-value="[1,12]"/>
+						</div>
+						<hr>
+						<div class="form-group selections">
+							<label for="arthropodSelection">Which <b>Arthropods</b> do you want to include?</label>
+							<select multiple="" class="form-control" id="arthropodSelect">
+								<option value="%" selected="selected">SELECT ALL</option>
+			                    <option value="Ants (Formicidae)">Ants (Formicidae)</option>
+			                    <option value="Aphids and Psyllids (Sternorrhyncha)">Aphids and Psyllids (Sternorrhyncha)</option>
+			                    <option value="Bees and Wasps (Hymenoptera, excluding ants)">Bees and Wasps (Hymenoptera, excluding ants)</option>
+			                    <option value="Beetles (Coleoptera)">Beetles (Coleoptera)</option>
+			                    <option value="Caterpillars (Lepidoptera larvae)">Caterpillars (Lepidoptera larvae)</option>
+			                    <option value="Daddy longlegs (Opiliones)">Daddy longlegs (Opiliones)</option>
+			                    <option value="Flies (Diptera)">Flies (Diptera)</option>
+			                    <option value="Grasshoppers, Crickets (Orthoptera)">Grasshoppers, Crickets (Orthoptera)</option>
+			                    <option value="Leaf hoppers and Cicadas (Auchenorrhyncha)">Leaf hoppers and Cicadas (Auchenorrhyncha)</option>
+			                    <option value="Spiders (Araneae; NOT daddy longlegs!)">Spiders (Araneae; NOT daddy longlegs!)</option>
+			                    <option value="True Bugs (Heteroptera)">True Bugs (Heteroptera)</option>
+			                </select>
+						</div>
+						<div class="form-group">
+							<label for="minSize">What is the minimum size of arthropod to include (in mm)?:&nbsp;&nbsp;&nbsp;</label>
+							<input id="minSize" type="text" class="form-control span2" value="" data-slider-min="0" data-slider-max="30" data-slider-step="1" data-slider-value="0"/>
+						</div>
+						<div class="form-group selections">
+							<label for="plantSelection">Which <b>Plant species</b> do you want to restrict your search to?</label>
+							<select multiple="" class="form-control" id="plantSelect">
+								<option value="%" selected="selected">SELECT ALL</option>
+			                    <option value="American beech">American beech</option>
+								<option value="American chestnut">American chestnut</option>
+								<option value="American hornbeam">American hornbeam</option>
+								<option value="Basswood">Basswood</option>
+								<option value="Black gum">Black gum</option>
+								<option value="Box elder">Box elder</option>
+								<option value="Buffalo nut">Buffalo nut</option>
+								<option value="Chalk maple">Chalk maple</option>
+								<option value="Chestnut oak">Chestnut oak</option>
+								<option value="Common persimmon">Common persimmon</option>
+								<option value="Devils-walkingstick">Devils-walkingstick</option>
+								<option value="Flowering dogwood">Flowering dogwood</option>
+								<option value="Fraser magnolia">Fraser magnolia</option>
+								<option value="Great rhododendron">Great rhododendron</option>
+								<option value="Mountain laurel">Mountain laurel</option>
+								<option value="Mulberry">Mulberry</option>
+								<option value="Paw-paw">Paw-paw</option>
+								<option value="Red maple">Red maple</option>
+								<option value="Red oak">Red oak</option>
+								<option value="Serviceberry">Serviceberry</option>
+								<option value="Silverbell">Silverbell</option>
+								<option value="Sourwood">Sourwood</option>
+								<option value="Spicebush">Spicebush</option>
+								<option value="Striped maple">Striped maple</option>
+								<option value="Sugar maple">Sugar maple</option>
+								<option value="Sweet birch">Sweet birch</option>
+								<option value="Sweet gum">Sweet gum</option>
+								<option value="Tuliptree">Tuliptree</option>
+								<option value="Witch hazel">Witch hazel</option>
+								<option value="Yellow birch">Yellow birch</option>
+								<option value="Yellow buckeye">Yellow buckeye</option>
+			                </select>
+						</div>
+						<hr>
+						<button id="submitFilter" class="btn btn-primary btn-raised">Go</button>
+					</form>
+				</section>
+			</section>
+			<iframe id="mapIframe" src="raw-map.html"></iframe>
+			<section id="siteInfo">
+				<button id="arrowSiteInfo">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				</button>
+				<section id="content">
+					<div id="statistics"></div>
+					<div id="plantComposition"></div>
+					<div id="arthropodComposition"></div>
+				</section>
+			</section>
+		</main>
+
+
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="../assets/js/ripples.min.js"></script>
+        <script src="../assets/js/material.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $.material.init();
+            });
+        </script>
+
+        <!-- Start of StatCounter Code for Dreamweaver -->
+		<script type="text/javascript">
+		var sc_project=10500451;
+		var sc_invisible=1;
+		var sc_security="2c31a3fb";
+		var scJsHost = (("https:" == document.location.protocol) ?
+		"https://secure." : "http://www.");
+		document.write("<sc"+"ript type='text/javascript' src='" +
+		scJsHost+
+		"statcounter.com/counter/counter.js'></"+"script>");
+		</script>
+		<noscript><div class="statcounter"><a title="web analytics"
+		href="http://statcounter.com/" target="_blank"><img
+		class="statcounter"
+		src="http://c.statcounter.com/10500451/0/2c31a3fb/0/"
+		alt="web analytics"></a></div></noscript>
+		<!-- End of StatCounter Code for Dreamweaver -->
+
+	</body>
+</html>

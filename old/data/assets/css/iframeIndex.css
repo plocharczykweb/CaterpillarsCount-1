@@ -1,0 +1,87 @@
+body, html{
+	overflow-y: hidden;
+	overflow-x: hidden;
+	height: 100%;
+}
+iframe{
+	width: 100%;
+}
+html, body, iframe{
+	padding: 0px;
+	margin: 0px;
+}
+nav .container{
+	width: 100%;
+	padding: 0;
+}
+#siteInfo, #filtersSection{
+	position: absolute;
+	height: 100%;
+	width: 25%;
+	background-color: #1f1f1f;
+	z-index: 1;
+	border-left: 1px solid #1f1f1f;
+	border-right: 1px solid #1f1f1f;
+	border-top: 1px solid #1f1f1f;
+	display: flex;
+	flex-direction: row;
+	opacity: 0.9;
+	overflow: auto;
+}
+#siteInfo{
+	color:white;
+}
+#filtersSection{
+	color:white;
+}
+#detailedSiteLink{
+color:rgb(165, 250, 255) !important
+}
+button#arrowFilters{
+	order: 2;
+}
+button#arrowSiteInfo{
+	order: 1;
+}
+button#arrowFilters, button#arrowSiteInfo{
+	width: 8%;
+	height: 100%;
+	display: inline-block;
+	background-color: #1f1f1f;
+	border:0;
+}
+#filtersContent{
+	order: 1;
+	width: 92%;
+	padding: 2.5em;
+}
+#siteInfo #content{
+	order: 2;
+	width: 92%;
+	height: 100%;
+	display: inline-block;
+	overflow: hidden;
+}
+#siteInfo svg{
+	display: block;
+	width: 100%;
+}
+p {
+	margin-bottom: 2px;
+}
+text{
+	z-index: 2 !important;
+}
+#legend {
+	position: absolute;
+	height: 100px
+	width: 92%;
+	background-color: #1f1f1f;
+	z-index: 1;
+	border-left: 1px solid #1f1f1f;
+	border-right: 1px solid #1f1f1f;
+	border-top: 1px solid #1f1f1f;
+	display: flex;
+	flex-direction: row;
+	opacity: 0.9;
+}

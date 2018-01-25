@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Site Details</title>
+		<script type="text/javascript" src="../assets/js/library/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="../assets/js/library/d3.min.js" charset="utf-8"></script>
+		<script type="text/javascript" src="../assets/js/library/d3pie.min.js"></script>
+		<script type="text/javascript" src="pieChartDetails.js"></script>
+		<script type="text/javascript" src="plantCharts.js"></script>
+		<script type="text/javascript" src="arthropodCharts.js"></script>
+		<script type="text/javascript" src="charts.js"></script>
+		<script type="text/javascript" src="buildLineGraph.js"></script>
+		<script type="text/javascript" src="lineGraphDetails.js"></script>
+		<script type="text/javascript" src="visualizationOptions.js"></script>
+
+		<script src="../assets/js/library/c3.min.js"></script>
+		
+		<link href="../assets/js/library/c3.css" rel="stylesheet" type="text/css">
+		<link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../assets/css/ripples.min.css" rel="stylesheet">
+        <link href="../../assets/css/material-wfont.min.css" rel="stylesheet">
+        <link href="../../assets/css/style.css" rel="stylesheet">
+        <link href="charts.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../assets/css/iframeIndex.css"/>
+
+	</head>
+	<body>
+		<nav>
+			<div class="container">
+    			<div class="masthead">
+    				<script src="../../assets/js/navbar.js"></script>
+				</div>
+			</div>
+		</nav>
+
+		<main>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-3 col-md-2 sidebar">
+						<form method="link" action="../index.html">
+							<input type="submit" value="Back" class = "btn btn-primary btn-raised">
+						</form>
+						<p class="nav nav-sidebar"> </p>
+						<div id = "siteName"></div>
+						  <ul id = "graphSelect" class="nav nav-pills">
+						    <li class = 'active'><a href="#" id = "piChart">Pie Chart</a></li>
+						    <li><a href="#" id = "lineGraph">Line Graph</a></li>
+						  </ul>
+						<div id="piChartOptions">
+								<ul id = "piSelect" class="nav nav-pills">
+								    <li><a href="#" id = "plantsPi">Plants</a></li>
+								    <li><a href="#" id = "arthropodsPi">Arthropods</a></li>
+							  	</ul>
+							  	<div id="statistics"></div>
+						</div>
+						<div id="lineGraphOptions"> 
+							    <div class="Year Menu">
+								<label for="yearSelection">Select Year</label>
+								<select class="form-control" id="yearSelect">
+				                </select>
+							</div>
+							 <div class="Select Insect Species">
+								<label for="arthropodSelection">Select Insect Species</label>
+								<select multiple="" class="form-control" id="arthropodSelect">
+									<option value="%" selected="selected">SELECT ALL</option>
+				                    <option value="Ants (Formicidae)">Ants (Formicidae)</option>
+				                    <option value="Aphids and Psyllids (Sternorrhyncha)">Aphids and Psyllids (Sternorrhyncha)</option>
+				                    <option value="Bees and Wasps (Hymenoptera, excluding ants)">Bees and Wasps (Hymenoptera, excluding ants)</option>
+				                    <option value="Beetles (Coleoptera)">Beetles (Coleoptera)</option>
+				                    <option value="Caterpillars (Lepidoptera larvae)">Caterpillars (Lepidoptera larvae)</option>
+				                    <option value="Daddy longlegs (Opiliones)">Daddy longlegs (Opiliones)</option>
+				                    <option value="Flies (Diptera)">Flies (Diptera)</option>
+				                    <option value="Grasshoppers, Crickets (Orthoptera)">Grasshoppers, Crickets (Orthoptera)</option>
+				                    <option value="Leaf hoppers and Cicadas (Auchenorrhyncha)">Leaf hoppers and Cicadas (Auchenorrhyncha)</option>
+				                    <option value="Spiders (Araneae; NOT daddy longlegs!)">Spiders (Araneae; NOT daddy longlegs!)</option>
+				                    <option value="True Bugs (Heteroptera)">True Bugs (Heteroptera)</option>
+				                </select>
+							</div>
+							<div class="Tree Selection">
+								<label for="plantSelection">Select Tree</label>
+								<select multiple="" class="form-control" id="plantSelect">
+				                </select>
+							</div>
+							<button id="submit" class="btn btn-primary btn-raised">Submit</button>
+							<button id="reset" class="btn btn-primary btn-raised">Reset</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+						<div class="container-fluid">
+							<div>
+							</div>
+							<div class="row rowbox graphbox">
+								<div class="col-md-12" id="pieChartsContainer" hidden>
+									<div class="plantCharts col-md-4" id="plantChart1"></div>
+									<div class="plantCharts col-md-4" id="plantChart2"></div>
+									<div class="plantCharts col-md-4" id="plantChart3"></div>
+									<div class="plantCharts col-md-4" id="plantChart4"></div>
+									<div class="plantCharts col-md-4" id="plantChart5"></div>
+									<div class="plantCharts col-md-4" id="plantChart6"></div>
+									
+									<div class="arthropodCharts col-md-4" id="arthropodChart1"></div>
+									<div class="arthropodCharts col-md-4" id="arthropodChart2"></div>
+									<div class="arthropodCharts col-md-4" id="arthropodChart3"></div>
+									<div class="arthropodCharts col-md-4" id="arthropodChart4"></div>
+									<div class="arthropodCharts col-md-4" id="arthropodChart5"></div>
+									<div class="arthropodCharts col-md-4" id="arthropodChart6"></div>
+								</div>
+							</div>
+							<div>
+							<!--id selector for line chart-->
+								<div id="lineChartContainer"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+		</main>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="../../assets/js/ripples.min.js"></script>
+        <script src="../../assets/js/material.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $.material.init();
+            });
+        </script>
+	</body>
+</html>

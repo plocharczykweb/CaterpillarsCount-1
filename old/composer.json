@@ -1,0 +1,6 @@
+{
+	"require": {
+		"pear/mail": "*",
+		"pear/Net_SMTP": "*"
+	}
+}

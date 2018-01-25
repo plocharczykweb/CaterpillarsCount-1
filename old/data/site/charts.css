@@ -1,0 +1,59 @@
+.sidebar{
+	background-color: #3c3c3c;
+	color: rgba(255, 255, 255, 0.7);
+	position: fixed;
+	top: 60px;
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
+	display: block;
+	padding: 20px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+/*
+.rowbox{
+	border: solid;
+}
+
+.rowbox.graphbox{
+	margin-left: 0;
+	margin-right: 0;
+}
+*/
+
+.box{
+	border: lightgray;
+  	border-style: solid;
+}
+
+#siteStatistics{
+	word-wrap: break-word;
+}
+
+#pieChartsContainer>div{
+	display: inline-block;
+}
+
+/*overflow-y and height added by Allan Clayton*/
+#pieChartsContainer{
+	overflow-y: auto;
+	/*height: 1400px;*/
+	overflow: hiddent;
+}
+
+/*lineChartContainer selecter added by Ethan Chu*/
+#lineChartContainer{
+	top: 80px;
+	height: 400px;
+
+	
+}
+
+
+svg{
+	overflow: visible !important;
+}
+
+/* edited by Ethan Chu*/
