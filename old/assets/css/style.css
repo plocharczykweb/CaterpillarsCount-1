@@ -1,0 +1,161 @@
+body{
+  margin-bottom: 7%;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+.carousel {
+  height: 344px;
+  margin-bottom: 0px;
+  margin-right: auto;
+  margin-left: 0;
+  padding-left:0;
+  padding-right:0;
+  box-shadow:0 3px 10px rgba(0,0,0,.40),0 3px 10px rgba(0,0,0,.30);
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item {
+  height: 344px;
+  background-color: #777;
+}
+
+.carousel-inner{
+	height: 344px;
+  /*width: 100%%;*/
+}
+
+.carousel-inner > .item > img {
+  /*position: absolute;
+  top: 0;*/
+  margin: 0 auto;
+  /*left: 0;*/
+  /*min-width: 100%;*/
+  height: 344px;
+}
+
+#underConstruction p{
+    text-align: center;
+    font-size: 300%;
+}
+
+#mainText p{
+  font-size: 113%;
+}
+
+li{
+  font-size: 113%;
+}
+
+#submitSurvey{
+  width: 100%;
+  font-size: 200%;
+  font-weight: bold;
+  background: rgba(53, 92, 61, 0.11);
+  margin-top:10%;
+}
+
+.appScreenshot{
+  display:inline;
+  height: auto;
+  box-shadow: 0 3px 10px rgba(0,0,0,.23),0 3px 10px rgba(0,0,0,.16);
+}
+
+hr{
+  border-bottom: rgba(159, 159, 159, 1);
+  border-style: dotted;
+}
+
+#statistics span{
+  font-weight: bold;
+  color:rgb(184, 223, 125);
+}
+
+#content h2{
+  font-weight: bold;
+  font-style: italic;
+}
+
+/*
+  This is very ugly, no idea why it was left in by previous group, will comment out instead of delete
+*/
+.form-control{
+  color:#BEE189;
+}
+
+.slider-handle{
+  height:20px;
+  width:10px;
+}
+
+.slider.slider-horizontal{
+  height:0px;
+}
+
+form hr{
+  border-style:double;
+}
+/*  Edit by Joshua Helton.  Edit made to signout button*/
+#logout{
+  color: rgba(255,255,255,.84);
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+/* Edit by Joshua Helton to help show an image gallery*/
+
+div.plantImg {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #0000ff;
+    height: auto;
+    width: auto;
+    float: left;
+    text-align: center;
+}
+
+div.plantImg img {
+    display: inline;
+    margin: 5px;
+    border: 1px solid #ffffff;
+}
+
+div.plantImg a:hover img {
+    border:1px solid #0000ff;
+}
+
+div.plantDesc {
+    text-align: center;
+    font-weight: normal;
+    width: 120px;
+    margin: 5px;
+}
+
+#graphSelect li.active a{
+	background-color: rgb(53, 92,61); 
+}
+
+#piSelect li.active a{
+	background-color: rgb(53, 92,61); 
+}
+
+/* make site info pane scrollable*/
+#siteInfo #content {
+	overflow: auto;	
+	
+}
+/* edited by Ethan Chu
+
+/* edited by John Schutts 
+
+
+
+
+
+
