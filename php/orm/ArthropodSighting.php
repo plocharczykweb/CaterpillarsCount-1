@@ -20,7 +20,7 @@ class ArthropodSighting
 
 //FACTORY
 	public static function create($survey, $group, $length, $quantity, $notes, $hairy, $rolled, $tented) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
 		}
@@ -81,7 +81,7 @@ class ArthropodSighting
 
 //FINDERS
 	public static function findByID($id) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$id = mysqli_real_escape_string($dbconn, $id);
 		$query = mysqli_query($dbconn, "SELECT * FROM `ArthropodSighting` WHERE `ID`='$id' LIMIT 1");
 		mysqli_close($dbconn);
@@ -106,7 +106,7 @@ class ArthropodSighting
 	}
 	
 	public static function findArthropodSightingsBySurvey($survey){
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `ArthropodSighting` WHERE `SurveyFK`='" . $survey->getID() . "'");
 		mysqli_close($dbconn);
 		
@@ -173,7 +173,7 @@ class ArthropodSighting
 	public function setPhotoURL($photoURL){
 		if(!$this->deleted)
 		{
-			$dbconn = new Keychain->getDatabaseConnection();
+			$dbconn = (new Keychain)->getDatabaseConnection();
 			$photoURL = self::validPhotoURL($dbconn, $photoURL);
 			if($photoURL != false){
 				mysqli_query($dbconn, "UPDATE ArthropodSighting SET PhotoURL='$photoURL' WHERE ID='" . $this->id . "'");
@@ -191,7 +191,7 @@ class ArthropodSighting
 	{
 		if(!$this->deleted)
 		{
-			$dbconn = new Keychain->getDatabaseConnection();
+			$dbconn = (new Keychain)->getDatabaseConnection();
 			mysqli_query($dbconn, "DELETE FROM `ArthropodSighting` WHERE `ID`='" . $this->id . "'");
 			$this->deleted = true;
 			mysqli_close($dbconn);
