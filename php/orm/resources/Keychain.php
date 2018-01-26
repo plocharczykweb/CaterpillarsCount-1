@@ -6,7 +6,6 @@ class Keychain
 	private $protocol;
 	private $domainName;
 	private $extraPaths;
-	
 	private $hostPointer;
 	private $hostUsername;
 	private $hostPassword;
@@ -14,17 +13,7 @@ class Keychain
 
 //FACTORY
 	public function __construct() {
-		if(getenv("Openshift") == 1){
-			$this->hostPointer = getenv("CATERPILLARSV2_SERVICE_HOST");
-			$this->hostUsername = getenv("HOST_USERNAME");
-			$this->hostPassword = getenv("HOST_PASSWORD");
-			$this->databaseName = getenv("DATABASE_NAME");
-			
-			$this->protocol = "https://";
-			$this->domainName =  "caterpillarscount.unc.edu";
-			$this->extraPaths = "";
-		}
-		else{
+		if(getenv("Openshift") === false){
 			require_once("GODADDY_KEYS.php");
 			$dbconnCreds = getDatabaseConnectionCredentials();
 			$this->hostPointer = $dbconnCreds[0];
@@ -36,6 +25,16 @@ class Keychain
 			$this->protocol = $pathComponents[0];
 			$this->domainName = $pathComponents[1];
 			$this->extraPaths = $pathComponents[2];
+		}
+		else{
+			$this->hostPointer = getenv("CATERPILLARSV2_SERVICE_HOST");
+			$this->hostUsername = getenv("HOST_USERNAME");
+			$this->hostPassword = getenv("HOST_PASSWORD");
+			$this->databaseName = getenv("DATABASE_NAME");
+			
+			$this->protocol = "https://";
+			$this->domainName =  "caterpillarscount.unc.edu";
+			$this->extraPaths = "";
 		}
 	}
 
