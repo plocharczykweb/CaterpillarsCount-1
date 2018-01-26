@@ -1,23 +1,7 @@
 <?php
-	$HOST;
-	$HOST_USERNAME;
-	$HOST_PASSWORD;
-	$DATABASE_NAME;
+	require_once('orm/resources/Keychain.php');
 	
-	if(getenv("Openshift") == 1){
-		$HOST = getenv("CATERPILLARSV2_SERVICE_HOST");
-		$HOST_USERNAME = getenv("HOST_USERNAME");
-		$HOST_PASSWORD = getenv("HOST_PASSWORD");
-		$DATABASE_NAME = getenv("DATABASE_NAME");
-	}
-	else{
-		$HOST = "localhost";
-		$HOST_USERNAME = "username";
-		$HOST_PASSWORD = "password";
-		$DATABASE_NAME = "CaterpillarsCount";
-	}
-	
-	$dbconn = mysqli_connect($HOST, $HOST_USERNAME, $HOST_PASSWORD, $DATABASE_NAME);
+	$dbconn = (new Keychain)->getDatabaseConnection();
 	$query = mysqli_query($dbconn, "SELECT * FROM `ArthropodQuizQuestions` ORDER BY RAND() LIMIT 10");
 	mysqli_close($dbconn);
 		
