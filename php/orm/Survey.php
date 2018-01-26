@@ -23,7 +23,7 @@ class Survey
 
 //FACTORY
 	public static function create($observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
 		}
@@ -94,7 +94,7 @@ class Survey
 
 //FINDERS
 	public static function findByID($id) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$id = mysqli_real_escape_string($dbconn, $id);
 		$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `ID`='$id' LIMIT 1");
 		mysqli_close($dbconn);
@@ -182,7 +182,7 @@ class Survey
 	{
 		if(!$this->deleted)
 		{
-			$dbconn = new Keychain->getDatabaseConnection();
+			$dbconn = (new Keychain)->getDatabaseConnection();
 			$arthropodSightings = ArthropodSighting::findArthropodSightingsBySurvey($this);
 			for($i = 0; $i < count($arthropodSightings); $i++){
 				$arthropodSightings[$i]->permanentDelete();
