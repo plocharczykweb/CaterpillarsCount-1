@@ -45,7 +45,7 @@ class Keychain
 		return mysqli_connect($this->hostPointer, $this->hostUsername, $this->hostPassword, $this->databaseName);
 	}
 	
-	public function getProtocol{
+	public function getProtocol(){
 		return $this->protocol;
 	}
 	
