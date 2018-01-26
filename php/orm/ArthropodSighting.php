@@ -1,33 +1,10 @@
 <?php
 
-//require_once('Survey.php');
+require_once('resources/Keychain.php');
 
 class ArthropodSighting
 {
 //PRIVATE VARS
-			
-	private static $DOMAIN_NAME = "caterpillarscount.unc.edu";
-	private static $extraPaths = "";
-	
-	
-	private static $HOST;
-	private static $HOST_USERNAME;
-	private static $HOST_PASSWORD;
-	private static $DATABASE_NAME;
-	
-	if(getenv("Openshift") == 1){
-		$HOST = getenv("CATERPILLARSV2_SERVICE_HOST");
-		$HOST_USERNAME = getenv("HOST_USERNAME");
-		$HOST_PASSWORD = getenv("HOST_PASSWORD");
-		$DATABASE_NAME = getenv("DATABASE_NAME");
-	}
-	else{
-		$HOST = "localhost";
-		$HOST_USERNAME = "username";
-		$HOST_PASSWORD = "password";
-		$DATABASE_NAME = "CaterpillarsCount";
-	}
-	
 	private $id;							//INT
 	private $survey;
 	private $group;
@@ -43,7 +20,7 @@ class ArthropodSighting
 
 //FACTORY
 	public static function create($survey, $group, $length, $quantity, $notes, $hairy, $rolled, $tented) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
 		}
@@ -104,7 +81,7 @@ class ArthropodSighting
 
 //FINDERS
 	public static function findByID($id) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$id = mysqli_real_escape_string($dbconn, $id);
 		$query = mysqli_query($dbconn, "SELECT * FROM `ArthropodSighting` WHERE `ID`='$id' LIMIT 1");
 		mysqli_close($dbconn);
@@ -129,7 +106,7 @@ class ArthropodSighting
 	}
 	
 	public static function findArthropodSightingsBySurvey($survey){
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `ArthropodSighting` WHERE `SurveyFK`='" . $survey->getID() . "'");
 		mysqli_close($dbconn);
 		
@@ -196,7 +173,7 @@ class ArthropodSighting
 	public function setPhotoURL($photoURL){
 		if(!$this->deleted)
 		{
-			$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+			$dbconn = new Keychain->getDatabaseConnection();
 			$photoURL = self::validPhotoURL($dbconn, $photoURL);
 			if($photoURL != false){
 				mysqli_query($dbconn, "UPDATE ArthropodSighting SET PhotoURL='$photoURL' WHERE ID='" . $this->id . "'");
@@ -214,7 +191,7 @@ class ArthropodSighting
 	{
 		if(!$this->deleted)
 		{
-			$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+			$dbconn = new Keychain->getDatabaseConnection();
 			mysqli_query($dbconn, "DELETE FROM `ArthropodSighting` WHERE `ID`='" . $this->id . "'");
 			$this->deleted = true;
 			mysqli_close($dbconn);
