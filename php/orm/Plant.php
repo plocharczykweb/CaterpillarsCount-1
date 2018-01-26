@@ -1,33 +1,11 @@
 <?php
 
+require_once('resources/Keychain.php');
 require_once('Site.php');
 
 class Plant
 {
 //PRIVATE VARS
-			
-	private static $DOMAIN_NAME = "caterpillarscount.unc.edu";
-	private static $extraPaths = "";
-	
-	
-	private static $HOST;
-	private static $HOST_USERNAME;
-	private static $HOST_PASSWORD;
-	private static $DATABASE_NAME;
-	
-	if(getenv("Openshift") == 1){
-		$HOST = getenv("CATERPILLARSV2_SERVICE_HOST");
-		$HOST_USERNAME = getenv("HOST_USERNAME");
-		$HOST_PASSWORD = getenv("HOST_PASSWORD");
-		$DATABASE_NAME = getenv("DATABASE_NAME");
-	}
-	else{
-		$HOST = "localhost";
-		$HOST_USERNAME = "username";
-		$HOST_PASSWORD = "password";
-		$DATABASE_NAME = "CaterpillarsCount";
-	}
-	
 	private $id;							//INT
 	private $site;							//Site object
 	private $position;					//STRING			email that has been signed up for but not necessarilly verified
@@ -37,7 +15,7 @@ class Plant
 
 //FACTORY
 	public static function create($site, $position) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
 		}
@@ -81,7 +59,7 @@ class Plant
 
 //FINDERS
 	public static function findByID($id) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$id = mysqli_real_escape_string($dbconn, $id);
 		$query = mysqli_query($dbconn, "SELECT * FROM `Plant` WHERE `ID`='$id' LIMIT 1");
 		mysqli_close($dbconn);
@@ -100,7 +78,7 @@ class Plant
 	}
 	
 	public static function findByCode($code) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$code = self::validCode($dbconn, $code);
 		if($code === false){
 			return null;
@@ -114,7 +92,7 @@ class Plant
 	}
 	
 	public static function findBySiteAndPosition($site, $position) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$site = self::validSite($dbconn, $site);
 		$position = self::validPositionFormat($dbconn, $position);
 		if($site === false || $position === false){
@@ -129,7 +107,7 @@ class Plant
 	}
 	
 	public static function findPlantsBySite($site){
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Plant` WHERE `SiteFK`='" . $site->getID() . "'");
 		mysqli_close($dbconn);
 		
@@ -201,7 +179,7 @@ class Plant
 	{
 		if(!$this->deleted)
 		{
-			$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+			$dbconn = new Keychain->getDatabaseConnection();
 			mysqli_query($dbconn, "DELETE FROM `Plant` WHERE `ID`='" . $this->id . "'");
 			$this->deleted = true;
 			mysqli_close($dbconn);
@@ -300,7 +278,7 @@ class Plant
 		}
 		
 		//then, return a sanitized version of the full code that is safe to use with a MySQL query
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$code = mysqli_real_escape_string($dbconn, $code);
 		mysqli_close($dbconn);
 		return $code;
