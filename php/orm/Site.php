@@ -21,7 +21,7 @@ class Site
 
 //FACTORY
 	public static function create($creator, $name, $description, $latitude, $longitude, $zoom, $location, $password) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
 		}
@@ -97,7 +97,7 @@ class Site
 
 //FINDERS
 	public static function findByID($id) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$id = mysqli_real_escape_string($dbconn, $id);
 		$query = mysqli_query($dbconn, "SELECT * FROM `Site` WHERE `ID`='$id' LIMIT 1");
 		mysqli_close($dbconn);
@@ -121,7 +121,7 @@ class Site
 	}
 	
 	public static function findByName($name) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$name = self::validNameFormat($dbconn, $name);
 		if($name === false){
 			return null;
@@ -135,7 +135,7 @@ class Site
 	}
 	
 	public static function findSitesByCreator($creator){
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Site` WHERE `UserFKOfCreator`='" . $creator->getID() . "'");
 		mysqli_close($dbconn);
 		
@@ -148,7 +148,7 @@ class Site
 	}
 	
 	public static function findAll(){
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Site`");
 		mysqli_close($dbconn);
 		
@@ -210,7 +210,7 @@ class Site
 	}
 	
 	public function getObservationMethodPreset($user){
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ObservationMethod` FROM `SiteUserPreset` WHERE `UserFK`='" . intval($user->getID()) . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
 		mysqli_close($dbconn);
 		if(mysqli_num_rows($query) == 0){
@@ -220,7 +220,7 @@ class Site
 	}
 	
 	public function getValidationStatus($user){
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteUserValidation` WHERE `UserFK`='" . intval($user->getID()) . "' AND `SiteFK`='" . $this->id . "' AND `SaltedSitePasswordHash`='" . $this->saltedPasswordHash . "' LIMIT 1");
 		mysqli_close($dbconn);
 		if(mysqli_num_rows($query) == 0){
@@ -233,7 +233,7 @@ class Site
 	public function setPassword($password) {
 		if(!$this->deleted)
 		{
-			$dbconn = new Keychain->getDatabaseConnection();
+			$dbconn = (new Keychain)->getDatabaseConnection();
 			$password = self::validPassword($dbconn, $password);
 			if($password != false){
 				$saltedPasswordHash = mysqli_real_escape_string($dbconn, hash("sha512", $this->salt . $password));
@@ -249,7 +249,7 @@ class Site
 	
 	public function setObservationMethodPreset($user, $observationMethod){
 		if($this->deleted){return false;}
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteUserPreset` WHERE `UserFK`='" . intval($user->getID()) . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
 		if(mysqli_num_rows($query) == 1){
 			$query = mysqli_query($dbconn, "UPDATE `SiteUserPreset` SET `ObservationMethod`='" . $observationMethod . "' WHERE `UserFK`='" . intval($user->getID()) . "' AND `SiteFK`='" . $this->id . "'");
@@ -277,7 +277,7 @@ class Site
 	
 	public function validateUser($user, $password){
 		if($this->deleted){return false;}
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteUserValidation` WHERE `UserFK`='" . intval($user->getID()) . "' AND `SiteFK`='" . $this->id . "' AND `SaltedSitePasswordHash`='" . $this->saltedPasswordHash . "' LIMIT 1");
 		if(mysqli_num_rows($query) == 1){
 			mysqli_close($dbconn);
@@ -298,7 +298,7 @@ class Site
 	{
 		if(!$this->deleted)
 		{
-			$dbconn = new Keychain->getDatabaseConnection();
+			$dbconn = (new Keychain)->getDatabaseConnection();
 			mysqli_query($dbconn, "DELETE FROM `Site` WHERE `ID`='" . $this->id . "'");
 			$this->deleted = true;
 			mysqli_close($dbconn);
@@ -422,14 +422,14 @@ class Site
 
 //FUNCTIONS
 	public function emailPlantCodesToCreator(){
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
 		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
 		//TODO
 		$plants = $this->getPlants();
 		$numberOfCircles = (count($plants) / 5);
-		$root = new Keychain->getRoot();
+		$root = (new Keychain)->getRoot();
 		$message = "Congratulations on creating your new Caterpillars Count! site, \"" . $this->name . "\". Once you have located and identified your survey branches, you can click the \"Manage Plants\" button on the \"<a href=\"" . $root . "/newSite/manageMySites\">Manage My Sites</a>\" page of the website to enter the tree species names for each survey.<br/><br/>You can then <a href=\"" . $root . "/php/printPlantCodes.php?q=" . $this->id . "\">click here</a> to print the Plant Survey Code tags to hang on each survey branch. (We recommend printing in color, then \"laminating\" by folding each tag in a strip of packing tape, then hanging by twist tie or other means.)<br/><br/>If you have entered the plant species names for each survey using the web link above, they will appear on the tags. Otherwise, the plant species will be listed as \"N/A\".";
 		mail($this->creator->getEmail(), "New Caterpillars Count! Plant Codes", $message, $headers);
 		
@@ -438,7 +438,7 @@ class Site
 	}
 	
 	public function passwordIsCorrect($password){
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$testSaltedPasswordHash = mysqli_real_escape_string($dbconn, hash("sha512", $this->salt . $password));
 		if($testSaltedPasswordHash == $this->saltedPasswordHash){
 			mysqli_close($dbconn);
