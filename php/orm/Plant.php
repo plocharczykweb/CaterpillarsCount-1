@@ -15,7 +15,7 @@ class Plant
 
 //FACTORY
 	public static function create($site, $position) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
 		}
@@ -59,7 +59,7 @@ class Plant
 
 //FINDERS
 	public static function findByID($id) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$id = mysqli_real_escape_string($dbconn, $id);
 		$query = mysqli_query($dbconn, "SELECT * FROM `Plant` WHERE `ID`='$id' LIMIT 1");
 		mysqli_close($dbconn);
@@ -78,7 +78,7 @@ class Plant
 	}
 	
 	public static function findByCode($code) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$code = self::validCode($dbconn, $code);
 		if($code === false){
 			return null;
@@ -92,7 +92,7 @@ class Plant
 	}
 	
 	public static function findBySiteAndPosition($site, $position) {
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$site = self::validSite($dbconn, $site);
 		$position = self::validPositionFormat($dbconn, $position);
 		if($site === false || $position === false){
@@ -107,7 +107,7 @@ class Plant
 	}
 	
 	public static function findPlantsBySite($site){
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Plant` WHERE `SiteFK`='" . $site->getID() . "'");
 		mysqli_close($dbconn);
 		
@@ -179,7 +179,7 @@ class Plant
 	{
 		if(!$this->deleted)
 		{
-			$dbconn = new Keychain->getDatabaseConnection();
+			$dbconn = (new Keychain)->getDatabaseConnection();
 			mysqli_query($dbconn, "DELETE FROM `Plant` WHERE `ID`='" . $this->id . "'");
 			$this->deleted = true;
 			mysqli_close($dbconn);
@@ -278,7 +278,7 @@ class Plant
 		}
 		
 		//then, return a sanitized version of the full code that is safe to use with a MySQL query
-		$dbconn = new Keychain->getDatabaseConnection();
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$code = mysqli_real_escape_string($dbconn, $code);
 		mysqli_close($dbconn);
 		return $code;
