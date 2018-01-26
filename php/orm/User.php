@@ -1,33 +1,11 @@
 <?php
 
+require_once('resources/Keychain.php');
 require_once('Site.php');
 
 class User
 {
 //PRIVATE VARS
-			
-	private static $DOMAIN_NAME = "caterpillarscount.unc.edu";
-	private static $extraPaths = "";
-	
-	
-	private static $HOST;
-	private static $HOST_USERNAME;
-	private static $HOST_PASSWORD;
-	private static $DATABASE_NAME;
-	
-	if(getenv("Openshift") == 1){
-		$HOST = getenv("CATERPILLARSV2_SERVICE_HOST");
-		$HOST_USERNAME = getenv("HOST_USERNAME");
-		$HOST_PASSWORD = getenv("HOST_PASSWORD");
-		$DATABASE_NAME = getenv("DATABASE_NAME");
-	}
-	else{
-		$HOST = "localhost";
-		$HOST_USERNAME = "username";
-		$HOST_PASSWORD = "password";
-		$DATABASE_NAME = "CaterpillarsCount";
-	}
-	
 	private $id;							//INT
 	private $desiredEmail;					//STRING			email that has been signed up for but not necessarilly verified
 	private $email;							//STRING			*@*.*, MUST GET VERIFIED
@@ -38,7 +16,7 @@ class User
 
 //FACTORY
 	public static function create($email, $password) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
 		}
@@ -85,7 +63,7 @@ class User
 
 //FINDERS
 	public static function findByID($id) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$id = mysqli_real_escape_string($dbconn, $id);
 		$query = mysqli_query($dbconn, "SELECT * FROM `User` WHERE `ID`='$id' LIMIT 1");
 		mysqli_close($dbconn);
@@ -105,7 +83,7 @@ class User
 	}
 	
 	public static function findByEmail($email) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$email = self::validEmailFormat($dbconn, $email);
 		if($email === false){
 			return null;
@@ -119,7 +97,7 @@ class User
 	}
 	
 	public static function findBySignInKey($email, $salt){
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$email = self::validEmailFormat($dbconn, $email);
 		if($email === false){
 			return null;
@@ -134,7 +112,7 @@ class User
 	
 //SIGNERS
 	public function signIn($password){
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		if(!$this->deleted && $this->EmailHasBeenVerified()){
 			if($this->passwordIsCorrect($password)){
 				//sign in
@@ -191,7 +169,7 @@ class User
 	public function setEmail($email) {
 		if(!$this->deleted)
 		{
-			$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+			$dbconn = new Keychain->getDatabaseConnection();
 			$email = self::validEmail($dbconn, $email);
 			if($email != false){
 				mysqli_query($dbconn, "UPDATE User SET DesiredEmail='$email' WHERE ID='" . $this->id . "'");
@@ -208,7 +186,7 @@ class User
 	public function setPassword($password) {
 		if(!$this->deleted)
 		{
-			$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+			$dbconn = new Keychain->getDatabaseConnection();
 			$password = self::validPassword($dbconn, $password);
 			if($password != false){
 				$saltedPasswordHash = mysqli_real_escape_string($dbconn, hash("sha512", $this->salt . $password));
@@ -240,7 +218,7 @@ class User
 	{
 		if(!$this->deleted)
 		{
-			$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+			$dbconn = new Keychain->getDatabaseConnection();
 			mysqli_query($dbconn, "DELETE FROM `User` WHERE `ID`='" . $this->id . "'");
 			$this->deleted = true;
 			mysqli_close($dbconn);
@@ -322,7 +300,7 @@ class User
 	public static function sendEmailVerificationCodeToUser($usersId){
 		$verificationCode = (string)rand(0, 9) . rand(0, 9) . rand(0, 9) . rand(0, 9);
 		
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$usersId = mysqli_real_escape_string($dbconn, $usersId);
 		$query = mysqli_query($dbconn, "SELECT `DesiredEmail` FROM `User` WHERE `ID`='$usersId' LIMIT 1");
 		if(mysqli_num_rows($query) == 0){
@@ -334,14 +312,14 @@ class User
 		
 		$confirmationLink = hash("sha512", self::findByID($usersId)->getDesiredEmail() . "jisabfa") . "c" . intval($usersId . $verificationCode) * 7;
 		
-		mail($usersEmail, "Verify your email for Caterpillars Count!", "Welcome to Caterpillars Count! You need to verify your email before you can use your account. Click the following link to confirm your email address.\n\nVERIFY EMAIL:\n" . self::$DOMAIN_NAME . self::$extraPaths . "/php/verifyemail.php?confirmation=$confirmationLink");
+		mail($usersEmail, "Verify your email for Caterpillars Count!", "Welcome to Caterpillars Count! You need to verify your email before you can use your account. Click the following link to confirm your email address.\n\nVERIFY EMAIL:\n" . new Keychain->getRoot() . "/php/verifyemail.php?confirmation=$confirmationLink");
 		
 		mysqli_close($dbconn);
 		return true;
 	}
 	
 	public function verifyEmail($verificationCode){
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$verificationCode = mysqli_real_escape_string($dbconn, $verificationCode);
 		
 		if(self::validEmail($dbconn, $this->desiredEmail) === false){
@@ -366,7 +344,7 @@ class User
 	
 	public function emailHasBeenVerified() {
 		if($this->deleted){return null;}
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `Email` FROM `User` WHERE `ID`='" . $this->id . "' LIMIT 1");
 		if(mysqli_num_rows($query) == 0){
 			mysqli_close($dbconn);
@@ -377,7 +355,7 @@ class User
 	}
 	
 	public static function emailIsUnvalidated($desiredEmail) {
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$desiredEmail = self::validEmailFormat($dbconn, $desiredEmail);
 		if($desiredEmail === false){
 			return false;
@@ -391,7 +369,7 @@ class User
 	}
 	
 	public function passwordIsCorrect($password){
-		$dbconn = mysqli_connect(self::$HOST, self::$HOST_USERNAME, self::$HOST_PASSWORD, self::$DATABASE_NAME);
+		$dbconn = new Keychain->getDatabaseConnection();
 		$testSaltedPasswordHash = mysqli_real_escape_string($dbconn, hash("sha512", $this->salt . $password));
 		if($testSaltedPasswordHash == $this->saltedPasswordHash){
 			mysqli_close($dbconn);
