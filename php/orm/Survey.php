@@ -280,7 +280,8 @@ class Survey
 	}
 	
 	public static function validHerbivoryScore($dbconn, $herbivoryScore){
-		if($herbivoryScore == "none" || $herbivoryScore == "trace" || $herbivoryScore == "light" || $herbivoryScore == "moderate" || $herbivoryScore == "heavy"){
+		$herbivoryScore = intval(preg_replace("/[^0-9]/", "", $herbivoryScore));
+		if($herbivoryScore >= 0 && $herbivoryScore <= 4){
 			return $herbivoryScore;
 		}
 		return false;
