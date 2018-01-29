@@ -8,50 +8,56 @@ class Plant
 //PRIVATE VARS
 	private $id;							//INT
 	private $site;							//Site object
-	private $position;					//STRING			email that has been signed up for but not necessarilly verified
+	private $circle;
+	private $orientation;					//STRING			email that has been signed up for but not necessarilly verified
 	private $code;
 	
 	private $deleted;
 
 //FACTORY
-	public static function create($site, $position) {
+	public static function create($site, $circle, $orientation) {
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
 		}
 		
 		$site = self::validSite($dbconn, $site);
-		$position = self::validPositionFormat($dbconn, $position);
+		$circle = self::validCircleFormat($dbconn, $circle);
+		$orientation = self::validPositionFormat($dbconn, $orientation);
 		
 		$failures = "";
 		
 		if($site === false){
 			$failures .= "Invalid site. ";
 		}
-		if($position === false){
-			$failures .= "Enter a position. ";
+		if($circle === false){
+			$failures .= "Enter a circle. ";
 		}
-		if($failures == "" && is_null(self::findBySiteAndPosition($site, $position)) === false){
-			$failures .= "Enter a unique position for this site. ";
+		if($orientation === false){
+			$failures .= "Enter an orientation. ";
+		}
+		if($failures == "" && is_null(self::findBySiteAndPosition($site, $circle, $orientation)) === false){
+			$failures .= "Enter a unique circle/orientation set for this site. ";
 		}
 		
 		if($failures != ""){
 			return $failures;
 		}
 		
-		mysqli_query($dbconn, "INSERT INTO Plant (`SiteFK`, `Position`) VALUES ('" . $site->getID() . "', '$position')");
+		mysqli_query($dbconn, "INSERT INTO Plant (`SiteFK`, `Circle`, `Orientation`) VALUES ('" . $site->getID() . "', '$circle', '$orientation')");
 		$id = intval(mysqli_insert_id($dbconn));
 		
 		$code = self::IDToCode($id);
 		mysqli_query($dbconn, "UPDATE Plant SET `Code`='$code' WHERE `ID`='$id'");
 		mysqli_close($dbconn);
 		
-		return new Plant($id, $site, $position, $code);
+		return new Plant($id, $site, $circle, $orientation, $code);
 	}
-	private function __construct($id, $site, $position, $code) {
+	private function __construct($id, $site, $circle, $orientation, $code) {
 		$this->id = intval($id);
 		$this->site = $site;
-		$this->position = $position;
+		$this->circle = $circle;
+		$this->orientation = $orientation;
 		$this->code = $code;
 		
 		$this->deleted = false;
@@ -71,10 +77,11 @@ class Plant
 		$plantRow = mysqli_fetch_assoc($query);
 		
 		$site = Site::findByID($plantRow["SiteFK"]);
-		$position = $plantRow["Position"];
+		$circle = $plantRow["Circle"];
+		$orientation = $plantRow["Orientation"];
 		$code = $plantRow["Code"];
 		
-		return new Plant($id, $site, $position, $code);
+		return new Plant($id, $site, $circle, $orientation, $code);
 	}
 	
 	public static function findByCode($code) {
@@ -91,14 +98,15 @@ class Plant
 		return self::findByID(intval(mysqli_fetch_assoc($query)["ID"]));
 	}
 	
-	public static function findBySiteAndPosition($site, $position) {
+	public static function findBySiteAndPosition($site, $circle, $orientation) {
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$site = self::validSite($dbconn, $site);
-		$position = self::validPositionFormat($dbconn, $position);
-		if($site === false || $position === false){
+		$circle = self::validCircleFormat($dbconn, $circle);
+		$orientation = validOrientationFormat($dbconn, $orientation);
+		if($site === false || $circle === false || $orientation === false){
 			return null;
 		}
-		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Plant` WHERE `SiteFK`='" . $site->getID() . "' AND `Position`='$position' LIMIT 1");
+		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Plant` WHERE `SiteFK`='" . $site->getID() . "' AND `Circle`='$circle' AND `Orientation`='$orientation' LIMIT 1");
 		mysqli_close($dbconn);
 		if(mysqli_num_rows($query) == 0){
 			return null;
@@ -135,32 +143,31 @@ class Plant
 		return "N/A";
 	}
 	
-	public function getPosition() {
+	public function getCircle() {
 		if($this->deleted){return null;}
-		return $this->position;
+		return $this->circle;
 	}
 	
-	public function getCircle(){
+	public function getOrientation() {
 		if($this->deleted){return null;}
-		return preg_replace("/[^0-9]/", "", $this->position);
+		return $this->orientation;
 	}
 	
 	public function getColor(){
 		if($this->deleted){return null;}
-		$orientation = preg_replace('/[0-9]+/', '', $this->position);
-		if($orientation == "A"){
+		if($this->orientation == "A"){
 			return "#ff7575";//red
 		}
-		else if($orientation == "B"){
+		else if($this->orientation == "B"){
 			return "#75b3ff";//blue
 		}
-		else if($orientation == "C"){
+		else if($this->orientation == "C"){
 			return "#5abd61";//green
 		}
-		else if($orientation == "D"){
+		else if($this->orientation == "D"){
 			return "#ffc875";//orange
 		}
-		else if($orientation == "E"){
+		else if($this->orientation == "E"){
 			return "#9175ff";//purple
 		}
 		return false;
@@ -212,13 +219,19 @@ class Plant
 		return $site;
 	}
 	
-	public static function validPositionFormat($dbconn, $position){
-		$position = mysqli_real_escape_string($dbconn, $position);
-		
-		if($position == ""){
-			return false;
+	public static function validCircleFormat($dbconn, $circle){
+		$circle = intval(preg_replace("/[^0-9]/", "", $circle));
+		if($circle >= 0){
+			return $circle;
 		}
-		return $position;
+		return false;
+	}
+	
+	public static function validOrientationFormat($dbconn, $orientation){
+		if(in_array($orientation, array("A", "B", "C", "D", "E")){
+			return $orientation;
+		}
+		return false;
 	}
 	
 	public static function validCode($dbconn, $code){
