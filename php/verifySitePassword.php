@@ -8,7 +8,7 @@
 	$password = $_GET["password"];
 	
 	$user = User::findBySignInKey($email, $salt);
-	if(get_class($user) == "User"){
+	if(!is_null($user) && get_class($user) == "User"){
 		$plant = Plant::findByCode($code);
 		if(is_null($plant)){
 			die("false|Invalid survey location code.");
