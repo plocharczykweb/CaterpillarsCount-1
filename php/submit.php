@@ -58,7 +58,7 @@
 	}
 	
 	$user = User::findBySignInKey($email, $salt);
-	if(get_class($user) == "User"){
+	if(!is_null($user) && get_class($user) == "User"){
 		$plant = Plant::findByCode($plantCode);
 		if(is_null($plant)){
 			die("false|Enter a valid plant code.");
@@ -70,7 +70,7 @@
 			//submit data to database
 			$survey = Survey::create($user, $plant, $observationMethod, $siteNotes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore);
 			
-			if(get_class($survey) == "Survey"){
+			if(!is_null($survey) && get_class($survey) == "Survey"){
 				//$arthropodData = orderType, orderLength, orderQuantity, orderNotes, hairy, leafRoll, silkTent, fileInput
 				$arthropodSightingFailures = "";
 				for($i = 0; $i < count($arthropodData); $i++){
@@ -80,7 +80,7 @@
 						$arthropodData[$i][6] = false;
 					}
 					$arthropodSighting = $survey->addArthropodSighting($arthropodData[$i][0], $arthropodData[$i][1], $arthropodData[$i][2], $arthropodData[$i][3], $arthropodData[$i][4], $arthropodData[$i][5], $arthropodData[$i][6]);
-					if(get_class($arthropodSighting) == "ArthropodSighting"){
+					if(!is_null($arthropodSighting) && get_class($arthropodSighting) == "ArthropodSighting"){
 						$attachResult = attachPhotoToArthropodSighting($_FILES['file' . $i], $arthropodSighting);
 						if($attachResult != "File not uploaded." && !($attachResult === true)){
 							$arthropodSightingFailures .= strval($attachResult);
