@@ -18,11 +18,12 @@ class Survey
 	private $numberOfLeaves;
 	private $averageLeafLength;
 	private $herbivoryScore;
+	private $submittedThroughApp;
 	
 	private $deleted;
 
 //FACTORY
-	public static function create($observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore) {
+	public static function create($observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
@@ -38,6 +39,7 @@ class Survey
 		$numberOfLeaves = self::validNumberOfLeaves($dbconn, $numberOfLeaves);
 		$averageLeafLength = self::validAverageLeafLength($dbconn, $averageLeafLength);
 		$herbivoryScore = self::validHerbivoryScore($dbconn, $herbivoryScore);
+		$submittedThroughApp = filter_var($submittedThroughApp, FILTER_VALIDATE_BOOLEAN);
 		
 		
 		$failures = "";
@@ -71,13 +73,13 @@ class Survey
 			return $failures;
 		}
 		
-		mysqli_query($dbconn, "INSERT INTO Survey (`UserFKOfObserver`, `PlantFK`, `ObservationMethod`, `Notes`, `WetLeaves`, `PlantSpecies`, `NumberOfLeaves`, `AverageLeafLength`, `HerbivoryScore`) VALUES ('" . $observer->getID() . "', '" . $plant->getID() . "', '$observationMethod', '$notes', '$wetLeaves', '$plantSpecies', '$numberOfLeaves', '$averageLeafLength', '$herbivoryScore')");
+		mysqli_query($dbconn, "INSERT INTO Survey (`UserFKOfObserver`, `PlantFK`, `ObservationMethod`, `Notes`, `WetLeaves`, `PlantSpecies`, `NumberOfLeaves`, `AverageLeafLength`, `HerbivoryScore`, `SubmittedThroughApp`) VALUES ('" . $observer->getID() . "', '" . $plant->getID() . "', '$observationMethod', '$notes', '$wetLeaves', '$plantSpecies', '$numberOfLeaves', '$averageLeafLength', '$herbivoryScore', '$submittedThroughApp')");
 		$id = intval(mysqli_insert_id($dbconn));
 		mysqli_close($dbconn);
 		
-		return new Survey($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore);
+		return new Survey($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
-	private function __construct($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore) {
+	private function __construct($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
 		$this->id = intval($id);
 		$this->observer = $observer;
 		$this->plant = $plant;
@@ -88,6 +90,7 @@ class Survey
 		$this->numberOfLeaves = intval($numberOfLeaves);
 		$this->averageLeafLength = intval($averageLeafLength);
 		$this->herbivoryScore = $herbivoryScore;
+		$this->submittedThroughApp = $submittedThroughApp;
 		
 		$this->deleted = false;
 	}
@@ -114,8 +117,9 @@ class Survey
 		$numberOfLeaves = $surveyRow["NumberOfLeaves"];
 		$averageLeafLength = $surveyRow["AverageLeafLength"];
 		$herbivoryScore = $surveyRow["HerbivoryScore"];
+		$submittedThroughApp = $surveyRow["SubmittedThroughApp"];
 		
-		return new Survey($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore);
+		return new Survey($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
 
 //GETTERS
@@ -146,7 +150,7 @@ class Survey
 	
 	public function getWetLeaves() {
 		if($this->deleted){return null;}
-		return $this->wetLeaves;
+		return filter_var($this->wetLeaves, FILTER_VALIDATE_BOOLEAN);
 	}
 	
 	public function getArthropodSightings() {
@@ -172,6 +176,11 @@ class Survey
 	public function getHerbivoryScore() {
 		if($this->deleted){return null;}
 		return $this->herbivoryScore;
+	}
+	
+	public function getSubmittedThroughApp(){
+		if($this->deleted){return null;}
+		return filter_var($this->submittedThroughApp, FILTER_VALIDATE_BOOLEAN);
 	}
 	
 //SETTERS
