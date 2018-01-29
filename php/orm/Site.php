@@ -265,11 +265,11 @@ class Site
 		if(!$this->deleted)
 		{
 			$numberOfPreexistingCircles = (count($this->getPlants()) / 5);
-			Plant::create($this, ($numberOfPreexistingCircles + 1) . "A");
-			Plant::create($this, ($numberOfPreexistingCircles + 1) . "B");
-			Plant::create($this, ($numberOfPreexistingCircles + 1) . "C");
-			Plant::create($this, ($numberOfPreexistingCircles + 1) . "D");
-			Plant::create($this, ($numberOfPreexistingCircles + 1) . "E");
+			Plant::create($this, ($numberOfPreexistingCircles + 1), "A");
+			Plant::create($this, ($numberOfPreexistingCircles + 1), "B");
+			Plant::create($this, ($numberOfPreexistingCircles + 1), "C");
+			Plant::create($this, ($numberOfPreexistingCircles + 1), "D");
+			Plant::create($this, ($numberOfPreexistingCircles + 1), "E");
 			return true;
 		}
 		return false;
