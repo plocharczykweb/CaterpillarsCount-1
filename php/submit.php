@@ -68,7 +68,7 @@
 		if($site->validateUser($user, $sitePassword)){
 			$user->setObservationMethodPreset($site, $observationMethod);
 			//submit data to database
-			$survey = Survey::create($user, $plant, $observationMethod, $siteNotes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore);
+			$survey = Survey::create($user, $plant, $observationMethod, $siteNotes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, false);
 			
 			if(!is_null($survey) && get_class($survey) == "Survey"){
 				//$arthropodData = orderType, orderLength, orderQuantity, orderNotes, hairy, leafRoll, silkTent, fileInput
