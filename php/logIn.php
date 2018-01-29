@@ -5,7 +5,7 @@
 	$password = $_GET["password"];
 	
 	$user = User::findByEmail($email);
-	if(get_class($user) == "User"){
+	if(!is_null($user) && get_class($user) == "User"){
 		$salt = $user->signIn($password);
 		
 		if($salt != false){
