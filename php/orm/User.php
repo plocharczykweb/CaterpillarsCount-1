@@ -155,13 +155,13 @@ class User
 	
 	public function getValidationStatus($site){
 		if($this->deleted){return null;}
-		if(get_class($site) != "Site"){return false;}
+		if(is_null($site) || get_class($site) != "Site"){return false;}
 		return $site->getValidationStatus($this);
 	}
 	
 	public function getObservationMethodPreset($site){
 		if($this->deleted){return null;}
-		if(get_class($site) != "Site"){return false;}
+		if(is_null($site) || get_class($site) != "Site"){return false;}
 		return $site->getObservationMethodPreset($this);
 	}
 	
@@ -202,13 +202,13 @@ class User
 	
 	public function setValidStatus($site, $password){
 		if($this->deleted){return null;}
-		if(get_class($site) != "Site"){return false;}
+		if(is_null($site) || get_class($site) != "Site"){return false;}
 		return $site->validateUser($this, $password);
 	}
 	
 	public function setObservationMethodPreset($site, $observationMethod){
 		if($this->deleted){return null;}
-		if(get_class($site) != "Site"){return false;}
+		if(is_null($site) || get_class($site) != "Site"){return false;}
 		return $site->setObservationMethodPreset($this, $observationMethod);
 	}
 	
