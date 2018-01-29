@@ -206,7 +206,7 @@ class Plant
 
 //validity ensurance
 	public static function validSite($dbconn, $site){
-		if(get_class($site) != "Site"){
+		if(is_null($site) || get_class($site) != "Site"){
 			return false;
 		}
 		return $site;
