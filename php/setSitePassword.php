@@ -8,9 +8,9 @@
 	$newPassword = $_GET["newPassword"];
 	
 	$user = User::findBySignInKey($email, $salt);
-	if(get_class($user) == "User"){
+	if(!is_null($user) && get_class($user) == "User"){
 		$site = Site::findByName($siteName);
-		if(get_class($site) == "Site"){
+		if(!is_null($site) && get_class($site) == "Site"){
 			if($site->getCreator()->getEmail() == $email){
 				if($site->passwordIsCorrect($newPassword)){
 					die("false|That is already " . $siteName . "'s password.");
