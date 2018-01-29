@@ -44,7 +44,7 @@
 		$site = $user->createSite($siteName, $description, $latitude, $longitude, $zoom, $finalLocation, $sitePassword);
 		
 		//output errors if there are any
-		if(!is_null($site) && get_class($site) != "Site"){
+		if(is_null($site) || get_class($site) != "Site"){
 			die("false|" . $site);
 		}
 		
