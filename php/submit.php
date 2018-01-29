@@ -15,6 +15,7 @@
 	$numberOfLeaves = $_POST["numberOfLeaves"];		//number
 	$averageLeafLength = $_POST["averageLeafLength"];	//number
 	$herbivoryScore = $_POST["herbivoryScore"];		//String
+	$submittedThroughApp = $_POST["submittedThroughApp"];
 	
 	function explainError($fileError){
 		if($fileError == UPLOAD_ERR_INI_SIZE){return 'The uploaded file exceeds the upload_max_filesize directive in php.ini';}
@@ -68,7 +69,7 @@
 		if($site->validateUser($user, $sitePassword)){
 			$user->setObservationMethodPreset($site, $observationMethod);
 			//submit data to database
-			$survey = Survey::create($user, $plant, $observationMethod, $siteNotes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, false);
+			$survey = Survey::create($user, $plant, $observationMethod, $siteNotes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 			
 			if(!is_null($survey) && get_class($survey) == "Survey"){
 				//$arthropodData = orderType, orderLength, orderQuantity, orderNotes, hairy, leafRoll, silkTent, fileInput
