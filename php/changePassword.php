@@ -6,7 +6,7 @@
 	$email = $_GET["email"];
 	
 	$user = User::findByEmail($email);
-	if(get_class($user) == "User"){
+	if(!is_null($user) && get_class($user) == "User"){
 		if($user->passwordIsCorrect($currentPassword)){
 			if($user->setPassword($newPassword)){
 				$newSalt = $user->signIn($newPassword);
