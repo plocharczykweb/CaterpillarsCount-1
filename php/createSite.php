@@ -12,7 +12,7 @@
 	$sitePassword = $_GET["sitePassword"];
 	
 	$user = User::findBySignInKey($email, $salt);
-	if(get_class($user) == "User"){
+	if(!is_null($user) && get_class($user) == "User"){
 		//make sure plant count is valid
 		if($plantCount % 5 != 0){
 			die("false|The number of plants you will survey must be a multiple of 5. ");
@@ -44,7 +44,7 @@
 		$site = $user->createSite($siteName, $description, $latitude, $longitude, $zoom, $finalLocation, $sitePassword);
 		
 		//output errors if there are any
-		if(get_class($site) != "Site"){
+		if(!is_null($site) && get_class($site) != "Site"){
 			die("false|" . $site);
 		}
 		
