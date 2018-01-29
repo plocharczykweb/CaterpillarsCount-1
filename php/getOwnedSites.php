@@ -6,7 +6,7 @@
 	$salt = $_GET["salt"];
 	
 	$user = User::findBySignInKey($email, $salt);
-	if(get_class($user) == "User"){
+	if(!is_null($user) && get_class($user) == "User"){
 		$sites = $user->getSites();
 		$sitesArray = array();
 		for($i = 0; $i < count($sites); $i++){
