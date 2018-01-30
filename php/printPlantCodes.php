@@ -66,7 +66,7 @@
 				return $a->getCircle() - $b->getCircle();
 			}
 			
-			if(!is_null($site)){
+			if(is_object($site)){
 				$plants = $site->getPlants();
 				usort($plants, "cmp");
 				for($i = 0; $i < count($plants); $i++){
