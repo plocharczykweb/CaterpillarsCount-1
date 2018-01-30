@@ -222,14 +222,14 @@ class Survey
 
 //validity ensurance
 	public static function validObserver($dbconn, $observer, $plant){
-		if(is_null($plant) || get_class($plant) != "Plant" || !$plant->getSite()->validateUser($observer, "")){
+		if(!is_object($plant) || get_class($plant) != "Plant" || !$plant->getSite()->validateUser($observer, "")){
 			return false;
 		}
 		return $observer;
 	}
 	
 	public static function validPlant($dbconn, $plant){
-		if(is_null($plant) || get_class($plant) != "Plant"){
+		if(!is_object($plant) || get_class($plant) != "Plant"){
 			return false;
 		}
 		return $plant;
