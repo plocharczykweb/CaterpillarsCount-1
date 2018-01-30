@@ -228,7 +228,7 @@ class Plant
 	}
 	
 	public static function validOrientationFormat($dbconn, $orientation){
-		if(in_array($orientation, array("A", "B", "C", "D", "E")){
+		if(in_array($orientation, array("A", "B", "C", "D", "E"))){
 			return $orientation;
 		}
 		return false;
