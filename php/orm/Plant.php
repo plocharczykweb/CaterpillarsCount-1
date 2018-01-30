@@ -23,7 +23,7 @@ class Plant
 		
 		$site = self::validSite($dbconn, $site);
 		$circle = self::validCircleFormat($dbconn, $circle);
-		$orientation = self::validPositionFormat($dbconn, $orientation);
+		$orientation = self::validOrientationFormat($dbconn, $orientation);
 		
 		$failures = "";
 		
