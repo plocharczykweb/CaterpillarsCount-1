@@ -252,6 +252,9 @@
 				
 				
 				//verify and create the site in the database if we have an internet connection
+				if(creatingSite){
+					return false;
+				}
 				creatingSite = true;
 				setLoadingButton($("#createSiteButton")[0], "Create site", true);
 				var xhttp = new XMLHttpRequest();
