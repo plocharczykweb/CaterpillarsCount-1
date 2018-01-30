@@ -178,6 +178,9 @@
 			
 			var creatingSite = false;
 			function createNewSite(){
+				if(creatingSite){
+					return false;
+				}
 				//verify the site paramenters and create the site in the database
 				
 				//verify all site parameters we can without an internet connection
@@ -252,9 +255,6 @@
 				
 				
 				//verify and create the site in the database if we have an internet connection
-				if(creatingSite){
-					return false;
-				}
 				creatingSite = true;
 				setLoadingButton($("#createSiteButton")[0], "Create site", true);
 				var xhttp = new XMLHttpRequest();
