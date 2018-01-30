@@ -55,12 +55,17 @@
 	<body onload="window.print();">
 		<?php
 			require_once("orm/Site.php");
-	
+			
 			$siteID = $_GET["q"];
 			$site = Site::findByID($siteID);
-	
+			
+			function cmp($a, $b){
+				return strcmp($a->getCircle() . $a->getOrientation(), $b->getCircle() . $b->getOrientation());
+			}
+			
 			if(!is_null($site)){
 				$plants = $site->getPlants();
+				usort($plants, "cmp");
 				for($i = 0; $i < count($plants); $i++){
 					$circle = $plants[$i]->getCircle();
 					$color = $plants[$i]->getColor();
