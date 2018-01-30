@@ -4,7 +4,7 @@
 	$password = $_GET["password"];
 	
 	$newUser = User::create($email, $password);
-	if(!is_null($newUser) && get_class($newUser) == "User"){
+	if(is_object($newUser) && get_class($newUser) == "User"){
 		$userid = intval($newUser->getID());
 		User::sendEmailVerificationCodeToUser($userid);
 		die("success");
