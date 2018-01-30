@@ -36,7 +36,7 @@ class Plant
 		if($orientation === false){
 			$failures .= "Enter an orientation. ";
 		}
-		if($failures == "" && is_null(self::findBySiteAndPosition($site, $circle, $orientation)) === false){
+		if($failures == "" && is_object(self::findBySiteAndPosition($site, $circle, $orientation))){
 			$failures .= "Enter a unique circle/orientation set for this site. ";
 		}
 		
@@ -213,10 +213,10 @@ class Plant
 
 //validity ensurance
 	public static function validSite($dbconn, $site){
-		if(is_null($site) || get_class($site) != "Site"){
-			return false;
+		if(is_object($site) && get_class($site) == "Site"){
+			return $site;
 		}
-		return $site;
+		return false;
 	}
 	
 	public static function validCircleFormat($dbconn, $circle){
