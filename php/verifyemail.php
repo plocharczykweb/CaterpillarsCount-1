@@ -16,7 +16,7 @@
 		else{
 			$email = $user->getDesiredEmail();
 			$userByEmail = User::findByEmail($email);
-			if(!is_null($userByEmail) && get_class($userByEmail) == "User"){//or if they verified it as another user
+			if(is_object($userByEmail) && get_class($userByEmail) == "User"){//or if they verified it as another user
 				$confirmed = "true";
 			}
 			else if($hashedEmail == hash("sha512", $email . "jisabfa") && $user->verifyEmail($confirmationCode)){//or if 
