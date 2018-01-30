@@ -60,7 +60,10 @@
 			$site = Site::findByID($siteID);
 			
 			function cmp($a, $b){
-				return strcmp($a->getCircle() . $a->getOrientation(), $b->getCircle() . $b->getOrientation());
+				if($a->getCircle() != $b->getCircle()){
+					return $a->getCircle() - $b->getCircle();
+				}
+				return strcmp($a->getOrientation(), $b->getOrientation());
 			}
 			
 			if(!is_null($site)){
