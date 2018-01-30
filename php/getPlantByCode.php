@@ -7,9 +7,9 @@
 	$code = $_GET["code"];
 	
 	$user = User::findBySignInKey($email, $salt);
-	if(!is_null($user) && get_class($user) == "User"){
+	if(is_object($user) && get_class($user) == "User"){
 		$plant = Plant::findByCode($code);
-		if(is_null($plant)){
+		if(!is_object($plant)){
 			die("no plant");
 		}
 		$plantArray = array(
