@@ -136,12 +136,21 @@ class Site
 	
 	public static function findSitesByCreator($creator){
 		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Site` WHERE `UserFKOfCreator`='" . $creator->getID() . "'");
+		$query = mysqli_query($dbconn, "SELECT * FROM `Site` WHERE `UserFKOfCreator`='" . $creator->getID() . "'");
 		mysqli_close($dbconn);
 		
 		$sitesArray = array();
 		while($siteRow = mysqli_fetch_assoc($query)){
-			$site = self::findByID($siteRow["ID"]);
+			$id = $siteRow["ID"];
+			$name = $siteRow["Name"];
+			$description = $siteRow["Description"];
+			$latitude = $siteRow["Latitude"];
+			$longitude = $siteRow["Longitude"];
+			$location = $siteRow["Location"];
+			$salt = $siteRow["Salt"];
+			$saltedPasswordHash = $siteRow["SaltedPasswordHash"];
+			$site = new Site($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash);
+			
 			array_push($sitesArray, $site);
 		}
 		return $sitesArray;
