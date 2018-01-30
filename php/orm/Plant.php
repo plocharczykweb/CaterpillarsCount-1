@@ -102,7 +102,7 @@ class Plant
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$site = self::validSite($dbconn, $site);
 		$circle = self::validCircleFormat($dbconn, $circle);
-		$orientation = validOrientationFormat($dbconn, $orientation);
+		$orientation = self::validOrientationFormat($dbconn, $orientation);
 		if($site === false || $circle === false || $orientation === false){
 			return null;
 		}
