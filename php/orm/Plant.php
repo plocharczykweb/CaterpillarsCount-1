@@ -145,7 +145,7 @@ class Plant
 	
 	public function getCircle() {
 		if($this->deleted){return null;}
-		return $this->circle;
+		return intval($this->circle);
 	}
 	
 	public function getOrientation() {
