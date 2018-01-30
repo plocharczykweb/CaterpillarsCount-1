@@ -12,7 +12,7 @@
 	$sitePassword = $_GET["sitePassword"];
 	
 	$user = User::findBySignInKey($email, $salt);
-	if(!is_null($user) && get_class($user) == "User"){
+	if(is_object($user) && get_class($user) == "User"){
 		//make sure plant count is valid
 		if($plantCount % 5 != 0){
 			die("false|The number of plants you will survey must be a multiple of 5. ");
