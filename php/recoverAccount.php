@@ -4,7 +4,7 @@
 	$email = $_GET["email"];
 	$user = User::findByEmail($email);
 	
-	if(!is_null($user) && get_class($user) == "User"){
+	if(is_object($user) && get_class($user) == "User"){
 		if($user->recoverPassword()){
 			die("true");
 		}
