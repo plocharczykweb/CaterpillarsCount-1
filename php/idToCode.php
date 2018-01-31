@@ -1,4 +1,6 @@
 <?php
+	header('Access-Control-Allow-Origin: *');
+	
 	$id = intval($_GET["id"]);
 	
 	function shortIdToCode($id){
