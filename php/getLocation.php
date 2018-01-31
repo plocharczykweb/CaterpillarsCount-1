@@ -1,4 +1,6 @@
 <?php
+	header('Access-Control-Allow-Origin: *');
+	
 	$lat = $_GET["lat"];
 	$lng = $_GET["lng"];
 	
