@@ -11,7 +11,7 @@ $mail->IsSMTP();
 $mail->Host = 'relay.unc.edu';  // UNC's SMTP relay server
 
 //From email address and name
-$mail->From = "mail@caterpillarscount.unc.edu";
+$mail->From = "caterpillarscount@gmail.com";
 $mail->FromName = "Caterpillars Count";
 
 //To address and name
@@ -19,7 +19,7 @@ $mail->FromName = "Caterpillars Count";
 $mail->addAddress("plocharczykweb@gmail.com"); //Recipient name is optional
 
 //Address to which recipient will reply
-$mail->addReplyTo("caterpillarscount@gmail.com", "Reply");
+//$mail->addReplyTo("caterpillarscount@gmail.com", "Reply");
 
 //CC and BCC
 //$mail->addCC("cc@example.com");
