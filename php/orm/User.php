@@ -313,7 +313,7 @@ class User
 		
 		$confirmationLink = hash("sha512", self::findByID($usersId)->getDesiredEmail() . "jisabfa") . "c" . intval($usersId . $verificationCode) * 7;
 		
-		email($usersEmail, "Verify your email for Caterpillars Count!", "Welcome to Caterpillars Count! You need to verify your email before you can use your account. Click the following link to confirm your email address.\n\nVERIFY EMAIL:\n" . (new Keychain)->getRoot() . "/php/verifyemail.php?confirmation=$confirmationLink");
+		email($usersEmail, "Verify your email for Caterpillars Count!", "<div style=\"text-align:center;border:5px double #eee;border-radius:5px;padding:40px;\"><div style=\"color:#777;margin-bottom:40px;font-size:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\">Welcome to Caterpillars Count! You need to verify your email before you can use your account. Click the following button to confirm your email address.</div><a href=\"" . (new Keychain)->getRoot() . "/php/verifyemail.php?confirmation=$confirmationLink\"><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">VERIFY EMAIL</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\">Alternatively, use link: <a href=\"" . (new Keychain)->getRoot() . "/php/verifyemail.php?confirmation=$confirmationLink\" style=\"color:#70c6ff;\">kjsdkfsjdn ksjnd ksn daksjda</a></div></div>");
 		
 		mysqli_close($dbconn);
 		return true;
