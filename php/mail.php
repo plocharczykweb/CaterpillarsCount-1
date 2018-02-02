@@ -19,7 +19,7 @@ $mail->FromName = "Caterpillars Count";
 $mail->addAddress("plocharczykweb@gmail.com"); //Recipient name is optional
 
 //Address to which recipient will reply
-//$mail->addReplyTo("reply@yourdomain.com", "Reply");
+$mail->addReplyTo("caterpillarscount@gmail.com", "Reply");
 
 //CC and BCC
 //$mail->addCC("cc@example.com");
