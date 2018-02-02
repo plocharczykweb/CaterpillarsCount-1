@@ -1,4 +1,10 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+//Load composer's autoloader
+require 'vendor/autoload.php';
+
 //PHPMailer Object
 $mail = new PHPMailer;
 $mail->Host = 'relay.unc.edu';  // UNC's SMTP relay server
