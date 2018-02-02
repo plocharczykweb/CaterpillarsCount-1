@@ -1,5 +1,6 @@
 <?php
 
+require_once('resources/mailing.php');
 require_once('resources/Keychain.php');
 require_once('Site.php');
 
@@ -312,7 +313,7 @@ class User
 		
 		$confirmationLink = hash("sha512", self::findByID($usersId)->getDesiredEmail() . "jisabfa") . "c" . intval($usersId . $verificationCode) * 7;
 		
-		mail($usersEmail, "Verify your email for Caterpillars Count!", "Welcome to Caterpillars Count! You need to verify your email before you can use your account. Click the following link to confirm your email address.\n\nVERIFY EMAIL:\n" . (new Keychain)->getRoot() . "/php/verifyemail.php?confirmation=$confirmationLink");
+		email($usersEmail, "Verify your email for Caterpillars Count!", "Welcome to Caterpillars Count! You need to verify your email before you can use your account. Click the following link to confirm your email address.\n\nVERIFY EMAIL:\n" . (new Keychain)->getRoot() . "/php/verifyemail.php?confirmation=$confirmationLink");
 		
 		mysqli_close($dbconn);
 		return true;
@@ -383,7 +384,7 @@ class User
 		if($this->email != ""){
 			$newPassword = bin2hex(openssl_random_pseudo_bytes(4));
 			$this->setPassword($newPassword);
-			mail($this->email, "Caterpillars Count! password recovery", "Per your request, we here at Caterpillars Count! have reset the password associated with your email (" . $this->email . ") to: " . $newPassword . "\n\nPlease log in now and reset your password to something memorable. Thank you for using Caterpillars Count!");
+			email($this->email, "Caterpillars Count! password recovery", "Per your request, we here at Caterpillars Count! have reset the password associated with your email (" . $this->email . ") to: " . $newPassword . "\n\nPlease log in now and reset your password to something memorable. Thank you for using Caterpillars Count!");
 			return true;
 		}
 		return false;
