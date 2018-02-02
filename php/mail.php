@@ -7,11 +7,12 @@ require '../vendor/autoload.php';
 
 //PHPMailer Object
 $mail = new PHPMailer;
+$mail->IsSMTP();
 $mail->Host = 'relay.unc.edu';  // UNC's SMTP relay server
 
 //From email address and name
-//$mail->From = "from@yourdomain.com";
-//$mail->FromName = "Full Name";
+$mail->From = "mail@caterpillarscount.unc.edu";
+$mail->FromName = "Caterpillars Count";
 
 //To address and name
 //$mail->addAddress("recepient1@example.com", "Recepient Name");
