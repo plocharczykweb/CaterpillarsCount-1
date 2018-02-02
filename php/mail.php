@@ -3,7 +3,7 @@
 //use PHPMailer\PHPMailer\Exception;
 
 //Load composer's autoloader
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
 //PHPMailer Object
 $mail = new PHPMailer;
