@@ -1,6 +1,7 @@
 <?php
 //PHPMailer Object
 $mail = new PHPMailer;
+$mail->Host = 'relay.unc.edu';  // UNC's SMTP relay server
 
 //From email address and name
 //$mail->From = "from@yourdomain.com";
