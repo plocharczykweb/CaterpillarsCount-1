@@ -1,5 +1,6 @@
 <?php
 
+require_once('resources/mailing.php');
 require_once('resources/Keychain.php');
 require_once('User.php');
 require_once('Plant.php');
@@ -432,15 +433,15 @@ class Site
 //FUNCTIONS
 	public function emailPlantCodesToCreator(){
 		$dbconn = (new Keychain)->getDatabaseConnection();
-		$headers  = 'MIME-Version: 1.0' . "\r\n";
-		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		//$headers  = 'MIME-Version: 1.0' . "\r\n";
+		//$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
 		//TODO
 		$plants = $this->getPlants();
 		$numberOfCircles = (count($plants) / 5);
 		$root = (new Keychain)->getRoot();
 		$message = "Congratulations on creating your new Caterpillars Count! site, \"" . $this->name . "\". Once you have located and identified your survey branches, you can click the \"Manage Plants\" button on the \"<a href=\"" . $root . "/newSite/manageMySites\">Manage My Sites</a>\" page of the website to enter the tree species names for each survey.<br/><br/>You can then <a href=\"" . $root . "/php/printPlantCodes.php?q=" . $this->id . "\">click here</a> to print the Plant Survey Code tags to hang on each survey branch. (We recommend printing in color, then \"laminating\" by folding each tag in a strip of packing tape, then hanging by twist tie or other means.)<br/><br/>If you have entered the plant species names for each survey using the web link above, they will appear on the tags. Otherwise, the plant species will be listed as \"N/A\".";
-		mail($this->creator->getEmail(), "New Caterpillars Count! Plant Codes", $message, $headers);
+		email($this->creator->getEmail(), "New Caterpillars Count! Plant Codes", $message);//, $headers);
 		
 		mysqli_close($dbconn);
 		return true;
