@@ -1,7 +1,7 @@
 <?php
-  require_once("orm/Site.php");
-  
-  $publicSites = Site::findAllPublicSites();
+	require_once("orm/Site.php");
+	
+	$publicSites = Site::findAllPublicSites();
 	$publicSitesArray = array();
 	for($i = 0; $i < count($publicSites); $i++){
 		$publicSitesArray[$i] = array(
