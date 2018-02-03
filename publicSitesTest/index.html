@@ -21,124 +21,124 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
 		<style>
-		    .table{
-			font-family: 'Roboto Slab', serif;
-			font-size:16px;
-			width:100%;
-			border-radius:3px;
-			overflow:hidden;
-		    }
+			.table{
+				font-family: 'Roboto Slab', serif;
+				font-size:16px;
+				width:100%;
+				border-radius:3px;
+				overflow:hidden;
+			}
 
-		    .thead{
-			background:#333;
-			color:#fff;
-			font-size:110%;
-		    }
+		    	.thead{
+				background:#333;
+				color:#fff;
+				font-size:110%;
+		    	}
 
-		    .row{
-			display:table;
-			width:100%;
-		    }
+		    	.row{
+				display:table;
+				width:100%;
+		    	}
 
-		    .tbody{
-			color:rgba(0,0,0,0.8);
-		    }
+		    	.tbody{
+				color:rgba(0,0,0,0.8);
+		    	}
 
-		    .tbody .row:nth-of-type(odd){
-			background:rgba(0,0,0,0.03);
-		    }
+		    	.tbody .row:nth-of-type(odd){
+				background:rgba(0,0,0,0.03);
+		    	}
 
-		    .tbody .row:nth-of-type(even){
-			background:rgba(0,0,0,0.06);
-		    }
+		    	.tbody .row:nth-of-type(even){
+				background:rgba(0,0,0,0.06);
+		    	}
 
-		    .cell{
-			display:table-cell;
-			vertical-align:middle;
-			width:15%;
-			word-wrap:break-word;
-			box-sizing:border-box;
-			padding:10px;
-		    }
+		    	.cell{
+				display:table-cell;
+				vertical-align:middle;
+				width:15%;
+				word-wrap:break-word;
+				box-sizing:border-box;
+				padding:10px;
+		    	}
 
-		    .cell:nth-of-type(1){
-			width:12%;
-		    }
+		    	.cell:nth-of-type(1){
+				width:12%;
+		    	}
 
-		    .cell:nth-of-type(2){
-			width:28%;
-		    }
+		    	.cell:nth-of-type(2){
+				width:28%;
+		    	}
 
-		    .cell:nth-of-type(3){
-			width:32%;
-		    }
+		    	.cell:nth-of-type(3){
+				width:32%;
+		    	}
 
-		    .cell:nth-of-type(4){
-			width:15%;
-		    }
+		    	.cell:nth-of-type(4){
+				width:15%;
+		    	}
 
-		    .cell:nth-of-type(5){
-			width:13%;
-		    }
+		    	.cell:nth-of-type(5){
+				width:13%;
+		    	}
 			
 			.forceWrap{
 				width:0px;
 				min-width:100%;
 			}
 
-		    @media only screen and (max-width: 900px) {
-			.thead{
-				display:none;
-			}
-			.cell{
-				display:block;
-			    width:100%;
-			}
+		    	@media only screen and (max-width: 900px) {
+				.thead{
+					display:none;
+				}
+				.cell{
+					display:block;
+			    		width:100%;
+				}
 
-			.cell:nth-of-type(1), .cell:nth-of-type(2){
-				display:inline-block;
-			    width:auto;
-			    font-weight:bold;
-			    font-size:18px;
-			}
-			    .cell:nth-of-type(1)>.forceWrap, .cell:nth-of-type(2)>.forceWrap{
-			    	display:inline-block;
-				    width:auto;
-				    min-width:auto;
-			    }
-			.cell:nth-of-type(1)>.forceWrap::after { 
+				.cell:nth-of-type(1), .cell:nth-of-type(2){
+					display:inline-block;
+			    		width:auto;
+			    		font-weight:bold;
+			    		font-size:18px;
+				}
+			    	.cell:nth-of-type(1)>.forceWrap, .cell:nth-of-type(2)>.forceWrap{
+			    		display:inline-block;
+				    	width:auto;
+				    	min-width:auto;
+			    	}
+				.cell:nth-of-type(1)>.forceWrap::after { 
 					content: ")";
 				}
-			    .cell:nth-of-type(3), .cell:nth-of-type(4), .cell:nth-of-type(5){
-			    	width:100%;
-			    }
-			.cell:nth-of-type(3){
-			    font-size:14px;
-			    color:rgba(0,0,0,0.6);
-			}
-			.cell:nth-of-type(4){
-			    font-size:10px;
-			    color:rgba(0,0,0,0.6);
-			    text-align:right;
-			    padding:10px 10px 0px 10px;
-			}
-			.cell:nth-of-type(4)>.forceWrap::before{
-				content:"[ ";
-			}
-			.cell:nth-of-type(4)>.forceWrap::after{
-				content:" ]";
-			}
-			.cell:nth-of-type(5){
-			    font-size:14px;
-			    text-align:right;
-			    cursor:pointer;
-			}
-			.cell:nth-of-type(5)>.forceWrap::before{
-				content:"Contact: ";
-			    color:rgba(0,0,0,0.6);
-			    cursor:default;
-			}
-		    }
+			    	.cell:nth-of-type(3), .cell:nth-of-type(4), .cell:nth-of-type(5){
+			    		width:100%;
+			    	}
+				.cell:nth-of-type(3){
+				    font-size:14px;
+				    color:rgba(0,0,0,0.6);
+				}
+				.cell:nth-of-type(4){
+				    font-size:10px;
+				    color:rgba(0,0,0,0.6);
+				    text-align:right;
+				    padding:10px 10px 0px 10px;
+				}
+				.cell:nth-of-type(4)>.forceWrap::before{
+					content:"[ ";
+				}
+				.cell:nth-of-type(4)>.forceWrap::after{
+					content:" ]";
+				}
+				.cell:nth-of-type(5){
+				    font-size:14px;
+				    text-align:right;
+				    cursor:pointer;
+				}
+				.cell:nth-of-type(5)>.forceWrap::before{
+					content:"Contact: ";
+			    		color:rgba(0,0,0,0.6);
+			    		cursor:default;
+				}
+		    	}
 		</style>
 		<script>
 			function populatePublicSites(){
@@ -177,7 +177,11 @@
               					}
 						htmlToAdd += "</div>";
               					htmlToAdd += "</div>";
-              
+              					
+						if(publicSites.length == 0){
+							htmlToAdd = "<div class=\"tagline\">There are no public sites yet.</div>";
+						}
+						
               					$("#publicSitesContainer")[0].innerHTML = htmlToAdd;
             				}
           			};
