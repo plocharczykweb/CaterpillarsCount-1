@@ -44,8 +44,12 @@
 			color:rgba(0,0,0,0.8);
 		    }
 
+		    .tbody .row:nth-of-type(odd){
+			background:rgba(0,0,0,0.02);
+		    }
+
 		    .tbody .row:nth-of-type(even){
-			background:rgba(0,0,0,0.05);
+			background:rgba(0,0,0,0.06);
 		    }
 
 		    .cell{
@@ -59,6 +63,10 @@
 		    .cell:nth-of-type(3){
 			width:40%;
 		    }
+			
+			.wrapForce{
+				word-wrap:break-word;
+			}
 
 		    @media only screen and (max-width: 900px) {
 			.thead{
@@ -137,11 +145,11 @@
 						htmlToAdd += "<div class=\"tbody\">";
               					for(var i = 0; i < publicSites.length; i++){
                 					htmlToAdd += "<div class=\"row\">";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["location"] + "</div>";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["siteName"] + "</div>";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["description"] + "</div>";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["plantCount"] + " Survey Plants</div>";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["creatorEmail"] + "</div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"wrapForce\">" + publicSites[i]["location"] + "</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"wrapForce\">" + publicSites[i]["siteName"] + "</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"wrapForce\">" + publicSites[i]["description"] + "</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"wrapForce\">" + publicSites[i]["plantCount"] + " Survey Plants</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"wrapForce\">" + publicSites[i]["creatorEmail"] + "</div></div>";
                 					htmlToAdd += "</div>";
               					}
 						htmlToAdd += "</div>";
