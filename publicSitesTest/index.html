@@ -45,7 +45,7 @@
 		    }
 
 		    .tbody .row:nth-of-type(odd){
-			background:rgba(0,0,0,0.02);
+			background:rgba(0,0,0,0.03);
 		    }
 
 		    .tbody .row:nth-of-type(even){
@@ -55,16 +55,14 @@
 		    .cell{
 			display:table-cell;
 			vertical-align:middle;
-			width:0px;
-			min-width:15%;
-			max-width:15%;
+			width:18%;
 			word-wrap:break-word;
 			box-sizing:border-box;
 			padding:10px;
 		    }
 
 		    .cell:nth-of-type(3){
-			width:40%;
+			width:28%;
 		    }
 			
 			.forceWrap{
@@ -152,7 +150,7 @@
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["siteName"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["description"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["plantCount"] + " Survey Plants</div></div>";
-                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><a href=\"mailto:" + publicSites[i]["creatorEmail"] + "\" target=\"_top\">" + publicSites[i]["creatorEmail"] + "</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><a class=\"highlighted\" href=\"mailto:" + publicSites[i]["creatorEmail"] + "\" target=\"_top\">" + publicSites[i]["creatorEmail"] + "</div></div>";
                 					htmlToAdd += "</div>";
               					}
 						htmlToAdd += "</div>";
