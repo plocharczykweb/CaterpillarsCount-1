@@ -17,11 +17,12 @@ class Site
 	private $location;
 	private $saltedPasswordHash;			//STRING			salted hash of password
 	private $salt;							//STRING
+	private $openToPublic;
 	
 	private $deleted;
 
 //FACTORY
-	public static function create($creator, $name, $description, $latitude, $longitude, $zoom, $location, $password) {
+	public static function create($creator, $name, $description, $latitude, $longitude, $zoom, $location, $password, $openToPublic) {
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
@@ -36,6 +37,7 @@ class Site
 		$location = self::validLocation($dbconn, $location);
 		$isWater = self::validLandPoint($dbconn, $latitude, $longitude, $zoom);
 		$password = self::validPassword($dbconn, $password);
+		$openToPublic = filter_var($openToPublic, FILTER_VALIDATE_BOOLEAN);
 		
 		$failures = "";
 		
@@ -76,13 +78,13 @@ class Site
 		$salt = mysqli_real_escape_string($dbconn, hash("sha512", rand() . rand() . rand()));
 		$saltedPasswordHash = mysqli_real_escape_string($dbconn, hash("sha512", $salt . $password));
 		
-		mysqli_query($dbconn, "INSERT INTO Site (`UserFKOfCreator`, `Name`, `Description`, `Latitude`, `Longitude`, `Location`, `Salt`, `SaltedPasswordHash`) VALUES ('" . $creator->getID() . "', '$name', '$description', '$latitude', '$longitude', '$location', '$salt', '$saltedPasswordHash')");
+		mysqli_query($dbconn, "INSERT INTO Site (`UserFKOfCreator`, `Name`, `Description`, `Latitude`, `Longitude`, `Location`, `Salt`, `SaltedPasswordHash`, `OpenToPublic`) VALUES ('" . $creator->getID() . "', '$name', '$description', '$latitude', '$longitude', '$location', '$salt', '$saltedPasswordHash', '$openToPublic')");
 		$id = intval(mysqli_insert_id($dbconn));
 		mysqli_close($dbconn);
 		
-		return new Site($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash);
+		return new Site($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash, $openToPublic);
 	}
-	private function __construct($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash) {
+	private function __construct($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash, $openToPublic) {
 		$this->id = intval($id);
 		$this->creator = $creator;
 		$this->name = $name;
@@ -92,6 +94,7 @@ class Site
 		$this->longitude = $longitude;
 		$this->salt = $salt;
 		$this->saltedPasswordHash = $saltedPasswordHash;
+		$this->openToPublic = $openToPublic;
 		
 		$this->deleted = false;
 	}
@@ -117,8 +120,9 @@ class Site
 		$location = $siteRow["Location"];
 		$salt = $siteRow["Salt"];
 		$saltedPasswordHash = $siteRow["SaltedPasswordHash"];
+		$openToPublic = $siteRow["OpenToPublic"];
 		
-		return new Site($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash);
+		return new Site($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash, $openToPublic);
 	}
 	
 	public static function findByName($name) {
@@ -150,7 +154,8 @@ class Site
 			$location = $siteRow["Location"];
 			$salt = $siteRow["Salt"];
 			$saltedPasswordHash = $siteRow["SaltedPasswordHash"];
-			$site = new Site($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash);
+			$openToPublic = $siteRow["OpenToPublic"];
+			$site = new Site($id, $creator, $name, $description, $latitude, $longitude, $location, $salt, $saltedPasswordHash, $openToPublic);
 			
 			array_push($sitesArray, $site);
 		}
@@ -217,6 +222,11 @@ class Site
 			return $this->saltedPasswordHash;
 		}
 		return false;
+	}
+	
+	public function getOpenToPublic{
+		if($this->deleted){return null;}
+		return filter_var($this->openToPublic, FILTER_VALIDATE_BOOLEAN);
 	}
 	
 	public function getObservationMethodPreset($user){
