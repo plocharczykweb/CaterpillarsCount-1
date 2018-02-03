@@ -66,6 +66,11 @@
 		    .cell:nth-of-type(3){
 			width:40%;
 		    }
+			
+			.forceWrap{
+				width:0px;
+				min-width:100%;
+			}
 
 		    @media only screen and (max-width: 900px) {
 			.thead{
@@ -83,7 +88,7 @@
 			    font-size:18px;
 
 			}
-			.cell:nth-of-type(1)::after { 
+			.cell:nth-of-type(1)>.forceWrap::after { 
 					content: ")";
 				}
 			.cell:nth-of-type(3){
@@ -97,19 +102,18 @@
 			    text-align:right;
 			    padding:10px 10px 0px 10px;
 			}
-			.cell:nth-of-type(4)::before{
+			.cell:nth-of-type(4)>.forceWrap::before{
 				content:"[ ";
 			}
-			.cell:nth-of-type(4)::after{
+			.cell:nth-of-type(4)>.forceWrap::after{
 				content:" ]";
 			}
 			.cell:nth-of-type(5){
 			    font-size:14px;
-			    color:#fed136;
 			    text-align:right;
 			    cursor:pointer;
 			}
-			.cell:nth-of-type(5)::before{
+			.cell:nth-of-type(5)>.forceWrap::before{
 				content:"Contact: ";
 			    color:rgba(0,0,0,0.6);
 			    cursor:default;
@@ -144,11 +148,11 @@
 						htmlToAdd += "<div class=\"tbody\">";
               					for(var i = 0; i < publicSites.length; i++){
                 					htmlToAdd += "<div class=\"row\">";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["location"] + "</div>";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["siteName"] + "</div>";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["description"] + "</div>";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["plantCount"] + " Survey Plants</div>";
-                					htmlToAdd +=  "<div class=\"cell\">" + publicSites[i]["creatorEmail"] + "</div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["location"] + "</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["siteName"] + "</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["description"] + "</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["plantCount"] + " Survey Plants</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><a href=\"mailto:" + publicSites[i]["creatorEmail"] + "\" target=\"_top\">" + publicSites[i]["creatorEmail"] + "</div></div>";
                 					htmlToAdd += "</div>";
               					}
 						htmlToAdd += "</div>";
