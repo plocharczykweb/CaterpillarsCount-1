@@ -12,6 +12,7 @@
 	$zoom = $_GET["zoom"];
 	$plantCount = intval($_GET["plantCount"]);
 	$sitePassword = $_GET["sitePassword"];
+	$public = $_GET["public"];
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
@@ -43,7 +44,7 @@
 		}
 		
 		//create site
-		$site = $user->createSite($siteName, $description, $latitude, $longitude, $zoom, $finalLocation, $sitePassword);
+		$site = $user->createSite($siteName, $description, $latitude, $longitude, $zoom, $finalLocation, $sitePassword, $public);
 		
 		//output errors if there are any
 		if(!is_object($site) || get_class($site) != "Site"){
