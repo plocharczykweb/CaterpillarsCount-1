@@ -28,6 +28,8 @@
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
+		    alert("done");
+		    alert(this.responseText);
               var publicSites = JSON.parse(this.responseText);
               
               publicSites.sort(function(a, b){
@@ -53,7 +55,7 @@
               $("#publicSitesContainer")[0].innerHTML = htmlToAdd;
             }
           };
-          xhttp.open("GET", "php/getPublicSites.php", true);
+          xhttp.open("GET", "../php/getPublicSites.php", true);
           xhttp.send();
         }
         populatePublicSites();
