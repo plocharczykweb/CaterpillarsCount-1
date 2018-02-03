@@ -224,7 +224,7 @@ class Site
 		return false;
 	}
 	
-	public function getOpenToPublic{
+	public function getOpenToPublic(){
 		if($this->deleted){return null;}
 		return filter_var($this->openToPublic, FILTER_VALIDATE_BOOLEAN);
 	}
