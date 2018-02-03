@@ -19,56 +19,9 @@
 		<link href="https://fonts.googleapis.com/css?family=Fanwood+Text:400i" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
+		<link href="../css/checkbox.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
-		<style>
-			.checkbox{
-				border:1px solid #bbb;
-				border-bottom:2px solid #bbb;
-				background-color:#fff;
-				width:20px;
-				height:20px;
-				border-radius:4px;
-				display:inline-block;
-			}
-			
-			.checkbox.checked{
-				background-image:url('../images/checkGrey.png');
-				background-size:80% auto;
-				background-position:center;
-				background-repeat:no-repeat;
-			}
-			
-			#samePass .checkbox{
-				margin-right:5px;
-			}
-			
-			.checkboxTable{
-				color:#bbb;
-				width:100%;
-				cursor:pointer;
-				font-family: Arial, sans-serif;
-				font-size:16px;
-				margin:5px 0px;
-			}
-			
-			.checkboxTable td{
-				padding:5px 2.5px;
-				text-align:left;
-			}
-			
-			.checkboxTable td img{
-				height:20px;
-				opacity:.2;
-			}
-			
-			.checkboxTable  td:nth-of-type(1){
-				width:25px;
-			}
-			
-			.checkboxTable  td:nth-of-type(3){
-				text-align:right;
-			}
-		</style>
+		<script src="../js/checkbox.js"></script>
 		<script>
 			var loggedInPage = "";
 			$(document).ready(function(){
@@ -79,27 +32,6 @@
 					$(".link").eq(0).find("a").eq(0)[0].href = ("../signIn" + loggedInPage);
 				}
 			});
-			
-			function toggleCheckbox(checkbox){
-				if(checkboxIsChecked(checkbox)){
-					uncheckCheckbox(checkbox);
-				}
-				else{
-					checkCheckbox(checkbox);
-				}
-			}
-			
-			function checkCheckbox(checkbox){
-				$(checkbox)[0].className = $(checkbox)[0].className + " checked";
-			}
-			
-			function uncheckCheckbox(checkbox){
-				$(checkbox)[0].className = $(checkbox)[0].className.replace("checked", "").trim();
-			}
-			
-			function checkboxIsChecked(checkbox){
-				return ($(checkbox)[0].className.indexOf("checked") > -1);
-			}
 			
 			var signingUp = false;
 			function signUp(){
