@@ -269,13 +269,14 @@ class Survey
 	}
 	
 	public static function validTime($dbconn, $time){
-		if(strlen($time) == 5){
+		if(strlen($time) == 8){
 			$hours = intval(substr($time, 0, 2));
 			$minutes = intval(substr($time, 3, 2));
-			if($hours >= 0 && $hours <=23 && $minutes >=0 && $minutes <= 59){
+			$seconds = intval(substr($time, 6, 2));
+			if($hours >= 0 && $hours <=23 && $minutes >=0 && $minutes <= 59 && $seconds == 0){
 				if($hours < 10){$hours = "0" . $hours;}
 				if($minutes < 10){$minutes = "0" . $minutes;}
-				return ((string)$hours) . ":" . ((string)$minutes);
+				return ((string)$hours) . ":" . ((string)$minutes) . ":00";
 			}
 		}
 		return false;
