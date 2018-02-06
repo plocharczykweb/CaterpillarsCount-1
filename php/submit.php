@@ -9,6 +9,8 @@
 	$salt = $_POST["salt"];
 	$plantCode = $_POST["plantCode"];
 	$sitePassword = $_POST["sitePassword"];
+	$date = $_POST["date"];
+	$time = $_POST["time"];
 	$observationMethod = $_POST["observationMethod"];
 	$siteNotes = $_POST["siteNotes"];			//String
 	$wetLeaves = $_POST["wetLeaves"];			//"true" or "false"
@@ -71,7 +73,7 @@
 		if($site->validateUser($user, $sitePassword)){
 			$user->setObservationMethodPreset($site, $observationMethod);
 			//submit data to database
-			$survey = Survey::create($user, $plant, $observationMethod, $siteNotes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+			$survey = Survey::create($user, $plant, $date, $time, $observationMethod, $siteNotes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 			
 			if(is_object($survey) && get_class($survey) == "Survey"){
 				//$arthropodData = orderType, orderLength, orderQuantity, orderNotes, hairy, leafRoll, silkTent, fileInput
