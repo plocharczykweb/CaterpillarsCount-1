@@ -260,10 +260,15 @@ class Survey
 	}
 	
 	public static function validUTCDate($dbconn, $utcDate){
-		$format = 'Y-m-d';
-    		$d = DateTime::createFromFormat($format, $utcDate);
-    		if($d && $d->format($format) == $utcDate){
-			return $utcDate;
+		if(strlen($utcDate) == 10){
+			$year = intval(substr($utcDate, 0, 4));
+			$month = intval(substr($utcDate, 5, 2));
+			$day = intval(substr($utcDate, 8, 2));
+			if($year >= 1980 && $year =< 2200 && checkdate($month, $day, $year)){
+				if($month < 10){$month = "0" . $month;}
+				if($day < 10){$day = "0" . $day;}
+				return $year . "-" . $month . "-" . $day;
+			}
 		}
 		return false;
 	}
