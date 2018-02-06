@@ -11,6 +11,8 @@ class Survey
 	private $id;							//INT
 	private $observer;
 	private $plant;
+	private $date;
+	private $time;
 	private $observationMethod;
 	private $notes;
 	private $wetLeaves;
@@ -23,7 +25,7 @@ class Survey
 	private $deleted;
 
 //FACTORY
-	public static function create($observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
+	public static function create($observer, $plant, $date, $time, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
@@ -32,6 +34,8 @@ class Survey
 		
 		$observer = self::validObserver($dbconn, $observer, $plant);
 		$plant = self::validPlant($dbconn, $plant);
+		$date = self::validDate($dbconn, $date);
+		$time = self::validTime($dbconn, $time);
 		$observationMethod = self::validObservationMethod($dbconn, $observationMethod);
 		$notes = self::validNotes($dbconn, $notes);
 		$wetLeaves = filter_var($wetLeaves, FILTER_VALIDATE_BOOLEAN);
@@ -49,6 +53,12 @@ class Survey
 		}
 		else if($observer === false){
 			$failures .= "You have not been authenticated for this site. ";
+		}
+		if($date === false){
+			$failures .= "Invalid date of survey. ";
+		}
+		if($time === false){
+			$failures .= "Invalid time of survey. ";
 		}
 		if($observationMethod === false){
 			$failures .= "Select an observation method. ";
@@ -73,16 +83,18 @@ class Survey
 			return $failures;
 		}
 		
-		mysqli_query($dbconn, "INSERT INTO Survey (`UserFKOfObserver`, `PlantFK`, `ObservationMethod`, `Notes`, `WetLeaves`, `PlantSpecies`, `NumberOfLeaves`, `AverageLeafLength`, `HerbivoryScore`, `SubmittedThroughApp`) VALUES ('" . $observer->getID() . "', '" . $plant->getID() . "', '$observationMethod', '$notes', '$wetLeaves', '$plantSpecies', '$numberOfLeaves', '$averageLeafLength', '$herbivoryScore', '$submittedThroughApp')");
+		mysqli_query($dbconn, "INSERT INTO Survey (`UserFKOfObserver`, `PlantFK`, `Date`, `Time`, `ObservationMethod`, `Notes`, `WetLeaves`, `PlantSpecies`, `NumberOfLeaves`, `AverageLeafLength`, `HerbivoryScore`, `SubmittedThroughApp`) VALUES ('" . $observer->getID() . "', '" . $plant->getID() . "', '$date', '$time', '$observationMethod', '$notes', '$wetLeaves', '$plantSpecies', '$numberOfLeaves', '$averageLeafLength', '$herbivoryScore', '$submittedThroughApp')");
 		$id = intval(mysqli_insert_id($dbconn));
 		mysqli_close($dbconn);
 		
-		return new Survey($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+		return new Survey($id, $observer, $plant, $date, $time, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
-	private function __construct($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
+	private function __construct($id, $observer, $plant, $date, $time, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
 		$this->id = intval($id);
 		$this->observer = $observer;
 		$this->plant = $plant;
+		$this->date = $date;
+		$this->time = $time;
 		$this->observationMethod = $observationMethod;
 		$this->notes = $notes;
 		$this->wetLeaves = filter_var($wetLeaves, FILTER_VALIDATE_BOOLEAN);
@@ -110,6 +122,8 @@ class Survey
 		
 		$observer = User::findByID($surveyRow["UserFKOfObserver"]);
 		$plant = Plant::findByID($surveyRow["PlantFK"]);
+		$date = $surveyRow["Date"];
+		$time = $surveyRow["Time"];
 		$observationMethod = $surveyRow["ObservationMethod"];
 		$notes = $surveyRow["Notes"];
 		$wetLeaves = $surveyRow["WetLeaves"];
@@ -119,7 +133,7 @@ class Survey
 		$herbivoryScore = $surveyRow["HerbivoryScore"];
 		$submittedThroughApp = $surveyRow["SubmittedThroughApp"];
 		
-		return new Survey($id, $observer, $plant, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+		return new Survey($id, $observer, $plant, $date, $time, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
 
 //GETTERS
@@ -136,6 +150,16 @@ class Survey
 	public function getPlant() {
 		if($this->deleted){return null;}
 		return $this->plant;
+	}
+	
+	public function getDate() {
+		if($this->deleted){return null;}
+		return $this->date;
+	}
+	
+	public function getTime() {
+		if($this->deleted){return null;}
+		return $this->time;
 	}
 	
 	public function getObservationMethod() {
@@ -233,6 +257,28 @@ class Survey
 			return false;
 		}
 		return $plant;
+	}
+	
+	public static function validDate($dbconn, $date){
+		$format = 'Y-m-d';
+    		$d = DateTime::createFromFormat($format, $date);
+    		if($d && $d->format($format) == $date){
+			return $date;
+		}
+		return false;
+	}
+	
+	public static function validTime($dbconn, $time){
+		if(strlen($time) == 5){
+			$hours = intval(substr($time, 0, 2));
+			$minutes = intval(substr($time, 3, 2));
+			if($hours >= 0 && $hours <=23 && $minutes >=0 && $minutes <= 59){
+				if($hours < 10){$hours = "0" . $hours;}
+				if($minutes < 10){$minutes = "0" . $minutes;}
+				return ((string)$hours) . ":" . ((string)$minutes);
+			}
+		}
+		return false;
 	}
 	
 	public static function validObservationMethod($dbconn, $observationMethod){
