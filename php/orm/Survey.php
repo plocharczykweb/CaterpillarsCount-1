@@ -11,8 +11,8 @@ class Survey
 	private $id;							//INT
 	private $observer;
 	private $plant;
-	private $date;
-	private $time;
+	private $utcDate;
+	private $utcTime;
 	private $observationMethod;
 	private $notes;
 	private $wetLeaves;
@@ -25,7 +25,7 @@ class Survey
 	private $deleted;
 
 //FACTORY
-	public static function create($observer, $plant, $date, $time, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
+	public static function create($observer, $plant, $utcDate, $utcTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		if(!$dbconn){
 			return "Cannot connect to server.";
@@ -34,8 +34,8 @@ class Survey
 		
 		$observer = self::validObserver($dbconn, $observer, $plant);
 		$plant = self::validPlant($dbconn, $plant);
-		$date = self::validDate($dbconn, $date);
-		$time = self::validTime($dbconn, $time);
+		$utcDate = self::validUTCDate($dbconn, $utcDate);
+		$utcTime = self::validUTCTime($dbconn, $utcTime);
 		$observationMethod = self::validObservationMethod($dbconn, $observationMethod);
 		$notes = self::validNotes($dbconn, $notes);
 		$wetLeaves = filter_var($wetLeaves, FILTER_VALIDATE_BOOLEAN);
@@ -54,10 +54,10 @@ class Survey
 		else if($observer === false){
 			$failures .= "You have not been authenticated for this site. ";
 		}
-		if($date === false){
+		if($utcDate === false){
 			$failures .= "Invalid date of survey. ";
 		}
-		if($time === false){
+		if($utcTime === false){
 			$failures .= "Invalid time of survey. ";
 		}
 		if($observationMethod === false){
@@ -83,18 +83,18 @@ class Survey
 			return $failures;
 		}
 		
-		mysqli_query($dbconn, "INSERT INTO Survey (`UserFKOfObserver`, `PlantFK`, `Date`, `Time`, `ObservationMethod`, `Notes`, `WetLeaves`, `PlantSpecies`, `NumberOfLeaves`, `AverageLeafLength`, `HerbivoryScore`, `SubmittedThroughApp`) VALUES ('" . $observer->getID() . "', '" . $plant->getID() . "', '$date', '$time', '$observationMethod', '$notes', '$wetLeaves', '$plantSpecies', '$numberOfLeaves', '$averageLeafLength', '$herbivoryScore', '$submittedThroughApp')");
+		mysqli_query($dbconn, "INSERT INTO Survey (`UserFKOfObserver`, `PlantFK`, `UTCDate`, `UTCTime`, `ObservationMethod`, `Notes`, `WetLeaves`, `PlantSpecies`, `NumberOfLeaves`, `AverageLeafLength`, `HerbivoryScore`, `SubmittedThroughApp`) VALUES ('" . $observer->getID() . "', '" . $plant->getID() . "', '$utcDate', '$utcTime', '$observationMethod', '$notes', '$wetLeaves', '$plantSpecies', '$numberOfLeaves', '$averageLeafLength', '$herbivoryScore', '$submittedThroughApp')");
 		$id = intval(mysqli_insert_id($dbconn));
 		mysqli_close($dbconn);
 		
-		return new Survey($id, $observer, $plant, $date, $time, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+		return new Survey($id, $observer, $plant, $utcDate, $utcTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
-	private function __construct($id, $observer, $plant, $date, $time, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
+	private function __construct($id, $observer, $plant, $utcDate, $utcTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
 		$this->id = intval($id);
 		$this->observer = $observer;
 		$this->plant = $plant;
-		$this->date = $date;
-		$this->time = $time;
+		$this->utcDate = $utcDate;
+		$this->utcTime = $utcTime;
 		$this->observationMethod = $observationMethod;
 		$this->notes = $notes;
 		$this->wetLeaves = filter_var($wetLeaves, FILTER_VALIDATE_BOOLEAN);
@@ -122,8 +122,8 @@ class Survey
 		
 		$observer = User::findByID($surveyRow["UserFKOfObserver"]);
 		$plant = Plant::findByID($surveyRow["PlantFK"]);
-		$date = $surveyRow["Date"];
-		$time = $surveyRow["Time"];
+		$utcDate = $surveyRow["UTCDate"];
+		$utcTime = $surveyRow["UTCTime"];
 		$observationMethod = $surveyRow["ObservationMethod"];
 		$notes = $surveyRow["Notes"];
 		$wetLeaves = $surveyRow["WetLeaves"];
@@ -133,7 +133,7 @@ class Survey
 		$herbivoryScore = $surveyRow["HerbivoryScore"];
 		$submittedThroughApp = $surveyRow["SubmittedThroughApp"];
 		
-		return new Survey($id, $observer, $plant, $date, $time, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+		return new Survey($id, $observer, $plant, $utcDate, $utcTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
 
 //GETTERS
@@ -152,14 +152,14 @@ class Survey
 		return $this->plant;
 	}
 	
-	public function getDate() {
+	public function getUTCDate() {
 		if($this->deleted){return null;}
-		return $this->date;
+		return $this->utcDate;
 	}
 	
-	public function getTime() {
+	public function getUTCTime() {
 		if($this->deleted){return null;}
-		return $this->time;
+		return $this->utcTime;
 	}
 	
 	public function getObservationMethod() {
@@ -259,20 +259,20 @@ class Survey
 		return $plant;
 	}
 	
-	public static function validDate($dbconn, $date){
+	public static function validUTCDate($dbconn, $utcDate){
 		$format = 'Y-m-d';
-    		$d = DateTime::createFromFormat($format, $date);
-    		if($d && $d->format($format) == $date){
-			return $date;
+    		$d = DateTime::createFromFormat($format, $utcDate);
+    		if($d && $d->format($format) == $utcDate){
+			return $utcDate;
 		}
 		return false;
 	}
 	
-	public static function validTime($dbconn, $time){
-		if(strlen($time) == 8){
-			$hours = intval(substr($time, 0, 2));
-			$minutes = intval(substr($time, 3, 2));
-			$seconds = intval(substr($time, 6, 2));
+	public static function validUTCTime($dbconn, $utcTime){
+		if(strlen($utcTime) == 8){
+			$hours = intval(substr($utcTime, 0, 2));
+			$minutes = intval(substr($utcTime, 3, 2));
+			$seconds = intval(substr($utcTime, 6, 2));
 			if($hours >= 0 && $hours <=23 && $minutes >=0 && $minutes <= 59 && $seconds == 0){
 				if($hours < 10){$hours = "0" . $hours;}
 				if($minutes < 10){$minutes = "0" . $minutes;}
