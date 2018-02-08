@@ -80,7 +80,7 @@
 		    	.cell:nth-of-type(5){
 				width:13%;
 		    	}
-			
+
 			.forceWrap{
 				width:0px;
 				min-width:100%;
@@ -106,7 +106,7 @@
 				    	width:auto;
 				    	min-width:auto;
 			    	}
-				.cell:nth-of-type(1)>.forceWrap::after { 
+				.cell:nth-of-type(1)>.forceWrap::after {
 					content: ")";
 				}
 			    	.cell:nth-of-type(3), .cell:nth-of-type(4), .cell:nth-of-type(5){
@@ -146,7 +146,7 @@
           			xhttp.onreadystatechange = function() {
             				if (this.readyState == 4 && this.status == 200) {
               					var publicSites = JSON.parse(this.responseText);
-              
+
               					publicSites.sort(function(a, b){
                 					if(a["location"] < b["location"]){return -1;}
                 					if(a["location"] > b["location"]){return 1;}
@@ -154,7 +154,7 @@
                 					if(a["siteName"] > b["siteName"]){return 1;}
                 					return 0;
               					});
-              
+
               					var htmlToAdd = "<div class=\"table\">";
 						htmlToAdd += "<div class=\"thead\">";
 						htmlToAdd += 	"<div class=\"row\">";
@@ -177,18 +177,18 @@
               					}
 						htmlToAdd += "</div>";
               					htmlToAdd += "</div>";
-              					
+
 						if(publicSites.length == 0){
 							htmlToAdd = "<div class=\"tagline\">There are no public sites yet.</div>";
 						}
-						
+
               					$("#publicSitesContainer")[0].innerHTML = htmlToAdd;
             				}
           			};
           			xhttp.open("GET", "../php/getPublicSites.php", true);
           			xhttp.send();
         		}
-			
+
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				populatePublicSites();
@@ -258,7 +258,7 @@
 		</header>
 		<main>
 			<div class="panel">
-				<h2>Public Sites</h2>
+				<h2>Participating Sites</h2>
 				<div class="content">
 					<div id="publicSitesContainer"></div>
 					<div><button onclick="window.location = '../createNewSite';">Create your own site!</button></div>
@@ -267,11 +267,11 @@
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
-			
+
 			<div><img src="../images/unc.png"/></div><div>
 				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
 			</div>
-			
+
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
 		</footer>
 	</body>
