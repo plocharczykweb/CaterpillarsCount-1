@@ -44,7 +44,7 @@
 		}
 		
 		//create site
-		$site = $user->createSite($siteName, $description, $latitude, $longitude, $zoom, $finalLocation, $sitePassword, $public);
+		$site = $user->createSite($siteName, $description, $latitude, $longitude, $zoom, $finalRegion, $sitePassword, $public);
 		
 		//output errors if there are any
 		if(!is_object($site) || get_class($site) != "Site"){
