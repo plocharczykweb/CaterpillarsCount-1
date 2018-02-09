@@ -122,12 +122,12 @@
 				    cursor:pointer;
 				}
 				.cell:nth-of-type(4)>.forceWrap::before{
-					content:"Directions: ";
+					content:"Contact: ";
 			    		color:rgba(0,0,0,0.6);
 			    		cursor:default;
 				}
 				.cell:nth-of-type(5)>.forceWrap::before{
-					content:"Contact: ";
+					content:"Directions: ";
 			    		color:rgba(0,0,0,0.6);
 			    		cursor:default;
 				}
@@ -168,7 +168,7 @@
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["region"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["siteName"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["description"] + "</div></div>";
-                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><span class=\"highlighted pointer\" onclick=\"email(['" + publicSites[i]["creatorEmailParts"][0] + "', '" + publicSites[i]["creatorEmailParts"][1] + "']);\">Email us!</span></div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><span class=\"highlighted pointer underline\" onclick=\"email(['" + publicSites[i]["creatorEmailParts"][0] + "', '" + publicSites[i]["creatorEmailParts"][1] + "']);\">Email us!</span></div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><a class=\"highlighted\" href=\"https://www.google.com/maps/search/?api=1&query=" + publicSites[i]["latitude"] + "," + publicSites[i]["longitude"] + "\" target=\"_top\">Map us!</a></div></div>";
                 					htmlToAdd += "</div>";
               					}
@@ -176,7 +176,8 @@
               					htmlToAdd += "</div>";
 
 						if(publicSites.length == 0){
-							htmlToAdd = "<div class=\"tagline\">There are no public sites yet.</div>";
+							htmlToAdd = "";
+							$(".tagline").eq(0)[0].innerHTML += " No sites have opted in yet.";
 						}
 
               					$("#publicSitesContainer")[0].innerHTML = htmlToAdd;
@@ -255,7 +256,8 @@
 		</header>
 		<main>
 			<div class="panel">
-				<h2>Participating Sites</h2>
+				<h2>Public Sites</h2>
+				<div class="tagline">Only participating sites that have explicitly opted in are shown here.</div>
 				<div class="content">
 					<div id="publicSitesContainer"></div>
 					<div><button onclick="window.location = '../createNewSite';">Create your own site!</button></div>
