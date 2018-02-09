@@ -148,8 +148,8 @@
               					var publicSites = JSON.parse(this.responseText);
 
               					publicSites.sort(function(a, b){
-                					if(a["location"] < b["location"]){return -1;}
-                					if(a["location"] > b["location"]){return 1;}
+                					if(a["region"] < b["region"]){return -1;}
+                					if(a["region"] > b["region"]){return 1;}
                 					if(a["siteName"] < b["siteName"]){return -1;}
                 					if(a["siteName"] > b["siteName"]){return 1;}
                 					return 0;
@@ -158,7 +158,7 @@
               					var htmlToAdd = "<div class=\"table\">";
 						htmlToAdd += "<div class=\"thead\">";
 						htmlToAdd += 	"<div class=\"row\">";
-						htmlToAdd += 	"<div class=\"cell\">Location</div>";
+						htmlToAdd += 	"<div class=\"cell\">Region</div>";
 						htmlToAdd += 	"<div class=\"cell\">Name</div>";
 						htmlToAdd += 	"<div class=\"cell\">Description</div>";
 						htmlToAdd += 	"<div class=\"cell\">Size</div>";
@@ -168,7 +168,7 @@
 						htmlToAdd += "<div class=\"tbody\">";
               					for(var i = 0; i < publicSites.length; i++){
                 					htmlToAdd += "<div class=\"row\">";
-                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["location"] + "</div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["region"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["siteName"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["description"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["plantCount"] + " Plants</div></div>";
