@@ -33,13 +33,41 @@
 				}
 			});
 			
+			function validEmail(email){
+				var atIndex = email.lastIndexOf("@");
+				if(atIndex > 0){
+					var afterAt = email.substring(atIndex + 1);
+					var dotIndex = afterAt.indexOf(".");
+					return (dotIndex > 0 && afterAt.substring(dotIndex + 1).length > 0);
+				}
+				return false;
+			}
+			
 			var signingUp = false;
 			function signUp(){
 				if(!signingUp){
+					var errors = "";
+					if($("#signUpFirstName")[0].value.trim() == ""){
+					   	errors += "Invalid first name. ";
+					}
+					if($("#signUpLastName")[0].value.trim() == ""){
+					   	errors += "Invalid last name. ";
+					}
+					if(!validEmail($("#signUpEmail")[0].value)){
+					   	errors += "Invalid email. ";
+					}
+					if($("#signUpPassword")[0].value.length < 8 || $("#signUpPassword")[0].value.length != $("#signUpPassword")[0].value.replace(/ /g, "").length){
+						errors += "Password must be at least 8 characters with no spaces. ";
+					}
 					if($("#signUpPassword")[0].value != $("#signUpConfirmPassword")[0].value){
-						queueNotice("error", "Passwords must match.");
+						errors += "Passwords must match.";
+					}
+					
+					if(errors.length > 0){
+						queueNotice("error", errors);
 						return false;
 					}
+					
 					if(!checkboxIsChecked($("#13Checkbox"))){
 						queueNotice("error", "You did not verify that you are at least 13 years of age. If you are under the age of 13, you must have your parent, guardian or teacher register for you.");
 						return false;
@@ -54,9 +82,12 @@
 							setLoadingButton($("#signUpButton")[0], "Sign up!", false);
 							if(this.responseText == "success"){
 								queueNotice("confirmation", "Check your email to verify your account. Check spam if needed!");
+								$("#signUpFirstName")[0].value = "";
+								$("#signUpLastName")[0].value = "";
 								$("#signUpEmail")[0].value = "";
 								$("#signUpPassword")[0].value = "";
 								$("#signUpConfirmPassword")[0].value = "";
+								uncheckCheckbox($("#13Checkbox"));
 								
 								$("#noticeInteractionBlock").click(function(){
 									window.location = ("../signIn" + loggedInPage);
@@ -70,7 +101,7 @@
 							}
 						}
 					};
-					xhttp.open("GET", "../php/signUp.php?email=" + $("#signUpEmail")[0].value + "&password=" + $("#signUpPassword")[0].value, true);
+					xhttp.open("GET", "../php/signUp.php?firstName=" + $("#signUpFirstName")[0].value + "&lastName=" + $("#signUpLastName")[0].value + "&email=" + $("#signUpEmail")[0].value + "&password=" + $("#signUpPassword")[0].value, true);
 					xhttp.send();
 				}
 			}
@@ -154,6 +185,8 @@
 			<div class="panel">
 				<h2>Create New Account</h2>
 				<div id="signUp">
+					<input type="text" placeholder="first name" id="signUpFirstName"/>
+					<input type="text" placeholder="last name" id="signUpLastName"/>
 					<input type="text" placeholder="email" id="signUpEmail" autocapitalize="off"/>
 					<input type="password" placeholder="password" id="signUpPassword"/>
 					<input type="password" placeholder="confirm password" id="signUpConfirmPassword"/>
