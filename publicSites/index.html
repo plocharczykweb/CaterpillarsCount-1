@@ -74,11 +74,11 @@
 		    	}
 
 		    	.cell:nth-of-type(4){
-				width:15%;
+				width:14%;
 		    	}
 
 		    	.cell:nth-of-type(5){
-				width:13%;
+				width:14%;
 		    	}
 
 			.forceWrap{
@@ -116,22 +116,15 @@
 				    font-size:14px;
 				    color:rgba(0,0,0,0.6);
 				}
-				.cell:nth-of-type(4){
-				    font-size:10px;
-				    color:rgba(0,0,0,0.6);
-				    text-align:right;
-				    padding:10px 10px 0px 10px;
-				}
-				.cell:nth-of-type(4)>.forceWrap::before{
-					content:"[ ";
-				}
-				.cell:nth-of-type(4)>.forceWrap::after{
-					content:" ]";
-				}
-				.cell:nth-of-type(5){
+				.cell:nth-of-type(4), .cell:nth-of-type(5){
 				    font-size:14px;
 				    text-align:right;
 				    cursor:pointer;
+				}
+				.cell:nth-of-type(4)>.forceWrap::before{
+					content:"Directions: ";
+			    		color:rgba(0,0,0,0.6);
+			    		cursor:default;
 				}
 				.cell:nth-of-type(5)>.forceWrap::before{
 					content:"Contact: ";
@@ -141,6 +134,10 @@
 		    	}
 		</style>
 		<script>
+			function email(creatorEmailParts){
+				window.location = "mailto:" + creatorEmailParts.join('@');
+			}
+			
 			function populatePublicSites(){
           			var xhttp = new XMLHttpRequest();
           			xhttp.onreadystatechange = function() {
@@ -161,8 +158,8 @@
 						htmlToAdd += 	"<div class=\"cell\">Region</div>";
 						htmlToAdd += 	"<div class=\"cell\">Name</div>";
 						htmlToAdd += 	"<div class=\"cell\">Description</div>";
-						htmlToAdd += 	"<div class=\"cell\">Size</div>";
 						htmlToAdd += 	"<div class=\"cell\">Contact</div>";
+						htmlToAdd += 	"<div class=\"cell\">Directions</div>";
 						htmlToAdd += 	"</div>";
 						htmlToAdd += "</div>";
 						htmlToAdd += "<div class=\"tbody\">";
@@ -171,8 +168,8 @@
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["region"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["siteName"] + "</div></div>";
                 					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["description"] + "</div></div>";
-                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\">" + publicSites[i]["plantCount"] + " Plants</div></div>";
-                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><a class=\"highlighted\" href=\"mailto:" + publicSites[i]["creatorEmail"] + "\" target=\"_top\">Email us!</a></div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><span class=\"highlighted pointer\" onclick=\"email(['" + publicSites[i]["creatorEmailParts"][0] + "', '" + publicSites[i]["creatorEmailParts"][1] + "']);\">Email us!</span></div></div>";
+                					htmlToAdd +=  "<div class=\"cell\"><div class=\"forceWrap\"><a class=\"highlighted\" href=\"https://www.google.com/maps/search/?api=1&query=" + publicSites[i]["latitude"] + "," + publicSites[i]["longitude"] + "\" target=\"_top\">Map us!</a></div></div>";
                 					htmlToAdd += "</div>";
               					}
 						htmlToAdd += "</div>";
