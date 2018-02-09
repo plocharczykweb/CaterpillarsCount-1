@@ -8,7 +8,7 @@
 			"creatorEmail" => $publicSites[$i]->getCreator()->getEmail(),
 			"siteName" => $publicSites[$i]->getName(),
 			"description" => $publicSites[$i]->getDescription(),
-			"location" => $publicSites[$i]->getLocation(),
+			"region" => $publicSites[$i]->getRegion(),
 			"plantCount" => count($publicSites[$i]->getPlants()),
 		);
 	}
