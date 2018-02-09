@@ -21,7 +21,7 @@
 			die("false|The number of plants you will survey must be a multiple of 5. ");
 		}
 		
-		//get location from lat/long
+		//get region from lat/long
 		//Max of 2,500 free requests per day, calculated as the sum of client-side and server-side queries.
 		//Max of 50 requests per second, calculated as the sum of client-side and server-side queries.
 		$KEY = "AIzaSyC66haLntB413i6pkgSCXl3wpbrS4SPEx4";
@@ -38,9 +38,9 @@
 			}
 		}
 		
-		$finalLocation = $country;
+		$finalRegion = $country;
 		if($country == "US" || $country == "CA"){
-			$finalLocation = $region;
+			$finalRegion = $region;
 		}
 		
 		//create site
