@@ -4,8 +4,14 @@
 	$publicSites = Site::findAllPublicSites();
 	$publicSitesArray = array();
 	for($i = 0; $i < count($publicSites); $i++){
+		//send email in parts to avoid spam spiders
+		$email = $publicSites[$i]->getCreator()->getEmail();
+		$atIndex = strrpos($email, "@");
+		$beforeAt = substr($email, 0, $atIndex);
+		$afterAt = substr($email, ($atIndex + 1));
+		
 		$publicSitesArray[$i] = array(
-			"creatorEmail" => $publicSites[$i]->getCreator()->getEmail(),
+			"creatorEmailParts" => array($beforeAt, $afterAt),
 			"siteName" => $publicSites[$i]->getName(),
 			"description" => $publicSites[$i]->getDescription(),
 			"region" => $publicSites[$i]->getRegion(),
