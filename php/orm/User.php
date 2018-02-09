@@ -31,12 +31,20 @@ class User
 		
 		$failures = "";
 		
-		if($firstName === false){
-			$failures .= "Invalid first name. ";
+		if($firstName === false && strlen($firstName > 0)){
+			$failures .= "Enter a shorter version of your first name. ";
 		}
-		if($lastName === false){
-			$failures .= "Invalid last name. ";
+		else if($firstName === false){
+			$failures .= "Enter your first name. ";
 		}
+		
+		if($lastName === false && strlen($lastName > 0)){
+			$failures .= "Enter a shorter version of your last name. ";
+		}
+		else if($lastName === false){
+			$failures .= "Enter your last name. ";
+		}
+		
 		if($desiredEmail === false){
 			if(filter_var(filter_var($email, FILTER_SANITIZE_EMAIL), FILTER_VALIDATE_EMAIL) === false){
 				$failures .= "Invalid email. ";
@@ -303,19 +311,19 @@ class User
 
 //validity ensurance
 	public static function validFirstName($dbconn, $firstName){
-		$firstName = trim($firstName);
+		$firstName = mysqli_real_escape_string($dbconn, trim($firstName));
 		if(strlen($firstName) == 0 || strlen($firstName) > 255){
 			return false;
 		}
-		return mysqli_real_escape_string($dbconn, $firstName);
+		return $firstName;
 	}
 	
 	public static function validLastName($dbconn, $lastName){
-		$lastName = trim($lastName);
+		$lastName = mysqli_real_escape_string($dbconn, trim($lastName));
 		if(strlen($lastName) == 0 || strlen($lastName) > 255){
 			return false;
 		}
-		return mysqli_real_escape_string($dbconn, $lastName);
+		return $lastName;
 	}
 	
 	public static function validEmail($dbconn, $email){
