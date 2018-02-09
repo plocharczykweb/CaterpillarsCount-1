@@ -9,7 +9,8 @@
 			"siteName" => $publicSites[$i]->getName(),
 			"description" => $publicSites[$i]->getDescription(),
 			"region" => $publicSites[$i]->getRegion(),
-			"plantCount" => count($publicSites[$i]->getPlants()),
+			"latitude" => $publicSites[$i]->getLatitude(),
+			"longitude" => $publicSites[$i]->getLongitude(),
 		);
 	}
 	die(json_encode($publicSitesArray));
