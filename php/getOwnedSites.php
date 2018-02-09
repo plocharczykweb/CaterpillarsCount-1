@@ -18,7 +18,7 @@
 				"description" => $sites[$i]->getDescription(),
 				"latitude" => $sites[$i]->getLatitude(),
 				"longitude" => $sites[$i]->getLongitude(),
-				"location" => $sites[$i]->getLocation(),
+				"region" => $sites[$i]->getRegion(),
 				"plantCount" => count($sites[$i]->getPlants()),
 				"id" => $sites[$i]->getID(),
 			);
