@@ -311,7 +311,7 @@ class User
 
 //validity ensurance
 	public static function validFirstName($dbconn, $firstName){
-		$firstName = mysqli_real_escape_string($dbconn, trim($firstName));
+		$firstName = mysqli_real_escape_string($dbconn, ucfirst(trim($firstName)));
 		if(strlen($firstName) == 0 || strlen($firstName) > 255){
 			return false;
 		}
@@ -319,7 +319,7 @@ class User
 	}
 	
 	public static function validLastName($dbconn, $lastName){
-		$lastName = mysqli_real_escape_string($dbconn, trim($lastName));
+		$lastName = mysqli_real_escape_string($dbconn, ucfirst(trim($lastName)));
 		if(strlen($lastName) == 0 || strlen($lastName) > 255){
 			return false;
 		}
