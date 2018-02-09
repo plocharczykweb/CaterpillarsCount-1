@@ -101,7 +101,7 @@
 							}
 						}
 					};
-					xhttp.open("GET", "../php/signUp.php?firstName=" + $("#signUpFirstName")[0].value + "&lastName=" + $("#signUpLastName")[0].value + "&email=" + $("#signUpEmail")[0].value + "&password=" + $("#signUpPassword")[0].value, true);
+					xhttp.open("GET", "../php/signUp.php?firstName=" + $("#signUpFirstName")[0].value.trim() + "&lastName=" + $("#signUpLastName")[0].value.trim() + "&email=" + $("#signUpEmail")[0].value + "&password=" + $("#signUpPassword")[0].value, true);
 					xhttp.send();
 				}
 			}
