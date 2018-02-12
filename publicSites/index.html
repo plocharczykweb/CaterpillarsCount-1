@@ -177,7 +177,7 @@
 
 						if(publicSites.length == 0){
 							htmlToAdd = "";
-							$(".tagline").eq(0)[0].innerHTML += " No sites have opted in yet.";
+							$(".tagline").eq(0)[0].innerHTML = "Only participating sites that have explicitly opted in are shown here. No sites have opted in yet.";
 						}
 						else{
 							$(".tagline").eq(0)[0].style.display = "none";
@@ -260,7 +260,7 @@
 		<main>
 			<div class="panel">
 				<h2>Public Sites</h2>
-				<div class="tagline">Only participating sites that have explicitly opted in are shown here.</div>
+				<div class="tagline">Public sites are loading. Please wait a moment.</div>
 				<div class="content">
 					<div id="publicSitesContainer"></div>
 					<div><button onclick="window.location = '../createNewSite';">Create your own site!</button></div>
