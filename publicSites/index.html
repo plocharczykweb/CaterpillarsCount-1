@@ -179,6 +179,9 @@
 							htmlToAdd = "";
 							$(".tagline").eq(0)[0].innerHTML += " No sites have opted in yet.";
 						}
+						else{
+							$(".tagline").eq(0)[0].style.display = "none";
+						}
 
               					$("#publicSitesContainer")[0].innerHTML = htmlToAdd;
             				}
