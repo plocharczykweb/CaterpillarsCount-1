@@ -129,6 +129,8 @@
 							var error = this.responseText.replace("false|", "");
 							
 							$(".tagline").eq(0)[0].innerHTML = "Could not load.";
+							$("#error")[0].onclick = function(){window.location = "../manageMySites";}
+							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";}
 							queueNotice("error", error);
 							if(error == "Your log in dissolved. Maybe you logged in on another device."){
 								logOut();
