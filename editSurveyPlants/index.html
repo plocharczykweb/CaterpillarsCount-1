@@ -52,6 +52,11 @@
 				font-family: 'Roboto Slab', serif;
 			}
 			
+			.noticeImage{
+				height:20px;
+				float:right;
+			}
+			
 			.plant{
 				border-left:5px solid transparent;
 				padding:20px;
@@ -156,15 +161,23 @@
 						return 0;
 					});
 					
+					var noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\" style=\"display:none;\"/>";
+					for(var j = 0; j < plants.length; j++){
+						if(plants[j][2] == "N/A"){
+							noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\"/>";
+							break;
+						}
+					}
+					
 					htmlToAdd += "<div class=\"circle\">";
-					htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circles[i][0] + "</div>";
+					htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circles[i][0] + noticeImage + "</div>";
 					htmlToAdd += 	"<div class=\"plants\">";
 					for(var j = 0; j < plants.length; j++){
 						htmlToAdd += "<div class=\"plant\">";
 						htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
 						htmlToAdd += 	"<div class=\"editableFields\">";
 						htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
-						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"/>";
+						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\" oninput=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode)\"/>";
 						htmlToAdd += 	"</div>";
 						htmlToAdd += "</div>";
 					}
@@ -192,6 +205,24 @@
 				}
 				else{
 					$(plants).stop().animate({maxHeight:"0px"});
+				}
+			}
+			
+			function setNoticeImage(circle){
+				var inputs = $(circle).find("input");
+				
+				var showNotice = false;
+				for(var i = 0; i < inputs.length; i++){
+					if(inputs.eq(i)[0].value == "N/A"){
+						showNotice = true;
+					}
+				}
+				
+				if(showNotice){
+					$(circle).find(".noticeImage").eq(0)[0].style.display = "block";
+				}
+				else{
+					$(circle).find(".noticeImage").eq(0)[0].style.display = "none";
 				}
 			}
 		</script>
