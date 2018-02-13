@@ -20,10 +20,169 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
+		<style>
+			.circle{
+				margin:20px 0px;
+				border-radius:4px;
+				overflow:hidden;
+				border:2px solid #eee;
+			}
+			
+			.circleTitle{
+				font-size:20px;
+				background:#f7f7f7;
+				color:#aaa;
+				padding:20px;
+				cursor:pointer;
+				
+			}
+			.plants{
+				font-size:14px;
+				background:#f7f7f7;
+				max-height:0px;
+				overflow:hidden;
+				border-right:2px solid #eee;
+				border-bottom:2px solid #eee;
+			}
+			.circleTitle, .plants{
+				font-family: 'Roboto Slab', serif;
+			}
+			
+			.plant{
+				border-left:5px solid transparent;
+				padding:20px;
+			}
+				
+			.plant:nth-of-type(1){
+				border-color:#ff7575;
+			}
+			.plant:nth-of-type(1) .code{
+				color:#ff7575;
+			}
+			
+			.plant:nth-of-type(2){
+				border-color:#75b3ff;
+			}
+			.plant:nth-of-type(2) .code{
+				color:#75b3ff;
+			}
+			
+			.plant:nth-of-type(3){
+				border-color:#5abd61;
+			}
+			.plant:nth-of-type(3) .code{
+				color:#5abd61;
+			}
+			
+			.plant:nth-of-type(4){
+				border-color:#ffc875;
+			}
+			.plant:nth-of-type(4) .code{
+				color:#ffc875;
+			}
+			
+			.plant:nth-of-type(5){
+				border-color:#9175ff;
+			}
+			.plant:nth-of-type(5) .code{
+				color:#9175ff;
+			}
+			.code{
+				font-weight:bold;
+				font-size:120%;
+			}
+			
+			.code img{
+				height:20px;
+				margin-right:7px;
+				margin-bottom:-3px;
+			}
+			
+			.editableFieldTitle{
+				color:#aaa;
+				margin-top:10px;
+			}
+		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				loadCircles();
 			});
+			
+			function loadCircles(){
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if(this.responseText.indexOf("true|") == 0){
+							var data = JSON.parse(this.responseText);
+							var siteName = data[0];
+							var circles = data[1];
+							
+							$(".tagline").eq(0)[0].innerHTML = "in " + siteName;
+							populateCircles(circles);
+						}
+						else{
+							var error = this.responseText.replace("false|", "");
+							queueNotice("error", error);
+							if(error == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "../php/getPlantsBySite.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.send();
+			}
+			
+			function populateCircles(circles){
+				//[[circle(int), [[orientation, code, plantSpecies]]]]
+				//sort circles
+				circles = circles.sort(function(a,b){return a[0] - b[0];});
+				
+				var htmlToAdd = "";
+				for(var i = 0; i < circles.length; i++){
+					//sort plants
+					var plants = circles[i][1].sort(function(a,b){
+						if(a[0] < b[0]){return -1;}
+						if(a[0] > b[0]){return 1;}
+						return 0;
+					});
+					
+					htmlToAdd += "<div class=\"circle\">";
+					htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circles[i][0] + "</div>";
+					htmlToAdd += 	"<div class=\"plants\">";
+					for(var j = 0; j < plants.length; j++){
+						htmlToAdd += "<div class=\"plant\">";
+						htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
+						htmlToAdd += 	"<div class=\"editableFields\">";
+						htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
+						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"/>";
+						htmlToAdd += 	"</div>";
+						htmlToAdd += "</div>";
+					}
+					htmlToAdd += 	"</div>";
+					htmlToAdd += "</div>";
+				}
+				$("#circles")[0].innerHTML = htmlToAdd;
+			}
+			
+			function togglePlants(circle){
+				var plants = $(circle).find(".plants").eq(0)[0];
+				
+				//reset all
+				$(".circle").css({border:"2px solid #eee"});
+				$(".plants").stop().animate({maxHeight:"0px"});
+				$(".circleTitle").stop().animate({backgroundColor:"#f7f7f7", color:"#aaa"});
+				
+				if(plants.style.maxHeight == "" || plants.style.maxHeight == "0px"){
+					$(circle).css({border:"0px none transparent"});
+					$(plants).stop().animate({maxHeight:"850px"});
+					$(circle).find(".circleTitle").eq(0).stop().animate({backgroundColor:"#444", color:"#fff"});
+				}
+				else{
+					$(plants).stop().animate({maxHeight:"0px"});
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -90,9 +249,12 @@
 		<main>
 			<div class="panel">
 				<h2>Edit Survey Plants</h2>
-				<div class="tagline">...will be coming soon</div>
-				<div class="underConstructionImage"></div>
+				<div class="tagline">This site's plants are loading. Please wait a moment.</div>
+				<div class="content">
+					<div id="circles"></div>
+					<button>Save All</button>
 				</div>
+			</div>
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
