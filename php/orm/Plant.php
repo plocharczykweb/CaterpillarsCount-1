@@ -121,7 +121,12 @@ class Plant
 		
 		$plantsArray = array();
 		while($plantRow = mysqli_fetch_assoc($query)){
-			$plant = self::findByID($plantRow["ID"]);
+			$id = $plantRow["ID"];
+			$circle = $plantRow["Circle"];
+			$orientation = $plantRow["Orientation"];
+			$code = $plantRow["Code"];
+			$plant = new Plant($id, $site, $circle, $orientation, $code);
+			
 			array_push($plantsArray, $plant);
 		}
 		return $plantsArray;
