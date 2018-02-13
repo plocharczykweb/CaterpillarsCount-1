@@ -116,7 +116,7 @@ class Plant
 	
 	public static function findPlantsBySite($site){
 		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Plant` WHERE `SiteFK`='" . $site->getID() . "'");
+		$query = mysqli_query($dbconn, "SELECT * FROM `Plant` WHERE `SiteFK`='" . $site->getID() . "'");
 		mysqli_close($dbconn);
 		
 		$plantsArray = array();
