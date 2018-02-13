@@ -175,9 +175,9 @@
 					htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circles[i][0] + noticeImage + "</div>";
 					htmlToAdd += 	"<div class=\"plants\">";
 					for(var j = 0; j < plants.length; j++){
-						var noticeBorder = "";
+						var noticeBackground = "";
 						if(plantSpeciesList.indexOf(plants[j][2]) == -1){
-							noticeBorder = " style=\"border-color:#FF645A;\"";
+							noticeBackground = " style=\"background:#FFEDE9;\"";
 						}
 						htmlToAdd += "<div class=\"plant\">";
 						htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
@@ -221,10 +221,10 @@
 				for(var i = 0; i < inputs.length; i++){
 					if(plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
 						showNotice = true;
-						inputs.eq(i)[0].style.borderColor = "#FF645A";
+						inputs.eq(i)[0].style.background = "#FFEDE9";
 					}
 					else{
-						inputs.eq(i)[0].style.borderColor = "";
+						inputs.eq(i)[0].style.background = "";
 					}
 				}
 				
