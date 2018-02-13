@@ -21,6 +21,10 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
 		<style>
+			#saveAllButton{
+				display:none;
+			}
+			
 			.circle{
 				margin:20px 0px;
 				border-radius:4px;
@@ -114,7 +118,7 @@
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						if(this.responseText.indexOf("true|") == 0){
-							var data = JSON.parse(this.responseText);
+							var data = JSON.parse(this.responseText.replace("true|", ""));
 							var siteName = data[0];
 							var circles = data[1];
 							
@@ -164,6 +168,9 @@
 					htmlToAdd += "</div>";
 				}
 				$("#circles")[0].innerHTML = htmlToAdd;
+				if(circles.length > 0){
+					$("#saveAllButton")[0].style.display = "block";
+				}
 			}
 			
 			function togglePlants(circle){
@@ -252,7 +259,7 @@
 				<div class="tagline">This site's plants are loading. Please wait a moment.</div>
 				<div class="content">
 					<div id="circles"></div>
-					<button>Save All</button>
+					<button id="saveAllButton">Save All</button>
 				</div>
 			</div>
 		</main>
