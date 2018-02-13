@@ -175,15 +175,15 @@
 					htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circles[i][0] + noticeImage + "</div>";
 					htmlToAdd += 	"<div class=\"plants\">";
 					for(var j = 0; j < plants.length; j++){
-						var noticeBackground = "";
+						var noticeBorder = "";
 						if(plantSpeciesList.indexOf(plants[j][2]) == -1){
-							noticeBackground = " style=\"background:#FFEDE9;\"";
+							noticeBorder = " style=\"border-left:3px solid #FF645A;\"";
 						}
 						htmlToAdd += "<div class=\"plant\">";
 						htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
 						htmlToAdd += 	"<div class=\"editableFields\">";
 						htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
-						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBackground + " oninput=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode)\"/>";
+						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " oninput=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode)\"/>";
 						htmlToAdd += 	"</div>";
 						htmlToAdd += "</div>";
 					}
@@ -221,10 +221,10 @@
 				for(var i = 0; i < inputs.length; i++){
 					if(plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
 						showNotice = true;
-						inputs.eq(i)[0].style.background = "#FFEDE9";
+						inputs.eq(i)[0].style.borderLeft = "3px solid #FF645A";
 					}
 					else{
-						inputs.eq(i)[0].style.background = "";
+						inputs.eq(i)[0].style.borderLeft = "";
 					}
 				}
 				
