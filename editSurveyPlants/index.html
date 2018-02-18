@@ -158,6 +158,9 @@
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				loadCircles();
 			});
+			$(window).resize(function(){
+				$('.ui-autocomplete').css({display:"none"});
+			});
 			
 			function attachAutoCompleteToInput(inputElement, sourceList){
 				$(inputElement).autocomplete({
@@ -174,7 +177,7 @@
 							leftOffset = 125;
 						}
 
-        					$('.ui-autocomplete').eq(0).css({left: (left - leftOffset) + "px"});
+        					$('.ui-autocomplete').css({left: (left - leftOffset) + "px"});
 					}
 				});
 			}
