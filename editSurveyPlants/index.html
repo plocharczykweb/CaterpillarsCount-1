@@ -22,14 +22,21 @@
 		<script src="../js/template.js"></script>
 		<style>
 			ul.ui-autocomplete{
-				width:100%;
+				width:753px;
 				box-sizing:border-box;
-				max-width:900px;
-				padding:0px 147px 0px 0px;
+				padding:0px;
+			}
+			@media screen and (max-width: 999px) {
+				ul.ui-autocomplete{
+					width:100%;
+					padding:0px 122px 0px 125px;
+					margin-left:-125px;
+				}
 			}
 			@media screen and (max-width: 770px) {
 				ul.ui-autocomplete{
-					padding:0px 67px 0px 0px;
+					padding:0px 42px 0px 45px;
+					margin-left:-45px;
 				}
 			}
 
