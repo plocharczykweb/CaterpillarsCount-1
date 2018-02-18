@@ -2,6 +2,8 @@
 				padding:0px;
 				width:100%;
 				box-sizing:border-box;
+				margin:0px 100px;
+				max-width:1000px;
 			}
 
 			ul.ui-autocomplete>li{
