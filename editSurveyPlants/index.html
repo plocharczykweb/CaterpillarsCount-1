@@ -181,7 +181,7 @@
         					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
 					},
 					select: function(){
-						setNoticeImage($(inputElement)[0].parentNode.parentNode.parentNode.parentNode);
+						setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);
 					}
 				});
 			}
