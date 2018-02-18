@@ -179,13 +179,15 @@
 						}
 
         					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
-					}
-				});
-				
-				$('.ui-menu-item').click(function(){
-					var circles = $(".circle");
-					for(var i = 0; i < circles.length; i++){
-						setNoticeImage(circles[i]);
+					},
+					create: function( event, ui ) {
+						alert("binding click");
+						$('.ui-menu-item').click(function(){
+							var circles = $(".circle");
+							for(var i = 0; i < circles.length; i++){
+								setNoticeImage(circles[i]);
+							}
+						});
 					}
 				});
 			}
