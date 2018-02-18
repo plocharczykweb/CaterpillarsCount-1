@@ -92,9 +92,9 @@
 				<h2>We Have a New Website!</h2>
 				<div class="tagline">And we would love to share it with you.</div>
 				<div class="content">
-          Somehow you've used our old website to sign up for an old Caterpillars Count! account. Please <a href="https://caterpillarscount.unc.edu/signUp">click here</a> to sign up for our new website instead. It's quick and simple.
-          <button onclick="window.open('https://caterpillarscount.unc.edu/signUp', '_blank');">Sign up for our new website!</button>
-        </div>
+          				<p>Somehow you've used our old website to sign up for an old Caterpillars Count! account. Please <a href="https://caterpillarscount.unc.edu/signUp">click here</a> to sign up for our new website instead. It's quick and simple.</p>
+          				<button onclick="window.location = 'https://caterpillarscount.unc.edu/signUp';">Sign up for our new website!</button>
+        			</div>
 			</div>
 		</main>
 		<footer>
