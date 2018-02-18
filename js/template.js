@@ -91,6 +91,15 @@
 					buttonElement.innerHTML = defaultInnerHTML;
 				}
 			}
+
+			function attachAutoCompleteToInput(inputElement, sourceList){
+				$(inputElement).autocomplete({
+					source: sourceList,
+					open: function(event, ui) {
+						$('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+					}
+				});
+			}
 			
 			
 			
