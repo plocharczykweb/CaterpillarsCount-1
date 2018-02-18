@@ -178,7 +178,7 @@
 					for(var j = 0; j < plants.length; j++){
 						var noticeBorder = "";
 						if(plantSpeciesList.indexOf(plants[j][2]) == -1){
-							noticeBorder = " style=\"border-left:3px solid #FF645A;\"";
+							noticeBorder = " style=\"border-right:5px solid #FF645A;\"";
 						}
 						htmlToAdd += "<div class=\"plant\">";
 						htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
@@ -222,10 +222,10 @@
 				for(var i = 0; i < inputs.length; i++){
 					if(plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
 						showNotice = true;
-						inputs.eq(i)[0].style.borderLeft = "3px solid #FF645A";
+						inputs.eq(i)[0].style.borderRight = "5px solid #FF645A";
 					}
 					else{
-						inputs.eq(i)[0].style.borderLeft = "";
+						inputs.eq(i)[0].style.borderRight = "";
 					}
 				}
 				
