@@ -1,3 +1,9 @@
+			ul.ui-autocomplete{
+				padding:0px;
+				width:100%;
+				box-sizing:border-box;
+			}
+
 			ul.ui-autocomplete>li{
 				background:#888;/*#a1c3ff;*/
 				color:#fff;
