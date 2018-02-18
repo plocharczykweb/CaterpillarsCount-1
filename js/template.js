@@ -99,7 +99,6 @@
 						$('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
 					}
 				});
-				$('.ui-autocomplete').css({left:"0px"});
 			}
 			
 			
