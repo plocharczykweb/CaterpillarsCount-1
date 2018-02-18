@@ -1,4 +1,22 @@
+			ul.ui-autocomplete>li{
+				background:#888;/*#a1c3ff;*/
+				color:#fff;
+				font-size:18px;
+				padding:5px 25px;
+				box-sizing:border-box;
+				list-style-type:none;
+			}
 			
+			ul.ui-autocomplete>li:last-of-type{
+				border-radius:0px 0px 4px 4px;
+				overflow:hidden;
+				border-bottom:2px solid rgba(0,0,0,.2);
+			}
+			
+			.ui-helper-hidden-accessible{
+				display:none;
+			}
+
 			#error, #confirmation, #alert{
 				text-align:center;
 				position:fixed;
