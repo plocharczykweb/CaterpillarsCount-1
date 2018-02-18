@@ -196,6 +196,7 @@
 				$("#circles")[0].innerHTML = htmlToAdd;
 				if(circles.length > 0){
 					$("#saveAllButton")[0].style.display = "block";
+					attachAutoCompleteToInput($("input"), plantSpeciesList);
 				}
 			}
 			
