@@ -179,14 +179,11 @@
 						}
 
         					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
-					},
-					create: function( event, ui ) {
-						alert("binding click");
-						$('.ui-menu-item').click(function(){
-							var circles = $(".circle");
-							for(var i = 0; i < circles.length; i++){
-								setNoticeImage(circles[i]);
-							}
+						
+						$('.ui-menu-item').off("click");
+						$('.ui-menu-item').on("click", function(){
+							alert("here");
+							setNoticeImage($(".circle").eq(Math.floor((idNumber - 1) / 5)));
 						});
 					}
 				});
