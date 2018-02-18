@@ -166,9 +166,10 @@
 				$(inputElement).autocomplete({
 					source: sourceList,
 					open: function(event, ui) {
-						$(this).find('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+						var idNumber = ($("input").index(this) + 1);
+						$('#ui-id-' + idNumber).off('menufocus hover mouseover mouseenter');
 						
-            					var left = $(this).find('.ui-autocomplete').eq(0).position().left;
+            					var left = $('#ui-id-' + idNumber).position().left;
 						var leftOffset = 0;
 						if($(window).width() < 771){
 							leftOffset = 45;
@@ -177,7 +178,7 @@
 							leftOffset = 125;
 						}
 
-        					$(this).find('.ui-autocomplete').css({left: (left - leftOffset) + "px"});
+        					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
 					},
 					select: function(){
 						setNoticeImage($(inputElement)[0].parentNode.parentNode.parentNode.parentNode);
