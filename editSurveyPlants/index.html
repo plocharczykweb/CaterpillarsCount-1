@@ -182,7 +182,7 @@
 						
 						$('.ui-menu-item').off("click");
 						$('.ui-menu-item').on("click", function(){
-							setNoticeImage($(".circle").eq(Math.floor((idNumber - 1) / 5)));
+							$("input").eq(idNumber - 1).blur();
 						});
 					}
 				});
