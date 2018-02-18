@@ -96,7 +96,6 @@
 				$(inputElement).autocomplete({
 					source: sourceList,
 					open: function(event, ui) {
-						$('.ui-autocomplete').width(this.style.width);
 						$('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
 					}
 				});
