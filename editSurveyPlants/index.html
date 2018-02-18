@@ -179,9 +179,13 @@
 						}
 
         					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
-					},
-					select: function(){
-						setNoticeImage($(this)[0].parentNode.parentNode.parentNode.parentNode);
+					}
+				});
+				
+				$('.ui-menu-item').click(function(){
+					var circles = $(".circle");
+					for(var i = 0; i < circles.length; i++){
+						setNoticeImage(circles[i]);
 					}
 				});
 			}
