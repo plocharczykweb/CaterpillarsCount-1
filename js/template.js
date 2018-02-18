@@ -115,7 +115,7 @@
 					
 					if(window.localStorage.getItem("email") === null || window.localStorage.getItem("salt") === null){
 						requiringLogIn = false;
-						window.location = "../signIn/index.html?p=../" + window.location.toString().substring(window.location.toString().replace(/\//g, " ").trim().lastIndexOf(" ") + 1);
+						window.location = "../signIn/index.html?p=../" + window.location.toString().substring(window.location.toString().indexOf("unc.edu") + 8);
 					}
 				
 					//if we have credentials saved to localStorage and arent already doing so, verify them and redirect to sign in page if invalid
