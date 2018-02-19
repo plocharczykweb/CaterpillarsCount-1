@@ -228,7 +228,7 @@
 					
 					var noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\" style=\"display:none;\"/>";
 					for(var j = 0; j < plants.length; j++){
-						if(plants[j][2] == "N/A"){
+						if(plantSpeciesList.indexOf(plants[j][2]) == -1){
 							noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\"/>";
 							break;
 						}
