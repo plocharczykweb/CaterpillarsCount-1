@@ -182,7 +182,8 @@
 						
 						$('.ui-menu-item').off("click");
 						$('.ui-menu-item').on("click", function(){
-							$("input").eq(idNumber - 1).blur();
+							//setNoticeImage($("input").eq(idNumber - 1)[0].parentNode.parentNode.parentNode.parentNode);
+							$("input").blur();
 						});
 					}
 				});
