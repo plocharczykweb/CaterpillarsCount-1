@@ -246,7 +246,7 @@
 						htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
 						htmlToAdd += 	"<div class=\"editableFields\">";
 						htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
-						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\" onblur=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\"/>";
+						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\"/>";
 						htmlToAdd += 	"</div>";
 						htmlToAdd += "</div>";
 					}
@@ -284,6 +284,28 @@
 				var showNotice = false;
 				for(var i = 0; i < inputs.length; i++){
 					if(plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
+						showNotice = true;
+						inputs.eq(i)[0].style.borderRight = "5px solid #FF645A";
+					}
+					else{
+						inputs.eq(i)[0].style.borderRight = "";
+					}
+				}
+				
+				if(showNotice){
+					$(circle).find(".noticeImage").eq(0)[0].style.display = "block";
+				}
+				else{
+					$(circle).find(".noticeImage").eq(0)[0].style.display = "none";
+				}
+			}
+			
+			function setNoticeExemptingInput(circle, exemptInput){
+				var inputs = $(circle).find("input");
+				
+				var showNotice = false;
+				for(var i = 0; i < inputs.length; i++){
+					if(inputs.eq(i)[0] != $(exemptInput)[0] && plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
 						showNotice = true;
 						inputs.eq(i)[0].style.borderRight = "5px solid #FF645A";
 					}
