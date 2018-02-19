@@ -11,6 +11,7 @@
 		$site = Site::findByID($siteID);
 		if(is_object($site) && get_class($site) == "Site"){
 			$site->addCircle();
+			die("Added circle.");
 		}
 		die("ID does not correpond to a site.");
 	}
