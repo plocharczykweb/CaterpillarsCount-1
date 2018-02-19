@@ -355,7 +355,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/updatePlantSpecies.php?plantData=" + plantData + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/updatePlantSpecies.php?plantData=" + JSON.stringify(plantData) + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 		</script>
