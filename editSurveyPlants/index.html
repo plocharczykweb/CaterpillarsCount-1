@@ -179,12 +179,6 @@
 						}
 
         					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
-						
-						$('.ui-menu-item').off("click");
-						$('.ui-menu-item').on("click", function(){
-							//setNoticeImage($("input").eq(idNumber - 1)[0].parentNode.parentNode.parentNode.parentNode);
-							$("input").blur();
-						});
 					}
 				});
 			}
@@ -252,7 +246,7 @@
 						htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
 						htmlToAdd += 	"<div class=\"editableFields\">";
 						htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
-						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onblur=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\"/>";
+						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\" onblur=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\"/>";
 						htmlToAdd += 	"</div>";
 						htmlToAdd += "</div>";
 					}
