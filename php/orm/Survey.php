@@ -305,11 +305,8 @@ class Survey
 		for($i = 0; $i < count($plantSpeciesList); $i++){
 			$plantSpeciesList[$i][0] = trim($plantSpeciesList[$i][0]);
 			$plantSpeciesList[$i][1] = trim($plantSpeciesList[$i][1]);
-			if($plantSpecies == $plantSpeciesList[$i][1]){
+			if(strtolower($plantSpecies) == strtolower($plantSpeciesList[$i][1]) || strtolower($plantSpecies) == strtolower($plantSpeciesList[$i][0])){
 				return $plantSpeciesList[$i][0];
-			}
-			else if($plantSpecies == $plantSpeciesList[$i][0]){
-				return $plantSpecies;
 			}
 		}
 		return false;
