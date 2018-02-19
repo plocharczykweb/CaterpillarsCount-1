@@ -321,6 +321,43 @@
 					$(circle).find(".noticeImage").eq(0)[0].style.display = "none";
 				}
 			}
+			
+			var saving = false;
+			function saveAll(){
+				if(saving){return false;}
+				
+				saving = true;
+				setLoadingButton($("#saveAllButton")[0], "Save all", true);
+				
+				var plantData = [];
+				var inputs = $("input");
+				for(var i = 0; i < inputs.length; i++){
+					plantData[plantData.length] = [inputs.eq(i)[0].id, inputs.eq(i)[0].value];
+				}
+				
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						saving = false;
+						setLoadingButton($("#saveAllButton")[0], "Save all", false);
+						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
+						if(this.responseText.indexOf("true|") == "0"){
+							queueNotice("confirmation", "Saved!");
+							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";}
+							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";}
+						}
+						else{
+							var savingError = this.responseText.replace("false|", "");
+							queueNotice("error", savingError);
+							if(savingError == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "../php/updatePlantSpecies.php?plantData=" + plantData + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.send();
+			}
 		</script>
 	</head>
 	<body>
@@ -404,7 +441,7 @@
 				<div class="tagline">This site's plants are loading. Please wait a moment.</div>
 				<div class="content">
 					<div id="circles"></div>
-					<button id="saveAllButton">Save All</button>
+					<button id="saveAllButton" onclick="saveAll();">Save all</button>
 				</div>
 			</div>
 		</main>
