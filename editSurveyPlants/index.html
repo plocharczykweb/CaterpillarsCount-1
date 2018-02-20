@@ -421,13 +421,13 @@
 						adding = false;
 						$("#addNewCircle")[0].innerHTML = "Add New Circle<div class=\"plusImage\" style=\"background-image:url('../images/plus.png');\"></div>";
 						//setLoadingButton($("#saveAllButton")[0], "Save all", false);
-						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
 						if(this.responseText.indexOf("true|") == "0"){
 							var newPlants = JSON.parse(this.responseText.replace("true|", ""));
 							$("#circles").append(getCircleHTML([($(".circle").length + 1), newPlants]));
 							attachAutoCompleteToInput($(".circle").eq($(".circle").length - 1).find("input"), plantSpeciesList);
 						}
 						else{
+							$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
 							var addingError = this.responseText.replace("false|", "");
 							queueNotice("error", addingError);
 							if(addingError == "Your log in dissolved. Maybe you logged in on another device."){
