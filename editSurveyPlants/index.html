@@ -402,6 +402,7 @@
 				if(adding){return false;}
 				
 				adding = true;
+				$("#addNewCircle")[0].innerHTML = "Adding New Circle...";
 				//setLoadingButton($("#saveAllButton")[0], "Save all", true);
 				
 				var samplePlantCode = "";
@@ -413,9 +414,10 @@
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						adding = false;
+						$("#addNewCircle")[0].innerHTML = "<div class=\"plusImage\" style=\"background-image:url('../images/plus.png');\"></div>";
 						//setLoadingButton($("#saveAllButton")[0], "Save all", false);
 						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
-						if(this.responseText.indexOf("true|") == "0"){
+						if(this.responseText.indexOf("true|") == "0"){alert("success");
 							var newPlants = JSON.parse(this.responseText.replace("true|", ""));
 							$("#circles").append(getCircleHTML([($(".circle").length + 1), newPlants]));
 						}
