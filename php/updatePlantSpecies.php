@@ -33,7 +33,7 @@
 				$plant = Plant::findByCode($plantData[$i][0]);
 				if(is_object($plant) && get_class($plant) == "Plant"){
 					if($plant->getSite() == $site){
-						$plant->setSpecies($plantData[$i][0]);
+						$plant->setSpecies($plantData[$i][1]);
 					}
 					else{die("false|Plants from multiple sites detected.");}
 				}
