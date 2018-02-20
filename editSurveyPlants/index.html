@@ -430,7 +430,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/addCircle.php?samplePlantCode=" + samplePlantCode + "email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/addCircle.php?samplePlantCode=" + samplePlantCode + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 		</script>
