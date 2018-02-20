@@ -1,6 +1,6 @@
 <?php
-	require_once('../orm/User.php');
-	require_once('../orm/Plant.php');
+	require_once('orm/User.php');
+	require_once('orm/Plant.php');
 	
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
