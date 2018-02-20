@@ -221,6 +221,15 @@
 				}, 350);
 			}
 			
+			function editSurveyPlants(){
+				var id = getSelectValue($(".select").eq(0));
+				if(id == ""){
+					queueNotice("error", "Select a site first.");
+					return false;
+				}
+				window.location = '../editSurveyPlants/index.html?s=' + id;
+			}
+			
 			
 			
 			
@@ -450,7 +459,7 @@
 							</div>
 						</div>
 						
-						<div class="siteOperationDiv" onclick="queueNotice('alert', 'The &quot;Edit Survey Plants&quot; feature is coming soon.');">
+						<div class="siteOperationDiv" onclick="editSurveyPlants();">
 							<div class="table">
 								<img src="../images/pottedPlant.png"/>
 								<div class="caption">Edit Survey Plants</div>
