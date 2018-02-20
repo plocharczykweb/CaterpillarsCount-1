@@ -162,6 +162,19 @@
 				cursor:pointer;
 				font-family: 'Roboto Slab', serif;
 			}
+			
+			#addNewCircle .plusImage {
+			    height: 34px;
+			    width: 34px;
+			    background-size: contain;
+			    background-repeat: no-repeat;
+			    background-position: center;
+			    display: inline-block;
+			    opacity: .4;
+			    position: absolute;
+			    right: 20px;
+			    top: 10px;
+			}
 		</style>
 		<script>
 			requireLogIn();
@@ -455,7 +468,10 @@
 				<div class="tagline">This site's plants are loading. Please wait a moment.</div>
 				<div class="content">
 					<div id="circles"></div>
-					<div id="addNewCircle">Add New Circle</div>
+					<div id="addNewCircle">
+						Add New Circle
+						<div class="plusImage" style="background-image:url('../images/plus.png');"></div>
+					</div>
 					<button id="saveAllButton" onclick="saveAll();">Save all</button>
 				</div>
 			</div>
