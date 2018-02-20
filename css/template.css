@@ -41,6 +41,7 @@
 				top:0px;
 				width:500px;
 				box-sizing:border-box;
+				left:50%;
 				margin:100px 0px 0px -250px;
 				z-index:99998;
 				padding:20px 30px;
@@ -58,7 +59,7 @@
 			@media screen and (max-width: 555px) {
 				#confirm{
 					width:90%;
-					margin:100px 0px 0px 0px;
+					margin:100px 0px 0px -45%;
 				}
 			}
 			#confirm div:nth-of-type(2){
