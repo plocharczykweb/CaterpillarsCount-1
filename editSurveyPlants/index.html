@@ -277,7 +277,7 @@
 					}
 				}
 
-				htmlToAdd = "<div class=\"circle\">";
+				var htmlToAdd = "<div class=\"circle\">";
 				htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circle[0] + noticeImage + "</div>";
 				htmlToAdd += 	"<div class=\"plants\">";
 				for(var j = 0; j < plants.length; j++){
@@ -295,6 +295,7 @@
 				}
 				htmlToAdd += 	"</div>";
 				htmlToAdd += "</div>";
+				return htmlToAdd;
 			}
 			
 			function togglePlants(circle){
