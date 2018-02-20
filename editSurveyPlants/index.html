@@ -89,7 +89,7 @@
 			}
 			
 			.noticeImage{
-				margin:4px 10px 4px 0px;
+				margin:4px 8px 4px 0px;
 				height:18px;
 				float:right;
 			}
@@ -247,45 +247,54 @@
 				
 				var htmlToAdd = "";
 				for(var i = 0; i < circles.length; i++){
-					//sort plants
-					var plants = circles[i][1].sort(function(a,b){
-						if(a[0] < b[0]){return -1;}
-						if(a[0] > b[0]){return 1;}
-						return 0;
-					});
-					
-					var noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\" style=\"display:none;\"/>";
-					for(var j = 0; j < plants.length; j++){
-						if(plantSpeciesList.indexOf(plants[j][2]) == -1){
-							noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\"/>";
-							break;
-						}
-					}
-					
-					htmlToAdd += "<div class=\"circle\">";
-					htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circles[i][0] + noticeImage + "</div>";
-					htmlToAdd += 	"<div class=\"plants\">";
-					for(var j = 0; j < plants.length; j++){
-						var noticeBorder = "";
-						if(plantSpeciesList.indexOf(plants[j][2]) == -1){
-							noticeBorder = " style=\"border-right:5px solid #FF645A;\"";
-						}
-						htmlToAdd += "<div class=\"plant\">";
-						htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
-						htmlToAdd += 	"<div class=\"editableFields\">";
-						htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
-						htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\"/>";
-						htmlToAdd += 	"</div>";
-						htmlToAdd += "</div>";
-					}
-					htmlToAdd += 	"</div>";
-					htmlToAdd += "</div>";
+					htmlToAdd += getCircleHTML(circles[i]);
 				}
 				$("#circles")[0].innerHTML = htmlToAdd;
 				if(circles.length > 0){
 					$("#saveAllButton")[0].style.display = "block";
 					attachAutoCompleteToInput($("input"), plantSpeciesList);
 				}
+			}
+			
+			function getCircleHTML(circle){
+				if(circle.length != 2){return "";}
+				for(var i = 0; i < circle[1].length; i++){
+					if(circle[1][i].length != 3){return "";}
+				}
+				
+				//sort plants
+				var plants = circle[1].sort(function(a,b){
+					if(a[0] < b[0]){return -1;}
+					if(a[0] > b[0]){return 1;}
+					return 0;
+				});
+
+				var noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\" style=\"display:none;\"/>";
+				for(var j = 0; j < plants.length; j++){
+					if(plantSpeciesList.indexOf(plants[j][2]) == -1){
+						noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\"/>";
+						break;
+					}
+				}
+
+				htmlToAdd = "<div class=\"circle\">";
+				htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circle[0] + noticeImage + "</div>";
+				htmlToAdd += 	"<div class=\"plants\">";
+				for(var j = 0; j < plants.length; j++){
+					var noticeBorder = "";
+					if(plantSpeciesList.indexOf(plants[j][2]) == -1){
+						noticeBorder = " style=\"border-right:5px solid #FF645A;\"";
+					}
+					htmlToAdd += "<div class=\"plant\">";
+					htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
+					htmlToAdd += 	"<div class=\"editableFields\">";
+					htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
+					htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\"/>";
+					htmlToAdd += 	"</div>";
+					htmlToAdd += "</div>";
+				}
+				htmlToAdd += 	"</div>";
+				htmlToAdd += "</div>";
 			}
 			
 			function togglePlants(circle){
@@ -384,6 +393,41 @@
 					}
 				};
 				xhttp.open("GET", "../php/updatePlantSpecies.php?plantData=" + JSON.stringify(plantData) + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.send();
+			}
+			
+			var adding = false;
+			function addNewCircle(){
+				if(adding){return false;}
+				
+				adding = true;
+				//setLoadingButton($("#saveAllButton")[0], "Save all", true);
+				
+				var samplePlantCode = "";
+				if($("input").length > 0){
+					samplePlantCode = $("input").eq(0)[0].id;
+				}
+				
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						adding = false;
+						//setLoadingButton($("#saveAllButton")[0], "Save all", false);
+						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
+						if(this.responseText.indexOf("true|") == "0"){
+							var newPlants = JSON.parse(this.responseText.replace("true|", ""));
+							$("#circles").append(getCircleHTML([($(".circle").length + 1), newPlants]));
+						}
+						else{
+							var addingError = this.responseText.replace("false|", "");
+							queueNotice("error", addingError);
+							if(addingError == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "../php/addCircle.php?samplePlantCode=" + samplePlantCode + "email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 		</script>
