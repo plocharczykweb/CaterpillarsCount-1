@@ -57,6 +57,11 @@
 				display:none;
 			}
 			
+			.ui-menu-item{
+				font-size:14px;
+				font-family: 'Roboto Slab', serif;
+			}
+			
 			#saveAllButton{
 				display:none;
 			}
@@ -417,9 +422,10 @@
 						$("#addNewCircle")[0].innerHTML = "Add New Circle<div class=\"plusImage\" style=\"background-image:url('../images/plus.png');\"></div>";
 						//setLoadingButton($("#saveAllButton")[0], "Save all", false);
 						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
-						if(this.responseText.indexOf("true|") == "0"){alert("success");
+						if(this.responseText.indexOf("true|") == "0"){
 							var newPlants = JSON.parse(this.responseText.replace("true|", ""));
 							$("#circles").append(getCircleHTML([($(".circle").length + 1), newPlants]));
+							attachAutoCompleteToInput($(".circle").eq($(".circle").length - 1).find("input"), plantSpeciesList);
 						}
 						else{
 							var addingError = this.responseText.replace("false|", "");
