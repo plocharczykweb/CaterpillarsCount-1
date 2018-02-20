@@ -15,11 +15,11 @@
 				if(in_array($site, $user->getSites())){
 					$newPlants = $site->addCircle();
 					$newPlants = array(
-						array($newPlants[0]->getCode(), $newPlants[0]->getSpecies()),
-						array($newPlants[1]->getCode(), $newPlants[1]->getSpecies()),
-						array($newPlants[2]->getCode(), $newPlants[2]->getSpecies()),
-						array($newPlants[3]->getCode(), $newPlants[3]->getSpecies()),
-						array($newPlants[4]->getCode(), $newPlants[4]->getSpecies()),
+						array($newPlants[0]->getOrientation(), $newPlants[0]->getCode(), $newPlants[0]->getSpecies()),
+						array($newPlants[1]->getOrientation(), $newPlants[1]->getCode(), $newPlants[1]->getSpecies()),
+						array($newPlants[2]->getOrientation(), $newPlants[2]->getCode(), $newPlants[2]->getSpecies()),
+						array($newPlants[3]->getOrientation(), $newPlants[3]->getCode(), $newPlants[3]->getSpecies()),
+						array($newPlants[4]->getOrientation(), $newPlants[4]->getCode(), $newPlants[4]->getSpecies()),
 					);
 					die("true|" . json_encode($newPlants));
 				}
