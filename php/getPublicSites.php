@@ -52,7 +52,7 @@
 		    	"region" => "MA",
 		    	"latitude" => 41.8333,
 		    	"longitude" => -70.5,
-		),
+		),/*
 		array(
 			"creatorEmailParts" => array("si_citizenscience", "schoodicinstitute.org"),
 		    	"siteName" => "Acadia NP - Alder",
@@ -68,7 +68,7 @@
 		    	"region" => "ME",
 		    	"latitude" => 44.3393,
 		    	"longitude" => -68.0657,
-		),
+		),*/
 		array(
 			"creatorEmailParts" => array("contact", "naturecenter.org"),
 		    	"siteName" => "Kalamazoo Nature Center",
