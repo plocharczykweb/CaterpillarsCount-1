@@ -46,7 +46,14 @@
 			}
 			.settingTitle, .settingBody{
 				font-family: 'Roboto Slab', serif;
+			}
+			
+			.settingBody>div{
 				padding:20px;
+			}
+			
+			main .panel .settingBody button{
+				margin:20px auto 5px auto;
 			}
 		</style>
 		<script>
@@ -150,6 +157,20 @@
 		</script>
 	</head>
 	<body>
+		<div id="error" onclick="hideNotice();"></div>
+		<div id="confirmation" onclick="hideNotice();"></div>
+		<div id="alert" onclick="hideNotice();"></div>
+		<div id="promptInteractionBlock"></div>
+		<div id="noticeInteractionBlock" onclick="hideNotice();"></div>
+		<div id="confirm">
+			<div></div>
+			<div>
+				<button>OK</button>
+				<button>Cancel</button>
+				<div class="clearBoth"></div>
+			</div>
+		</div>
+		
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -219,11 +240,13 @@
 				<div class="content">
 					<div class="setting">
 						<div class="settingTitle" onclick="toggleSetting(this.parentNode);">Change password</div>
-						<div class="settingBody" id="changePassword">
-							<input type="password" placeholder="current password"/>
-							<input type="password" placeholder="new password"/>
-							<input type="password" placeholder="confirm new password"/>
-							<button onclick="setNewPassword();" id="changePasswordButton">Change password</button>
+						<div class="settingBody">
+							<div id="changePassword">
+								<input type="password" placeholder="current password"/>
+								<input type="password" placeholder="new password"/>
+								<input type="password" placeholder="confirm new password"/>
+								<button onclick="setNewPassword();" id="changePasswordButton">Change password</button>
+							</div>
 						</div>
 					</div>
 				</div>
