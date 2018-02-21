@@ -20,15 +20,162 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
+		<style>
+			.setting{
+				margin:20px 0px;
+				border-radius:4px;
+				overflow:hidden;
+				border:2px solid #eee;
+			}
+			
+			.settingTitle{
+				font-size:20px;
+				background:#f7f7f7;
+				color:#aaa;
+				padding:20px;
+				cursor:pointer;
+				
+			}
+			.settingBody{
+				font-size:14px;
+				background:#f7f7f7;
+				max-height:0px;
+				overflow:hidden;
+				border-right:2px solid #eee;
+				border-bottom:2px solid #eee;
+			}
+			.settingTitle, .settingBody{
+				font-family: 'Roboto Slab', serif;
+			}
+			
+			.settingBody>div{
+				padding:20px;
+			}
+			
+			main .panel .settingBody button{
+				margin:20px auto 5px auto;
+			}
+		</style>
 		<script>
 			requireLogIn();
 			
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 			});
+			
+			function closeAllSettings(){
+				$(".setting").css({border:"2px solid #eee"});
+				$(".settingBody").stop().animate({maxHeight:"0px"});
+				$(".settingTitle").stop().animate({backgroundColor:"#f7f7f7", color:"#aaa"});
+			}
+			
+			function toggleSetting(setting){
+				var settingBody = $(setting).find(".settingBody").eq(0)[0];
+				
+				//reset all
+				closeAllSettings();
+				
+				if(settingBody.style.maxHeight == "" || settingBody.style.maxHeight == "0px"){
+					$(setting).css({border:"0px none transparent"});
+					$(settingBody).stop().animate({maxHeight:"500px"});
+					$(setting).find(".settingTitle").eq(0).stop().animate({backgroundColor:"#444", color:"#fff"});
+				}
+				else{
+					$(settingBody).stop().animate({maxHeight:"0px"});
+				}
+			}
+			
+			function resetNewPasswords(){
+				//clear password inputs in #changePassword and focus on the first one
+				$("#changePassword input").eq(0)[0].blur();
+				$("#changePassword input").eq(1)[0].blur();
+				$("#changePassword input").eq(2)[0].blur();
+				
+				$("#changePassword input").eq(1)[0].value = "";
+				$("#changePassword input").eq(2)[0].value = "";
+				$("#changePassword input").eq(1)[0].focus();
+			}
+			
+			var settingNewPassword = false;
+			function setNewPassword(){
+				//change the password and, if successful, update the locally saved version of the password and close the drop down
+				if(!settingNewPassword){
+					var currentPassword = $("#changePassword input").eq(0)[0].value;
+					var newPassword = $("#changePassword input").eq(1)[0].value;
+					var confirmNewPassword = $("#changePassword input").eq(2)[0].value;
+					
+					if(newPassword != confirmNewPassword){
+						queueNotice("error", "New passwords must match.");
+						resetNewPasswords();
+						return false;
+					}
+					else if(newPassword == currentPassword){
+						queueNotice("error", "New password must be different than current password.");
+						resetNewPasswords();
+						return false;
+					}
+					
+					settingNewPassword = true;
+					setLoadingButton($("#changePasswordButton")[0], "Change password", true);
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							settingNewPassword = false;
+							setLoadingButton($("#changePasswordButton")[0], "Change password", false);
+							if(this.responseText.indexOf("false|") != 0){
+								window.localStorage.removeItem("salt");
+								window.localStorage.setItem("salt", this.responseText);
+								$("#changePassword input").eq(0)[0].value = "";
+								$("#changePassword input").eq(1)[0].value = "";
+								$("#changePassword input").eq(2)[0].value = "";
+								queueNotice("confirmation", "Password changed.");
+								closeAllSettings();
+							}
+							else{
+								var setNewPasswordError = this.responseText.replace("false|", "");
+								queueNotice("error", setNewPasswordError);
+								if(setNewPasswordError == "New password must be at least 8 characters with no spaces."){
+									resetNewPasswords();
+								}
+								else if(setNewPasswordError == "Current password is incorrect."){
+									$("#changePassword input").eq(0)[0].blur();
+									$("#changePassword input").eq(1)[0].blur();
+									$("#changePassword input").eq(2)[0].blur();
+									
+									$("#changePassword input").eq(0)[0].value = "";
+									$("#changePassword input").eq(0)[0].focus();
+								}
+								else if(setNewPasswordError == "Your log in dissolved. Maybe you logged in on another device."){
+									$("#changePassword input").eq(0)[0].blur();
+									$("#changePassword input").eq(1)[0].blur();
+									$("#changePassword input").eq(2)[0].blur();
+									
+									logOut();
+								}
+							}
+						}
+					};
+					xhttp.open("GET", "../php/changePassword.php?currentPassword=" + currentPassword + "&newPassword=" + newPassword + "&email=" + window.localStorage.getItem("email"), false);
+					xhttp.send();
+				}
+			}
 		</script>
 	</head>
 	<body>
+		<div id="error" onclick="hideNotice();"></div>
+		<div id="confirmation" onclick="hideNotice();"></div>
+		<div id="alert" onclick="hideNotice();"></div>
+		<div id="promptInteractionBlock"></div>
+		<div id="noticeInteractionBlock" onclick="hideNotice();"></div>
+		<div id="confirm">
+			<div></div>
+			<div>
+				<button>OK</button>
+				<button>Cancel</button>
+				<div class="clearBoth"></div>
+			</div>
+		</div>
+		
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -92,8 +239,19 @@
 		<main>
 			<div class="panel">
 				<h2>Settings</h2>
-				<div class="tagline">...will be coming soon</div>
-				<div class="underConstructionImage"></div>
+				<div class="content">
+					<div class="setting">
+						<div class="settingTitle" onclick="toggleSetting(this.parentNode);">Change password</div>
+						<div class="settingBody">
+							<div id="changePassword">
+								<input type="password" placeholder="current password"/>
+								<input type="password" placeholder="new password"/>
+								<input type="password" placeholder="confirm new password"/>
+								<button onclick="setNewPassword();" id="changePasswordButton">Change password</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</main>
 		<footer>
