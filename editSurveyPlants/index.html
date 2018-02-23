@@ -61,7 +61,7 @@
 				font-family: 'Roboto Slab', serif;
 			}
 			
-			#saveAllButton{
+			#saveAllButton, #addNewCircle{
 				display:none;
 			}
 			
@@ -266,6 +266,7 @@
 					htmlToAdd += getCircleHTML(circles[i]);
 				}
 				$("#circles")[0].innerHTML = htmlToAdd;
+				$("#addNewCircle")[0].style.display = "block";
 				if(circles.length > 0){
 					$("#saveAllButton")[0].style.display = "block";
 					attachAutoCompleteToInput($("input"), plantSpeciesList);
