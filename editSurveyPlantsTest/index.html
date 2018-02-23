@@ -273,7 +273,7 @@
 				});
 				var noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\" style=\"display:none;\"/>";
 				for(var j = 0; j < plants.length; j++){
-					if(plantSpeciesList.indexOf(plants[j][2]) == -1){
+					if(plants[j][2].trim().toUpperCase() == "N/A"){
 						noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\"/>";
 						break;
 					}
@@ -283,14 +283,14 @@
 				htmlToAdd += 	"<div class=\"plants\">";
 				for(var j = 0; j < plants.length; j++){
 					var noticeBorder = "";
-					if(plantSpeciesList.indexOf(plants[j][2]) == -1){
+					if(plants[j][2].trim().toUpperCase() == "N/A"){
 						noticeBorder = " style=\"border-right:5px solid #FF645A;\"";
 					}
 					htmlToAdd += "<div class=\"plant\">";
 					htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
 					htmlToAdd += 	"<div class=\"editableFields\">";
 					htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
-					htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\"/>";
+					htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"promptConfirm('&quot;' + this.value + '&quot; is not in our records. Have you searched for other labels? Are you sure this is the correct name and spelling of your tree species?', 'Try again.', 'Continue. I am sure!', function(){this.value = 'N/A';setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);}, function(){setNoticeImage(this.parentNode.parentNode.parentNode.parentNode)});\"/>";
 					htmlToAdd += 	"</div>";
 					htmlToAdd += "</div>";
 				}
@@ -322,7 +322,7 @@
 				
 				var showNotice = false;
 				for(var i = 0; i < inputs.length; i++){
-					if(plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
+					if(inputs.eq(i)[0].value.trim().toUpperCase() == "N/A"){
 						showNotice = true;
 						inputs.eq(i)[0].style.borderRight = "5px solid #FF645A";
 					}
@@ -344,7 +344,7 @@
 				
 				var showNotice = false;
 				for(var i = 0; i < inputs.length; i++){
-					if(inputs.eq(i)[0] != $(exemptInput)[0] && plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
+					if(inputs.eq(i)[0] != $(exemptInput)[0] && inputs.eq(i)[0].value.trim().toUpperCase() == "N/A"){
 						showNotice = true;
 						inputs.eq(i)[0].style.borderRight = "5px solid #FF645A";
 					}
