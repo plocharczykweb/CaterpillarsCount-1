@@ -194,6 +194,13 @@
 				$('.ui-autocomplete').css({display:"none"});
 			});
 			
+			function inArrayIgnoreCaseAndTrim(needle, haystack){
+				for(var i = 0; i < haystack.length; i++){
+					if(haystack[i].trim().toLowerCase() == needle.trim().toLowerCase()){return true;}
+				}
+				return false;
+			}
+			
 			function attachAutoCompleteToInput(inputElement, sourceList){
 				$(inputElement).autocomplete({
 					source: sourceList,
@@ -290,7 +297,7 @@
 					htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
 					htmlToAdd += 	"<div class=\"editableFields\">";
 					htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
-					htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"promptConfirm('&quot;' + this.value + '&quot; is not in our records. Have you searched for other labels? Are you sure this is the correct name and spelling of your tree species?', 'Try again.', 'Continue. I am sure!', function(){document.getElementById('" + plants[j][1] + "').value = 'N/A';setNoticeImage(document.getElementById('" + plants[j][1] + "').parentNode.parentNode.parentNode.parentNode);}, function(){setNoticeImage(document.getElementById('" + plants[j][1] + "').parentNode.parentNode.parentNode.parentNode);});\"/>";
+					htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"if(this.value.trim().toUpperCase() == 'N/A'){this.value = 'N/A';}else if(inArrayIgnoreCaseAndTrim(this.value, plantSpeciesList)){setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);}else{promptConfirm('&quot;' + this.value + '&quot; is not in our records. Have you searched for other labels? Are you sure this is the correct name and spelling of your tree species?', 'Try again.', 'Continue. I am sure!', function(){document.getElementById('" + plants[j][1] + "').value = 'N/A';setNoticeImage(document.getElementById('" + plants[j][1] + "').parentNode.parentNode.parentNode.parentNode);}, function(){setNoticeImage(document.getElementById('" + plants[j][1] + "').parentNode.parentNode.parentNode.parentNode);});}\"/>";
 					htmlToAdd += 	"</div>";
 					htmlToAdd += "</div>";
 				}
