@@ -37,7 +37,6 @@
 					padding:0px 42px 0px 45px;
 				}
 			}
-
 			ul.ui-autocomplete>li{
 				background:#888;/*#a1c3ff;*/
 				color:#fff;
@@ -195,6 +194,13 @@
 				$('.ui-autocomplete').css({display:"none"});
 			});
 			
+			function inArrayIgnoreCaseAndWhitespace(needle, haystack){
+				for(var i = 0; i < haystack.length; i++){
+					if(haystack[i].replace(/\s\s+/g, ' ').trim().toLowerCase() == needle.replace(/\s\s+/g, ' ').trim().toLowerCase()){return true;}
+				}
+				return false;
+			}
+			
 			function attachAutoCompleteToInput(inputElement, sourceList){
 				$(inputElement).autocomplete({
 					source: sourceList,
@@ -210,7 +216,6 @@
 						else if($(window).width() < 1000){
 							leftOffset = 125;
 						}
-
         					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
 					}
 				});
@@ -273,28 +278,26 @@
 					if(a[0] > b[0]){return 1;}
 					return 0;
 				});
-
 				var noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\" style=\"display:none;\"/>";
 				for(var j = 0; j < plants.length; j++){
-					if(plantSpeciesList.indexOf(plants[j][2]) == -1){
+					if(plants[j][2].trim().toUpperCase() == "N/A"){
 						noticeImage = "<img src=\"../images/notice.png\" class=\"noticeImage\"/>";
 						break;
 					}
 				}
-
 				var htmlToAdd = "<div class=\"circle\">";
 				htmlToAdd += 	"<div class=\"circleTitle\" onclick=\"togglePlants(this.parentNode);\">Circle " + circle[0] + noticeImage + "</div>";
 				htmlToAdd += 	"<div class=\"plants\">";
 				for(var j = 0; j < plants.length; j++){
 					var noticeBorder = "";
-					if(plantSpeciesList.indexOf(plants[j][2]) == -1){
+					if(plants[j][2].trim().toUpperCase() == "N/A"){
 						noticeBorder = " style=\"border-right:5px solid #FF645A;\"";
 					}
 					htmlToAdd += "<div class=\"plant\">";
 					htmlToAdd += 	"<div class=\"code\"><img src='../images/tag" + (j + 1) + ".png'/>" + plants[j][1] + "</div>";
 					htmlToAdd += 	"<div class=\"editableFields\">";
 					htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
-					htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);\"/>";
+					htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"if(this.value.trim().toUpperCase() == 'N/A' || this.value.replace(/ /g, '') == ''){this.value = 'N/A';setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);}else if(inArrayIgnoreCaseAndWhitespace(this.value, plantSpeciesList)){setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);}else{promptConfirm('&quot;' + this.value + '&quot; is not in our records. Have you searched for other labels? Are you sure this is the correct name and spelling of your tree species?', 'Try again.', 'Continue. I am sure!', function(){document.getElementById('" + plants[j][1] + "').focus();}, function(){setNoticeImage(document.getElementById('" + plants[j][1] + "').parentNode.parentNode.parentNode.parentNode);});}\"/>";
 					htmlToAdd += 	"</div>";
 					htmlToAdd += "</div>";
 				}
@@ -326,7 +329,7 @@
 				
 				var showNotice = false;
 				for(var i = 0; i < inputs.length; i++){
-					if(plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
+					if(inputs.eq(i)[0].value.trim().toUpperCase() == "N/A"){
 						showNotice = true;
 						inputs.eq(i)[0].style.borderRight = "5px solid #FF645A";
 					}
@@ -348,7 +351,7 @@
 				
 				var showNotice = false;
 				for(var i = 0; i < inputs.length; i++){
-					if(inputs.eq(i)[0] != $(exemptInput)[0] && plantSpeciesList.indexOf(inputs.eq(i)[0].value.trim()) == -1){
+					if(inputs.eq(i)[0] != $(exemptInput)[0] && inputs.eq(i)[0].value.trim().toUpperCase() == "N/A"){
 						showNotice = true;
 						inputs.eq(i)[0].style.borderRight = "5px solid #FF645A";
 					}
@@ -375,7 +378,7 @@
 				var plantData = [];
 				var inputs = $("input");
 				for(var i = 0; i < inputs.length; i++){
-					plantData[plantData.length] = [inputs.eq(i)[0].id, inputs.eq(i)[0].value];
+					plantData[plantData.length] = [inputs.eq(i)[0].id, inputs.eq(i)[0].value.replace(/\s\s+/g, ' ')];
 				}
 				
 				var xhttp = new XMLHttpRequest();
