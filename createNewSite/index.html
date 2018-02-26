@@ -273,8 +273,8 @@
 							$("#createSite input").eq(3)[0].value = "";
 							
 							queueNotice("confirmation", "Check your email to finish setting up your site! Allow 5 minutes and check spam!");
-							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";}
-							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";}
+							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";};
+							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
 						}
 						else{
 							var createSiteError = this.responseText.replace("false|", "");
