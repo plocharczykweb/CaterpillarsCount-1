@@ -153,6 +153,7 @@
 							
 							$("#name")[0].value = name;
 							$("#description")[0].value = description;
+							countTo($("#description")[0], 140);
 							if(openToPublic){
 								checkCheckbox($("#openToPublic"));
 							}
@@ -177,8 +178,122 @@
 				xhttp.send();
 			}
 			
+			var savingSiteSettings = false;
 			function saveSiteSettings(){
+				var name = $("#name")[0].value;
+				var description = $("#description")[0].value;
+				var openToPublic = checkboxIsChecked($("#openToPublic"));
+				var password = $("#password")[0].value;
+				var confirmPassword = $("#confirmPassword")[0].value;
 				
+				if(name == ""){
+					queueNotice("error", "Enter a site name.");
+					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
+					
+					$("#name")[0].value = "";
+					$("#name")[0].focus();
+					return false;
+				}
+				
+				if(description == ""){
+					queueNotice("error", "Enter a site description.");
+					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
+					
+					clearCountInput($("#description")[0]);
+					$("#description")[0].focus();
+					return false;
+				}
+				
+				if(password != confirmPassword){
+					queueNotice("error", "Site passwords must match.");
+					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
+					
+					$("#password")[0].value = "";
+					$("#confirmPassword")[0].value ="";
+					$("#password")[0].focus();
+					return false;
+				}
+				
+				if(password.indexOf(" ") > -1 || password.length < 4){
+					queueNotice("error", "Password must be at least 4 characters with no spaces.");
+					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
+					
+					$("#password")[0].value = "";
+					$("#confirmPassword")[0].value ="";
+					$("#password")[0].focus();
+					return false;
+				}
+				
+				//verify and create the site in the database if we have an internet connection
+				savingSiteSettings = true;
+				setLoadingButton($("#saveSiteSettingsButton")[0], "Save site settings", true);
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						savingSiteSettings = false;
+						setLoadingButton($("#saveSiteSettingsButton")[0], "Save site settings", false);
+						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
+						if(this.responseText == "true"){
+							queueNotice("confirmation", "Saved!");
+							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";};
+							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
+						}
+						else{
+							var savingSiteError = this.responseText.replace("false|", "");
+							queueNotice("error", savingSiteError);
+							
+							if(savingSiteError.indexOf("That site name is already in use. Choose a different one.") > -1){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$("#name")[0].value = "";
+								$("#name")[0].focus();
+							}
+							else if(savingSiteError.indexOf("Site description must be between 1 and 255 characters.") > -1){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$("#description")[0].focus();
+							}
+							else if(savingSiteError.indexOf("Password must be at least 4 characters with no spaces.") > -1){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$("#password")[0].value = "";
+								$("#confirmPassword")[0].value = "";
+								$("#password")[0].focus();
+							}
+							else if(savingSiteError.indexOf("Password cannot be the same as your Caterpillars Count! account password because you may be sharing it with vistors at this site.") > -1){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$("#password")[0].value = "";
+								$("#confirmPassword")[0].value = "";
+								$("#password")[0].focus();
+							}
+							else if(savingSiteError == "Your log in dissolved. Maybe you logged in on another device."){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
+								
+								logOut();
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "../php/editSite.php?siteName=" + name + "&description=" + description + "&sitePassword=" + password + "&public=" + checkboxIsChecked($("#publicCheckbox")).toString() + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.send();
 			}
 		</script>
 	</head>
