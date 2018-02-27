@@ -210,7 +210,7 @@
 					<div class="form">
 						<div class="group">
 							<div class="inputTitle">Site name:</div>
-							<input type="text" placeholder="short and descriptive"/>
+							<input type="text" placeholder="short and descriptive" autocomplete="off" readonly onfocus="this.readonly = false;"/>
 						</div>
 
 						<div class="group">
@@ -224,12 +224,12 @@
 
 						<div class="group">
 							<div class="inputTitle">Site password (that you are willing to share with vistors at this site):</div>
-							<input type="password" autocomplete="off" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none' || $('#confirmSitePasswordGroup')[0].style.display == ''){$('#confirmSitePasswordGroup').show(300);}"/>
+							<input type="password" autocomplete="off" readonly onfocus="this.readonly = false;" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none' || $('#confirmSitePasswordGroup')[0].style.display == ''){$('#confirmSitePasswordGroup').show(300);}"/>
 						</div>
 
 						<div class="group" id="confirmSitePasswordGroup">
 							<div class="inputTitle">Confirm site password:</div>
-							<input type="password" autocomplete="off" placeholder="to verify submissions"/>
+							<input type="password" autocomplete="off" readonly onfocus="this.readonly = false;" placeholder="to verify submissions"/>
 						</div>
 
 						<div class="group">
