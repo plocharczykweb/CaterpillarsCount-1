@@ -82,12 +82,12 @@
 				color:#666;
 			}
 			
-			#createSiteButton{
-				width:201px;
+			#confirmSitePasswordGroup{
+				display:none;
 			}
 			
 			@media screen and (max-width: 620px) {
-				#createSiteButton{
+				#saveSiteSettingsButton{
 					width:100%;
 				}
 			}
@@ -134,6 +134,10 @@
 				textareaElement.style.overflow = "hidden";
 				$(textareaElement).stop().animate({height:'54px', scrollTop:'0'});
 				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeIn();
+			}
+			
+			function saveSiteSettings(){
+				
 			}
 		</script>
 	</head>
@@ -220,10 +224,10 @@
 
 						<div class="group">
 							<div class="inputTitle">Site password (that you are willing to share with vistors at this site):</div>
-							<input type="password" placeholder="to verify submissions"/>
+							<input type="password" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none'){$('#confirmSitePasswordGroup').show(300);}"/>
 						</div>
 
-						<div class="group">
+						<div class="group" id="confirmSitePasswordGroup">
 							<div class="inputTitle">Confirm site password:</div>
 							<input type="password" placeholder="to verify submissions"/>
 						</div>
@@ -238,7 +242,7 @@
 							</table>
 						</div>
 
-						<button id="createSiteButton" onclick="createNewSite();">Save site settings</button>
+						<button id="saveSiteSettingsButton" onclick="saveSiteSettings();">Save site settings</button>
 					</div>
 				</div>
 			</div>
