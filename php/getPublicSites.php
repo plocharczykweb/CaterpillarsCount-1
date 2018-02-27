@@ -68,7 +68,7 @@
 		    	"region" => "ME",
 		    	"latitude" => 44.3393,
 		    	"longitude" => -68.0657,
-		),*/
+		),
 		array(
 			"creatorEmailParts" => array("contact", "naturecenter.org"),
 		    	"siteName" => "Kalamazoo Nature Center",
@@ -76,7 +76,7 @@
 		    	"region" => "MI",
 		    	"latitude" => 42.3604,
 		    	"longitude" => -85.5836,
-		),
+		),*/
 		array(
 			"creatorEmailParts" => array("bonnie.nevel", "dukeschool.org"),
 		    	"siteName" => "Duke School",
