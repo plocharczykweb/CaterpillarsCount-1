@@ -21,6 +21,8 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
 		<script>
+			requireLogIn();
+			
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 			});
@@ -91,7 +93,43 @@
 			<div class="panel">
 				<h2>Edit Site</h2>
 				<div class="tagline">...will be coming soon</div>
-				<div class="underConstructionImage"></div>
+				<div class="content">
+					<div class="group">
+						<div class="inputTitle">Site name:</div>
+						<input type="text" placeholder="short and descriptive"/>
+					</div>
+
+					<div class="group">
+						<div class="inputTitle">Site description:</div>
+						<div class="textareaHolder">
+							<textarea id="a" placeholder="Explain briefly the nature of your site, e.g., &quot;Prairie Ridge Ecostation is an outdoor nature center with 45 acres of Piedmont prairie, forest, ponds, and a stream&quot;" oninput="countTo(this, 140);" onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
+							<div class="textareaOtherLinesCover"></div>
+						</div>
+						<div class="characterCount">0/140</div>
+					</div>
+
+					<div class="group">
+						<div class="inputTitle">Site password (that you are willing to share with vistors at this site):</div>
+						<input type="password" placeholder="to verify submissions"/>
+					</div>
+
+					<div class="group">
+						<div class="inputTitle">Confirm site password:</div>
+						<input type="password" placeholder="to verify submissions"/>
+					</div>
+
+					<div class="group">
+						<table class="checkboxTable">
+							<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
+								<td><div class="checkbox" id="publicCheckbox"></div></td>
+								<td>Make site public and allow people to contact me about it.</td>
+								<td onclick="event.stopPropagation();queueNotice('alert', 'Opening your site to the public will allow users to find it on our website and use your email address to contact you about it.');"><img src="../images/question.png"/></td>
+							<tr>
+						</table>
+					</div>
+
+					<button id="createSiteButton" onclick="createNewSite();">Save site settings</button>
+				</div>
 			</div>
 		</main>
 		<footer>
