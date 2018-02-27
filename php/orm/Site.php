@@ -276,6 +276,48 @@ class Site
 	}
 	
 //SETTERS
+	public function setName($name){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$name = self::validName($dbconn, $name);
+			if($name !== false){
+				mysqli_query($dbconn, "UPDATE Site SET Name='$name' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->name = $name;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setDescription($description){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$description = self::validDescription($dbconn, $description);
+			if($description !== false){
+				mysqli_query($dbconn, "UPDATE Site SET Description='$description' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->description = $description;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setOpenToPublic($openToPublic){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$openToPublic = filter_var($openToPublic, FILTER_VALIDATE_BOOLEAN);
+			mysqli_query($dbconn, "UPDATE Site SET OpenToPublic='$openToPublic' WHERE ID='" . $this->id . "'");
+			mysqli_close($dbconn);
+			$this->openToPublic = $openToPublic;
+			return true;
+		}
+		return false;
+	}
+	
 	public function setPassword($password) {
 		if(!$this->deleted)
 		{
@@ -381,7 +423,7 @@ class Site
 	public static function validNameFormat($dbconn, $name){
 		$name = mysqli_real_escape_string($dbconn, $name);
 		
-		if($name == ""){
+		if(preg_replace('/\s+/', '', $name) == ""){
 			return false;
 		}
 		return $name;
