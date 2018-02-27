@@ -18,7 +18,7 @@
 			"description" => $site->getDescription(),
 			"openToPublic" => $site->getOpenToPublic(),
 			);
-			die("true|" . json_encode($sitesArray));
+			die("true|" . json_encode($siteArray));
 		}
 		die("false|You do not have permission to edit this site.");
 	}
