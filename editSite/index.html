@@ -186,7 +186,7 @@
 				var password = $("#password")[0].value;
 				var confirmPassword = $("#confirmPassword")[0].value;
 				
-				if(name == ""){
+				if(name.replace(/ /g, "") == ""){
 					queueNotice("error", "Enter a site name.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
 					
