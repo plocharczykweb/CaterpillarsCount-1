@@ -292,7 +292,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/editSite.php?siteName=" + name + "&description=" + description + "&sitePassword=" + password + "&public=" + checkboxIsChecked($("#publicCheckbox")).toString() + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/editSiteSettings.php?siteName=" + name + "&description=" + description + "&sitePassword=" + password + "&public=" + checkboxIsChecked($("#publicCheckbox")).toString() + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 		</script>
