@@ -2,63 +2,54 @@
 	header('Access-Control-Allow-Origin: *');
 	
 	require_once('orm/User.php');
+	require_once('orm/Site.php');
 	
+	$siteID = $_GET["siteID"];
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
 	$siteName = $_GET["siteName"];
 	$description = $_GET["description"];
-	$latitude = $_GET["latitude"];
-	$longitude = $_GET["longitude"];
-	$zoom = $_GET["zoom"];
-	$plantCount = intval($_GET["plantCount"]);
 	$sitePassword = $_GET["sitePassword"];
 	$public = $_GET["public"];
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
-		//make sure plant count is valid
-		if($plantCount % 5 != 0){
-			die("false|The number of plants you will survey must be a multiple of 5. ");
-		}
-		
-		//get region from lat/long
-		//Max of 2,500 free requests per day, calculated as the sum of client-side and server-side queries.
-		//Max of 50 requests per second, calculated as the sum of client-side and server-side queries.
-		$KEY = "AIzaSyC66haLntB413i6pkgSCXl3wpbrS4SPEx4";
-		$arr = json_decode(file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?latlng=" . $latitude . "," . $longitude . "&key=" . $KEY), true);
-		$country = "";
-		$region = "";
-		$addressComponents = $arr["results"][0]["address_components"];
-		for($i = 0; $i < count($addressComponents); $i++){
-			if(in_array("country", $addressComponents[$i]["types"])){
-				$country = $addressComponents[$i]["short_name"];
+		$sites = $user->getSites();
+		$site = Site::findByID($siteID);
+		if(is_object($site) && get_class($site) == "Site" && in_array($site, $sites)){
+			$errors = "";
+			if($site->getName() != $siteName){
+				if(preg_replace('/\s+/', '', $siteName) == ""){
+					$errors .= "Enter a site name. ";
+				}
+				else if(!$site->setName($siteName)){
+					$errors .= "That site name is already in use. Choose a different one. ";
+				}
 			}
-			else if(in_array("administrative_area_level_1", $addressComponents[$i]["types"])){
-				$region = $addressComponents[$i]["short_name"];
+			if($site->getDescription() != $description){
+				if(!$site->setDescription($description)){
+					$errors .= "Site description must be between 1 and 255 characters. ";
+				}
 			}
+			if(!$site->passwordIsCorrect($sitePassword)){
+				if($user->passwordIsCorrect($password)){
+					$errors .= "Password cannot be the same as your Caterpillars Count! account password because you may be sharing it with vistors at this site. ";
+				}
+				else if(!$site->setPassword($sitePassword)){
+					$errors .= "Password must be at least 4 characters with no spaces. ";
+				}
+			}
+			if($site->getOpenToPublic() === filter_var($public, FILTER_VALIDATE_BOOLEAN)){
+				if(!$site->setOpenToPublic($openToPublic)){
+					$errors .= "Could not set site's public status. ";
+				}
+			}
+			if($errors == ""){
+				die("true");
+			}
+			die("false|" . $errors);
 		}
-		
-		$finalRegion = $country;
-		if($country == "US" || $country == "CA"){
-			$finalRegion = $region;
-		}
-		
-		//create site
-		$site = $user->createSite($siteName, $description, $latitude, $longitude, $zoom, $finalRegion, $sitePassword, $public);
-		
-		//output errors if there are any
-		if(!is_object($site) || get_class($site) != "Site"){
-			die("false|" . $site);
-		}
-		
-		//if error free, create the plants for the site
-		for($i = 0; $i < ($plantCount / 5); $i++){
-			$site->addCircle();
-		}
-		//and email the creator
-		$site->emailPlantCodesToCreator();
-		die("true");
-		
+		die("false|You do not have permission to edit this site.");
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
