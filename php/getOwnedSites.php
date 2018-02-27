@@ -21,7 +21,6 @@
 				"region" => $sites[$i]->getRegion(),
 				"plantCount" => count($sites[$i]->getPlants()),
 				"id" => $sites[$i]->getID(),
-				"openToPublic" => $sites[$i]->getOpenToPublic(),
 			);
 		}
 		die("true|" . json_encode($sitesArray));
