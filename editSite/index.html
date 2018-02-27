@@ -224,7 +224,7 @@
 
 						<div class="group">
 							<div class="inputTitle">Site password (that you are willing to share with vistors at this site):</div>
-							<input type="password" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none'){$('#confirmSitePasswordGroup').show(300);}"/>
+							<input type="password" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none' || $('#confirmSitePasswordGroup')[0].style.display == ''){$('#confirmSitePasswordGroup').show(300);}"/>
 						</div>
 
 						<div class="group" id="confirmSitePasswordGroup">
