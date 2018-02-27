@@ -337,7 +337,7 @@
 								$("#createSite input").eq(3)[0].value = "";
 								$("#createSite input").eq(2)[0].focus();
 							}
-							else if(setNewPasswordError == "Your log in dissolved. Maybe you logged in on another device."){
+							else if(createSiteError.indexOf("Your log in dissolved. Maybe you logged in on another device.") > -1){
 								$("#createSite input").eq(0)[0].blur();
 								$("#createSite textarea").eq(0)[0].blur();
 								$("#createSite input").eq(1)[0].blur();
