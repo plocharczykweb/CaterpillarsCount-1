@@ -279,12 +279,12 @@
 
 						<div class="group">
 							<div class="inputTitle">Site password (that you are willing to share with vistors at this site):</div>
-							<input type="password" id="password" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none' || $('#confirmSitePasswordGroup')[0].style.display == ''){$('#confirmSitePasswordGroup').show(300);}"/>
+							<input type="password" id="password" value="        " autocomplete="off" readonly onfocus="this.removeAttribute('readonly');this.setSelectionRange(0, 9999);" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none' || $('#confirmSitePasswordGroup')[0].style.display == ''){$('#confirmSitePasswordGroup').show(300);}"/>
 						</div>
 
 						<div class="group" id="confirmSitePasswordGroup">
 							<div class="inputTitle">Confirm site password:</div>
-							<input type="password" id="confirmPassword" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" placeholder="to verify submissions"/>
+							<input type="password" id="confirmPassword" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');this.setSelectionRange(0, 9999);" placeholder=""/>
 						</div>
 
 						<div class="group">
