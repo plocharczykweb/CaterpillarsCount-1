@@ -31,7 +31,7 @@
 					$errors .= "Site description must be between 1 and 255 characters. ";
 				}
 			}
-			if(!$site->passwordIsCorrect($sitePassword)){
+			if(!$site->passwordIsCorrect($sitePassword) && $sitePassword != "hf!Eo 2k"){//"hf!Eo 2k" is just the placeholder default value from the front end
 				if($user->passwordIsCorrect($password)){
 					$errors .= "Password cannot be the same as your Caterpillars Count! account password because you may be sharing it with vistors at this site. ";
 				}
