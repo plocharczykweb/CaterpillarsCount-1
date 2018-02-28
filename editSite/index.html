@@ -206,7 +206,7 @@
 					return false;
 				}
 				
-				if(password != confirmPassword){
+				if(password != confirmPassword && (password != "hf!Eo 2k" || confirmPassword != "")){
 					queueNotice("error", "Site passwords must match.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
 					
@@ -216,7 +216,7 @@
 					return false;
 				}
 				
-				if(password.indexOf(" ") > -1 || password.length < 4){
+				if((password.indexOf(" ") > -1 || password.length < 4) && password != "hf!Eo 2k"){
 					queueNotice("error", "Password must be at least 4 characters with no spaces.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
 					
@@ -395,7 +395,7 @@
 
 						<div class="group">
 							<div class="inputTitle">Site password (that you are willing to share with vistors at this site):</div>
-							<input type="password" id="password" value="        " autocomplete="off" readonly onfocus="this.removeAttribute('readonly');this.setSelectionRange(0, 9999);" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none' || $('#confirmSitePasswordGroup')[0].style.display == ''){$('#confirmSitePasswordGroup').show(300);}"/>
+							<input type="password" id="password" value="hf!Eo 2k" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');this.setSelectionRange(0, 9999);" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none' || $('#confirmSitePasswordGroup')[0].style.display == ''){$('#confirmSitePasswordGroup').show(300);}"/>
 						</div>
 
 						<div class="group" id="confirmSitePasswordGroup">
