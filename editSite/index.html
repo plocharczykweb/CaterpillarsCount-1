@@ -141,6 +141,7 @@
 				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeIn();
 			}
 			
+			var savedName = "";
 			function loadSiteSettings(){
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
@@ -148,6 +149,7 @@
 						if(this.responseText.indexOf("true|") == 0){
 							var data = JSON.parse(this.responseText.replace("true|", ""));
 							var name = data["name"];
+							savedName = name;
 							var description = data["description"];
 							var openToPublic = data["openToPublic"];
 							
@@ -235,6 +237,7 @@
 						setLoadingButton($("#saveSiteSettingsButton")[0], "Save site settings", false);
 						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
 						if(this.responseText == "true"){
+							savedName = name;
 							queueNotice("confirmation", "Saved!");
 							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";};
 							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
@@ -295,6 +298,11 @@
 				};
 				xhttp.open("GET", "../php/editSiteSettings.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "&siteName=" + name + "&description=" + description + "&sitePassword=" + password + "&public=" + checkboxIsChecked($("#openToPublic")).toString() + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
+			}
+			
+			var changeSiteNameConfirmed = false;
+			function setChangeSiteNameConfirmed(confirmBoolean){
+				changeSiteNameConfirmed = confirmBoolean;
 			}
 		</script>
 	</head>
@@ -381,7 +389,7 @@
 					<div class="form">
 						<div class="group">
 							<div class="inputTitle">Site name:</div>
-							<input type="text" id="name" placeholder="short and descriptive" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');"/>
+							<input type="text" id="name" oninput="if(this.value.trim() == savedName){setChangeSiteNameConfirmed(true);}else{setChangeSiteNameConfirmed(false);}" placeholder="short and descriptive" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" onblur="if(this.value != savedName){promptConfirm('Changing your site\'s name might confuse other people who are already familiar with its current name. Are you sure you want to do this?', 'Nevermind.', 'Yes, I am sure!', function(){document.getElementById('name').value = savedName;setChangeSiteNameConfirmed(true);}, function(){setChangeSiteNameConfirmed(true);});setTimeout(function(){$('textarea').eq(0).blur();for(var i = 1; i < $('input').length; i++){$('input').eq(i).blur();}},1);}}"/>
 						</div>
 
 						<div class="group">
@@ -405,15 +413,15 @@
 
 						<div class="group">
 							<table class="checkboxTable">
-								<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
+								<tr onclick="if(changeSiteNameConfirmed){toggleCheckbox($(this).find('.checkbox'));}">
 									<td><div class="checkbox" id="openToPublic"></div></td>
 									<td>Make site public and allow people to contact me about it.</td>
-									<td onclick="event.stopPropagation();queueNotice('alert', 'Opening your site to the public will allow users to find it on our website and use your email address to contact you about it.');"><img src="../images/question.png"/></td>
+									<td onclick="if(changeSiteNameConfirmed){event.stopPropagation();queueNotice('alert', 'Opening your site to the public will allow users to find it on our website and use your email address to contact you about it.');}"><img src="../images/question.png"/></td>
 								<tr>
 							</table>
 						</div>
 
-						<button id="saveSiteSettingsButton" onclick="saveSiteSettings();">Save site settings</button>
+						<button id="saveSiteSettingsButton" onclick="if(changeSiteNameConfirmed){saveSiteSettings();}">Save site settings</button>
 					</div>
 				</div>
 			</div>
