@@ -230,6 +230,15 @@
 				window.location = '../editSurveyPlants/index.html?s=' + id;
 			}
 			
+			function editSite(){
+				var id = getSelectValue($(".select").eq(0));
+				if(id == ""){
+					queueNotice("error", "Select a site first.");
+					return false;
+				}
+				window.location = '../editSite/index.html?s=' + id;
+			}
+			
 			
 			
 			
@@ -452,7 +461,7 @@
 					-->
 					
 					<div class="rightText">
-						<div class="siteOperationDiv" onclick="queueNotice('alert', 'The &quot;Edit Site&quot; feature is coming soon.');">
+						<div class="siteOperationDiv" onclick="editSite();">
 							<div class="table">
 								<img src="../images/edit.png"/>
 								<div class="caption">Edit Site</div>
