@@ -14,9 +14,9 @@
 		$site = Site::findByID($siteID);
 		if(is_object($site) && get_class($site) == "Site" && in_array($site, $sites)){
 			$siteArray = array(
-			"name" => $site->getName(),
-			"description" => $site->getDescription(),
-			"openToPublic" => $site->getOpenToPublic(),
+				"name" => $site->getName(),
+				"description" => $site->getDescription(),
+				"openToPublic" => $site->getOpenToPublic(),
 			);
 			die("true|" . json_encode($siteArray));
 		}
