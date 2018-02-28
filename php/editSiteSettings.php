@@ -40,7 +40,7 @@
 				}
 			}
 			if($site->getOpenToPublic() !== filter_var($public, FILTER_VALIDATE_BOOLEAN)){
-				if(!$site->setOpenToPublic($openToPublic)){
+				if(!$site->setOpenToPublic($public)){
 					$errors .= "Could not set site's public status. ";
 				}
 			}
