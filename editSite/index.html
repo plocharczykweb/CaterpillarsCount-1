@@ -180,6 +180,8 @@
 			
 			var savingSiteSettings = false;
 			function saveSiteSettings(){
+				if(savingSiteSettings){return false;}
+				
 				var name = $("#name")[0].value;
 				var description = $("#description")[0].value;
 				var openToPublic = checkboxIsChecked($("#openToPublic"));
