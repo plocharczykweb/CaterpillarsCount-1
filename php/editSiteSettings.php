@@ -39,7 +39,7 @@
 					$errors .= "Password must be at least 4 characters with no spaces. ";
 				}
 			}
-			if($site->getOpenToPublic() === filter_var($public, FILTER_VALIDATE_BOOLEAN)){
+			if($site->getOpenToPublic() !== filter_var($public, FILTER_VALIDATE_BOOLEAN)){
 				if(!$site->setOpenToPublic($openToPublic)){
 					$errors .= "Could not set site's public status. ";
 				}
