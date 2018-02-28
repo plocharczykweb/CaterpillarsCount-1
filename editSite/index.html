@@ -293,7 +293,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/editSiteSettings.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "&siteName=" + name + "&description=" + description + "&sitePassword=" + password + "&public=" + checkboxIsChecked($("#publicCheckbox")).toString() + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/editSiteSettings.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "&siteName=" + name + "&description=" + description + "&sitePassword=" + password + "&public=" + checkboxIsChecked($("#openToPublic")).toString() + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 		</script>
