@@ -421,7 +421,7 @@ class Site
 	}
 	
 	public static function validNameFormat($dbconn, $name){
-		$name = mysqli_real_escape_string($dbconn, $name);
+		$name = trim(mysqli_real_escape_string($dbconn, $name));
 		
 		if(preg_replace('/\s+/', '', $name) == ""){
 			return false;
