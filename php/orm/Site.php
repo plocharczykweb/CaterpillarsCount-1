@@ -521,16 +521,19 @@ class Site
 		return true;
 	}
 	
-	public function sendPrintTagsEmailToCreator(){
-		$dbconn = (new Keychain)->getDatabaseConnection();
-		$plants = $this->getPlants();
-		$numberOfCircles = (count($plants) / 5);
-		$root = (new Keychain)->getRoot();
-		$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">Here's what you need to know to set up your \"" . $this->name . "\" Caterpillars Count! site!<br/><br/>If you haven't done so yet, locate and identify your survey branches first. Then click the \"Edit Survey Plants\" button on the <a href=\"" . $root . "/manageMySites\" style=\"color:#70c6ff;\">Manage My Sites</a> page of the website to enter the tree species names for each survey.<br/><br/>You can then proceed to <a href=\"" . $root . "/php/printPlantCodes.php?q=" . $this->id . "\" style=\"color:#70c6ff;\">click here</a> to print the Survey Plant Code tags to hang on each survey branch. (We recommend printing in color, then \"laminating\" by folding each tag in a strip of packing tape, then hanging by twist tie or other means.)<br/><br/>If you have entered the plant species names for each survey using the web link above, they will appear on the tags. Otherwise, the plant species will be listed as \"N/A\".</div><a href=\"" . $root . "/manageMySites\"><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">MANAGE MY SITES</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"><div>Alternatively, use this link and then click \"Edit Survey Plants\" to enter the tree species names for each survey: <a href=\"" . $root . "/manageMySites\" style=\"color:#70c6ff;\">" . $root . "/manageMySites</a></div><div>And then use this link to print the tags for your new site: <a href=\"" . $root . "/php/printPlantCodes.php?q=" . $this->id . "\" style=\"color:#70c6ff;\">" . $root . "/php/printPlantCodes.php?q=" . $this->id . "</a></div></div></div>";
-		email($this->creator->getEmail(), "Print tags for your \"" . $this->name . "\" Caterpillars Count! site", $message);//, $headers);
+	public function sendPrintTagsEmailTo($user){
+		if(in_array($this, $user->getSites())){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$plants = $this->getPlants();
+			$numberOfCircles = (count($plants) / 5);
+			$root = (new Keychain)->getRoot();
+			$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">Here's what you need to know to set up your \"" . $this->name . "\" Caterpillars Count! site!<br/><br/>If you haven't done so yet, locate and identify your survey branches first. Then click the \"Edit Survey Plants\" button on the <a href=\"" . $root . "/manageMySites\" style=\"color:#70c6ff;\">Manage My Sites</a> page of the website to enter the tree species names for each survey.<br/><br/>You can then proceed to <a href=\"" . $root . "/php/printPlantCodes.php?q=" . $this->id . "\" style=\"color:#70c6ff;\">click here</a> to print the Survey Plant Code tags to hang on each survey branch. (We recommend printing in color, then \"laminating\" by folding each tag in a strip of packing tape, then hanging by twist tie or other means.)<br/><br/>If you have entered the plant species names for each survey using the web link above, they will appear on the tags. Otherwise, the plant species will be listed as \"N/A\".</div><a href=\"" . $root . "/manageMySites\"><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">MANAGE MY SITES</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"><div>Alternatively, use this link and then click \"Edit Survey Plants\" to enter the tree species names for each survey: <a href=\"" . $root . "/manageMySites\" style=\"color:#70c6ff;\">" . $root . "/manageMySites</a></div><div>And then use this link to print the tags for your new site: <a href=\"" . $root . "/php/printPlantCodes.php?q=" . $this->id . "\" style=\"color:#70c6ff;\">" . $root . "/php/printPlantCodes.php?q=" . $this->id . "</a></div></div></div>";
+			email($user->getEmail(), "Print tags for your \"" . $this->name . "\" Caterpillars Count! site", $message);//, $headers);
 		
-		mysqli_close($dbconn);
-		return true;
+			mysqli_close($dbconn);
+			return true;
+		}
+		return false;
 	}
 	
 	public function passwordIsCorrect($password){
