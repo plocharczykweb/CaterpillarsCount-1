@@ -66,7 +66,7 @@
 	if(is_object($user) && get_class($user) == "User"){
 		$plant = Plant::findByCode($plantCode);
 		if(!is_object($plant)){
-			die("false|Enter a valid plant code.");
+			die("false|Enter a valid survey location code.");
 		}
 		
 		$site = $plant->getSite();
