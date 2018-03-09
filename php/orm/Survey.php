@@ -302,7 +302,7 @@ class Survey
 	public static function validPlantSpecies($dbconn, $plantSpecies, $plant){
 		if(preg_replace('/\s+/', '', $plantSpecies) == "" || trim(strtoupper($plantSpecies)) == "N/A"){return false;}
 		
-		if(validPlant($dbconn, $plant) !== false){
+		if(self::validPlant($dbconn, $plant) !== false){
 			$officialPlantSpecies = $plant->getSpecies();
 			if($officialPlantSpecies != "N/A"){
 				return $officialPlantSpecies;
