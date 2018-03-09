@@ -56,7 +56,7 @@
 			$site->addCircle();
 		}
 		//and email the creator
-		$site->emailPlantCodesToCreator();
+		$site->sendSignUpEmailToCreator();
 		die("true");
 		
 	}
