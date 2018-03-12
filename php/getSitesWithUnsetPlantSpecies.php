@@ -13,7 +13,7 @@
     		for($i = 0; $i < count($sites); $i++){
       			$plants = $sites[$i]->getPlants();
       			for($j = 0; $j < count($plants); $j++){
-        			if(plants[$j].getSpecies() == "N/A"){
+        			if(plants[$j]->getSpecies() == "N/A"){
           				$sitesWithUnsetPlantSpecies[] = '"' . $sites[$i]->getName() . '"';
           				break;
         			}
