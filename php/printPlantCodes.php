@@ -13,7 +13,7 @@
 			border:5px solid;
 			border-top:38px solid;
 		}
-		
+
 		body>div>div:nth-of-type(1), body>div>div:nth-of-type(2){
 			color:#333;
 			padding:5px;
@@ -26,12 +26,28 @@
 		body>div>div:nth-of-type(2){
 			margin-top:-16px;
 		}
-		
-		body>div>div:nth-of-type(3){
+
+		body>div>div:nth-of-type(5){
 			background:#fff;
 			text-align:center;
 			font-size:50px;
 			padding:0px 20px;
+		}
+    
+		.cutout{
+			height:7px;
+			width:12px;
+			background-color:#eee;
+			border-radius:9999px;
+			border:1px dashed #999;
+		}
+
+		.left{
+			float:left;
+		}
+
+		.right{
+			float:right;
 		}
 		
 		@page {
@@ -102,6 +118,8 @@
 					echo 			"</text>";
 					echo 		"</svg>";
 					echo	"</div>";
+					echo	"<div class=\"left cutout\"></div>";
+					echo	"<div class=\"right cutout\"></div>";
 					echo 	"<div style='color:$color;'>" . $plants[$i]->getCode() . "</div>";
 					echo "</div>";
 				}
