@@ -23,8 +23,11 @@
     		if($numberOfSitesWithUnsetPlantSpecies > 0){
       			$sitesWithUnsetPlantSpecies = join(", ", $sitesWithUnsetPlantSpecies);
       			if($numberOfSitesWithUnsetPlantSpecies > 1){
-        			$sitesWithUnsetPlantSpecies = substr_replace($sitesWithUnsetPlantSpecies, " and", strrpos($sitesWithUnsetPlantSpecies, ","), 1);
+        			$sitesWithUnsetPlantSpecies = "your sites (" . substr_replace($sitesWithUnsetPlantSpecies, " and", strrpos($sitesWithUnsetPlantSpecies, ","), 1) . ")";
       			}
+			else{
+				$sitesWithUnsetPlantSpecies = "your site (" . $sitesWithUnsetPlantSpecies . ")";
+			}
       			die("true|" . $sitesWithUnsetPlantSpecies);
     		}
 	}
