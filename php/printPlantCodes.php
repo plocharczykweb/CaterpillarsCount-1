@@ -37,7 +37,6 @@
 		.cutout{
 			height:7px;
 			width:12px;
-			background-color:#eee;
 			border-radius:9999px;
 			border:1px dashed #999;
 		}
