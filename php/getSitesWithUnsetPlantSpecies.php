@@ -22,7 +22,10 @@
     		$numberOfSitesWithUnsetPlantSpecies = count($sitesWithUnsetPlantSpecies);
     		if($numberOfSitesWithUnsetPlantSpecies > 0){
       			$sitesWithUnsetPlantSpecies = join(", ", $sitesWithUnsetPlantSpecies);
-      			if($numberOfSitesWithUnsetPlantSpecies > 1){
+      			if($numberOfSitesWithUnsetPlantSpecies > 2){
+        			$sitesWithUnsetPlantSpecies = "your sites (" . substr_replace($sitesWithUnsetPlantSpecies, ", and", strrpos($sitesWithUnsetPlantSpecies, ","), 1) . ")";
+      			}
+			else if($numberOfSitesWithUnsetPlantSpecies > 1){
         			$sitesWithUnsetPlantSpecies = "your sites (" . substr_replace($sitesWithUnsetPlantSpecies, " and", strrpos($sitesWithUnsetPlantSpecies, ","), 1) . ")";
       			}
 			else{
