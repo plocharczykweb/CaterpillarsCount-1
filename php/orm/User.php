@@ -188,7 +188,12 @@ class User
 	
 	public function getSites(){
 		if($this->deleted){return null;}
-		if($this->email == "plocharczykweb@gmail.com"){return Site::findAll();}
+		
+		//Super users
+		if($this->email == "plocharczykweb@gmail.com" || $this->email == "hurlbert@bio.unc.edu"){
+			return Site::findAll();
+		}
+		
 		return Site::findSitesByCreator($this);
 	}
 	
