@@ -165,6 +165,22 @@ class Site
 		return $sitesArray;
 	}
 	
+	public static function findManagedSitesByManager($manager){
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		$query = mysqli_query($dbconn, "SELECT `SiteFK` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "'");
+		mysqli_close($dbconn);
+		
+		$sitesArray = array();
+		while($managerRow = mysqli_fetch_assoc($query)){
+			$siteFK = $managerRow["SiteFK"];
+			$site = self::findByID($siteFK);
+			if(is_object($site) && get_class($site) == "Site"){
+				array_push($sitesArray, $site);
+			}
+		}
+		return $sitesArray;
+	}
+	
 	public static function findAllPublicSites(){
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT * FROM `Site` WHERE `OpenToPublic`='1'");
@@ -277,13 +293,26 @@ class Site
 	
 	public function getManagers(){
 		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteManager` WHERE `SiteFK`='" . $this->id . "'");
+		$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `SiteManager` WHERE `SiteFK`='" . $this->id . "'");
+		mysqli_close($dbconn);
 		
 		//LOOP THROUGH ALL MANAGERS AND CONSTRUCT AN ARRAY OF MANAGERS TO RETURN
-		$managerID = mysqli_fetch_assoc($query)["ID"];
-		
-		mysqli_close($dbconn);
-		return true;
+		$managersArray = array();
+		while($managerRow = mysqli_fetch_assoc($query)){
+			$userFKOfManager = $managerRow["UserFKOfManager"];
+			$manager = User::findByID($userFKOfManager);
+			
+			if(is_object($manager) && get_class($manager) == "User"){
+				$managerArray = array(
+					"id" => $userFKOfManager,
+					"fullName" => $manager->getFullName(),
+					"email" => $manager->getEmail(),
+				);
+				
+				array_push($managersArray, $managerArray);
+			}
+		}
+		return $managersArray;
 	}
 	
 //SETTERS
