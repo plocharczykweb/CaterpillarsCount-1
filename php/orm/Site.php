@@ -275,6 +275,17 @@ class Site
 		return true;
 	}
 	
+	public function getManagers(){
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteManager` WHERE `SiteFK`='" . $this->id . "'");
+		
+		//LOOP THROUGH ALL MANAGERS AND CONSTRUCT AN ARRAY OF MANAGERS TO RETURN
+		$managerID = mysqli_fetch_assoc($query)["ID"];
+		
+		mysqli_close($dbconn);
+		return true;
+	}
+	
 //SETTERS
 	public function setName($name){
 		if(!$this->deleted){
@@ -544,6 +555,34 @@ class Site
 			return true;
 		}
 		mysqli_close($dbconn);
+		return false;
+	}
+	
+	public function appointManager($manager){
+		if(is_object($manager) && get_class($manager) == "User" && $manager->getID() != $this->creator->getID()){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
+			if(mysqli_num_rows($query) == 0){
+				mysqli_query($dbconn, "INSERT INTO SiteManager (`UserFKOfManager`, `SiteFK`) VALUES ('" . $manager->getID() . "', '" . $this->id . "')");
+				//$id = intval(mysqli_insert_id($dbconn));
+			}
+			mysqli_close($dbconn);
+			return true;
+		}
+		return false;
+	}
+	
+	public function terminateManager($manager){
+		if(is_object($manager) && get_class($manager) == "User" && $manager->getID() != $this->creator->getID()){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
+			if(mysqli_num_rows($query) > 0){
+				$managerID = mysqli_fetch_assoc($query)["ID"];
+				mysqli_query($dbconn, "DELETE FROM `SiteManager` WHERE `UserFKOfManager`='$managerID' AND `SiteFK`='" . $this->id . "'");
+			}
+			mysqli_close($dbconn);
+			return true;
+		}
 		return false;
 	}
 }		
