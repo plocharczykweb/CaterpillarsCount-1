@@ -12,20 +12,16 @@
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
 		$site = Site::findByName($siteName);
-		if(is_object($site) && get_class($site) == "Site"){
-			if($site->getCreator()->getEmail() == $email){
-				if($site->passwordIsCorrect($newPassword)){
-					die("false|That is already " . $siteName . "'s password.");
-				}
-				if($site->setPassword($newPassword)){
-					die("true");
-				}
-				die("false|Password must be at least 8 characters with no spaces.");
+		if(is_object($site) && get_class($site) == "Site" && in_array($site, $user->getSites())){
+			if($site->passwordIsCorrect($newPassword)){
+				die("false|That is already " . $siteName . "'s password.");
 			}
-			//die("false|You must be the creator of a site to change its password.");
+			if($site->setPassword($newPassword)){
+				die("true");
+			}
+			die("false|Password must be at least 8 characters with no spaces.");
 		}
-		//die("false|No site with that name exists.");
-		die("false|You are not the creator of any site by that name.");
+		die("false|You do not have permission to change this site's password.");
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
