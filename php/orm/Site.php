@@ -167,7 +167,7 @@ class Site
 	
 	public static function findManagedSitesByManager($manager){
 		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT `SiteFK` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "'");
+		$query = mysqli_query($dbconn, "SELECT `SiteFK` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `Approved`='1'");
 		mysqli_close($dbconn);
 		
 		$sitesArray = array();
@@ -293,7 +293,7 @@ class Site
 	
 	public function getManagers(){
 		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `SiteManager` WHERE `SiteFK`='" . $this->id . "'");
+		$query = mysqli_query($dbconn, "SELECT * FROM `SiteManager` WHERE `SiteFK`='" . $this->id . "'");
 		mysqli_close($dbconn);
 		
 		//LOOP THROUGH ALL MANAGERS AND CONSTRUCT AN ARRAY OF MANAGERS TO RETURN
@@ -305,6 +305,7 @@ class Site
 			if(is_object($manager) && get_class($manager) == "User"){
 				$managerArray = array(
 					"id" => $userFKOfManager,
+					"approved" => filter_var($managerRow["Approved"], FILTER_VALIDATE_BOOLEAN),
 					"fullName" => $manager->getFullName(),
 					"email" => $manager->getEmail(),
 				);
@@ -592,8 +593,10 @@ class Site
 			$dbconn = (new Keychain)->getDatabaseConnection();
 			$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
 			if(mysqli_num_rows($query) == 0){
-				mysqli_query($dbconn, "INSERT INTO SiteManager (`UserFKOfManager`, `SiteFK`) VALUES ('" . $manager->getID() . "', '" . $this->id . "')");
+				mysqli_query($dbconn, "INSERT INTO SiteManager (`UserFKOfManager`, `SiteFK`, `Approved`) VALUES ('" . $manager->getID() . "', '" . $this->id . "', '0')");
 				//$id = intval(mysqli_insert_id($dbconn));
+				$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">" . $this->getCreator()->getFullName() . " would like you to be a manager of the \"" . $this->getName() . "\" site in " . $this->getRegion() . ". Please sign in to <a href='https://caterpillarscount.unc.edu/signIn'>caterpillarscount.unc.edu</a> using this email address (" . $manager->getEmail() . ") to approve or deny this request.</div><a href=\"/manageMySites\"><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">SIGN IN NOW</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"></div></div>";
+				email($manager->getEmail(), "New Caterpillars Count! Site Manager Request!", $message);
 			}
 			mysqli_close($dbconn);
 			return true;
