@@ -194,7 +194,10 @@ class User
 			return Site::findAll();
 		}
 		
-		return Site::findSitesByCreator($this);
+		//Everyone else
+		$managedSites = Site::findManagedSitesByManager($this);
+		$ownedSites = Site::findSitesByCreator($this);
+		return array_merge($ownedSites, $managedSites);
 	}
 	
 	public function getValidationStatus($site){
