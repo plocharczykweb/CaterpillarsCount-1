@@ -22,7 +22,13 @@
           				}
         			}
         			if($site->appointManager($manager)){
-          				die("true|");
+					$newManagerArray = array(
+						"id" => $manager->getID(),
+						"approved" => false,
+						"fullName" => $manager->getFullName(),
+						"email" => $manager->getEmail(),
+					);
+          				die("true|" . json_encode($newManagerArray));
        				}
         			die("false|You are the creator of this site. There is no need to also appoint yourself as a manager.");
       			}
