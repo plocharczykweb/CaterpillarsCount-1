@@ -299,7 +299,7 @@ class Site
 		//LOOP THROUGH ALL MANAGERS AND CONSTRUCT AN ARRAY OF MANAGERS TO RETURN
 		$managersArray = array();
 		while($managerRow = mysqli_fetch_assoc($query)){
-			$userFKOfManager = $managerRow["UserFKOfManager"];
+			$userFKOfManager = intval($managerRow["UserFKOfManager"]);
 			$manager = User::findByID($userFKOfManager);
 			
 			if(is_object($manager) && get_class($manager) == "User"){
