@@ -12,7 +12,7 @@
 	if(is_object($user) && get_class($user) == "User"){
     		$site = Site::findByID($siteID);
     		if(is_object($site) && get_class($site) == "Site" && $user->getID() == $site->getCreator()->getID()){
-      			die("true|" . $site->getManagersArray());
+      			die("true|" . json_encode($site->getManagersArray()));
     		}
     		die("false|You did not create this site, so you cannot oversee its management.");
   	}
