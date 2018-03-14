@@ -15,6 +15,12 @@
     		if(is_object($site) && get_class($site) == "Site" && $user->getID() == $site->getCreator()->getID()){
       			$manager = User::findByEmail($managerEmail);
       			if(is_object($manager) && get_class($manager) == "User"){
+				$siteManagers = $site->getManagersArray();
+				for($i = 0; $i < count($siteManagers); $i++){
+          				if($siteManagers[$i]["id"] == $manager->getID()){
+            					die("false|" . $manager->getFullName() . " is already a manager of this site.");
+          				}
+        			}
         			if($site->appointManager($manager)){
           				die("true|");
        				}
