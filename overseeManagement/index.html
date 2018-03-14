@@ -56,7 +56,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/getManagers.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/getManagers.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 		</script>
