@@ -291,7 +291,7 @@ class Site
 		return true;
 	}
 	
-	public function getManagers(){
+	public function getManagersArray(){
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT * FROM `SiteManager` WHERE `SiteFK`='" . $this->id . "'");
 		mysqli_close($dbconn);
