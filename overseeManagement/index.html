@@ -23,7 +23,40 @@
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				loadManagers();
 			});
+			
+			function loadManagers(){
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if(this.responseText.indexOf("true") == 0){
+							var managers = JSON.parse(this.responseText.replace("true|", ""));
+							
+							var htmlToAdd = "";
+							for(var i = 0; i < managers.length; i++){
+								htmlToAdd += managers[i]["id"];
+								htmlToAdd += managers[i]["approved"];
+								htmlToAdd += managers[i]["fullName"];
+								htmlToAdd += managers[i]["email"];
+							}
+							if(htmlToAdd == ""){
+								htmlToAdd = "No managers.";
+							}
+							$("#managers")[0].innerHTML = htmlToAdd;
+						}
+						else{
+							var loadManagersError = this.responseText.replace("false|", "");
+							queueNotice("error", loadManagersError);
+							if(loadManagersError == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "../php/getManagers.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.send();
+			}
 		</script>
 	</head>
 	<body>
@@ -91,7 +124,9 @@
 			<div class="panel">
 				<h2>Oversee Management</h2>
 				<div class="tagline">...will be coming soon</div>
-				<div class="underConstructionImage"></div>
+				<div class="content">
+					<div id="managers"></div>
+				</div>
 			</div>
 		</main>
 		<footer>
