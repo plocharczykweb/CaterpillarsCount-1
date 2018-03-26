@@ -194,10 +194,16 @@ class User
 			return Site::findAll();
 		}
 		
+		//Temporarily hard-coded "UNC Chapel Hill Campus" Managers
+		$temporarilyManagedSites = array();
+		if($this->email == "ssnell@live.unc.edu" || $this->email == "gdicecco@live.unc.edu"){
+			$temporarilyManagedSites[] = Site::findByName("UNC Chapel Hill Campus");
+		}
+		
 		//Everyone else
 		$managedSites = Site::findManagedSitesByManager($this);
 		$ownedSites = Site::findSitesByCreator($this);
-		return array_merge($ownedSites, $managedSites);
+		return array_merge($ownedSites, $managedSites, $temporarilyManagedSites);
 	}
 	
 	public function getValidationStatus($site){
