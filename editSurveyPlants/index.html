@@ -207,6 +207,12 @@
 				return false;
 			}
 			
+			function getWordAtIndex(str, index){
+				var left = str.slice(0, index + 1).search(/\S+$/);
+				var right = str.slice(index).search(/\s/);
+				if (right < 0) {return str.slice(left);}
+				return str.slice(left, right + index);
+			}
 			function attachAutoCompleteToInput(inputElement, sourceList){
 				$(inputElement).autocomplete({
 					minLength: 2,
