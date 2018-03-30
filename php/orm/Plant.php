@@ -190,14 +190,13 @@ class Plant
 //SETTERS
 	public function setSpecies($species) {
 		if(!$this->deleted){
-			if($this->species == $species || $this->species == validSpecies("NO DBCONN NEEDED", $species)){
-				return true;
-			}
+			if($this->species == $species){return true;}
+			$species = validSpecies("NO DBCONN NEEDED", $species);
+			if($this->species == $species){return true;}
 			
 			//Update only if needed
-			$dbconn = (new Keychain)->getDatabaseConnection();
-			$species = self::validSpecies($dbconn, $species);
 			if($species !== false){
+				$dbconn = (new Keychain)->getDatabaseConnection();
 				mysqli_query($dbconn, "UPDATE Plant SET `Species`='$species' WHERE ID='" . $this->id . "'");
 				mysqli_close($dbconn);
 				$this->species = $species;
