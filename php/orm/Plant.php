@@ -190,6 +190,11 @@ class Plant
 //SETTERS
 	public function setSpecies($species) {
 		if(!$this->deleted){
+			if($this->species == $species || $this->species == validSpecies("NO DBCONN NEEDED", $species)){
+				return true;
+			}
+			
+			//Update only if needed
 			$dbconn = (new Keychain)->getDatabaseConnection();
 			$species = self::validSpecies($dbconn, $species);
 			if($species !== false){
