@@ -7,6 +7,15 @@
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
 	$plantData = json_decode($_GET["plantData"]);
+
+	function getPlantFromArrayByCode($plantArray, $code){
+		for($i = 0; $i < count($plantArray); $i++){
+			if($plantArray[$i]->getCode() == $code){
+				return $plantArray[$i];
+			}
+		}
+		return null;
+	}
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
@@ -27,17 +36,15 @@
 		if(!in_array($site, $user->getSites())){
 			die("false|You do not have permission to edit the plants in this site.");
 		}
-
+		
+		$plants = $site->getPlants();
 		for($i = 0; $i < count($plantData); $i++){
 			if(count($plantData[$i]) == 2){
-				$plant = Plant::findByCode($plantData[$i][0]);
+				$plant = getPlantFromArrayByCode($plants, $plantData[$i][0]);
 				if(is_object($plant) && get_class($plant) == "Plant"){
-					if($plant->getSite() == $site){
-						$plant->setSpecies($plantData[$i][1]);
-					}
-					else{die("false|Plants from multiple sites detected.");}
+					$plant->setSpecies($plantData[$i][1]);
 				}
-				else{die("false|Plant with code \"" . $plantData[$i][0] . "\" could not be found.");}
+				else{die("false|Plant with code \"" . $plantData[$i][0] . "\" could not be found in the \"" . $site->getName() . "\" site.");}
 			}
 			else{die("false|Improperly formatted data provided.");}
 		}
