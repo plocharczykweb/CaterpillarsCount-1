@@ -191,7 +191,7 @@ class Plant
 	public function setSpecies($species) {
 		if(!$this->deleted){
 			if($this->species == $species){return true;}
-			$species = validSpecies("NO DBCONN NEEDED", $species);
+			$species = self::validSpecies("NO DBCONN NEEDED", $species);
 			if($this->species == $species){return true;}
 			
 			//Update only if needed
