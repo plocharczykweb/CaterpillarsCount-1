@@ -31,7 +31,7 @@
 		$plants = $site->getPlants();
 		$associativePlants = array();
 		for($i = 0; $i < count($plants); $i++){
-			$associativePlants[$plants->getCode()] = $plants[$i];
+			$associativePlants[$plants[$i]->getCode()] = $plants[$i];
 		}
 		
 		for($i = 0; $i < count($plantData); $i++){
