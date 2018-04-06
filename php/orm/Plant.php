@@ -190,6 +190,7 @@ class Plant
 //SETTERS
 	public function setSpecies($species) {
 		if(!$this->deleted){
+			$species = rawurldecode($species);
 			if($this->species == $species){return true;}
 			$species = self::validSpecies("NO DBCONN NEEDED", $species);
 			if($this->species == $species){return true;}
@@ -246,7 +247,7 @@ class Plant
 	}
 	
 	public static function validCircleFormat($dbconn, $circle){
-		$circle = intval(preg_replace("/[^0-9]/", "", $circle));
+		$circle = intval(preg_replace("/[^0-9]/", "", rawurldecode($circle)));
 		if($circle >= 0){
 			return $circle;
 		}
@@ -261,7 +262,7 @@ class Plant
 	}
 	
 	public static function validCode($dbconn, $code){
-		$code = mysqli_real_escape_string($dbconn, str_replace("0", "O", preg_replace('/\s+/', '', strtoupper($code))));
+		$code = mysqli_real_escape_string($dbconn, str_replace("0", "O", preg_replace('/\s+/', '', strtoupper(rawurldecode($code)))));
 		
 		if($code == ""){
 			return false;
@@ -270,6 +271,7 @@ class Plant
 	}
 	
 	public static function validSpecies($dbconn, $species){
+		$species = rawurldecode($species);
 		if(preg_replace('/\s+/', '', $species) == "" || trim(strtoupper($species)) == "N/A"){return false;}
 		
 		$species = trim($species);
