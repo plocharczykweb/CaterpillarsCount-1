@@ -289,7 +289,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/getPlantsBySite.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/getPlantsBySite.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 			
@@ -422,7 +422,7 @@
 				var plantData = [];
 				var inputs = $("input");
 				for(var i = 0; i < inputs.length; i++){
-					plantData[plantData.length] = [inputs.eq(i)[0].id, inputs.eq(i)[0].value.replace(/\s\s+/g, ' ')];
+					plantData[plantData.length] = [inputs.eq(i)[0].id, encodeURIComponent(inputs.eq(i)[0].value.replace(/\s\s+/g, ' '))];
 				}
 				
 				var xhttp = new XMLHttpRequest();
@@ -445,7 +445,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/updatePlantSpecies.php?plantData=" + JSON.stringify(plantData) + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/updatePlantSpecies.php?plantData=" + JSON.stringify(plantData) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 			
@@ -483,7 +483,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/addCircle.php?samplePlantCode=" + samplePlantCode + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/addCircle.php?samplePlantCode=" + encodeURIComponent(samplePlantCode) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 		</script>
