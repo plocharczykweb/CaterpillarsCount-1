@@ -58,7 +58,7 @@
 							}
 						}
 					};
-					xhttp.open("GET", "../php/recoverAccount.php?email=" + $("#recoverEmail")[0].value, true);
+					xhttp.open("GET", "../php/recoverAccount.php?email=" + encodeURIComponent($("#recoverEmail")[0].value), true);
 					xhttp.send();
 				}
 			}
