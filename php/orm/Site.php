@@ -377,7 +377,7 @@ class Site
 	}
 	
 	public function setObservationMethodPreset($user, $observationMethod){
-		if($this->deleted){return false;}
+		if($this->deleted || ($observationMethod != "Visual" && $observationMethod != "Beat sheet")){return false;}
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteUserPreset` WHERE `UserFK`='" . intval($user->getID()) . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
 		if(mysqli_num_rows($query) == 1){
@@ -462,7 +462,7 @@ class Site
 	}
 	
 	public static function validNameFormat($dbconn, $name){
-		$name = trim(mysqli_real_escape_string($dbconn, $name));
+		$name = trim(mysqli_real_escape_string($dbconn, rawurldecode($name)));
 		
 		if(preg_replace('/\s+/', '', $name) == ""){
 			return false;
@@ -471,7 +471,7 @@ class Site
 	}
 	
 	public static function validDescription($dbconn, $description){
-		$description = mysqli_real_escape_string($dbconn, $description);
+		$description = mysqli_real_escape_string($dbconn, rawurldecode($description));
 		
 		if(strlen($description) == 0 || strlen($description) > 255){
 			return false;
@@ -480,7 +480,7 @@ class Site
 	}
 	
 	public static function validLatitude($dbconn, $latitude){
-		$latitude = floatval(mysqli_real_escape_string($dbconn, preg_replace("/[^0-9.-]/", "", trim((string)$latitude))));
+		$latitude = floatval(mysqli_real_escape_string($dbconn, preg_replace("/[^0-9.-]/", "", trim(rawurldecode((string)$latitude)))));
 		if(abs($latitude) > 90){
 			return false;
 		}
@@ -488,7 +488,7 @@ class Site
 	}
 	
 	public static function validLongitude($dbconn, $longitude){
-		$longitude = floatval(mysqli_real_escape_string($dbconn, preg_replace("/[^0-9.-]/", "", trim((string)$longitude))));
+		$longitude = floatval(mysqli_real_escape_string($dbconn, preg_replace("/[^0-9.-]/", "", trim(rawurldecode((string)$longitude)))));
 		if(abs($longitude) > 180){
 			return false;
 		}
@@ -496,7 +496,7 @@ class Site
 	}
 	
 	public static function validZoom($dbconn, $zoom){
-		$zoom = intval(mysqli_real_escape_string($dbconn, preg_replace("/[^0-9]/", "", trim((string)$zoom))));
+		$zoom = intval(mysqli_real_escape_string($dbconn, preg_replace("/[^0-9]/", "", trim(rawurldecode((string)$zoom)))));
 		if($zoom < 10){
 			return false;
 		}
@@ -504,7 +504,7 @@ class Site
 	}
 	
 	public static function validRegion($dbconn, $region){
-		$region = mysqli_real_escape_string($dbconn, $region);
+		$region = mysqli_real_escape_string($dbconn, rawurldecode($region));
 		return $region;
 	}
 	
@@ -524,7 +524,7 @@ class Site
 	}
 	
 	public static function validPassword($dbconn, $password){
-		$spacelessPassword = mysqli_real_escape_string($dbconn, preg_replace('/ /', '', (string)$password));
+		$spacelessPassword = mysqli_real_escape_string($dbconn, preg_replace('/ /', '', rawurldecode((string)$password)));
 		
 		if(strlen($password) != strlen($spacelessPassword) || strlen($spacelessPassword) < 4){
 			return false;
@@ -578,6 +578,7 @@ class Site
 	}
 	
 	public function passwordIsCorrect($password){
+		$password = rawurldecode($password);
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$testSaltedPasswordHash = mysqli_real_escape_string($dbconn, hash("sha512", $this->salt . $password));
 		if($testSaltedPasswordHash == $this->saltedPasswordHash){
