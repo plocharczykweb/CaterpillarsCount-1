@@ -205,7 +205,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/getOwnedSitesLIGHT.php?email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/getOwnedSitesLIGHT.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 			
@@ -217,7 +217,7 @@
 				}
 				queueNotice('alert', 'Complete or cancel print job to continue using site.');
 				setTimeout(function(){
-					window.open("../php/printPlantCodes.php?q=" + id, "_blank");
+					window.open("../php/printPlantCodes.php?q=" + encodeURIComponent(id), "_blank");
 				}, 350);
 			}
 			
