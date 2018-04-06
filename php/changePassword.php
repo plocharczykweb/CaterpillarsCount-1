@@ -3,9 +3,9 @@
 	
 	require_once('orm/User.php');
 	
-	$currentPassword = rawurldecode($_GET["currentPassword"]);
-	$newPassword = rawurldecode($_GET["newPassword"]);
-	$email = rawurldecode($_GET["email"]);
+	$currentPassword = $_GET["currentPassword"];
+	$newPassword = $_GET["newPassword"];
+	$email = $_GET["email"];
 	
 	$user = User::findByEmail($email);
 	if(is_object($user) && get_class($user) == "User"){
