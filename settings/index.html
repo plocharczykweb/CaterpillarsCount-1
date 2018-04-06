@@ -155,7 +155,7 @@
 							}
 						}
 					};
-					xhttp.open("GET", "../php/changePassword.php?currentPassword=" + currentPassword + "&newPassword=" + newPassword + "&email=" + window.localStorage.getItem("email"), false);
+					xhttp.open("GET", "../php/changePassword.php?currentPassword=" + encodeURIComponent(currentPassword) + "&newPassword=" + encodeURIComponent(newPassword) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")), false);
 					xhttp.send();
 				}
 			}
