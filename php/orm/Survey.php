@@ -260,6 +260,7 @@ class Survey
 	}
 	
 	public static function validLocalDate($dbconn, $localDate){
+		$localDate = rawurldecode($localDate);
 		if(strlen($localDate) == 10){
 			$year = intval(substr($localDate, 0, 4));
 			$month = intval(substr($localDate, 5, 2));
@@ -274,6 +275,7 @@ class Survey
 	}
 	
 	public static function validLocalTime($dbconn, $localTime){
+		$localTime = rawurldecode($localTime);
 		if(strlen($localTime) == 8){
 			$hours = intval(substr($localTime, 0, 2));
 			$minutes = intval(substr($localTime, 3, 2));
@@ -295,11 +297,12 @@ class Survey
 	}
 	
 	public static function validNotes($dbconn, $notes){
-		$notes = mysqli_real_escape_string($dbconn, $notes);
+		$notes = mysqli_real_escape_string($dbconn, rawurldecode($notes));
 		return $notes;
 	}
 	
 	public static function validPlantSpecies($dbconn, $plantSpecies, $plant){
+		$plantSpecies = rawurldecode($plantSpecies);
 		if(preg_replace('/\s+/', '', $plantSpecies) == "" || trim(strtoupper($plantSpecies)) == "N/A"){return false;}
 		
 		if(self::validPlant($dbconn, $plant) !== false){
