@@ -195,10 +195,18 @@ class User
 			return Site::findAll();
 		}
 		
-		//Temporarily hard-coded "UNC Chapel Hill Campus" Managers
+		//Temporarily hard-coded Managers
 		$temporarilyManagedSites = array();
+		
+		//"UNC Chapel Hill Campus" Managers
 		if($this->email == "ssnell@live.unc.edu" || $this->email == "gdicecco@live.unc.edu"){
 			$temporarilyManagedSites[] = Site::findByName("UNC Chapel Hill Campus");
+		}
+		
+		//"GSM Institute at Tremont (TN)" Managers
+		$temporarilyManagedSites = array();
+		if($this->email == "science@gsmit.org"){
+			$temporarilyManagedSites[] = Site::findByName("GSM Institute at Tremont");
 		}
 		
 		//Everyone else
