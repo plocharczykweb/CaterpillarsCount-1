@@ -56,7 +56,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/getManagers.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/getManagers.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 			
@@ -81,7 +81,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/appointManager.php?siteID=" + window.location.toString().substring(window.location.toString().indexOf("?s=") + 3) + "&managerEmail=" + newManagerEmail + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/appointManager.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&managerEmail=" + encodeURIComponent(newManagerEmail) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 		</script>
