@@ -56,7 +56,7 @@
 								}
 							}
 						};
-						xhttp.open("GET", "../php/autoLogIn.php?email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+						xhttp.open("GET", "../php/autoLogIn.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 						xhttp.send();
 					}
 				},700);
@@ -90,7 +90,7 @@
 							}
 						}
 					};
-					xhttp.open("GET", "../php/logIn.php?email=" + logInEmail + "&password=" + $("#logInPassword")[0].value, true);
+					xhttp.open("GET", "../php/logIn.php?email=" + encodeURIComponent(logInEmail) + "&password=" + encodeURIComponent($("#logInPassword")[0].value), true);
 					xhttp.send();
 				}
 			}
