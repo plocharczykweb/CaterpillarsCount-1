@@ -225,7 +225,7 @@ class ArthropodSighting
 	}
 	
 	public static function validGroup($dbconn, $group){
-		$group = trim($group);
+		$group = trim(rawurldecode($group));
 		$groups = array("ant", "aphid", "bee", "beetle", "caterpillar", "daddylonglegs", "fly", "grasshopper", "leafhopper", "moths", "spider", "truebugs", "other", "unidentified");
 		if(in_array($group, $groups)){
 			return $group;
@@ -234,7 +234,7 @@ class ArthropodSighting
 	}
 	
 	public static function validLength($dbconn, $length){
-		$length = intval(preg_replace("/[^0-9]/", "", $length));
+		$length = intval(preg_replace("/[^0-9]/", "", rawurldecode($length)));
 		if($length < 1 || $length > 300){
 			return false;
 		}
@@ -242,7 +242,7 @@ class ArthropodSighting
 	}
 	
 	public static function validQuantity($dbconn, $quantity){
-		$quantity = intval(preg_replace("/[^0-9]/", "", $quantity));
+		$quantity = intval(preg_replace("/[^0-9]/", "", rawurldecode($quantity)));
 		if($quantity < 1 || $quantity > 1000){
 			return false;
 		}
@@ -251,11 +251,11 @@ class ArthropodSighting
 	
 	public static function validPhotoURL($dbconn, $photoURL){
 		//TODO: validate domain
-		return mysqli_real_escape_string($dbconn, $photoURL);
+		return mysqli_real_escape_string($dbconn, rawurldecode($photoURL));
 	}
 	
 	public static function validNotes($dbconn, $notes){
-		return mysqli_real_escape_string($dbconn, $notes);
+		return mysqli_real_escape_string($dbconn, rawurldecode($notes));
 	}
 	
 	
