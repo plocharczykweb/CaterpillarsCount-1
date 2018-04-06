@@ -351,7 +351,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/createSite.php?siteName=" + name + "&description=" + description + "&longitude=" + longitude + "&latitude=" + latitude + "&zoom=" + map.getZoom() + "&plantCount=" + plantCount + "&sitePassword=" + password + "&public=" + checkboxIsChecked($("#publicCheckbox")).toString() + "&email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/createSite.php?siteName=" + encodeURIComponent(name) + "&description=" + encodeURIComponent(description) + "&longitude=" + encodeURIComponent(longitude) + "&latitude=" + encodeURIComponent(latitude) + "&zoom=" + encodeURIComponent(map.getZoom()) + "&plantCount=" + encodeURIComponent(plantCount) + "&sitePassword=" + encodeURIComponent(password) + "&public=" + checkboxIsChecked($("#publicCheckbox")).toString() + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 			
