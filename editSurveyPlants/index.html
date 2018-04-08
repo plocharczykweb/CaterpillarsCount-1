@@ -436,13 +436,13 @@
 					processData: false,  // tell jQuery not to process the data
 					contentType: false,  // tell jQuery not to set contentType
 					success : function(data) {
-						if(this.responseText.indexOf("true|") == "0"){
+						if(data.indexOf("true|") == "0"){
 							queueNotice("confirmation", "Saved!");
 							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";};
 							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
 						}
 						else{
-							var savingError = this.responseText.replace("false|", "");
+							var savingError = data.replace("false|", "");
 							queueNotice("error", savingError);
 							if(savingError == "Your log in dissolved. Maybe you logged in on another device."){
 								logOut();
