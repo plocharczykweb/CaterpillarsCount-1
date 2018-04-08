@@ -425,12 +425,17 @@
 					plantData[plantData.length] = [inputs.eq(i)[0].id, encodeURIComponent(inputs.eq(i)[0].value.replace(/\s\s+/g, ' '))];
 				}
 				
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						saving = false;
-						setLoadingButton($("#saveAllButton")[0], "Save all", false);
-						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
+				var formData = new FormData();
+				formData.append("plantData", JSON.stringify(plantData));
+				formData.append("email", window.localStorage.getItem("email"));
+				formData.append("salt", window.localStorage.getItem("salt"));
+				$.ajax({
+					url : "https://caterpillarscount.unc.edu/php/updatePlantSpecies.php",
+					type : 'POST',
+					data : formData,
+					processData: false,  // tell jQuery not to process the data
+					contentType: false,  // tell jQuery not to set contentType
+					success : function(data) {
 						if(this.responseText.indexOf("true|") == "0"){
 							queueNotice("confirmation", "Saved!");
 							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";};
@@ -443,10 +448,16 @@
 								logOut();
 							}
 						}
+					},
+					error : function(request, status, error){
+						queueNotice("error", request.responseText);
+					},
+					complete: function() {
+						saving = false;
+						setLoadingButton($("#saveAllButton")[0], "Save all", false);
+						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
 					}
-				};
-				xhttp.open("GET", "../php/updatePlantSpecies.php?plantData=" + JSON.stringify(plantData) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
-				xhttp.send();
+				});
 			}
 			
 			var adding = false;
