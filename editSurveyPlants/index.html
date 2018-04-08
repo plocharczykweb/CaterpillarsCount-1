@@ -430,7 +430,7 @@
 				formData.append("email", window.localStorage.getItem("email"));
 				formData.append("salt", window.localStorage.getItem("salt"));
 				$.ajax({
-					url : "https://caterpillarscount.unc.edu/php/updatePlantSpecies.php",
+					url : "https://caterpillarscount.unc.edu/php/saveAllPlantSpecies.php",
 					type : 'POST',
 					data : formData,
 					processData: false,  // tell jQuery not to process the data
