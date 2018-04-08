@@ -4,9 +4,9 @@
 	require_once('orm/User.php');
 	require_once('orm/Plant.php');
 	
-	$email = $_GET["email"];
-	$salt = $_GET["salt"];
-	$plantData = json_decode($_GET["plantData"]);
+	$email = $_POST["email"];
+	$salt = $_POST["salt"];
+	$plantData = json_decode($_POST["plantData"]);
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
