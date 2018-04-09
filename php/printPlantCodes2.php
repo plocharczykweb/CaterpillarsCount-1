@@ -28,13 +28,14 @@
 		
 		.whiteBox{
 			position:relative;
-		}
-		
-		body>div>div:nth-of-type(5){
 			background:#fff;
 			text-align:center;
 			font-size:50px;
 			padding:0px 20px;
+		}
+		
+		body>div>div:nth-of-type(5){
+			
 		}
     
 		.cutout{
