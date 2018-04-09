@@ -39,7 +39,7 @@
 		}
     
 		.cutout{
-			height:7px;
+			height:12px;
 			width:12px;
 			border-radius:9999px;
 			border:1px dashed #999;
