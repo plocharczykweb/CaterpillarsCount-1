@@ -25,6 +25,11 @@
 		body>div>div:nth-of-type(2){
 			margin-top:-16px;
 		}
+		
+		.whiteBox{
+			position:relative;
+		}
+		
 		body>div>div:nth-of-type(5){
 			background:#fff;
 			text-align:center;
@@ -37,12 +42,9 @@
 			width:12px;
 			border-radius:9999px;
 			border:1px dashed #999;
-		}
-		.left{
-			float:left;
-		}
-		.right{
-			float:right;
+			position:absolute;
+			left:0px;
+			bottom:0px;
 		}
 		
 		@page {
@@ -113,9 +115,10 @@
 					echo 			"</text>";
 					echo 		"</svg>";
 					echo	"</div>";
-					echo	"<div class=\"left cutout\"></div>";
-					echo	"<div class=\"right cutout\"></div>";
-					echo 	"<div style='color:$color;'>" . $plants[$i]->getCode() . "</div>";
+					echo	"<div class=\"whiteBox\">";
+					echo		"<div class=\"cutout\"></div>";
+					echo 		"<div style='color:$color;'>" . $plants[$i]->getCode() . "</div>";
+					echo	"</div>";
 					echo "</div>";
 				}
 			
