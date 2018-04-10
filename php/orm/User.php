@@ -204,7 +204,6 @@ class User
 		}
 		
 		//"GSM Institute at Tremont (TN)" Managers
-		$temporarilyManagedSites = array();
 		if($this->email == "science@gsmit.org"){
 			$temporarilyManagedSites[] = Site::findByName("GSM Institute at Tremont");
 		}
