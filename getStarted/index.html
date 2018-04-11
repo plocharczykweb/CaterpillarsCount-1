@@ -20,10 +20,51 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
+		<style>
+    			#announcementTable{
+        			font-family: 'Roboto Slab', serif;
+        			background:#fff;
+        			border-radius:4px;
+    				border-collapse:collapse;
+        			border-radius:3px;
+        			overflow:hidden;
+        			font-size:16px;
+        			color:rgba(0,0,0,0.8);
+        			width:100%;
+        			margin:20px 0px;
+    			}
+    
+    			#announcementTable td{
+    				padding:10px;
+    			}
+    
+    			/*rows*/
+    			#announcementTable tr{
+    				background:rgba(0,0,0,.06);
+    			}
+    
+    			/*header row*/
+    			#announcementTable tr:nth-of-type(1){
+    				background:#333;
+        			color:#fff;
+    			}
+    			#announcementTable tr:nth-of-type(1)>td{
+        			font-size:110%;
+    			}
+    
+    			/*even rows*/
+    			#announcementTable tr:nth-of-type(even){
+    				background:rgba(0,0,0,.03);
+    			}
+		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 			});
+			
+			function email(creatorEmailParts){
+				window.location = "mailto:" + creatorEmailParts.join('@');
+			}
 		</script>
 	</head>
 	<body>
@@ -88,10 +129,38 @@
 			<div id="navBack" onclick="resetMenu(false);">&#10094;</div>
 		</header>
 		<main>
-			<div class="panel" style="background:#fed136;">
-				<h2 style="color:#fff;">Special Announcement</h2>
+			<div class="panel">
+				<h2>Training Workshops</h2>
 				<div class="content">
-					<p style="color:#fff;">For a limited time: use <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-7QavO9aGKa-NnpdBz9-ZOh3KWUuw5TS_x-yNQk9nrd3kag/viewform" target="_blank" style="color:#888;">this link</a> to be considered for $1000 to support your involvement in Caterpillars Count!</p>
+					<p>In 2018 we will be conducting several Training Workshops to introduce environmental educators to the project.</p>
+					<p>Learn how to conduct surveys of insects with your students/visitors, monitor changes in the abundance and type of insects present over time, and report your data using our free mobile app.</p>
+					<p>See below for workshop locations and dates.</p>
+					
+					<table id="announcementTable">
+    						<tr>
+        						<td>Date</td>
+        						<td>Location</td>
+        						<td>Contact</td>
+    						</tr>
+    						<tr>
+    						    	<td>29 April</td>
+    						    	<td>Chapel Hill Public Library, Chapel Hill, NC</td>
+    						    	<td><span class="highlighted pointer underline" onclick="email(['sarah.yelton', 'unc.edu']);">Email Sarah Yelton</span></td>
+    						</tr>
+    						<tr>
+    						    	<td>18 May</td>
+    						    	<td>Broadmoor Wildlife Sanctuary, Natick, MA</td>
+    						    	<td><span class="highlighted pointer underline" onclick="email(['jmarzolf', 'massaudubon.org']);">Email Joy Marzolf</span></td>
+    						</tr>
+    						<tr>
+    						    	<td>1 June</td>
+    						    	<td>Kalamazoo Nature Center, Kalamazoo, MI</td>
+    						    	<td><span class="highlighted pointer underline" onclick="email(['jtagett', 'naturecenter.org']);">Email Jennifer Taggett</span></td>
+    						</tr>
+					</table>
+					
+					<p>We will be looking for additional sites in eastern North America to hold training workshops in 2019. If you are interested in hosting a workshop, or in being eligible for some funding assistance to start up a new site fill out our interest form here.</p>
+					<p>Even if you can't make one of these workshops, you can still start up your own Caterpillars Count! site. Read below for more details!</p>
 				</div>
 			</div>
 			<div class="panel">
