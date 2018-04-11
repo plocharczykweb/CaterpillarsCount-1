@@ -21,7 +21,7 @@
 	}
 
 	$staticSites = array(
-		array(
+		/*array(
 			"creatorEmailParts" => array("cappaert", "comcast.net"),
 		    	"siteName" => "Environmental Sciences Magnet School",
 		    	"description" => "Landscaped campus of the Environmental Sciences Magnet School, 440 Broadview Terrace, Hartford, CT 06106",
@@ -52,7 +52,7 @@
 		    	"region" => "MA",
 		    	"latitude" => 41.8333,
 		    	"longitude" => -70.5,
-		),/*
+		),
 		array(
 			"creatorEmailParts" => array("si_citizenscience", "schoodicinstitute.org"),
 		    	"siteName" => "Acadia NP - Alder",
@@ -76,7 +76,7 @@
 		    	"region" => "MI",
 		    	"latitude" => 42.3604,
 		    	"longitude" => -85.5836,
-		),*/
+		),
 		array(
 			"creatorEmailParts" => array("bonnie.nevel", "dukeschool.org"),
 		    	"siteName" => "Duke School",
@@ -92,7 +92,7 @@
 		    	"region" => "NC",
 		    	"latitude" => 35.6064,
 		    	"longitude" => -77.3663,
-		),
+		),*/
 		array(
 			"creatorEmailParts" => array("max.cawley", "lifeandscience.org"),
 		    	"siteName" => "North Carolina Museum of Life and Science",
@@ -100,7 +100,7 @@
 		    	"region" => "NC",
 		    	"latitude" => 36.0294,
 		    	"longitude" => -78.9016,
-		),
+		),/*
 		array(
 			"creatorEmailParts" => array("hurlbert", "bio.unc.edu"),
 		    	"siteName" => "North Carolina Botanical Garden",
@@ -156,7 +156,7 @@
 		    	"region" => "TN",
 		    	"latitude" => 35.6402,
 		    	"longitude" => -83.6888,
-		),
+		),*/
 	);
 
 	$publicSitesArray = array_merge($publicSitesArray, $staticSites);
