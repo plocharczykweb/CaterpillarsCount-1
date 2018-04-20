@@ -142,7 +142,7 @@
 			<div class="panel">
 				<h2>Recover Account</h2>
 				<div id="recover">
-					<input type="text" placeholder="email" id="recoverEmail" autocapitalize="off"/>
+					<input type="text" placeholder="email" id="recoverEmail" autocapitalize="off" onkeypress="if(event.which == 13){this.blur();recoverAccount();}"/>
 					<button onclick="recoverAccount();" id="recoverButton">Recover Account!</button>
 					<div class="links">
 						<div class="link"><a href="../signIn">Sign In</a></div>
