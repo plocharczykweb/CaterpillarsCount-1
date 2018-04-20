@@ -176,7 +176,7 @@
 				<div class="content">
 					<div id="logIn">
 						<input type="text" placeholder="email" id="logInEmail" autocapitalize="off"/>
-						<input type="password" placeholder="password" id="logInPassword"/>
+						<input type="password" placeholder="password" id="logInPassword" onkeypress="if(event.which == 13){this.blur();logIn();}"/>
 						<button onclick="logIn();" id="logInButton">Sign in!</button>
 						<div class="links">
 							<div class="link"><a href="../signUp">Create new account</a></div>
