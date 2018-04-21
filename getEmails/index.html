@@ -60,7 +60,7 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				
-				$.get("php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + encodeURIComponent(window.localStorage.getItem("salt")), function(data){
+				$.get("../php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + encodeURIComponent(window.localStorage.getItem("salt")), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
 						var emails = JSON.parse(data.replace("true|", ""));
