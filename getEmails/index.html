@@ -59,6 +59,21 @@
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				
+				$.get("php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + encodeURIComponent(window.localStorage.getItem("salt")), function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						var emails = JSON.parse(data.replace("true|", ""));
+						alert(data.replace("true|", ""));
+					}
+					else{
+						queueNotice("error", data.replace("false|", ""));
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				});
 			});
 		</script>
 	</head>
