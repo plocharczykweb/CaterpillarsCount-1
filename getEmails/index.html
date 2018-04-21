@@ -97,7 +97,11 @@
 						$("#emails")[0].style.display = "block";
 					}
 					else{
-						queueNotice("error", data.replace("false|", ""));
+						var getEmailsError = data.replace("false|", "");
+						queueNotice("error", getEmailsError);
+						if(getEmailsError == "Your log in dissolved. Maybe you logged in on another device."){
+							logOut();
+						}
 					}
 				})
 				.fail(function(){
