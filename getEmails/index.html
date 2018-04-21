@@ -21,6 +21,22 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
 		<style>
+			#loading{
+				text-align:center;
+				background:#eee;
+				padding:20px;
+				border-radius:4px;
+				overflow:hidden;
+			}
+			
+			#loading img{
+				height:40px;
+			}
+			
+			#emails{
+				display:none;
+			}
+			
 			.group{
 				margin-top:30px;
 			}
@@ -77,6 +93,8 @@
 						}
 						$("#everyone")[0].value = allEmails.join(", ");
 						$("#siteAuthorities")[0].value = authorityEmails.join(", ");
+						$("#loading")[0].style.display = "none";
+						$("#emails")[0].style.display = "block";
 					}
 					else{
 						queueNotice("error", data.replace("false|", ""));
@@ -168,10 +186,10 @@
 			<div class="panel">
 				<h2>Get Emails</h2>
 				<div class="content">
-					<div style="text-align:center;background:#eee;padding:20px;">
+					<div id="loading">
 						<img src="../images/rolling.svg"/>
 					</div>
-					<div style="display:none;">
+					<div id="emails">
 						<div class="group">
 							<div class="inputTitle">Everyone:</div>
 							<textarea id="everyone" onclick="this.setSelectionRange(0, 999999999999);"></textarea>
