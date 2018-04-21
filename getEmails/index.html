@@ -64,7 +64,19 @@
 					//success
 					if(data.indexOf("true|") == 0){
 						var emails = JSON.parse(data.replace("true|", ""));
-						alert(data.replace("true|", ""));
+						var allEmails = [];
+						var authorityEmails = [];
+						for (var row in emails) {
+							if (emails.hasOwnProperty(row)) {
+								// do stuff
+								allEmails[allEmails.length] = row["email"];
+								if(row["authority"]){
+									authorityEmails[authorityEmails.length] = row["email"];
+								}
+							}
+						}
+						$("#everyone")[0].value = allEmails.join(", ");
+						$("#siteAuthorities")[0].value = authorityEmails.join(", ");
 					}
 					else{
 						queueNotice("error", data.replace("false|", ""));
