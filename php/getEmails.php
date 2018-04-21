@@ -2,7 +2,7 @@
   require_once('orm/resources/Keychain.php');
 	require_once('orm/User.php');
 	
-	$email = $_GET["email"];
+	$email = rawurldecode($_GET["email"]);
 	$salt = $_GET["salt"];
 	
 	$user = User::findBySignInKey($email, $salt);
