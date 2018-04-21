@@ -66,12 +66,12 @@
 						var emails = JSON.parse(data.replace("true|", ""));
 						var allEmails = [];
 						var authorityEmails = [];
-						for (var row in emails) {
-							if (emails.hasOwnProperty(row)) {
+						for (var i in emails) {
+							if (emails.hasOwnProperty(i)) {
 								// do stuff
-								allEmails[allEmails.length] = row["email"];
-								if(row["authority"]){
-									authorityEmails[authorityEmails.length] = row["email"];
+								allEmails[allEmails.length] = emails[i]["email"];
+								if(emails[i]["authority"]){
+									authorityEmails[authorityEmails.length] = emails[i]["email"];
 								}
 							}
 						}
