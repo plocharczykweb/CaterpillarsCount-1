@@ -1,0 +1,440 @@
+<html>
+	<head>
+		<!-- Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113319025-1"></script>
+		<script>
+  			window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  			gtag('js', new Date());
+			gtag('config', 'UA-113319025-1');
+		</script>
+		<!-- End of Google Analytics -->
+
+		<title>Edit Site | Caterpillars Count!</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Fanwood+Text:400i" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+		<link href="../css/checkbox.css" rel="stylesheet">
+		<script src="../js/checkbox.js"></script>
+		<link href="../css/template.css" rel="stylesheet">
+		<script src="../js/template.js"></script>
+		<style>
+			main input[type="text"], main input[type="password"], main input[type="number"], textarea{
+				width:100%;
+				background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				font-size:16px;
+				padding:16px;
+				box-sizing:border-box;
+				border-radius:4px;
+				margin:5px 0px;
+				color:#aaa;
+				-webkit-appearance: none; 
+    				-moz-appearance: none;
+    				appearance: none;
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			}
+			
+			textarea{
+				height:54px;
+				overflow:hidden;
+				resize: vertical;
+			}
+			
+			.textareaHolder{
+				position:relative;
+			}
+			
+			.textareaOtherLinesCover{
+				background:#fff;
+				position:absolute;
+				bottom:7px;
+				left:16px;
+				right:16px;
+				height:16px;
+				pointer-events: none;
+			}
+			
+			.group{
+				margin-top:30px;
+			}
+			
+			.group:first-of-type{
+				margin-top:0px;
+			}
+			
+			.inputTitle{
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				color:#666;
+				text-transform:uppercase;
+				font-size:14px;
+			}
+			
+			.characterCount{
+				text-align:right;
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-size:14px;
+				color:#666;
+			}
+			
+			#confirmSitePasswordGroup{
+				display:none;
+			}
+			
+			.form{
+				display:none;
+			}
+			
+			@media screen and (max-width: 620px) {
+				#saveSiteSettingsButton{
+					width:100%;
+				}
+			}
+		</style>
+		<script>
+			requireLogIn();
+			
+			$(document).ready(function(){
+				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				loadSiteSettings();
+			});
+			
+			function incrementCountInput(inputElement, min, max, step){
+				$(inputElement)[0].value = Math.max(Number($(inputElement)[0].value) + step, min);
+				enforceRange(inputElement, min, max, step);
+			}
+			
+			function decrementCountInput(inputElement, min, max, step){
+				$(inputElement)[0].value = Number($(inputElement)[0].value) - step;
+				enforceRange(inputElement, min, max, step);
+			}
+			
+			function countTo(inputElement, max){
+				inputElement = $(inputElement)[0];
+				inputElement.value = inputElement.value.substring(0, max);
+				$(inputElement.parentNode.parentNode).find('.characterCount').eq(0)[0].innerHTML = inputElement.value.length + "/" + max;
+			}
+			
+			function clearCountInput(inputElement){
+				inputElement = $(inputElement)[0];
+				inputElement.value = "";
+				var charCountDiv = $(inputElement.parentNode.parentNode).find(".characterCount").eq(0)[0];
+				charCountDiv.innerHTML = "0" + charCountDiv.innerHTML.substring(charCountDiv.innerHTML.indexOf("/"));
+			}
+			
+			function expandTextarea(textareaElement){
+				textareaElement = $(textareaElement)[0];
+				textareaElement.style.overflow = "scroll";
+				$(textareaElement).stop().animate({height:'150px'});
+				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeOut();
+			}
+			
+			function compressTextarea(textareaElement){
+				textareaElement = $(textareaElement)[0];
+				textareaElement.style.overflow = "hidden";
+				$(textareaElement).stop().animate({height:'54px', scrollTop:'0'});
+				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeIn();
+			}
+			
+			var savedName = "";
+			function loadSiteSettings(){
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if(this.responseText.indexOf("true|") == 0){
+							var data = JSON.parse(this.responseText.replace("true|", ""));
+							var name = data["name"];
+							savedName = name;
+							var description = data["description"];
+							var openToPublic = data["openToPublic"];
+							
+							$("#name")[0].value = name;
+							$("#description")[0].value = description;
+							countTo($("#description")[0], 140);
+							if(openToPublic){
+								checkCheckbox($("#openToPublic"));
+							}
+							
+							$(".tagline").eq(0)[0].innerHTML = "Update anything about this site here. Manage this site's plants on the <a href=\"../editSurveyPlants/index.html" + window.location.toString().substring(window.location.toString().indexOf("?s=")) + "\">Edit Survey Plants</a> page.";
+							$(".form").eq(0)[0].style.display = "block";
+						}
+						else{
+							var error = this.responseText.replace("false|", "");
+							
+							$(".tagline").eq(0)[0].innerHTML = "Could not load.";
+							$("#error")[0].onclick = function(){window.location = "../manageMySites";};
+							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
+							queueNotice("error", error);
+							if(error == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "../php/getSiteSettings.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.send();
+			}
+			
+			var savingSiteSettings = false;
+			function saveSiteSettings(){
+				if(savingSiteSettings){return false;}
+				
+				var name = $("#name")[0].value;
+				var description = $("#description")[0].value;
+				var openToPublic = checkboxIsChecked($("#openToPublic"));
+				var password = $("#password")[0].value;
+				var confirmPassword = $("#confirmPassword")[0].value;
+				
+				if(name.replace(/ /g, "") == ""){
+					queueNotice("error", "Enter a site name.");
+					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
+					
+					$("#name")[0].value = "";
+					$("#name")[0].focus();
+					return false;
+				}
+				
+				if(description == ""){
+					queueNotice("error", "Enter a site description.");
+					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
+					
+					clearCountInput($("#description")[0]);
+					$("#description")[0].focus();
+					return false;
+				}
+				
+				if(password != confirmPassword && (password != "hf!Eo 2k" || confirmPassword != "")){
+					queueNotice("error", "Site passwords must match.");
+					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
+					
+					$("#password")[0].value = "";
+					$("#confirmPassword")[0].value ="";
+					$("#password")[0].focus();
+					return false;
+				}
+				
+				if((password.indexOf(" ") > -1 || password.length < 4) && password != "hf!Eo 2k"){
+					queueNotice("error", "Password must be at least 4 characters with no spaces.");
+					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
+					
+					$("#password")[0].value = "";
+					$("#confirmPassword")[0].value ="";
+					$("#password")[0].focus();
+					return false;
+				}
+				
+				savingSiteSettings = true;
+				setLoadingButton($("#saveSiteSettingsButton")[0], "Save site settings", true);
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						savingSiteSettings = false;
+						setLoadingButton($("#saveSiteSettingsButton")[0], "Save site settings", false);
+						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
+						if(this.responseText == "true"){
+							savedName = name;
+							queueNotice("confirmation", "Saved!");
+							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";};
+							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
+						}
+						else{
+							var savingSiteError = this.responseText.replace("false|", "");
+							queueNotice("error", savingSiteError);
+							
+							if(savingSiteError.indexOf("That site name is already in use. Choose a different one.") > -1){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$("#name")[0].value = "";
+								$("#name")[0].focus();
+							}
+							else if(savingSiteError.indexOf("Site description must be between 1 and 255 characters.") > -1){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$("#description")[0].focus();
+							}
+							else if(savingSiteError.indexOf("Password must be at least 4 characters with no spaces.") > -1){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$("#password")[0].value = "";
+								$("#confirmPassword")[0].value = "";
+								$("#password")[0].focus();
+							}
+							else if(savingSiteError.indexOf("Password cannot be the same as your Caterpillars Count! account password because you may be sharing it with vistors at this site.") > -1){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$("#password")[0].value = "";
+								$("#confirmPassword")[0].value = "";
+								$("#password")[0].focus();
+							}
+							else if(savingSiteError == "Your log in dissolved. Maybe you logged in on another device."){
+								$("#name")[0].blur();
+								$("#description")[0].blur();
+								$("#password")[0].blur();
+								$("#confirmPassword")[0].blur();
+								
+								$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
+								
+								logOut();
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "../php/editSiteSettings.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&siteName=" + encodeURIComponent(name) + "&description=" + encodeURIComponent(description) + "&sitePassword=" + encodeURIComponent(password) + "&public=" + checkboxIsChecked($("#openToPublic")).toString() + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.send();
+			}
+			
+			var changeSiteNameConfirmed = true;
+			function setChangeSiteNameConfirmed(confirmBoolean){
+				changeSiteNameConfirmed = confirmBoolean;
+			}
+		</script>
+	</head>
+	<body>
+		<div id="error" onclick="hideNotice();"></div>
+		<div id="confirmation" onclick="hideNotice();"></div>
+		<div id="alert" onclick="hideNotice();"></div>
+		<div id="promptInteractionBlock"></div>
+		<div id="noticeInteractionBlock" onclick="hideNotice();"></div>
+		<div id="confirm">
+			<div></div>
+			<div>
+				<button>OK</button>
+				<button>Cancel</button>
+				<div class="clearBoth"></div>
+			</div>
+		</div>
+		
+		<div id="splash">
+			<div id="splashImage"></div>
+			<div id="splashOverlay">
+				<div id="splashIntroText">Welcome to</div>
+				<div id="splashMainText">Caterpillars Count!</div>
+				<button id="splashButton" onclick="this.blur();scrollToPanel(1);">Edit site</button>
+			</div>
+		</div>
+		<header>
+			<h1><a href="../">Caterpillars Count!</a></h1>
+			<div id="hamburger" onclick="toggleNav();">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div id="navKnockDown" class="clearBoth"></div>
+			<nav class="loadingNav">
+				<ul>
+					<li onclick="accessSubMenu(this);">
+						<span>Participate</span>
+						<ul onclick="event.stopPropagation();">
+							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
+							<li><a href="../getStarted">Get Started</a></li>
+							<li><a href="../conductASurvey">Conduct a Survey</a></li>
+							<li><a href="../submitObservations">Submit Observations</a></li>
+							<li><a href="../hostASurveySite">Host a Survey Site</a></li>
+							<li><a href="../resources">Resources</a></li>
+						</ul>
+					</li>
+					<li onclick="accessSubMenu(this);">
+						<span>Explore</span>
+						<ul onclick="event.stopPropagation();">
+							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
+							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
+							<li><a href="../recentObservations">Recent Observations</a></li>
+						</ul>
+					</li>
+					<li onclick="accessSubMenu(this);">
+						<span>Learn</span>
+						<ul onclick="event.stopPropagation();">
+							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
+							<li><a href="../identificationSkills">Identification Skills</a></li>
+							<li><a href="../forEducators">For Educators</a></li>
+							<li><a href="../faq">FAQ</a></li>
+						</ul>
+					</li>
+					<li onclick="window.location = '../signIn';">
+						<span>Sign In</span>
+						<ul onclick="event.stopPropagation();">
+							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
+							<li><a href="../createNewSite">Create New Site</a></li>
+							<li><a href="../manageMySites">Manage My Sites</a></li>
+							<li><a href="../settings">Settings</a></li>
+							<li><a href="" onclick="logOut();">Sign Out</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<div id="navBack" onclick="resetMenu(false);">&#10094;</div>
+		</header>
+		<main>
+			<div class="panel">
+				<h2>Edit Site</h2>
+				<div class="tagline">This site's settings are loading. Please wait a moment.</div>
+				<div class="content">
+					<div class="form">
+						<div class="group">
+							<div class="inputTitle">Site name:</div>
+							<input type="text" id="name" oninput="if(this.value.trim() == savedName){setChangeSiteNameConfirmed(true);}else{setChangeSiteNameConfirmed(false);}" placeholder="short and descriptive" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" onblur="if(this.value != savedName){promptConfirm('Changing your site\'s name might confuse other people who are already familiar with its current name. Are you sure you want to do this?', 'Nevermind.', 'Yes, I am sure!', function(){document.getElementById('name').value = savedName;setChangeSiteNameConfirmed(true);}, function(){setChangeSiteNameConfirmed(true);});setTimeout(function(){$('textarea').eq(0).blur();for(var i = 1; i < $('input').length; i++){$('input').eq(i).blur();}},1);}"/>
+						</div>
+
+						<div class="group">
+							<div class="inputTitle">Site description:</div>
+							<div class="textareaHolder">
+								<textarea id="description" placeholder="Explain briefly the nature of your site, e.g., &quot;Prairie Ridge Ecostation is an outdoor nature center with 45 acres of Piedmont prairie, forest, ponds, and a stream&quot;" oninput="countTo(this, 140);" onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
+								<div class="textareaOtherLinesCover"></div>
+							</div>
+							<div class="characterCount">0/140</div>
+						</div>
+
+						<div class="group">
+							<div class="inputTitle">Site password (that you are willing to share with vistors at this site):</div>
+							<input type="password" id="password" value="hf!Eo 2k" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');this.setSelectionRange(0, 9999);" placeholder="to verify submissions" oninput="if($('#confirmSitePasswordGroup')[0].style.display == 'none' || $('#confirmSitePasswordGroup')[0].style.display == ''){$('#confirmSitePasswordGroup').show(300);}"/>
+						</div>
+
+						<div class="group" id="confirmSitePasswordGroup">
+							<div class="inputTitle">Confirm site password:</div>
+							<input type="password" id="confirmPassword" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');this.setSelectionRange(0, 9999);" placeholder=""/>
+						</div>
+
+						<div class="group">
+							<table class="checkboxTable">
+								<tr onclick="if(changeSiteNameConfirmed){toggleCheckbox($(this).find('.checkbox'));}">
+									<td><div class="checkbox" id="openToPublic"></div></td>
+									<td>Make site public and allow people to contact me about it.</td>
+									<td onclick="if(changeSiteNameConfirmed){event.stopPropagation();queueNotice('alert', 'Opening your site to the public will allow users to find it on our website and use your email address to contact you about it.');}"><img src="../images/question.png"/></td>
+								<tr>
+							</table>
+						</div>
+
+						<button id="saveSiteSettingsButton" onclick="if(changeSiteNameConfirmed){saveSiteSettings();}">Save site settings</button>
+						<div style="text-align:center;margin-bottom:20px;" class="underline"><a href="../manageMySites" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;">Cancel</a></div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
+			
+			<div><img src="../images/unc.png"/></div><div>
+				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
+			</div>
+			
+			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
+		</footer>
+	</body>
+</html>
