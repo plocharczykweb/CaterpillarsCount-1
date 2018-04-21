@@ -370,7 +370,7 @@
 						</div>
 					</div>
 					<div class="setting superUsersOnly" id="getEmailsSetting">
-						<div class="settingTitle" onclick="toggleSetting(this.parentNode);">Get emails</div>
+						<div class="settingTitle" onclick="toggleSetting(this.parentNode);">Get user emails</div>
 						<div class="settingBody">
 							<div>
 								<div id="getEmailsLoading">
@@ -380,13 +380,13 @@
 									<div class="group">
 										<div class="inputTitle">Everyone:</div>
 										<div class="textareaHolder">
-											<textarea id="everyone" onclick="this.setSelectionRange(0, 999999999999);"  onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
+											<textarea id="everyone" onclick="this.setSelectionRange(0, 999999999999);" onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
 											<div class="textareaOtherLinesCover"></div>
 										</div>
 									</div>
 									<div class="group">
 										<div class="inputTitle">Site authorities only:</div>
-										<textarea id="siteAuthorities" onclick="this.setSelectionRange(0, 999999999999);"></textarea>
+										<textarea id="siteAuthorities" onclick="this.setSelectionRange(0, 999999999999);" onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
 									</div>
 								</div>
 							</div>
