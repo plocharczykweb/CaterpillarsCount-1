@@ -145,6 +145,8 @@
 									}
 								}
 							}
+							$("#everyoneCount")[0].innerHTML = allEmails.length;
+							$("#siteAuthoritiesCount")[0].innerHTML = authorityEmails.length;
 							$("#everyone")[0].value = allEmails.join(", ");
 							$("#siteAuthorities")[0].value = authorityEmails.join(", ");
 							$("#getEmailsLoading")[0].style.display = "none";
@@ -378,14 +380,14 @@
 								</div>
 								<div id="emails">
 									<div class="group">
-										<div class="inputTitle">Everyone:</div>
+										<div class="inputTitle">Everyone (<span id="everyoneCount"></span>):</div>
 										<div class="textareaHolder">
 											<textarea id="everyone" onclick="this.setSelectionRange(0, 999999999999);" onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
 											<div class="textareaOtherLinesCover"></div>
 										</div>
 									</div>
 									<div class="group">
-										<div class="inputTitle">Site authorities only:</div>
+										<div class="inputTitle">Site authorities only (<span id="siteAuthoritiesCount"></span>):</div>
 										<div class="textareaHolder">
 											<textarea id="siteAuthorities" onclick="this.setSelectionRange(0, 999999999999);" onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
 											<div class="textareaOtherLinesCover"></div>
