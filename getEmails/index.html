@@ -168,13 +168,18 @@
 			<div class="panel">
 				<h2>Get Emails</h2>
 				<div class="content">
-					<div class="group">
-						<div class="inputTitle">Everyone:</div>
-						<textarea id="everyone"></textarea>
+					<div style="text-align:center;background:#eee;padding:20px;">
+						<img src="../images/rolling.svg"/>
 					</div>
-					<div class="group">
-						<div class="inputTitle">Site authorities only:</div>
-						<textarea id="siteAuthorities"></textarea>
+					<div style="display:none;">
+						<div class="group">
+							<div class="inputTitle">Everyone:</div>
+							<textarea id="everyone" onclick="this.setSelectionRange(0, 999999999999);"></textarea>
+						</div>
+						<div class="group">
+							<div class="inputTitle">Site authorities only:</div>
+							<textarea id="siteAuthorities" onclick="this.setSelectionRange(0, 999999999999);"></textarea>
+						</div>
 					</div>
 				</div>
 			</div>
