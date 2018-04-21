@@ -105,7 +105,21 @@
 				height:54px;
 				overflow:hidden;
 				resize: vertical;
-				height:150px;
+				height:54px;
+			}
+			
+			.textareaHolder{
+				position:relative;
+			}
+			
+			.textareaOtherLinesCover{
+				background:#fff;
+				position:absolute;
+				bottom:7px;
+				left:16px;
+				right:16px;
+				height:16px;
+				pointer-events: none;
 			}
 		</style>
 		<script>
@@ -152,6 +166,20 @@
 					});
 				}
 			});
+			
+			function expandTextarea(textareaElement){
+				textareaElement = $(textareaElement)[0];
+				textareaElement.style.overflow = "scroll";
+				$(textareaElement).stop().animate({height:'150px'});
+				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeOut();
+			}
+			
+			function compressTextarea(textareaElement){
+				textareaElement = $(textareaElement)[0];
+				textareaElement.style.overflow = "hidden";
+				$(textareaElement).stop().animate({height:'54px', scrollTop:'0'});
+				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeIn();
+			}
 			
 			function closeAllSettings(){
 				$(".setting").css({border:"2px solid #eee"});
@@ -351,7 +379,10 @@
 								<div id="emails">
 									<div class="group">
 										<div class="inputTitle">Everyone:</div>
-										<textarea id="everyone" onclick="this.setSelectionRange(0, 999999999999);"></textarea>
+										<div class="textareaHolder">
+											<textarea id="everyone" onclick="this.setSelectionRange(0, 999999999999);"  onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
+											<div class="textareaOtherLinesCover"></div>
+										</div>
 									</div>
 									<div class="group">
 										<div class="inputTitle">Site authorities only:</div>
