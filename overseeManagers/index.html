@@ -70,7 +70,7 @@
 					if (this.readyState == 4 && this.status == 200) {
 						if(this.responseText.indexOf("true") == 0){
 							var newManager = JSON.parse(this.responseText.replace("true|", ""));
-							queueNotice("confirmation", "You have requested " + newManager["fullName"] + "'s services as a manager for this site. If they deny this request, it will no longer show up on this page.");
+							queueNotice("confirmation", "You have requested " + newManager["fullName"] + "'s services as a manager for this site. If this user denies your request, the record of the request will no longer show up on this page.");
 						}
 						else{
 							var loadManagersError = this.responseText.replace("false|", "");
