@@ -6,24 +6,24 @@
 	
 	$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `ID`<742");
 	
-  $arr = array();
+  	$arr = array();
 	while($row = mysqli_fetch_assoc($query)){
-    $survey = Survey::findByID($row["ID"]);
-    $arthropodSightings = $survey->getArthropodSightings();
-    $plant = $survey->getPlant();
+    		$survey = Survey::findByID($row["ID"]);
+    		$arthropodSightings = $survey->getArthropodSightings();
+    		$plant = $survey->getPlant();
     
-    $arthropodData = array();
-    for($i = 0; $i < count($arthropodSightings); $i++){
-      $arthropodData[] = array(
-        $arthropodSightings[$i]->getGroup(),
-        $arthropodSightings[$i]->getLength(),
-        $arthropodSightings[$i]->getQuantity(),
-        $arthropodSightings[$i]->getNotes(),
-        $arthropodSightings[$i]->getHairy(),
-        $arthropodSightings[$i]->getRolled(),
-        $arthropodSightings[$i]->getTented(),
-      )
-    }
+    		$arthropodData = array();
+    		for($i = 0; $i < count($arthropodSightings); $i++){
+      			$arthropodData[] = array(
+        			$arthropodSightings[$i]->getGroup(),
+        			$arthropodSightings[$i]->getLength(),
+        			$arthropodSightings[$i]->getQuantity(),
+        			$arthropodSightings[$i]->getNotes(),
+        			$arthropodSightings[$i]->getHairy(),
+        			$arthropodSightings[$i]->getRolled(),
+        			$arthropodSightings[$i]->getTented(),
+      			);
+    		}
     
     $arr[] = array(
       $plant->getCode(),
