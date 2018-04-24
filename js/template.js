@@ -27,6 +27,9 @@
 						else if(noticeQueue[0][0] == "alert"){
 							showAlert(noticeQueue[0][1]);
 						}
+						else if(noticeQueue[0][0] == "managerRequest"){
+							showManagerRequest(noticeQueue[0][1]);
+						}
 					}, 1);
 				}
 				else{
@@ -55,10 +58,18 @@
 				$("#noticeInteractionBlock").stop().fadeIn();
 			}
 			
+			function showManagerRequest(message){
+				//show a regular alert message
+				$("#managerRequestMessage")[0].innerHTML = message;
+				$("#managerRequest").stop().fadeIn();
+				$("#noticeInteractionBlock").stop().fadeIn();
+			}
+			
 			function hideNotice(){
 				$("#noticeInteractionBlock").stop().fadeOut(200);
 				$("#alert").stop().fadeOut(200);
 				$("#error").stop().fadeOut(200);
+				$("#managerRequest").stop().fadeOut(200);
 				$("#confirmation").stop().fadeOut(200, function(){
 					noticeQueue.splice(0, 1);
 					showNextNoticeInQueue();
@@ -175,9 +186,54 @@
 				window.localStorage.removeItem("salt");
 				window.location = window.location;
 			}
+
+
+
+
+
+
+
+
+
+
+
 			
 			
-			
+			function queueManagerRequests(){
+				if(window.localStorage.getItem("email") === null || window.localStorage.getItem("salt") === null){
+					return false;
+				}
+				
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if(this.responseText.indexOf("true|") == 0){
+							var managerRequests = JSON.parse(this.responseText.replace("true|", ""));
+							for(var i = 0; i < managerRequests.length; i++){
+								//managerRequests[i];
+								queueNotice("managerRequest", managerRequests[i]["requester"] + " wants you to become a manager for the <a href=\"https://maps.google.com/?q=" + managerRequests[i]["siteCoordinates"].replace(/ /g, "") + "\" target=\"_blank\">\"" + managerRequests[i]["siteName"] + "\" site in " + managerRequests[i]["siteRegion"] + "</a>.");
+							}
+						}
+						else{
+							var managerRequestsError = this.responseText.replace("false|", "");
+							queueNotice("error", managerRequestsError);
+							if(loadManagersError == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
+						}
+					}
+				};
+				if($("h1").eq(0)[0].innerHTML == "Caterpillars Count!"){
+					xhttp.open("GET", "php/getManagerRequests.php?email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				}
+				else if($("h1").eq(0)[0].innerHTML.indexOf("../../") > -1){
+					xhttp.open("GET", "../../php/getManagerRequests.php?email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				}
+				else{
+					xhttp.open("GET", "../php/getManagerRequests.php?email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+				}
+				xhttp.send();
+			}
 			
 			
 			
@@ -198,7 +254,7 @@
 				setHeaderCollapse();
 				showScrollAnimationElements();
 				optimizeVideoSize();
-				
+				queueManagerRequests();
 				
 			});
 			
