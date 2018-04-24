@@ -108,9 +108,8 @@
 			.managerRequestButton{
 				width:50%;
 				float:left;
-				rgba(0,0,0,0.1)
-				box-sizing:border-box;
-				padding:20px;
+				rgba(0,0,0,0.1);
+				padding:20px 0px;
 				cursor:pointer;
 			}
 			.managerRequestButton:first-of-type{
