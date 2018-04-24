@@ -239,7 +239,7 @@
 			}
 			
 			function respondToManagerRequest(response){
-				var path = "../;
+				var path = "../";
 				if($("h1").eq(0)[0].innerHTML == "Caterpillars Count!"){
 					path = "";
 				}
