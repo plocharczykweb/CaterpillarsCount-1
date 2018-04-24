@@ -99,10 +99,18 @@
 			
 			#managerRequest{
 				background:#00aeff;
+				position:relative;
+			}
+
+			#managerRequestMessage{
+				padding-bottom:80px;
 			}
 
 			#managerRequestButtons{
-				margin:20px -20px -20px -20px;
+				position:absolute;
+				bottom:0px;
+				left:0px;
+				width:100%;
 			}
 
 			.managerRequestButton{
