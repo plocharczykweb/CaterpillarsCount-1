@@ -248,7 +248,7 @@
 				}
 				$.get(path + "php/respondToManagerRequest.php?managerRequestID=" + Number($("#managerRequestMessage span:last-of-type").eq(0)[0].innerHTML) + "&response=" + response + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 					//success
-					if(data.inexOf("true|") == 0){
+					if(data.indexOf("true|") == 0){
 						if(response == "approve"){
 							queueNotice("confirmation", "You are now a manager of the \"" + data.replace("true|", "") + "\" site! You may visit the \"Manage My Sites\" page when you're ready to explore what you can now do with this site.");
 						}
