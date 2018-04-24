@@ -214,7 +214,7 @@
 							var managerRequests = JSON.parse(this.responseText.replace("true|", ""));
 							for(var i = 0; i < managerRequests.length; i++){
 								//managerRequests[i];
-								queueNotice("managerRequest", managerRequests[i]["requester"] + " wants you to become a manager for the <a href=\"https://maps.google.com/?q=" + managerRequests[i]["siteCoordinates"].replace(/ /g, "") + "\" target=\"_blank\">\"" + managerRequests[i]["siteName"] + "\" site in " + managerRequests[i]["siteRegion"] + "</a>.");
+								queueNotice("managerRequest", managerRequests[i]["requester"] + " wants you to become a manager for the <a href=\"https://maps.google.com/?q=" + managerRequests[i]["siteCoordinates"].replace(/ /g, "") + "\" target=\"_blank\">\"" + managerRequests[i]["siteName"] + "\" site in " + managerRequests[i]["siteRegion"] + "</a>.<span style=\"display:none;\">" + managerRequests[i]["id"] + "</span>");
 							}
 						}
 						else{
@@ -244,6 +244,8 @@
 				//make ajax call
 				//on return, hide screen block and hideNotice();
 				//show error if any
+				
+				console.log($("#managerRequestMessage span:last-of-type").eq(0)[0].innerHTML);
 			}
 			
 			function acceptManagerRequest(){
@@ -252,6 +254,8 @@
 				//make ajax call
 				//on return, hide screen block and hideNotice();
 				//show error if any
+				
+				console.log($("#managerRequestMessage span:last-of-type").eq(0)[0].innerHTML);
 			}
 			
 			
