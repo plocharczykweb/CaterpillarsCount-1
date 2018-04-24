@@ -227,35 +227,40 @@
 					}
 				};
 				if($("h1").eq(0)[0].innerHTML == "Caterpillars Count!"){
-					xhttp.open("GET", "php/getManagerRequests.php?email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+					xhttp.open("GET", "php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				}
 				else if($("h1").eq(0)[0].innerHTML.indexOf("../../") > -1){
-					xhttp.open("GET", "../../php/getManagerRequests.php?email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+					xhttp.open("GET", "../../php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				}
 				else{
-					xhttp.open("GET", "../php/getManagerRequests.php?email=" + window.localStorage.getItem("email") + "&salt=" + window.localStorage.getItem("salt"), true);
+					xhttp.open("GET", "../php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				}
 				xhttp.send();
 			}
 			
-			function denyManagerRequest(){
-				//block screen
-				//show loading animation
-				//make ajax call
-				//on return, hide screen block and hideNotice();
-				//show error if any
-				
-				console.log($("#managerRequestMessage span:last-of-type").eq(0)[0].innerHTML);
-			}
-			
-			function acceptManagerRequest(){
-				//block screen
-				//show loading animation
-				//make ajax call
-				//on return, hide screen block and hideNotice();
-				//show error if any
-				
-				console.log($("#managerRequestMessage span:last-of-type").eq(0)[0].innerHTML);
+			function respondToManagerRequest(response){
+				var path = "../;
+				if($("h1").eq(0)[0].innerHTML == "Caterpillars Count!"){
+					path = "";
+				}
+				else if($("h1").eq(0)[0].innerHTML.indexOf("../../") > -1){
+					path = "../../";
+				}
+				$.get(path + "php/respondToManagerRequest.php?managerRequestID=" + Number($("#managerRequestMessage span:last-of-type").eq(0)[0].innerHTML) + "&response=" + response + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+					//success
+					if(data.inexOf("true|") == 0){
+						if(response == "approve"){
+							queueNotice("confirmation", "You are now a manager of the \"" + data.replace("true|", "") + "\" site! You may visit the \"Manage My Sites\" page when you're ready to explore what you can now do with this site.");
+						}
+					}
+					else{
+						queueNotice("error", data.replace("false|", ""));
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request to deny a site manager request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				});
 			}
 			
 			
