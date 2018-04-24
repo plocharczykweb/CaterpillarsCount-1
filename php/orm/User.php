@@ -231,6 +231,32 @@ class User
 		return $site->getObservationMethodPreset($this);
 	}
 	
+	public function getManagerRequests(){
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		$query = mysqli_query($dbconn, "SELECT * FROM `SiteManager` WHERE `UserFKOfManager`='" . $this->id . "' AND `Approved`='0'");
+		mysqli_close($dbconn);
+		
+		//LOOP THROUGH ALL MANAGERS AND CONSTRUCT AN ARRAY OF MANAGERS TO RETURN
+		$requestsArray = array();
+		while($requestRow = mysqli_fetch_assoc($query)){
+			$site = Site::findByID($requestRow["SiteFK"]);
+			if(is_object($site) && get_class($site) == "Site"){
+				$requestArray = array(
+					"id" => intval($requestRow["ID"]),
+					"requester" => $site->getCreator()->getFullName(),
+					"siteName" => $site->getName(),
+					"siteDescription" => $site->getDescription(),
+					"siteCoordinates" => $site->getLatitude() . ", " . $site->getLatitude(),
+					"siteRegion" => $site->getRegion(),
+					"siteOpenToPublic" => $site->getOpenToPublic(),
+				);
+				
+				array_push($requestsArray, $requestArray);
+			}
+		}
+		return $requestsArray;
+	}
+	
 //SETTERS
 	public function setFirstName($firstName){
 		if(!$this->deleted){
