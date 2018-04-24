@@ -238,6 +238,22 @@
 				xhttp.send();
 			}
 			
+			function denyManagerRequest(){
+				//block screen
+				//show loading animation
+				//make ajax call
+				//on return, hide screen block and manager request notice
+				//show error if any
+			}
+			
+			function acceptManagerRequest(){
+				//block screen
+				//show loading animation
+				//make ajax call
+				//on return, hide screen block and manager request notice
+				//show error if any
+			}
+			
 			
 			
 			
