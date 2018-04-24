@@ -103,7 +103,7 @@
 			}
 
 			#managerRequestMessage{
-				padding-bottom:80px;
+				padding-bottom:55px;
 			}
 
 			#managerRequestButtons{
@@ -117,11 +117,11 @@
 				width:50%;
 				float:left;
 				background:rgba(0,0,0,0.1);
-				padding:20px 0px;
+				padding:15px 0px;
 				cursor:pointer;
 			}
 			.managerRequestButton:first-of-type{
-				border-right:1px solid rgba(0,0,0,.3);
+				border-right:1px solid rgba(0,0,0,.1);
 			}
 			.managerRequestButton:last-of-type{
 				margin-left:-1px;
