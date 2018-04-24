@@ -242,7 +242,7 @@
 				//block screen
 				//show loading animation
 				//make ajax call
-				//on return, hide screen block and manager request notice
+				//on return, hide screen block and hideNotice();
 				//show error if any
 			}
 			
@@ -250,7 +250,7 @@
 				//block screen
 				//show loading animation
 				//make ajax call
-				//on return, hide screen block and manager request notice
+				//on return, hide screen block and hideNotice();
 				//show error if any
 			}
 			
