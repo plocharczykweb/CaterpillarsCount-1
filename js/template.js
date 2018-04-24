@@ -28,6 +28,7 @@
 							showAlert(noticeQueue[0][1]);
 						}
 						else if(noticeQueue[0][0] == "managerRequest"){
+							console.log("a");
 							showManagerRequest(noticeQueue[0][1]);
 						}
 					}, 1);
@@ -209,10 +210,14 @@
 					if (this.readyState == 4 && this.status == 200) {console.log("2");
 						if(this.responseText.indexOf("true|") == 0){console.log("3");
 							var managerRequests = JSON.parse(this.responseText.replace("true|", ""));
+											    console.log(managerRequests);
 							for(var i = 0; i < managerRequests.length; i++){
 								//managerRequests[i];
+								console.log(managerRequests[i]["requester"] + " wants you to become a manager for the <a href=\"https://maps.google.com/?q=" + managerRequests[i]["siteCoordinates"].replace(/ /g, "") + "\" target=\"_blank\">\"" + managerRequests[i]["siteName"] + "\" site in " + managerRequests[i]["siteRegion"] + "</a>.");
 								queueNotice("managerRequest", managerRequests[i]["requester"] + " wants you to become a manager for the <a href=\"https://maps.google.com/?q=" + managerRequests[i]["siteCoordinates"].replace(/ /g, "") + "\" target=\"_blank\">\"" + managerRequests[i]["siteName"] + "\" site in " + managerRequests[i]["siteRegion"] + "</a>.");
+								console.log("queued");
 							}
+											    console.log("5");
 						}
 						else{console.log("4");
 							var managerRequestsError = this.responseText.replace("false|", "");
