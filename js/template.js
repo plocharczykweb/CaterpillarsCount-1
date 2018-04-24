@@ -203,21 +203,21 @@
 				if(window.localStorage.getItem("email") === null || window.localStorage.getItem("salt") === null){
 					return false;
 				}
-				
+				console.log("1");
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						if(this.responseText.indexOf("true|") == 0){
+					if (this.readyState == 4 && this.status == 200) {console.log("2");
+						if(this.responseText.indexOf("true|") == 0){console.log("3");
 							var managerRequests = JSON.parse(this.responseText.replace("true|", ""));
 							for(var i = 0; i < managerRequests.length; i++){
 								//managerRequests[i];
 								queueNotice("managerRequest", managerRequests[i]["requester"] + " wants you to become a manager for the <a href=\"https://maps.google.com/?q=" + managerRequests[i]["siteCoordinates"].replace(/ /g, "") + "\" target=\"_blank\">\"" + managerRequests[i]["siteName"] + "\" site in " + managerRequests[i]["siteRegion"] + "</a>.");
 							}
 						}
-						else{
+						else{console.log("4");
 							var managerRequestsError = this.responseText.replace("false|", "");
 							queueNotice("error", managerRequestsError);
-							if(loadManagersError == "Your log in dissolved. Maybe you logged in on another device."){
+							if(managerRequestsError == "Your log in dissolved. Maybe you logged in on another device."){
 								logOut();
 							}
 						}
