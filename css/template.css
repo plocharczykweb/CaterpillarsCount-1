@@ -116,7 +116,7 @@
 			.managerRequestButton{
 				width:50%;
 				float:left;
-				rgba(0,0,0,0.1);
+				background:rgba(0,0,0,0.1);
 				padding:20px 0px;
 				cursor:pointer;
 			}
