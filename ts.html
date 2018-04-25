@@ -4,7 +4,7 @@
     <script>
       function findOldSiteAndSubmitOldSurvey(plantCode, siteNotes, plantSpecies, herbivoryScore, observationMethod, numberOfLeaves, date, time, arthropodData){
 	//get info by plant code
-	$.get("https://caterpillarscount.unc.edu/php/getPlantCodeInfo.php?code=" + encodeURIComponent(plantCode) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+	$.get("http://caterpillarscount.unc.edu/php/getPlantCodeInfo.php?code=" + encodeURIComponent(plantCode) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 		//success
 		if(data.indexOf("true|") == 0){
 //alert("got plant code info");
