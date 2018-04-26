@@ -41,7 +41,12 @@
 				right:0px;
 				margin:0px;
 				border-radius:0px;
-				padding:12px 30px;
+				padding:14px 30px;
+			}
+			
+			#managers{
+				margin-top:-2px;
+				background:#ddd;
 			}
 		</style>
 		<script>
@@ -52,6 +57,10 @@
 				loadManagers();
 			});
 			
+			function email(creatorEmailParts){
+				window.location = "mailto:" + creatorEmailParts.join('@');
+			}
+			
 			function loadManagers(){
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
@@ -61,10 +70,16 @@
 							
 							var htmlToAdd = "";
 							for(var i = 0; i < managers.length; i++){
-								htmlToAdd += managers[i]["id"];
-								htmlToAdd += managers[i]["approved"];
-								htmlToAdd += managers[i]["fullName"];
-								htmlToAdd += managers[i]["email"];
+								htmlToAdd += "<div>";
+								htmlToAdd += 	"<span style=\"display:none;\">" + managers[i]["id"] + "</span>";
+								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(" + managers[i]["email"].split("@")[0] + ", " + managers[i]["email"].split("@")[1] + ");\">" + managers[i]["fullName"] + "</span>";
+								if(managers[i]["approved"]){
+									htmlToAdd += "<div>Del</div>";
+								}
+								else{
+									htmlToAdd += "<div>...</div>";
+								}
+								htmlToAdd += "</div>";
 							}
 							if(htmlToAdd == ""){
 								htmlToAdd = "No managers.";
@@ -94,7 +109,7 @@
 					if (this.readyState == 4 && this.status == 200) {
 						if(this.responseText.indexOf("true") == 0){
 							var newManager = JSON.parse(this.responseText.replace("true|", ""));
-							queueNotice("confirmation", "You have requested " + newManager["fullName"] + "'s services as a manager for this site. If this user denies your request, the record of the request will no longer show up on this page.");
+							queueNotice("confirmation", "You have requested " + newManager["fullName"] + "'s services as a manager for this site. Please keep in mind that " + newManager["fullName"].split(" ")[0] + " must approve this request before actually becoming an active manager for the site. If " + newManager["fullName"] + " instead denies your request, the record of this request will no longer show up on this page at all.");
 						}
 						else{
 							var loadManagersError = this.responseText.replace("false|", "");
@@ -198,7 +213,7 @@
 				<div class="tagline">Allow other Caterpillars Count! users to manage this site for you! They'll be able to do anything with this site that you can do, with the exception of altering the site's managers. That privilage is reserved for you alone.</div>
 				<div class="content">
 					<div id="newManagerEmailDiv">
-						<input type="text" placeholder="another user's email address" id="newManagerEmail"/>
+						<input type="text" placeholder="user's email address" id="newManagerEmail"/>
 						<button onclick="appoint();">+</button>
 					</div>
 					<div id="managers"></div>
