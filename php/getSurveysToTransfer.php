@@ -4,7 +4,7 @@
 	
 	$dbconn = (new Keychain)->getDatabaseConnection();
 	
-	$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `ID`>741");
+	$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE 1");
 	
   	$arr = array();
 	while($row = mysqli_fetch_assoc($query)){
