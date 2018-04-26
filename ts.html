@@ -7,7 +7,7 @@
 	$.get("https://caterpillarscount.unc.edu/php/getPlantCodeInfo.php?code=" + encodeURIComponent(plantCode) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 		//success
 		if(data.indexOf("true|") == 0){
-alert("got plant code info");
+//alert("got plant code info");
 			var newInfo = JSON.parse(data.replace("true|", ""));
 			
 			//get all old sites
@@ -17,7 +17,7 @@ alert("got plant code info");
   		   		dataType: "json",
       			data: JSON.stringify({action: "getAll"}),
       			success: function (sites, xhr, status) {
-alert("got all old sites");
+//alert("got all old sites");
       		  		var oldSiteID = -1;
       		  		for (var i = 0; i < sites.length; i++) {
       		  			if(newInfo["siteName"].trim().toLowerCase() == sites[i].siteName.trim().toLowerCase() && Math.abs(newInfo["latitude"] - sites[i].siteLat) < 0.01 && Math.abs(newInfo["longitude"] - sites[i].siteLong) < 0.01){
@@ -50,32 +50,32 @@ alert("got all old sites");
 							data: JSON.stringify(data),
 							processData: false,
 							success: function (data) {
-alert("created site");
+//alert("created site");
 								oldSiteID = data.siteID;
   								submitOldSurvey(oldSiteID, newInfo["circle"], newInfo["orientation"], siteNotes, plantSpecies, herbivoryScore, observationMethod, numberOfLeaves, date, time, arthropodData);
 							},
 							error: function (e) {
-alert("SITE CREATION ERROR: " + e);
+//alert("SITE CREATION ERROR: " + e);
 							}
 						});
   					}
         		},
         		error: function (xhr, status) {
-alert("GET SITES ERROR");
+//alert("GET SITES ERROR");
         		}
     		});
 		}
 		else{
-alert("GET PLANT CODE INFO ERROR: " + data);
+//alert("GET PLANT CODE INFO ERROR: " + data);
 		}
 	})
 	.fail(function(){
 		//error
-alert("GET PLANT CODE INFO ERROR");
+//alert("GET PLANT CODE INFO ERROR");
 	});
 }
 function submitOldSurvey(oldSiteID, circle, orientation, siteNotes, plantSpecies, herbivoryScore, observationMethod, numberOfLeaves, date, time, arthropodData){
-alert("submitting old survey");
+//alert("submitting old survey");
 	if(observationMethod != "Visual"){observationMethod = "Beat_Sheet";}
 	
 	//submit old survey
@@ -103,9 +103,9 @@ alert("submitting old survey");
 			"source" : "Mobile"
 		}),
 		success: function(result){
-alert("submitted old survey");
+//alert("submitted old survey");
 			for(var i = 0; i < arthropodData.length; i++){
-alert("submitting arthropod order " + i + " of " + (arthropodData.length - 1));
+//alert("submitting arthropod order " + i + " of " + (arthropodData.length - 1));
 				var newGroups = ["", "ant", "aphid", "bee", "beetle", "caterpillar", "daddylonglegs", "fly", "grasshopper", "leafhopper", "moths", "spider", "truebugs", "other", "unidentified"];
 				var oldGroups = ["NONE", "Ants (Formicidae)", "Aphids and Psyllids (Sternorrhyncha)", "Bees and Wasps (Hymenoptera, excluding ants)", "Beetles (Coleoptera)", "Caterpillars (Lepidoptera larvae)", "Daddy longlegs (Opiliones)", "Flies (Diptera)", "Grasshoppers, Crickets (Orthoptera)", "Leaf hoppers and Cicadas (Auchenorrhyncha)", "Butterflies and Moths (Lepidoptera adult)", "Spiders (Araneae; NOT daddy longlegs!)", "True Bugs (Heteroptera)", "OTHER (describe in Notes)", "Unidentified"];
 				var orderArthropod = oldGroups[Math.max(0, newGroups.indexOf(arthropodData[i][0]))];
@@ -130,16 +130,16 @@ alert("submitting arthropod order " + i + " of " + (arthropodData.length - 1));
 						"silkTent": arthropodData[i][6] ? 1 : 0
 					}),
 					success: function (arthropodResult) {
-alert("submitted arthropod order");
+//alert("submitted arthropod order");
 					},
 					error: function () {
-alert("ARTHROPOD SUBMISSION ERROR: " + orderArthropod);
+//alert("ARTHROPOD SUBMISSION ERROR: " + orderArthropod);
 					}
 				});
 			}
 		},
 		error : function(xhr, status){
-alert("SURVEY SUBMISSION ERROR: " + xhr.status);
+//alert("SURVEY SUBMISSION ERROR: " + xhr.status);
 		}
 	});
 }
