@@ -265,7 +265,7 @@
 						creatingSite = false;
 						setLoadingButton($("#createSiteButton")[0], "Create site", false);
 						$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
-						if(this.responseText == "true"){
+						if(this.responseText.indexOf("true") > -1){//to ignore warnings
 							$("#createSite input").eq(0)[0].value = "";
 							clearCountInput($("#createSite textarea").eq(0)[0]);
 							$("#createSite input").eq(1)[0].value = "";
