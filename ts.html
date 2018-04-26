@@ -14,7 +14,7 @@ alert("got plant code info");
 			$.ajax({
  		    	url: "http://master-caterpillars.vipapps.unc.edu/api/sites.php",
  		    	type: "post",
-  		   		dataType: "jsonp",
+  		   		dataType: "json",
       			data: JSON.stringify({action: "getAll"}),
       			success: function (sites, xhr, status) {
 alert("got all old sites");
@@ -46,7 +46,7 @@ alert("got all old sites");
 						$.ajax({
 							url: 'http://master-caterpillars.vipapps.unc.edu/api/sites.php',
 							type: 'POST',
-							dataType: "jsonp",
+							dataType: "json",
 							data: JSON.stringify(data),
 							processData: false,
 							success: function (data) {
