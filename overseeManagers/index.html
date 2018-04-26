@@ -21,6 +21,18 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
 		<style>
+			#topSection{
+				background:rgba(0,0,0,0.1);
+				padding:20px;
+			}
+			
+			.inputTitle{
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				color:#666;
+				text-transform:uppercase;
+				font-size:14px;
+			}
+			
 			#newManagerEmailDiv{
 				position:relative;
 				border:1px solid #eee;
@@ -86,7 +98,7 @@
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div>";
 								htmlToAdd += 	"<span style=\"display:none;\">" + managers[i]["id"] + "</span>";
-								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(" + managers[i]["email"].split("@")[0] + ", " + managers[i]["email"].split("@")[1] + ");\">" + managers[i]["fullName"] + "</span>";
+								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(\"" + managers[i]["email"].split("@")[0] + "\", \"" + managers[i]["email"].split("@")[1] + "\");\">" + managers[i]["fullName"] + "</span>";
 								if(managers[i]["approved"]){
 									htmlToAdd += "<div>Del</div>";
 								}
@@ -226,9 +238,12 @@
 				<h2>Oversee Managers</h2>
 				<div class="tagline">Allow other Caterpillars Count! users to manage this site for you! They'll be able to do anything with this site that you can do, with the exception of altering the site's managers. That privilage is reserved for you alone.</div>
 				<div class="content">
-					<div id="newManagerEmailDiv">
-						<input type="text" placeholder="user's email address" id="newManagerEmail"/>
-						<button onclick="appoint();">+</button>
+					<div id="topSection">
+						<div class="inputTitle">Request a manager:</div>
+						<div id="newManagerEmailDiv">
+							<input type="text" placeholder="user's email address" id="newManagerEmail"/>
+							<button onclick="appoint();">+</button>
+						</div>
 					</div>
 					<div id="managers"></div>
 				</div>
