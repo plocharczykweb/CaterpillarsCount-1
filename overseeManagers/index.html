@@ -115,7 +115,9 @@
 								htmlToAdd += "</div>";
 							}
 							if(htmlToAdd == ""){
-								htmlToAdd = "No managers.";
+								htmlToAdd += "<div>";
+								htmlToAdd += 	"You have no managers for this site.";
+								htmlToAdd += "</div>";
 							}
 							$("#managers")[0].innerHTML = htmlToAdd;
 						}
