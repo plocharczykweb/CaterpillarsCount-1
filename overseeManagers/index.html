@@ -59,7 +59,6 @@
 			
 			#managers{
 				border-top:1px solid rgba(0,0,0,0.06);
-				background:rgba(0,0,0,0.05);
 				border-radius:0px 0px 4px 4px;
 				overflow:hidden;
 				font-family: 'Roboto Slab', serif;
@@ -69,6 +68,11 @@
 			
 			#managers>div{
 				padding:20px;
+				background:rgba(0,0,0,0.05);
+			}
+			#managers>div:nth-of-type(even){
+				padding:20px;
+				background:rgba(0,0,0,0.03);
 			}
 			
 			#managers>div>div{
@@ -98,7 +102,7 @@
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div>";
 								htmlToAdd += 	"<span style=\"display:none;\">" + managers[i]["id"] + "</span>";
-								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email('" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "');\">" + managers[i]["fullName"] + "</span>";
+								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
 								if(managers[i]["approved"]){
 									htmlToAdd += "<div>Del</div>";
 								}
