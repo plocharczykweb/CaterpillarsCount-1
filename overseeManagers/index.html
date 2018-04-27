@@ -105,7 +105,7 @@
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
-						if(this.responseText.indexOf("true") == 0){
+						if(this.responseText.indexOf("true|") == 0){
 							var managers = JSON.parse(this.responseText.replace("true|", ""));
 							
 							var htmlToAdd = "";
@@ -128,6 +128,7 @@
 							}
 							$("#topSection")[0].style.display = "block";
 							$("#managers")[0].innerHTML = htmlToAdd;
+							updateManagers();
 						}
 						else{
 							var loadManagersError = this.responseText.replace("false|", "");
@@ -144,6 +145,57 @@
 				};
 				xhttp.open("GET", "../php/getManagers.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
+			}
+			function updateManagers(){
+				$.get("../php/getManagers.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						var managers = JSON.parse(data.replace("true|", ""));
+						
+						//check if each status on page reflects status from back end
+						for(var i = 0; i < managers.length; i++){
+							if($("#manager" + managers[i]["id"]).length > 0){
+								var approved = Number(managers[i]["approved"]);
+								var managerDiv = $("#manager" + managers[i]["id"])[0];
+								if(approved == 1 && managerDiv.innerHTML.indexOf("(request") > 0){
+									//approved but not showing approved
+									loadManagers();
+								}
+								else if(approved == 0 && managerDiv.innerHTML.indexOf("(request pending)") == -1){
+									//pending but not showing pending
+									loadManagers();
+								}
+								else if(approved == -1 && managerDiv.innerHTML.indexOf("(request denied)") == -1){
+									//denied but not showing denied
+									loadManagers();
+								}
+							}
+							else{
+								//somehow missing manager on page
+								loadManagers();
+							}
+						}
+						
+						//check if there is one on the page that should not be on the page
+						var managerDivs = $("#managers>div");
+						for(var i = 0; i < managerDivs.length; i++){
+							var idFromPage = Number(managerDivs.eq(i)[0].id.replace("manager", ""));
+							var verified = false;
+							for(var j = 0; j < managers.length; j++){
+								if(Number(managers[j]["id"]) == idFromPage){
+									verified = true;
+									break;
+								}
+							}
+							if(!verified){
+								loadManagers();
+							}
+						}
+					}
+				})
+				.always(function() {
+					setTimeout(updateManagers, 1000);
+				});
 			}
 			
 			function appoint(){
