@@ -108,7 +108,7 @@
 								htmlToAdd += "<div>";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
 								if(managers[i]["approved"]){
-									htmlToAdd += "<div onclick=\"terminate('" + managers[i]["id"] + "');\">&times;</div>";
+									htmlToAdd += "<div onclick=\"promptConfirm('', 'TERMINATE.', 'Nevermind.', function(){terminate('" + managers[i]["id"] + "');}, function(){});\">&times;</div>";
 								}
 								else{
 									htmlToAdd += "<div>...</div>";
@@ -159,7 +159,7 @@
 			}
 			
 			function terminate(managerID){
-				
+				alert("terminate " + managerID);
 			}
 		</script>
 	</head>
