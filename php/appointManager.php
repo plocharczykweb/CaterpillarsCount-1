@@ -18,11 +18,13 @@
 				$siteManagers = $site->getManagersArray();
 				for($i = 0; $i < count($siteManagers); $i++){
           				if($siteManagers[$i]["id"] == $manager->getID()){
-						if($siteManagers[$i]["approved"]){
+						if(intval($siteManagers[$i]["approved"]) == 1){
 							die("false|" . $manager->getFullName() . " is already a manager of this site.");
 						}
-            					die("false|" . $manager->getFullName() . " has already received a request to be a manager for this site.");
-          				}
+						else if(intval($siteManagers[$i]["approved"]) == 0){
+            						die("false|" . $manager->getFullName() . " has already received a request to be a manager for this site.");
+						}
+					}
         			}
         			if($site->appointManager($manager)){
 					$newManagerArray = array(
