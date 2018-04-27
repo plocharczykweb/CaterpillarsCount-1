@@ -25,6 +25,7 @@
 				background:rgba(0,0,0,0.015);
 				padding:20px;
 				border-radius:4px 4px 0px 0px;
+				display:none;
 			}
 			
 			.inputTitle{
@@ -96,8 +97,8 @@
 				loadManagers();
 			});
 			
-			function email(creatorEmailParts){
-				window.location = "mailto:" + creatorEmailParts.join('@');
+			function email(emailParts){
+				window.location = "mailto:" + emailParts.join('@');
 			}
 			
 			function loadManagers(){
@@ -122,11 +123,16 @@
 							if(htmlToAdd == ""){
 								$("#topSection")[0].style.borderRadius = "4px";
 							}
+							$("#topSection")[0].style.display = "block";
 							$("#managers")[0].innerHTML = htmlToAdd;
 						}
 						else{
 							var loadManagersError = this.responseText.replace("false|", "");
 							queueNotice("error", loadManagersError);
+							if(loadManagersError == "You did not create this site, so you cannot oversee its management."){
+								$("#error")[0].onclick = function(){window.location = "../manageMySites";};
+								$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
+							}
 							if(loadManagersError == "Your log in dissolved. Maybe you logged in on another device."){
 								logOut();
 							}
@@ -139,6 +145,7 @@
 			
 			function appoint(){
 				var newManagerEmail = $("#newManagerEmail")[0].value.replace(/ /g,"");
+				$("#newManagerEmail")[0].value = "";
 				if(newManagerEmail == ""){
 					queueNotice("error", "Enter the email address of the user whose services you'd like to request.");
 				}
@@ -288,7 +295,7 @@
 					<div id="topSection">
 						<div class="inputTitle">Request a manager:</div>
 						<div id="newManagerEmailDiv">
-							<input type="text" placeholder="user's email" id="newManagerEmail"/>
+							<input type="text" placeholder="user's email" id="newManagerEmail" onkeypress="if(event.which == 13){this.blur();appoint();}"/>
 							<button onclick="appoint();">+</button>
 						</div>
 					</div>
