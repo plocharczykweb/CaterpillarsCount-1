@@ -622,7 +622,7 @@ class Site
 					if($approved == 1){
 						$approvedMessageAddOn = " Thank you for the time you've dedicated to managing this site in the past.";
 					}
-					$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">" . $this->getCreator()->getFullName() . " no longer requires your services as a manager of the \"" . $this->getName() . "\" site in " . $this->getRegion() . "." . $approvedMessageAddOn . "</div><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"></div></div>";
+					$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">" . $this->getCreator()->getFullName() . " no longer requires your services as a manager of the \"" . $this->getName() . "\" Caterpillars Count! site in " . $this->getRegion() . "." . $approvedMessageAddOn . "</div><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"></div></div>";
 					email($manager->getEmail(), "Your Caterpillars Count! \"" . $this->getName() . "\" managment services are no longer required.", $message);
 				}
 			}
