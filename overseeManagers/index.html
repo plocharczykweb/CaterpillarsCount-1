@@ -80,8 +80,12 @@
 				width:30px;
 				font-size:29px;
 				margin-top:-19px;
+				height:38px;
 				text-align:center;
 				cursor:pointer;
+				background-position:center;
+				background-size:contain;
+				background-repeat:no-repeat;
 			}
 		</style>
 		<script>
@@ -105,10 +109,10 @@
 							
 							var htmlToAdd = "";
 							for(var i = 0; i < managers.length; i++){
-								htmlToAdd += "<div>";
+								htmlToAdd += "<div id=\"manager" + managers[i]["id"] + "\">";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
 								if(managers[i]["approved"]){
-									htmlToAdd += "<div onclick=\"promptConfirm('', 'TERMINATE.', 'Nevermind.', function(){terminate('" + managers[i]["id"] + "');}, function(){});\">&times;</div>";
+									htmlToAdd += "<div onclick=\"promptConfirm('Are you sure you want to terminate " + managers[i]["fullName"] + "'s management position at this site? ', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + managers[i]["id"] + "');});\">&times;</div>";
 								}
 								else{
 									htmlToAdd += "<div>...</div>";
@@ -143,6 +147,14 @@
 					if (this.readyState == 4 && this.status == 200) {
 						if(this.responseText.indexOf("true") == 0){
 							var newManager = JSON.parse(this.responseText.replace("true|", ""));
+							$("#topSection")[0].style.borderRadius = "";
+							
+							var htmlToAdd += "<div id=\"manager" + managers[i]["id"] + "\">";
+							htmlToAdd += "<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
+							htmlToAdd += "<div onclick=\"promptConfirm('Are you sure you want to terminate " + managers[i]["fullName"] + "'s management position at this site? ', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + managers[i]["id"] + "');});\">&times;</div>";
+							htmlToAdd += "</div>";
+							$("#managers").append(htmlToAdd);
+							
 							queueNotice("confirmation", "You have requested " + newManager["fullName"] + "'s services as a manager for this site. Please keep in mind that " + newManager["fullName"].split(" ")[0] + " must approve this request before actually becoming an active manager for the site. If " + newManager["fullName"] + " instead denies your request, the record of this request will no longer show up on this page at all.");
 						}
 						else{
@@ -159,7 +171,30 @@
 			}
 			
 			function terminate(managerID){
-				alert("terminate " + managerID);
+				$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].innerHTML = "";
+				$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].style.backgroundImage = "url('../images/rolling.svg')";
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if(this.responseText.indexOf("true|") == 0){
+							$("#manager" + Number(managerID))[0].outerHTML = "";
+							if($("#managers>div").length == 0){
+								$("#topSection")[0].style.borderRadius = "4px";
+							}
+						}
+						else{
+							$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].innerHTML = "&times;";
+							$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].style.backgroundImage = "url('#')";
+							var terminateError = this.responseText.replace("false|", "");
+							queueNotice("error", terminateError);
+							if(terminateError == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
+						}
+					}
+				};
+				xhttp.open("GET", "../php/terminateManager.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&managerID=" + Number(managerID) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.send();
 			}
 		</script>
 	</head>
