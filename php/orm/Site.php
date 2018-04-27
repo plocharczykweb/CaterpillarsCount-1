@@ -608,11 +608,7 @@ class Site
 	public function terminateManager($manager){
 		if(is_object($manager) && get_class($manager) == "User" && $manager->getID() != $this->creator->getID()){
 			$dbconn = (new Keychain)->getDatabaseConnection();
-			$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
-			if(mysqli_num_rows($query) > 0){
-				$managerID = mysqli_fetch_assoc($query)["ID"];
-				mysqli_query($dbconn, "DELETE FROM `SiteManager` WHERE `UserFKOfManager`='$managerID' AND `SiteFK`='" . $this->id . "'");
-			}
+			$query = mysqli_query($dbconn, "DELETE FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "'");
 			mysqli_close($dbconn);
 			return true;
 		}
