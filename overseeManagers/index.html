@@ -112,7 +112,7 @@
 								htmlToAdd += "<div id=\"manager" + managers[i]["id"] + "\">";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
 								if(managers[i]["approved"]){
-									htmlToAdd += "<div onclick=\"promptConfirm('Are you sure you want to terminate " + managers[i]["fullName"] + "\'s management position at this site? ', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + managers[i]["id"] + "');});\">&times;</div>";
+									htmlToAdd += "<div onclick=\"promptConfirm('Are you sure you want to terminate " + managers[i]["fullName"] + "\\'s management position at this site? ', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + managers[i]["id"] + "');});\">&times;</div>";
 								}
 								else{
 									htmlToAdd += "<div>...</div>";
