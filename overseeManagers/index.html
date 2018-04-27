@@ -134,8 +134,7 @@
 							var loadManagersError = this.responseText.replace("false|", "");
 							queueNotice("error", loadManagersError);
 							if(loadManagersError == "You did not create this site, so you cannot oversee its management."){
-								$("#error")[0].onclick = function(){window.location = "../manageMySites";};
-								$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
+								window.location = "../manageMySites";
 							}
 							if(loadManagersError == "Your log in dissolved. Maybe you logged in on another device."){
 								logOut();
