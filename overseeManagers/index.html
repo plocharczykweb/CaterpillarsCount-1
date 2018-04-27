@@ -22,7 +22,7 @@
 		<script src="../js/template.js"></script>
 		<style>
 			#topSection{
-				background:rgba(0,0,0,0.03);
+				background:rgba(0,0,0,0.015);
 				padding:20px;
 				border-radius:4px 4px 0px 0px;
 			}
@@ -69,7 +69,7 @@
 			#managers>div{
 				border-top:1px solid rgba(0,0,0,0.03);
 				padding:20px 60px 20px 20px;
-				background:rgba(0,0,0,0.06);
+				background:rgba(0,0,0,0.03);
 				position:relative;
 			}
 			
@@ -115,9 +115,7 @@
 								htmlToAdd += "</div>";
 							}
 							if(htmlToAdd == ""){
-								htmlToAdd += "<div>";
-								htmlToAdd += 	"You have no managers for this site.";
-								htmlToAdd += "</div>";
+								$("#topSection")[0].style.borderRadius = "4px";
 							}
 							$("#managers")[0].innerHTML = htmlToAdd;
 						}
