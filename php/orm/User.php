@@ -530,7 +530,7 @@ class User
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `SiteManager` WHERE `ID`='" . $managerRequestID . "' LIMIT 1");
 		if(intval(mysqli_fetch_assoc($query)["UserFKOfManager"]) == $this->getID()){
-			mysqli_query($dbconn, "UPDATE `SiteManager` SET `Approved`='" . true . "' WHERE `ID`='" . $managerRequestID . "'");
+			mysqli_query($dbconn, "UPDATE `SiteManager` SET `Approved`='1' WHERE `ID`='" . $managerRequestID . "'");
 			mysqli_close($dbconn);
 			return true;
 		}
@@ -542,7 +542,7 @@ class User
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `SiteManager` WHERE `ID`='" . $managerRequestID . "' LIMIT 1");
 		if(intval(mysqli_fetch_assoc($query)["UserFKOfManager"]) == $this->getID()){
-			mysqli_query($dbconn, "DELETE FROM `SiteManager` WHERE `ID`='" . $managerRequestID . "'");
+			mysqli_query($dbconn, "UPDATE `SiteManager` SET `Approved`='-1' WHERE `ID`='" . $managerRequestID . "'");
 			mysqli_close($dbconn);
 			return true;
 		}
