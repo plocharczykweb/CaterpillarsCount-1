@@ -592,11 +592,16 @@ class Site
 	public function appointManager($manager){
 		if(is_object($manager) && get_class($manager) == "User" && $manager->getID() != $this->creator->getID()){
 			$dbconn = (new Keychain)->getDatabaseConnection();
-			$query = mysqli_query($dbconn, "SELECT `ID` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
+			$query = mysqli_query($dbconn, "SELECT * FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
 			if(mysqli_num_rows($query) == 0){
 				mysqli_query($dbconn, "INSERT INTO SiteManager (`UserFKOfManager`, `SiteFK`, `Approved`) VALUES ('" . $manager->getID() . "', '" . $this->id . "', '0')");
 				//$id = intval(mysqli_insert_id($dbconn));
 				$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">" . $this->getCreator()->getFullName() . " would like you to be a manager of the \"" . $this->getName() . "\" site in " . $this->getRegion() . ". Please sign in to <a href='https://caterpillarscount.unc.edu/signIn'>caterpillarscount.unc.edu</a> using this email address (" . $manager->getEmail() . ") to approve or deny this request.</div><a href='https://caterpillarscount.unc.edu/signIn'><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">SIGN IN NOW</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"></div></div>";
+				email($manager->getEmail(), "New Caterpillars Count! site manager request!", $message);
+			}
+			else if(mysqli_fetch_assoc($query)["Approved"] == -1){
+				mysqli_query($dbconn, "UPDATE SiteManager SET `Approved`='0' WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "'");
+				$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">" . $this->getCreator()->getFullName() . " would like you to reconsider being a manager of the \"" . $this->getName() . "\" site in " . $this->getRegion() . ". Please sign in to <a href='https://caterpillarscount.unc.edu/signIn'>caterpillarscount.unc.edu</a> using this email address (" . $manager->getEmail() . ") to approve or deny this request.</div><a href='https://caterpillarscount.unc.edu/signIn'><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">SIGN IN NOW</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"></div></div>";
 				email($manager->getEmail(), "New Caterpillars Count! site manager request!", $message);
 			}
 			mysqli_close($dbconn);
