@@ -3,6 +3,7 @@
 require_once('resources/mailing.php');
 require_once('resources/Keychain.php');
 require_once('Site.php');
+require_once('ManagerRequest.php');
 
 class User
 {
@@ -231,30 +232,8 @@ class User
 		return $site->getObservationMethodPreset($this);
 	}
 	
-	public function getManagerRequests(){
-		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT * FROM `SiteManager` WHERE `UserFKOfManager`='" . $this->id . "' AND `Approved`='0'");
-		mysqli_close($dbconn);
-		
-		//LOOP THROUGH ALL MANAGERS AND CONSTRUCT AN ARRAY OF MANAGERS TO RETURN
-		$requestsArray = array();
-		while($requestRow = mysqli_fetch_assoc($query)){
-			$site = Site::findByID($requestRow["SiteFK"]);
-			if(is_object($site) && get_class($site) == "Site"){
-				$requestArray = array(
-					"id" => intval($requestRow["ID"]),
-					"requester" => $site->getCreator()->getFullName(),
-					"siteName" => $site->getName(),
-					"siteDescription" => $site->getDescription(),
-					"siteCoordinates" => $site->getLatitude() . ", " . $site->getLatitude(),
-					"siteRegion" => $site->getRegion(),
-					"siteOpenToPublic" => $site->getOpenToPublic(),
-				);
-				
-				array_push($requestsArray, $requestArray);
-			}
-		}
-		return $requestsArray;
+	public function getPendingManagerRequests(){
+		ManagerRequest::findPendingManagerRequestsByManager($this);
 	}
 	
 //SETTERS
@@ -520,30 +499,6 @@ class User
 			$newPassword = bin2hex(openssl_random_pseudo_bytes(4));
 			$this->setPassword($newPassword);
 			email($this->email, "Caterpillars Count! password recovery", "Per your request, we here at Caterpillars Count! have reset the password associated with your email (" . $this->email . ") to: " . $newPassword . "\n\nPlease log in now and reset your password to something memorable. Thank you for using Caterpillars Count!");
-			return true;
-		}
-		return false;
-	}
-	
-	public function approveManagerRequest($managerRequestID){
-		$managerRequestID = intval($managerRequestID);
-		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `SiteManager` WHERE `ID`='" . $managerRequestID . "' LIMIT 1");
-		if(intval(mysqli_fetch_assoc($query)["UserFKOfManager"]) == $this->getID()){
-			mysqli_query($dbconn, "UPDATE `SiteManager` SET `Approved`='1' WHERE `ID`='" . $managerRequestID . "'");
-			mysqli_close($dbconn);
-			return true;
-		}
-		return false;
-	}
-	
-	public function denyManagerRequest($managerRequestID){
-		$managerRequestID = intval($managerRequestID);
-		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `SiteManager` WHERE `ID`='" . $managerRequestID . "' LIMIT 1");
-		if(intval(mysqli_fetch_assoc($query)["UserFKOfManager"]) == $this->getID()){
-			mysqli_query($dbconn, "UPDATE `SiteManager` SET `Approved`='-1' WHERE `ID`='" . $managerRequestID . "'");
-			mysqli_close($dbconn);
 			return true;
 		}
 		return false;
