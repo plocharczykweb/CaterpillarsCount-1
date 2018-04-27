@@ -112,11 +112,14 @@
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div id=\"manager" + managers[i]["id"] + "\">";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
-								if(managers[i]["approved"]){
+								if(Number(managers[i]["approved"]) == 1){
 									htmlToAdd += "<div onclick=\"promptConfirm('Are you sure you want to terminate " + managers[i]["fullName"] + "\\'s management position at this site? ', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + managers[i]["id"] + "');});\">&times;</div>";
 								}
-								else{
+								else if(Number(managers[i]["approved"]) == 0){
 									htmlToAdd += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + managers[i]["fullName"] + "\\'s management services at this site? ', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + managers[i]["id"] + "');});\">&times;</div>";
+								}
+								else{
+									htmlToAdd += " (request denied)<div onclick=\"terminate('" + managers[i]["id"] + "');\">&times;</div>";
 								}
 								htmlToAdd += "</div>";
 							}
@@ -156,13 +159,19 @@
 							var newManager = JSON.parse(this.responseText.replace("true|", ""));
 							$("#topSection")[0].style.borderRadius = "";
 							
-							var htmlToAdd = "<div id=\"manager" + newManager["id"] + "\">";
-							htmlToAdd += "<span class=\"highlighted pointer underline\" onclick=\"email(['" + newManager["email"].split("@")[0] + "', '" + newManager["email"].split("@")[1] + "']);\">" + newManager["fullName"] + "</span>";
-							htmlToAdd += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "'s management services at this site?', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + newManager["id"] + "');});\">&times;</div>";
-							htmlToAdd += "</div>";
-							$("#managers").append(htmlToAdd);
-							
-							queueNotice("confirmation", "You have requested " + newManager["fullName"] + "'s services as a manager for this site. Please keep in mind that " + newManager["fullName"].split(" ")[0] + " must approve this request before actually becoming an active manager for the site. If " + newManager["fullName"].split(" ")[0] + " instead denies your request, the record of this request will no longer show up on this page at all.");
+							if($("#manager" + newManager["id"]).length > 0){
+								var innerHTMLToReplaceWith = "<span class=\"highlighted pointer underline\" onclick=\"email(['" + newManager["email"].split("@")[0] + "', '" + newManager["email"].split("@")[1] + "']);\">" + newManager["fullName"] + "</span>";
+								innerHTMLToReplaceWith += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "'s management services at this site?', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + newManager["id"] + "');});\">&times;</div>";
+								$("#manager" + newManager["id"])[0].innerHTML = innerHTMLToReplaceWith;
+							}
+							else{
+								var htmlToAdd = "<div id=\"manager" + newManager["id"] + "\">";
+								htmlToAdd += "<span class=\"highlighted pointer underline\" onclick=\"email(['" + newManager["email"].split("@")[0] + "', '" + newManager["email"].split("@")[1] + "']);\">" + newManager["fullName"] + "</span>";
+								htmlToAdd += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "'s management services at this site?', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + newManager["id"] + "');});\">&times;</div>";
+								htmlToAdd += "</div>";
+								$("#managers").append(htmlToAdd);
+							}
+							queueNotice("confirmation", "You have requested " + newManager["fullName"] + "'s services as a manager for this site. Please keep in mind that " + newManager["fullName"].split(" ")[0] + " must approve this request before actually becoming an active manager for the site.");
 						}
 						else{
 							var loadManagersError = this.responseText.replace("false|", "");
