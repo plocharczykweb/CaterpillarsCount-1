@@ -77,9 +77,11 @@
 				position:absolute;
 				top:50%;
 				right:20px;
-				height:30px;
-				margin-top:-15px;
-				background:rgba(0,0,0,0.1);
+				width:30px;
+				font-size:29px;
+				margin-top:-19px;
+				text-align:center;
+				cursor:pointer;
 			}
 		</style>
 		<script>
@@ -104,10 +106,9 @@
 							var htmlToAdd = "";
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div>";
-								htmlToAdd += 	"<span style=\"display:none;\">" + managers[i]["id"] + "</span>";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
 								if(managers[i]["approved"]){
-									htmlToAdd += "<div>Del</div>";
+									htmlToAdd += "<div onclick=\"terminate('" + managers[i]["id"] + "');\">&times;</div>";
 								}
 								else{
 									htmlToAdd += "<div>...</div>";
@@ -155,6 +156,10 @@
 				};
 				xhttp.open("GET", "../php/appointManager.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&managerEmail=" + encodeURIComponent(newManagerEmail) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
+			}
+			
+			function terminate(managerID){
+				
 			}
 		</script>
 	</head>
