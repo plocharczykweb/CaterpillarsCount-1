@@ -614,7 +614,7 @@ class Site
 		if(is_object($manager) && get_class($manager) == "User" && $manager->getID() != $this->creator->getID()){
 			$dbconn = (new Keychain)->getDatabaseConnection();
 			$query = mysqli_query($dbconn, "SELECT `Approved` FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
-			if(mysqli_num_rows($query) == 0){
+			if(mysqli_num_rows($query) > 0){
 				$approved = intval(mysqli_fetch_assoc($query)["Approved"]);
 				$query = mysqli_query($dbconn, "DELETE FROM `SiteManager` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $this->id . "'");
 				if($approved > -1){
