@@ -27,7 +27,7 @@
         			if($site->appointManager($manager)){
 					$newManagerArray = array(
 						"id" => $manager->getID(),
-						"approved" => false,
+						"approved" => 0,
 						"fullName" => $manager->getFullName(),
 						"email" => $manager->getEmail(),
 					);
