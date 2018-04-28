@@ -62,76 +62,19 @@ class ManagerRequest
 	
 	//FINDERS
 	public static function findByID($id){
-		$dbconn = (new Keychain)->getDatabaseConnection();
-		$id = mysqli_real_escape_string($dbconn, $id);
-		$query = mysqli_query($dbconn, "SELECT * FROM `ManagerRequest` WHERE `ID`='$id' LIMIT 1");
-		mysqli_close($dbconn);
-		
-		if(mysqli_num_rows($query) == 0){
-			return null;
-		}
-		
-		$managerRequestRow = mysqli_fetch_assoc($query);
-		
-		$manager = User::findByID($managerRequestRow["UserFKOfManager"]);
-		$site = Site::findByID($managerRequestRow["SiteFK"]);
-		$status = $managerRequestRow["Status"];
-		
-		return new ManagerRequest($id, $manager, $site, $status);
+		return new ManagerRequest(1, User::findByID(20), Site::findByID(2), "Pending");
 	}
 	
 	public static function findByManagerAndSite($manager, $site){
-		$dbconn = (new Keychain)->getDatabaseConnection();
-		$id = mysqli_real_escape_string($dbconn, $id);
-		$query = mysqli_query($dbconn, "SELECT * FROM `ManagerRequest` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $site->getID() . "' LIMIT 1");
-		mysqli_close($dbconn);
-		
-		if(mysqli_num_rows($query) == 0){
-			return null;
-		}
-		
-		$managerRequestRow = mysqli_fetch_assoc($query);
-		
-		$id = intval($managerRequestRow["ID"]);
-		$status = $managerRequestRow["Status"];
-		
-		return new ManagerRequest($id, $manager, $site, $status);
+		return new ManagerRequest(1, User::findByID(20), Site::findByID(2), "Pending");
 	}
   
   	public static function findManagerRequestsBySite($site){
-    		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT * FROM `ManagerRequest` WHERE `SiteFK`='" . $site->getID() . "'");
-		mysqli_close($dbconn);
-		
-		$managerRequestsArray = array();
-		while($managerRequestRow = mysqli_fetch_assoc($query)){
-			$id = $managerRequestRow["ID"];
-			$manager = User::findByID($managerRequestRow["UserFKOfManager"]);
-			$site = Site::findByID($managerRequestRow["SiteFK"]);
-			$status = $managerRequestRow["Status"];
-			$managerRequest = new ManagerRequest($id, $manager, $site, $status);
-			
-			array_push($managerRequestsArray, $managerRequest);
-		}
-		return $managerRequestsArray;
+    		return array();
 	}
   
   	public static function findPendingManagerRequestsByManager($manager){
-    		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT * FROM `ManagerRequest` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `Status`='Pending'");
-		mysqli_close($dbconn);
-		
-		$managerRequestsArray = array();
-		while($managerRequestRow = mysqli_fetch_assoc($query)){
-			$id = $managerRequestRow["ID"];
-			$manager = User::findByID($managerRequestRow["UserFKOfManager"]);
-			$site = Site::findByID($managerRequestRow["SiteFK"]);
-			$status = $managerRequestRow["Status"];
-			$managerRequest = new ManagerRequest($id, $manager, $site, $status);
-			
-			array_push($managerRequestsArray, $managerRequest);
-		}
-		return $managerRequestsArray;
+    		return array();
 	}
   
 	//GETTERS
