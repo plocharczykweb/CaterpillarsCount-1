@@ -1,9 +1,11 @@
 <?php
 require_once('orm/User.php');
+require_once('orm/ManagerRequest.php');
+
 $user = User::findByEmail("aaron@game103.net");
 echo $user->getFullName();
-echo count($user->getPendingManagerRequests());
-  $managerRequests = $user->getPendingManagerRequests();
+echo count(ManagerRequest::findPendingManagerRequestsByManager($user));
+  $managerRequests = ManagerRequest::findPendingManagerRequestsByManager($user);
 		$requestsArray = array();
 		for($i = 0; $i < count($managerRequests); $i++){
 			$requestArray = array(
