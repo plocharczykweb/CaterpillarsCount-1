@@ -30,7 +30,7 @@
 				
 				if(get_class($managerRequest) == "ManagerRequest"){
 					$managerRequestArray = array(
-						"managerID" => $managerRequest->getManager()->getID(),
+						"managerID" => $manager->getID(),
 						"fullName" => $manager->getFullName(),
 						"email" => $manager->getEmail(),
 						"status" => $managerRequest->getStatus(),
