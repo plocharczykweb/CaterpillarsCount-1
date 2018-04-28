@@ -199,14 +199,14 @@ class ManagerRequest
   	}
 	
 	//validity ensurance
-	public function validManager($dbconn, $manager, $site){
+	public static function validManager($dbconn, $manager, $site){
 		if($site->getCreator() == $manager){
 			return false;
 		}
 		return $manager;
 	}
 	
-	public function validStatus($dbconn, $status){
+	public static function validStatus($dbconn, $status){
 		if($status != "Pending" && $status != "Denied" && $status != "Approved"){
 			return false;
 		}
