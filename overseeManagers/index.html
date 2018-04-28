@@ -135,7 +135,7 @@
 							var loadManagersError = this.responseText.replace("false|", "");
 							queueNotice("error", loadManagersError);
 							if(loadManagersError == "You did not create this site, so you cannot oversee its management."){
-								//window.location = "../manageMySites";
+								$(".tagline").eq(0)[0].innerHTML = "You did not create this site, so you cannot oversee its management. <a href=\"../manageMySites\">Click here to go back to your Manage My Sites page</a>."
 							}
 							if(loadManagersError == "Your log in dissolved. Maybe you logged in on another device."){
 								logOut();
@@ -351,7 +351,7 @@
 		<main>
 			<div class="panel">
 				<h2>Oversee Managers</h2>
-				<div class="tagline">Managers can do anything with a site that the site's creator can do, with the exception of altering the site's managers. That privilage is reserved for the site's creator alone.</div>
+				<div class="tagline">Your managers can do anything with this site that you can do, with the exception of altering the site's managers. That privilage is reserved for you alone.</div>
 				<div class="content">
 					<div id="topSection">
 						<div class="inputTitle">Request a manager:</div>
