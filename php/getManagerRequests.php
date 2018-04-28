@@ -11,15 +11,17 @@
 		$managerRequests = $user->getPendingManagerRequests();
 		$requestsArray = array();
 		for($i = 0; $i < count($managerRequests); $i++){
-			$requestsArray[] = array(
+			$requestArray = array(
 				"id" => $managerRequests[$i]->getID(),
 				"requester" => $managerRequests[$i]->getSite()->getCreator()->getFullName(),
 				"siteName" => $managerRequests[$i]->getSite()->getName(),
 				"siteDescription" => $managerRequests[$i]->getSite()->getDescription(),
-				"siteCoordinates" => $managerRequests[$i]->getSite()->getLatitude() . ", " . $managerRequests[$i]->getSite()->getLatitude(),
+				"siteCoordinates" => $managerRequests[$i]->getSite()->getLatitude() . ", " . $managerRequests[$i]->getSite()->getLongitude(),
 				"siteRegion" => $managerRequests[$i]->getSite()->getRegion(),
 				"siteOpenToPublic" => $managerRequests[$i]->getSite()->getOpenToPublic(),
 			);
+			
+			array_push($requestsArray, $requestArray);
 		}
 		die("true|" . json_encode($requestsArray));
 	}
