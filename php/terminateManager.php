@@ -16,7 +16,7 @@
     		if(is_object($site) && get_class($site) == "Site" && $user->getID() == $site->getCreator()->getID()){
       			$manager = User::findByID($managerID);
       			if(is_object($manager) && get_class($manager) == "User"){
-				if($manager == $user){
+				if($manager != $user){
 					$managerRequest = ManagerRequest::findByManagerAndSite($manager, $site);
 					if(get_class($managerRequest) == "ManagerRequest"){
 						$managerRequest->permanentDelete();
