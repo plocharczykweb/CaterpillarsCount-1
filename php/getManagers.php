@@ -3,6 +3,7 @@
 	
 	require_once('orm/User.php');
 	require_once('orm/Site.php');
+	require_once('orm/ManagerRequest.php');
 	
   	$siteID = $_GET["siteID"];
 	$email = $_GET["email"];
@@ -12,7 +13,17 @@
 	if(is_object($user) && get_class($user) == "User"){
     		$site = Site::findByID($siteID);
     		if(is_object($site) && get_class($site) == "Site" && $user->getID() == $site->getCreator()->getID()){
-      			die("true|" . json_encode($site->getManagersArray()));
+			$managerRequests = ManagerRequest::findManagerRequestsBySite($site);
+			$mangers = array();
+			for($i = 0; $i < count($managerRequests); $i++){
+				$managers[] = array(
+					"managerID" => $managerRequests[$i]->getManager()->getID(),
+					"fullName" => $managerRequests[$i]->getManager()->getFullName(),
+					"email" => $managerRequests[$i]->getManager()->getEmail(),
+					"status" => $managerRequests[$i]->getStatus(),
+				);
+			}
+      			die("true|" . json_encode($mangers));
     		}
     		die("false|You did not create this site, so you cannot oversee its management.");
   	}
