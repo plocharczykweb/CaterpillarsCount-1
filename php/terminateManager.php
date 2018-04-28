@@ -3,6 +3,7 @@
 	
 	require_once('orm/User.php');
 	require_once('orm/Site.php');
+	require_once('orm/ManagerRequest.php');
 	
   	$siteID = $_GET["siteID"];
   	$managerID = $_GET["managerID"];
@@ -15,17 +16,16 @@
     		if(is_object($site) && get_class($site) == "Site" && $user->getID() == $site->getCreator()->getID()){
       			$manager = User::findByID($managerID);
       			if(is_object($manager) && get_class($manager) == "User"){
-        			$siteManagers = $site->getManagersArray();
-        			for($i = 0; $i < count($siteManagers); $i++){
-          				if($siteManagers[$i]["id"] == $manager->getID()){
-            					if($site->terminateManager($manager)){
-              						die("true|");
-            					}
-            					die("false|You are the site creator, not a manager.You cannot terminate yourself.");
-          				}
-        			}
-        			die("false|There is no need for termination here. " . $manager->getFullName() . " is not a manager of this site anyway.");
-      			}
+				if($manager == $user){
+					$managerRequest = ManagerRequest::findByManagerAndSite($manager, $site);
+					if(get_class($managerRequest) == "ManagerRequest"){
+						$managerRequest->permanentDelete();
+						die("true|");
+					}
+					die("false|There is no need for termination here. " . $manager->getFullName() . " is not a manager of this site anyway.");
+				}
+				die("false|You are the site creator, not a manager. You cannot terminate yourself.");
+			}
       			die("false|We could not locate that manager's account. Please reload the page and try again.");
     		}
     		die("false|You did not create this site, so you cannot oversee its management.");
