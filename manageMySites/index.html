@@ -239,6 +239,17 @@
 				window.location = '../editSite/index.html?s=' + id;
 			}
 			
+			function overseeManagers(){
+				var id = getSelectValue($(".select").eq(0));
+				if(id == ""){
+					queueNotice("error", "Select a site first.");
+					return false;
+				}
+				window.location = '../overseeManagers/index.html?s=' + id;
+			}
+			
+			
+			
 			
 			
 			
@@ -468,6 +479,13 @@
 					-->
 					
 					<div class="rightText">
+						<div class="siteOperationDiv" onclick="overseeManagers();">
+							<div class="table">
+								<img src="../images/overseeManagers.png"/>
+								<div class="caption">Oversee Managers</div>
+							</div>
+						</div>
+						
 						<div class="siteOperationDiv" onclick="editSite();">
 							<div class="table">
 								<img src="../images/edit.png"/>
