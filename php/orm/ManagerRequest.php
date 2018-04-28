@@ -147,17 +147,17 @@ class ManagerRequest
 	
 	public function getManager(){
 		if($this->deleted){return null;}
-		return this->manager;
+		return $this->manager;
 	}
 	
 	public function getSite(){
 		if($this->deleted){return null;}
-		return this->site;
+		return $this->site;
 	}
 	
 	public function getStatus(){
 		if($this->deleted){return null;}
-		return this->status;
+		return $this->status;
 	}
   
 	//SETTERS
