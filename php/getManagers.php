@@ -23,7 +23,7 @@
 					"status" => $managerRequests[$i]->getStatus(),
 				);
 			}
-      			die("true|" . json_encode($mangers));
+      			die("true|" . json_encode($managers));
     		}
     		die("false|You did not create this site, so you cannot oversee its management.");
   	}
