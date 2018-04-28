@@ -107,6 +107,7 @@
 					if (this.readyState == 4 && this.status == 200) {
 						if(this.responseText.indexOf("true|") == 0){
 							var managers = JSON.parse(this.responseText.replace("true|", ""));
+							if(managers === null){managers = [];}
 							
 							var htmlToAdd = "";
 							for(var i = 0; i < managers.length; i++){
@@ -150,6 +151,7 @@
 					//success
 					if(data.indexOf("true|") == 0){
 						var managers = JSON.parse(data.replace("true|", ""));
+						if(managers === null){managers = [];}
 						
 						//check if each status on page reflects status from back end
 						for(var i = 0; i < managers.length; i++){
