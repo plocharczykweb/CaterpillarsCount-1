@@ -28,7 +28,7 @@
 		  	while($row = mysqli_fetch_assoc($query)){
 				$emailsArray[(string)$row["UserFKOfCreator"]]["authority"] = true;
 		  	}
-      			$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `SiteManager` WHERE 1");
+      			$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `ManagerRequest` WHERE `Status`='Approved'");
 		  	while($row = mysqli_fetch_assoc($query)){
 				$emailsArray[(string)$row["UserFKOfManager"]]["authority"] = true;
 		 	}
