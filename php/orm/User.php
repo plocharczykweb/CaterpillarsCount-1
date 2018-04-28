@@ -233,7 +233,7 @@ class User
 	}
 	
 	public function getPendingManagerRequests(){
-		ManagerRequest::findPendingManagerRequestsByManager($this);
+		return ManagerRequest::findPendingManagerRequestsByManager($this);
 	}
 	
 //SETTERS
