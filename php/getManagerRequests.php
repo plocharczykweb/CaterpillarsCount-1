@@ -8,7 +8,7 @@
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
-		die("true|" . json_encode($user->getManagerRequests()));
+		die("true|" . json_encode($user->getPendingManagerRequests()));
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
