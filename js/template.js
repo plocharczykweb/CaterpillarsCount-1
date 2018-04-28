@@ -202,40 +202,37 @@
 
 
 			
-			
+			var shownManagerRequestSiteNames = [];
 			function queueManagerRequests(){
 				if(window.localStorage.getItem("email") === null || window.localStorage.getItem("salt") === null){
+					setTimeout(queueManagerRequests, 1000);
 					return false;
 				}
-				var xhttp = new XMLHttpRequest();
-				xhttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						if(this.responseText.indexOf("true|") == 0){
-							var managerRequests = JSON.parse(this.responseText.replace("true|", ""));
-							for(var i = 0; i < managerRequests.length; i++){
-								//managerRequests[i];
+				
+				var url = "../php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt");
+				if($("h1").eq(0)[0].innerHTML == "Caterpillars Count!"){
+					url = "php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt");
+				}
+				else if($("h1").eq(0)[0].innerHTML.indexOf("../../") > -1){
+					url = "../../php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt");
+				}
+				$.get(url, function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						var managerRequests = JSON.parse(data.replace("true|", ""));
+						for(var i = 0; i < managerRequests.length; i++){
+							//managerRequests[i];
+							if(shownManagerRequestSiteNames.indexOf(managerRequests[i]["siteName"]) == -1){
+								shownManagerRequestSiteNames[shownManagerRequestSiteNames.length] = managerRequests[i]["siteName"];
 								queueNotice("managerRequest", managerRequests[i]["requester"] + " wants you to become a manager for the <a href=\"https://maps.google.com/?q=" + managerRequests[i]["siteCoordinates"].replace(/ /g, "") + "\" target=\"_blank\">\"" + managerRequests[i]["siteName"] + "\" site in " + managerRequests[i]["siteRegion"] + "</a>.<span style=\"display:none;\">" + managerRequests[i]["id"] + "</span>");
 							}
 						}
-						else{
-							var managerRequestsError = this.responseText.replace("false|", "");
-							queueNotice("error", managerRequestsError);
-							if(managerRequestsError == "Your log in dissolved. Maybe you logged in on another device."){
-								logOut();
-							}
-						}
 					}
-				};
-				if($("h1").eq(0)[0].innerHTML == "Caterpillars Count!"){
-					xhttp.open("GET", "php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
-				}
-				else if($("h1").eq(0)[0].innerHTML.indexOf("../../") > -1){
-					xhttp.open("GET", "../../php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
-				}
-				else{
-					xhttp.open("GET", "../php/getManagerRequests.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
-				}
-				xhttp.send();
+				})
+				.always(function() {
+					//complete
+					setTimeout(queueManagerRequests, 1000);
+				});
 			}
 			
 			function respondToManagerRequest(response){
@@ -250,7 +247,7 @@
 					//success
 					if(data.indexOf("true|") == 0){
 						if(response == "approve"){
-							queueNotice("confirmation", "You are now a manager of the \"" + data.replace("true|", "") + "\" site! You may visit the \"Manage My Sites\" page when you're ready to explore what you can now do with this site.");
+							queueNotice("confirmation", "You are now a manager of the \"" + data.replace("true|", "") + "\" site! You may visit your <a href='" + path + "manageMySites'>Manage My Sites</a> page when you're ready to explore what you can now do with this site.");
 						}
 					}
 					else{
