@@ -30,10 +30,10 @@
 				
 				if(get_class($managerRequest) == "ManagerRequest"){
 					$managerRequestArray = array(
-						"id" => $managerRequest->getID(),
-						"status" => $managerRequest->getStatus(),
+						"managerID" => $managerRequest->getManager()->getID(),
 						"fullName" => $manager->getFullName(),
 						"email" => $manager->getEmail(),
+						"status" => $managerRequest->getStatus(),
 					);
           				die("true|" . json_encode($managerRequestArray));
        				}
