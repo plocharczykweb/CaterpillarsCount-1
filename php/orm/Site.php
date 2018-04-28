@@ -166,11 +166,16 @@ class Site
 	}
 	
 	public static function findManagedSitesByManager($manager){
-		$sites = $manager->getSites();
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		$query = mysqli_query($dbconn, "SELECT `SiteFK` FROM `ManagerRequest` WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `Status`='Approved'");
+		mysqli_close($dbconn);
+		
 		$sitesArray = array();
-		for($i = 0; $i < count($sites); $i++){
-			if($sites[$i]->getCreator() != $manager){
-				$sitesArray[] = $sites[$i];
+		while($managerRow = mysqli_fetch_assoc($query)){
+			$siteFK = $managerRow["SiteFK"];
+			$site = self::findByID($siteFK);
+			if(is_object($site) && get_class($site) == "Site"){
+				array_push($sitesArray, $site);
 			}
 		}
 		return $sitesArray;
