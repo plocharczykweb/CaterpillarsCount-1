@@ -12,7 +12,7 @@
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
     		$site = Site::findByID($siteID);
-    		if(is_object($site) && get_class($site) == "Site" && $user->getID() == $site->getCreator()->getID()){
+    		if(is_object($site) && get_class($site) == "Site" && $site->hasCreatorPermissions($user)){
 			$managerRequests = ManagerRequest::findManagerRequestsBySite($site);
 			$mangers = array();
 			for($i = 0; $i < count($managerRequests); $i++){
