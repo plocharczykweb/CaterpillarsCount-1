@@ -196,28 +196,10 @@ class User
 			return Site::findAll();
 		}
 		
-		//Temporarily hard-coded Managers
-		$temporarilyManagedSites = array();
-		
-		//"UNC Chapel Hill Campus" Managers
-		if($this->email == "ssnell@live.unc.edu" || $this->email == "gdicecco@live.unc.edu"){
-			$temporarilyManagedSites[] = Site::findByName("UNC Chapel Hill Campus");
-		}
-		
-		//"GSM Institute at Tremont (TN)" Managers
-		if($this->email == "science@gsmit.org"){
-			$temporarilyManagedSites[] = Site::findByName("GSM Institute at Tremont");
-		}
-		
-		//"East Carolina University (NC)" Managers
-		if($this->email == "ecu.caterpillarscount@gmail.com" || $this->email == "vancechalcrafth@ecu.edu" || $this->email == "bunnella@ecu.edu" || $this->email == "dowa05@students.ecu.edu" || $this->email == "stanoe@ecu.edu"){
-			$temporarilyManagedSites[] = Site::findByName("East Carolina University");
-		}
-		
 		//Everyone else
 		$managedSites = Site::findManagedSitesByManager($this);
 		$ownedSites = Site::findSitesByCreator($this);
-		return array_merge($ownedSites, $managedSites, $temporarilyManagedSites);
+		return array_merge($ownedSites, $managedSites);
 	}
 	
 	public function getValidationStatus($site){
