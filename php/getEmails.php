@@ -7,7 +7,7 @@
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
-    		if($user->getEmail() == "plocharczykweb@gmail.com" || $user->getEmail() == "hurlbert@bio.unc.edu"){
+    		if($user->getEmail() == "plocharczykweb@gmail.com" || $user->getEmail() == "hurlbert@bio.unc.edu" || $user->getEmail() == "ssnell@live.unc.edu" || $user->getEmail() == "gdicecco@live.unc.edu"){
       			$dbconn = (new Keychain)->getDatabaseConnection();
       
       			//get all emails
