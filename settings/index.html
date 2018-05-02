@@ -128,7 +128,7 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				
-				if(window.localStorage.getItem("email") == ["plocharczykweb", "gmail.com"].join("@") || window.localStorage.getItem("email") == ["hurlbert", "bio.unc.edu"].join("@")){
+				if(window.localStorage.getItem("email") == ["plocharczykweb", "gmail.com"].join("@") || window.localStorage.getItem("email") == ["hurlbert", "bio.unc.edu"].join("@") || window.localStorage.getItem("email") == ["ssnell", "live.unc.edu"].join("@") || window.localStorage.getItem("email") == ["gdicecco", "live.unc.edu"].join("@")){
 				   	$(".superUsersOnly").stop().fadeIn(0);
 					$.get("../php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + encodeURIComponent(window.localStorage.getItem("salt")), function(data){
 						//success
