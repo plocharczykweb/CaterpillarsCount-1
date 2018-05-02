@@ -15,10 +15,10 @@
       			$emailsArray = array();
 		  	while($row = mysqli_fetch_assoc($query)){
 				if(trim($row["Email"]) != ""){
-						$hardCodedManagers = array("plocharczykweb@gmail.com", "hurlbert@bio.unc.edu", "ssnell@live.unc.edu", "gdicecco@live.unc.edu", "science@gsmit.org", "ecu.caterpillarscount@gmail.com", "vancechalcrafth@ecu.edu", "bunnella@ecu.edu", "dowa05@students.ecu.edu", "stanoe@ecu.edu");
+						$superUsers = array("plocharczykweb@gmail.com", "hurlbert@bio.unc.edu");
           					$emailsArray[(string)$row["ID"]] = array(
             					"email" => $row["Email"], 
-            					"authority" => in_array($row["Email"], $hardCodedManagers),
+            					"authority" => in_array($row["Email"], $superUsers),
           				);
         			}
 		  	}
