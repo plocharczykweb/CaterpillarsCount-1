@@ -213,13 +213,13 @@
 							
 							if($("#manager" + newManager["managerID"]).length > 0){
 								var innerHTMLToReplaceWith = "<span class=\"highlighted pointer underline\" onclick=\"email(['" + newManager["email"].split("@")[0] + "', '" + newManager["email"].split("@")[1] + "']);\">" + newManager["fullName"] + "</span>";
-								innerHTMLToReplaceWith += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "\\'s management services at this site?', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + newManager["managerID"] + "');});\">&times;</div>";
+								innerHTMLToReplaceWith += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "\\'s management services at this site?', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + newManager["managerID"] + "');});\">&times;</div>";
 								$("#manager" + newManager["managerID"])[0].innerHTML = innerHTMLToReplaceWith;
 							}
 							else{
 								var htmlToAdd = "<div id=\"manager" + newManager["managerID"] + "\">";
 								htmlToAdd += "<span class=\"highlighted pointer underline\" onclick=\"email(['" + newManager["email"].split("@")[0] + "', '" + newManager["email"].split("@")[1] + "']);\">" + newManager["fullName"] + "</span>";
-								htmlToAdd += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "\\'s management services at this site?', 'Nevermind.', 'Terminate.', function(){}, function(){terminate('" + newManager["managerID"] + "');});\">&times;</div>";
+								htmlToAdd += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "\\'s management services at this site?', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + newManager["managerID"] + "');});\">&times;</div>";
 								htmlToAdd += "</div>";
 								$("#managers").append(htmlToAdd);
 							}
