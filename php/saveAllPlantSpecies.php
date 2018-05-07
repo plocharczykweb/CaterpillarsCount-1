@@ -44,7 +44,7 @@
 							$circle = $plant->getCircle();
 							$plant->setCircle(-1 * $circle);
 							$newPlant = Plant::create($plant->getSite(), $circle, $plant->getOrientation());
-							if(!is_object($plant) || get_class($plant) != "Plant"){
+							if(!is_object($newPlant) || get_class($newPlant) != "Plant"){
 								die("false|" . $newPlant);
 							}
 							$code = $plant->getCode();
