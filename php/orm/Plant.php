@@ -208,6 +208,21 @@ class Plant
 		return false;
 	}
 	
+	public function setCode($code){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$code = self::validCode($dbconn, $code);
+			if($code !== false){
+				mysqli_query($dbconn, "UPDATE Plant SET `Code`='$code' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->code = $code;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
 //REMOVER
 	public function permanentDelete()
 	{
