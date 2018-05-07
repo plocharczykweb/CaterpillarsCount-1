@@ -40,6 +40,14 @@
 					$plant = $associativePlants[$plantData[$i][0]];
 					if(is_object($plant) && get_class($plant) == "Plant"){
 						$plant->setSpecies($plantData[$i][1]);
+						if($plantData[$i][1]){
+							$circle = $plant->getCircle();
+							$plant->setCircle(-1 * $circle);
+							$newPlant = Plant::create($plant->getSite(), $circle, $plant->getOrientation());
+							$code = $plant->getCode();
+							$plant->setCode($newPlant->getCode());
+							$newPlant->setCode($code);
+						}
 					}
 					else{die("false|Plant with code \"" . $plantData[$i][0] . "\" could not be found in the \"" . $site->getName() . "\" site.");}
 				}
