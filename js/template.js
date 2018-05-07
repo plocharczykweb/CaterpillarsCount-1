@@ -20,19 +20,19 @@
 					setTimeout(function(){
 						if(noticeQueue[0][0] == "error"){
 							showError(noticeQueue[0][1]);
-							$('html, body').animate({scrollTop: 0}, 500);
+							//$('html, body').animate({scrollTop: 0}, 500);
 						}
 						else if(noticeQueue[0][0] == "confirmation"){
 							showConfirmation(noticeQueue[0][1]);
-							$('html, body').animate({scrollTop: 0}, 500);
+							//$('html, body').animate({scrollTop: 0}, 500);
 						}
 						else if(noticeQueue[0][0] == "alert"){
 							showAlert(noticeQueue[0][1]);
-							$('html, body').animate({scrollTop: 0}, 500);
+							//$('html, body').animate({scrollTop: 0}, 500);
 						}
 						else if(noticeQueue[0][0] == "managerRequest"){
 							showManagerRequest(noticeQueue[0][1]);
-							$('html, body').animate({scrollTop: 0}, 500);
+							//$('html, body').animate({scrollTop: 0}, 500);
 						}
 					}, 1);
 				}
