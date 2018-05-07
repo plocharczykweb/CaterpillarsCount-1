@@ -39,7 +39,6 @@
 				if(array_key_exists($plantData[$i][0], $associativePlants)){
 					$plant = $associativePlants[$plantData[$i][0]];
 					if(is_object($plant) && get_class($plant) == "Plant"){
-						$plant->setSpecies($plantData[$i][1]);
 						if($plantData[$i][2]){
 							$circle = $plant->getCircle();
 							$plant->setCircle(-1 * $circle);
@@ -50,6 +49,10 @@
 							$code = $plant->getCode();
 							$plant->setCode($newPlant->getCode());
 							$newPlant->setCode($code);
+							$newPlant->setSpecies($plantData[$i][1]);
+						}
+						else{
+							$plant->setSpecies($plantData[$i][1]);
 						}
 					}
 					else{die("false|Plant with code \"" . $plantData[$i][0] . "\" could not be found in the \"" . $site->getName() . "\" site.");}
