@@ -40,7 +40,7 @@
 					$plant = $associativePlants[$plantData[$i][0]];
 					if(is_object($plant) && get_class($plant) == "Plant"){
 						$plant->setSpecies($plantData[$i][1]);
-						if($plantData[$i][1]){
+						if($plantData[$i][2]){
 							$circle = $plant->getCircle();
 							$plant->setCircle(-1 * $circle);
 							$newPlant = Plant::create($plant->getSite(), $circle, $plant->getOrientation());
