@@ -223,6 +223,21 @@ class Plant
 		return false;
 	}
 	
+	public function setCircle($circle){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$circle = self::validCircleFormat($dbconn, $circle);
+			if($circle !== false){
+				mysqli_query($dbconn, "UPDATE Plant SET `Circle`='$circle' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->circle = $circle;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
 //REMOVER
 	public function permanentDelete()
 	{
