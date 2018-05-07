@@ -278,7 +278,7 @@ class Plant
 	
 	public static function validCircleFormat($dbconn, $circle){
 		$circle = intval(preg_replace("/[^0-9]/", "", rawurldecode($circle)));
-		if($circle >= 0){
+		if($circle !== 0){
 			return $circle;
 		}
 		return false;
