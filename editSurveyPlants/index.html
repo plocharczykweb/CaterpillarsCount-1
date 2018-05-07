@@ -20,6 +20,8 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
+		<link href="../css/checkbox.css" rel="stylesheet">
+		<script src="../js/checkbox.js"></script>
 		<style>
 			ul.ui-autocomplete{
 				width:753px;
@@ -342,6 +344,16 @@
 					htmlToAdd += 	"<div class=\"editableFields\">";
 					htmlToAdd += 		"<div class=\"editableFieldTitle\">Plant Species:</div>";
 					htmlToAdd += 		"<input type=\"text\" id=\"" + plants[j][1] + "\" value=\"" + plants[j][2] + "\"" + noticeBorder + " onfocus=\"this.setSelectionRange(0, 9999);setNoticeExemptingInput(this.parentNode.parentNode.parentNode.parentNode, this);\" onblur=\"if(this.value.trim().toUpperCase() == 'N/A' || this.value.replace(/ /g, '') == ''){this.value = 'N/A';setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);}else if(inArrayIgnoreCaseAndWhitespace(this.value, plantSpeciesList)){setNoticeImage(this.parentNode.parentNode.parentNode.parentNode);}else{promptConfirm('&quot;' + this.value + '&quot; is not in our records. Have you searched for other labels? Are you sure this is the correct name and spelling of your tree species?', 'Try again.', 'Continue. I am sure!', function(){document.getElementById('" + plants[j][1] + "').focus();}, function(){setNoticeImage(document.getElementById('" + plants[j][1] + "').parentNode.parentNode.parentNode.parentNode);});}\"/>";
+					if(window.localStorage.getItem("email") == "plocharczykweb@gmail.com"){
+						htmlToAdd += 		"<div class=\"editableFieldTitle\">Location change:</div>";
+						htmlToAdd +=		"<table class=\"checkboxTable\">";
+						htmlToAdd +=			"<tr onclick=\"toggleCheckbox($(this).find('.checkbox'));\">";
+						htmlToAdd +=				"<td><div class=\"checkbox\" id=\"publicCheckbox\"></div></td>";
+						htmlToAdd +=				"<td>The tree that currently has this code is no longer suitable for surveys, so I am moving this code to now identify a different tree.</td>";
+						htmlToAdd +=				"<td onclick=\"event.stopPropagation();queueNotice('alert', 'If a tag with this the code &quot;" + plants[j][1] + "&quot; is hanging on a tree that is dead or otherwise no longer suitable to collect surveys with, check this checkbox and move that tag to another nearby tree. If the tree is of a different species than the unsuitable tree, go ahead and change the plant species as well. Make sure to click &quot;Save All&quot; before exiting the page.');\"><img src=\"../images/question.png\"/></td>";
+						htmlToAdd +=			"<tr>";
+						htmlToAdd +=		"</table>
+					}
 					htmlToAdd += 	"</div>";
 					htmlToAdd += "</div>";
 				}
