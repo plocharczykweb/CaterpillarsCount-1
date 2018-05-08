@@ -293,7 +293,11 @@
 							queueNotice("confirmation", "All other devices that were signed in with your account have been signed out.");
 						}
 						else{
-							queueNotice("error", data.replace("false|", ""));
+							data = data.replace("false|", "");
+							queueNotice("error", data);
+							if(data == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
 						}
 					})
 					.fail(function(){
