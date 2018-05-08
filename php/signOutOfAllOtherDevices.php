@@ -18,5 +18,5 @@
 	else if(User::emailIsUnvalidated($email)){//check if email is unverified
 		die("Check your email to verify your account. Check spam if needed!");
 	}
-	die("false|Your log in dissolved.");//incorrect email
+	die("false|Your log in dissolved. Maybe you logged in on another device.");//incorrect email
 ?>
