@@ -289,6 +289,7 @@
 						//success
 						if(data.indexOf("success") == 0){
 							window.localStorage.setItem("salt", data.replace("success", ""));
+							$("#signOutOfAllOtherDevices input").eq(0)[0].value = "";
 							queueNotice("confirmation", "All other devices that were signed in with your account have been signed out.");
 						}
 						else{
