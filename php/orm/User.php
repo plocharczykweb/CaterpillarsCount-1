@@ -141,7 +141,7 @@ class User
 			$password = rawurldecode($password);
 			if($this->passwordIsCorrect($password)){
 				//sign in
-				return $salt;
+				return $this->salt;
 			}
 			mysqli_close($dbconn);
 			return false;
