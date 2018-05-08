@@ -293,7 +293,7 @@
 							queueNotice("confirmation", "All other devices that were signed in with your account have been signed out.");
 						}
 						else{
-							queueNotice("error", data);
+							queueNotice("error", data.replace("false|", ""));
 						}
 					})
 					.fail(function(){
