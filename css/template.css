@@ -129,6 +129,9 @@
 			.highlighted{
 				color:#fed136;
 			}
+			.panel .highlighted{
+				color:#deaf04;
+			}
 			
 			::selection {
 				background: #fed136; /* WebKit/Blink Browsers */
@@ -161,6 +164,10 @@
 			a{
 				color:inherit;
 				text-decoration:underline;
+			}
+			
+			.panel a{
+				color:#deaf04;
 			}
 			
 			a.undecorated{
