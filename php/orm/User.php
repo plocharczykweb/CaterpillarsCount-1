@@ -141,6 +141,18 @@ class User
 			$password = rawurldecode($password);
 			if($this->passwordIsCorrect($password)){
 				//sign in
+				return $salt;
+			}
+			mysqli_close($dbconn);
+			return false;
+		}
+	}
+	public function signOutOfAllOtherDevices($password){
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		if(!$this->deleted && $this->EmailHasBeenVerified()){
+			$password = rawurldecode($password);
+			if($this->passwordIsCorrect($password)){
+				//sign in
 				$salt = mysqli_real_escape_string($dbconn, hash("sha512", rand() . rand() . rand()));
 				$saltedPasswordHash = mysqli_real_escape_string($dbconn, hash("sha512", $salt . $password));
 				
