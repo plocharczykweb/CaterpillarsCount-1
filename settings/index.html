@@ -279,6 +279,31 @@
 					xhttp.send();
 				}
 			}
+			
+			var signingOutOfAllOtherDevices = false;
+			function signOutOfAllOtherDevices(){
+				//verify log in credentials and log in if successful
+				if(!signingOutOfAllOtherDevices){
+					signingOutOfAllOtherDevices = true;
+					var xhttp = new XMLHttpRequest();
+					setLoadingButton($("#signOutOfAllOtherDevicesButton")[0], "Sign out of all other devices", true);
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 200) {
+							signingOutOfAllOtherDevices = false;
+							setLoadingButton($("#signOutOfAllOtherDevicesButton")[0], "Sign out of all other devices", false);
+							if(this.responseText.indexOf("success") == 0){
+								window.localStorage.setItem("salt", this.responseText.replace("success", ""));
+								queueNotice("confirmation", "All other devices that were signed in with your account have been signed out.");
+							}
+							else{
+								queueNotice("error", this.responseText);
+							}
+						}
+					};
+					xhttp.open("GET", "../php/signOutOfAllOtherDevices.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&password=" + encodeURIComponent($("#signOutOfAllOtherDevices input").eq(0)[0].value), true);
+					xhttp.send();
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -375,6 +400,15 @@
 								<input type="password" placeholder="new password"/>
 								<input type="password" placeholder="confirm new password"/>
 								<button onclick="setNewPassword();" id="changePasswordButton">Change password</button>
+							</div>
+						</div>
+					</div>
+					<div class="setting">
+						<div class="settingTitle" onclick="toggleSetting(this.parentNode);">Sign out of all other devices</div>
+						<div class="settingBody">
+							<div id="signOutOfAllOtherDevices">
+								<input type="password" placeholder="password"/>
+								<button onclick="signOutOfAllOtherDevices();" id="signOutOfAllOtherDevicesButton">Sign out of all other devices</button>
 							</div>
 						</div>
 					</div>
