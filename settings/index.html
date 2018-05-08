@@ -282,26 +282,28 @@
 			
 			var signingOutOfAllOtherDevices = false;
 			function signOutOfAllOtherDevices(){
-				//verify log in credentials and log in if successful
 				if(!signingOutOfAllOtherDevices){
 					signingOutOfAllOtherDevices = true;
-					var xhttp = new XMLHttpRequest();
 					setLoadingButton($("#signOutOfAllOtherDevicesButton")[0], "Sign out of all other devices", true);
-					xhttp.onreadystatechange = function() {
-						if (this.readyState == 4 && this.status == 200) {
-							signingOutOfAllOtherDevices = false;
-							setLoadingButton($("#signOutOfAllOtherDevicesButton")[0], "Sign out of all other devices", false);
-							if(this.responseText.indexOf("success") == 0){
-								window.localStorage.setItem("salt", this.responseText.replace("success", ""));
-								queueNotice("confirmation", "All other devices that were signed in with your account have been signed out.");
-							}
-							else{
-								queueNotice("error", this.responseText);
-							}
+					$.get("../php/signOutOfAllOtherDevices.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&password=" + encodeURIComponent($("#signOutOfAllOtherDevices input").eq(0)[0].value), function(data){
+						//success
+						if(data.indexOf("success") == 0){
+							window.localStorage.setItem("salt", data.replace("success", ""));
+							queueNotice("confirmation", "All other devices that were signed in with your account have been signed out.");
 						}
-					};
-					xhttp.open("GET", "../php/signOutOfAllOtherDevices.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&password=" + encodeURIComponent($("#signOutOfAllOtherDevices input").eq(0)[0].value), true);
-					xhttp.send();
+						else{
+							queueNotice("error", data);
+						}
+					})
+					.fail(function(){
+						//error
+						queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+					})
+					.always(function() {
+						//complete
+						signingOutOfAllOtherDevices = false;
+						setLoadingButton($("#signOutOfAllOtherDevicesButton")[0], "Sign out of all other devices", false);
+					});
 				}
 			}
 		</script>
