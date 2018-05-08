@@ -13,10 +13,10 @@
 		if($salt !== false){
 			die("success" . $salt);
 		}
-		die("That is not the password for the " . $email . " account you are logged in with.");//incorrect password
+		die("false|That is not the password for the " . $email . " account you are logged in with.");//incorrect password
 	}
 	else if(User::emailIsUnvalidated($email)){//check if email is unverified
-		die("Check your email to verify your account. Check spam if needed!");
+		die("false|Check your email to verify your account. Check spam if needed!");
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");//incorrect email
 ?>
