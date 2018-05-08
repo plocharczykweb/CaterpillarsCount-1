@@ -409,7 +409,7 @@
 						<div class="settingTitle" onclick="toggleSetting(this.parentNode);">Sign out of all other devices</div>
 						<div class="settingBody">
 							<div id="signOutOfAllOtherDevices">
-								<input type="password" placeholder="password"/>
+								<input type="password" placeholder="password" onkeypress="if(event.which == 13){this.blur();signOutOfAllOtherDevices();}"/>
 								<button onclick="signOutOfAllOtherDevices();" id="signOutOfAllOtherDevicesButton">Sign out of all other devices</button>
 							</div>
 						</div>
