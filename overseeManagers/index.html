@@ -132,6 +132,7 @@
 							updateManagers();
 						}
 						else{
+							$("#managers")[0].innerHTML = "";
 							var loadManagersError = this.responseText.replace("false|", "");
 							queueNotice("error", loadManagersError);
 							if(loadManagersError == "You did not create this site, so you cannot oversee its management."){
