@@ -691,11 +691,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 				text-align:center;
 				padding:40px;
 			}
+
+			footer>div:first-of-type{
+				border-left:0px none transparent;
+			}
 			
 			footer>div{
 				display:inline-block;
-				padding:6px 15px;
+				padding:3px 10px;
+				border-left:1px solid rgb(102, 102, 102);
 				display:inline;vertical-align:middle;
+				white-space: nowrap;
 			}
 			
 			footer img{
@@ -1029,6 +1035,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 					display:block;
 					margin:20px 0px;
 					border:0px none transparent;
+					white-space:normal;
 				}
 				
 				footer img{
