@@ -692,14 +692,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 				padding:40px;
 			}
 			
-			footer>div:first-of-type{
-				border-left:0px none transparent;
-			}
-			
 			footer>div{
 				display:inline-block;
-				padding:3px 10px;
-				border-left:1px solid #666;
+				padding:6px 15px;
 				display:inline;vertical-align:middle;
 			}
 			
