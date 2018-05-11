@@ -29,18 +29,31 @@
 				border-bottom:3px solid rgba(0,0,0,.05);
 				margin-bottom:20px;
 				word-break:break-word;
-				
 			}
-	    		.newsSection .image{
-	    			height:120px;
+			
+			.newsSection .head{
+				position:relative;
+				min-height:120px;
+			}
+			
+	    		.newsSection .head .image{
 				width:120px;
-				margin-right:20px;
+				height:100%;
+				position:absolute;
+				top:0px;
+				left:0px;
 				background-image:url('http://www.sciencemag.org/sites/default/files/styles/inline__699w__no_aspect/public/bird_16x9.jpg?itok=H7yn8bXq');
 				background-size:cover;
 				background-repeat:no-repeat;
 				background-position:center;
-				float:left;
 	    		}
+			
+			.newsSection .head .preview{
+				position:relative;
+				top:0px;
+				left:140px;
+				right:0px;
+			}
 	    		
 			.newsSection .title, .newsSection .link{
 				padding:20px;
@@ -189,15 +202,19 @@
 				<!--<div class="tagline"></div>-->
 				<div class="content">
 					<div class="newsSection">
-						<div class="image"></div>
-						<div class="link" onclick="window.open('https://google.com', '_blank')">Sample link</div>
-						<div class="clearBoth"></div>
+						<div class="head">
+							<div class="image"></div>
+							<div class="link" onclick="window.open('https://google.com', '_blank')">Sample link</div>
+						</div>
 					</div>
 					
 					<div class="newsSection">
-						<div class="image"></div>
-						<div class="title">Sample in page content</div>
-						<div class="clearBoth"></div>
+						<div class="head">
+							<div class="image"></div>
+							<div class="preview">
+								<div class="title">Sample in page content</div>
+							</div>
+						</div>
 						<div class="body">
 							<div class="padding">
 								content goes here
@@ -206,9 +223,12 @@
 					</div>
 					
 					<div class="newsSection">
-						<div class="image"></div>
-						<div class="title">Sample in page content</div>
-						<div class="clearBoth"></div>
+						<div class="head">
+							<div class="image"></div>
+							<div class="preview">
+								<div class="title">Sample in page content</div>
+							</div>
+						</div>
 						<div class="body">
 							<div class="padding">
 								content goes here
