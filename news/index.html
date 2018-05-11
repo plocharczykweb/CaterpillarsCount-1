@@ -1,5 +1,64 @@
 <html>
 	<head>
+		<script>
+		var news = [
+			////////////////////////////////////////////////////////
+			//							//
+			//	ENTRIES SHOULD BE IN THE FOLLOWING FORM:	//
+			//							//
+			//	[						//
+			//		"Image URL", 				//
+			//		"Title", 				//
+			//		"Content", 				//
+			//		"Link URL"				//
+			//	],						//
+			//							//
+			//	LEAVE WHATEVER YOU DON'T NEED EMPTY. (ie. "")	//
+			//							//
+			//	USE \" INSTEAD OF JUST "			//
+			//							//
+			//////////////////////////////////////////////////////////
+			
+			[
+				"../images/news/may2018NewsLetterThumbnail.jpg",
+				"May 2018 Newsletter",
+				"",
+				"https://mailchi.mp/278f8ddd970f/caterpillars-count-may-2018-news"
+			],
+			[
+				"../images/news/NYTThumbnail.png",
+				"\"Caterpillar counts\" gets a brief mention in the New York Times!",
+				"",
+				"https://www.nytimes.com/2018/04/11/climate/thoreau-climate-change.html"
+			],
+    		];
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		</script>
 		<!-- Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113319025-1"></script>
 		<script>
@@ -22,95 +81,180 @@
 		<script src="../js/template.js"></script>
     		<style>
       			.newsSection{
-				background:rgba(0,0,0,0.03);
-				border-radius:4px;
-				overflow:hidden;
-				font-family: 'Roboto Slab', serif;
-				border-bottom:3px solid rgba(0,0,0,.05);
-				margin-bottom:20px;
-				word-break:break-word;
-			}
-			
-			.newsSection .head{
-				position:relative;
-				min-height:120px;
-			}
-			
-	    		.newsSection .head .image{
-				width:120px;
-				height:100%;
-				position:absolute;
-				top:0px;
-				left:0px;
-				background-image:url('http://www.sciencemag.org/sites/default/files/styles/inline__699w__no_aspect/public/bird_16x9.jpg?itok=H7yn8bXq');
-				background-size:cover;
-				background-repeat:no-repeat;
-				background-position:center;
-	    		}
-			
-			.newsSection .head .preview{
-				position:relative;
-				top:0px;
-				left:120px;
-				right:0px;
-			}
-	    		
-			.newsSection .title, .newsSection .link{
-				padding:20px;
-				font-size:28px;
-				float:left;
-			}
-			.newsSection .title{
-				color:#555;
-			}
-			.newsSection .link{
-				color:#fed136;
-				text-decoration:underline;
-				cursor:pointer;
-			}
-			.newsSection .dropdown{
-				cursor:pointer;
-				background-image:url("https://caterpillarscount.unc.edu/images/newsDropdownArrow.png");
-				background-repeat:no-repeat;
-				background-position:right center;
-				background-size:15px auto;
-				padding-right:35px;
-				border-right:20px solid transparent;
-			}
-			.newsSection .body{
-				color:#999;
-				max-height:0px;
-				overflow:hidden;
-			}
-			.newsSection .body .padding{
-				padding:20px;
-			}
-    </style>
+    				background:rgba(0,0,0,0.03);
+        			border-radius:7px;
+        			overflow:hidden;
+        			font-family: 'Roboto Slab', serif;
+				margin-bottom:30px;
+        			word-break:break-word;
+    			}
+    
+    			.newsSection .head{
+    				position:relative;
+    			}
+    
+    			.newsSection .head .image{
+        			position:absolute;
+        			top:0px;
+        			left:0px;
+    				width:120px;
+        			height:100%;
+        			background-color:#ddd;
+        			background-image:url('#');
+        			background-size:cover;
+        			background-position:center;
+        			background-repeat:no-repeat;
+    			}
+    
+    			.newsSection .head .textTable{
+        			display:table;
+        			width:100%;
+        			box-sizing:border-box;
+        			padding-left:120px;
+        			min-height:120px;
+    			}
+    
+    			.newsSection .head .text{
+    				padding:20px;
+        			display:table-cell;
+        			vertical-align:middle;
+    			}
+    
+    			.newsSection .head .text .title{
+        			font-size:28px;
+        			color:#555;
+    			}
+    
+    			.newsSection .head .text .preview{
+        			font-size:16px;
+        			color:#999;
+        			margin-top:7px;
+    			}
+    
+    			.newsSection .head .dropdownArrow{
+        			display:table-cell;
+        			vertical-align:middle;
+        			text-align:right;
+        			padding:0px 20px;
+    			}
+    			.newsSection .head .dropdownArrow img{
+    				width:15px;
+    			}
+    
+    			.newsSection .body{
+        			background:rgba(255, 255, 255,.3);
+        			color:#999;
+        			max-height:0px;
+        			overflow:hidden;
+    			}
+    
+    			.newsSection .body>div{
+        			padding:20px;
+    				border-top:1px solid rgba(0,0,0,.085);
+    			}
+    
+    			.newsSection .readMore{
+        			padding:5px;
+        			text-align:center;
+        			font-size:16px;
+        			color:#999;
+        			border-top:1px solid rgba(0,0,0,.08);
+        			background:rgba(0,0,0,0.01);
+        			text-transform:uppercase;
+        			border-bottom:3px solid rgba(0,0,0,0.05);
+        			background:#ddd;
+        			color:#fff;
+        			cursor:pointer;
+    			}
+    
+    			@media screen and (max-width: 900px) {
+        			.newsSection .head{
+        				padding-left:0px;
+        			}
+        
+        			.newsSection .head .image{
+        				position:static;
+            				top:auto;
+            				left:auto;
+            				width:100%;
+            				height:110px;
+        			}
+        
+        			.newsSection .head .textTable{
+            				padding-left:0px;
+            				min-height:0px;
+        			}
+        
+        			.newsSection .readMore{
+            				font-size:15px;
+        				padding:8px;
+        				background:#ddd;
+            				color:#fff;
+        			}
+    			}
+    		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
         
-        for(var i = 0; i < $(".newsSection").length; i++){
-					if($(".newsSection").eq(i).find(".title").length > 0 && $(".newsSection").eq(i).find(".body").length > 0){
-						$(".newsSection").eq(i).find(".title").eq(0).addClass("dropdown");
-					}
-				}
-				
-				$(".newsSection .dropdown").click(function(){
-					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
-						$(this).parent().find(".body").stop().animate({maxHeight:"99999999px"}, 259999);
-						$(this).parent().find(".body").css({borderTop:"1px solid rgba(0,0,0,.05)"});
-						$(this).css({backgroundImage:"url('https://caterpillarscount.unc.edu/images/newsDropdownArrowUp.png')"});
-					}
-					else{
-						$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
+        			var htmlToAdd = "";
+        for(var i = 0; i < news.length; i++){
+        	htmlToAdd += "<div class=\"newsSection\">";
+            htmlToAdd += 	"<div class=\"head\"";
+            if(news[i][3].trim().length > 0){
+                var target = "_blank";
+                if(news[i][3].trim().indexOf("caterpillarscount.unc.edu") > -1){
+                	target = "_self";
+                }
+            	htmlToAdd += " onclick=\"window.open('" + news[i][3].trim() + "', '" + target + "');\" class=\"highlighted underline pointer\"";
+            }
+            htmlToAdd += 	">";
+            htmlToAdd += 		"<div class=\"image\" style=\"background-image:url('" + news[i][0].trim() + "');\"></div>";
+            htmlToAdd += 		"<div class=\"textTable\">";
+            htmlToAdd += 			"<div class=\"text\">";
+            htmlToAdd += 				"<div class=\"title\">" + news[i][1] + "</div>";
+            if(news[i][2].trim().length > 0){
+            	htmlToAdd += 			"<div class=\"preview\">";
+                if(news[i][3].trim().length > 0){
+                    htmlToAdd += 		news[i][2];
+                }
+                else{
+                	htmlToAdd += 		news[i][2].substring(0, 150);
+                }
+                if(news[i][2].length > 150 && news[i][3].trim().length == 0){
+                    htmlToAdd += 		"...";
+                }
+                htmlToAdd +=			"</div>";
+            }
+            htmlToAdd += 			"</div>";
+    		htmlToAdd += 		"</div>";
+    		htmlToAdd += 	"</div>";
+            htmlToAdd += 	"<div class=\"body\">";
+            htmlToAdd += 		"<div>" + news[i][2] + "</div>";
+            htmlToAdd += 	"</div>";
+            if(news[i][2].length > 150 && news[i][3].trim().length == 0){
+            	htmlToAdd += 	"<div class=\"readMore\">Read more</div>";
+            }
+    		htmlToAdd += "</div>";
+        }
+        
+        $("#news")[0].innerHTML = htmlToAdd;
+        
+    	$(".newsSection .readMore").click(function(){
+			if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
+				$(this).parent().find(".body").stop().animate({maxHeight:"99999999px"}, 259999);
+                $(this).parent().find(".preview").stop().hide(300); 
+				this.innerHTML = "Close";
+			}
+			else{
+				$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
 						
-						$(this).parent().find(".body").animate({maxHeight:"0px"}, 200, function(){
-							$(this).css({borderTop:"0px none transparent"});
-							$(this).parent().find(".dropdown").css({backgroundImage:"url('https://caterpillarscount.unc.edu/images/newsDropdownArrow.png')"});
-						});
-					}
+                $(this).parent().find(".preview").stop().show(300);
+				$(this).parent().find(".body").animate({maxHeight:"0px"}, 200, function(){
+					$(this).parent().find(".readMore").eq(0)[0].innerHTML = "Read more";
 				});
+			}
+		});
 			});
 		</script>
 	</head>
@@ -198,43 +342,10 @@
 		</header>
 		<main>
 			<div class="panel">
-				<h2>Latest News</h2>
+				<h2>News</h2>
 				<!--<div class="tagline"></div>-->
 				<div class="content">
-					<div class="newsSection">
-						<div class="head">
-							<div class="image"></div>
-							<div class="link" onclick="window.open('https://google.com', '_blank')">Sample link</div>
-						</div>
-					</div>
-					
-					<div class="newsSection">
-						<div class="head">
-							<div class="image"></div>
-							<div class="preview">
-								<div class="title">Sample in page content</div>
-							</div>
-						</div>
-						<div class="body">
-							<div class="padding">
-								content goes here
-							</div>
-						</div>
-					</div>
-					
-					<div class="newsSection">
-						<div class="head">
-							<div class="image"></div>
-							<div class="preview">
-								<div class="title">Sample in page content</div>
-							</div>
-						</div>
-						<div class="body">
-							<div class="padding">
-								content goes here
-							</div>
-						</div>
-					</div>
+					<div id="news"></div>
 				</div>
 			</div>
 		</main>
