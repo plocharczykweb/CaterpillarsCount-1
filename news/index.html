@@ -20,8 +20,8 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js"></script>
-    <style>
-      .newsSection{
+    		<style>
+      			.newsSection{
 				background:rgba(0,0,0,0.03);
 				border-radius:4px;
 				overflow:hidden;
@@ -30,8 +30,18 @@
 				margin-bottom:20px;
 				word-break:break-word;
 			}
+	    		.newsSection .image{
+	    			height:120px;
+				margin:-20px 20px -20px -20px;
+				background-image:url('http://www.sciencemag.org/sites/default/files/styles/inline__699w__no_aspect/public/bird_16x9.jpg?itok=H7yn8bXq');
+				background-size:cover;
+				background-repeat:no-repeat;
+				background-position:center;
+	    		}
+	    		
 			.newsSection .title, .newsSection .link{
 				padding:20px;
+				font-size:28px;
 			}
 			.newsSection .title{
 				color:#555;
@@ -58,26 +68,6 @@
 			.newsSection .body .padding{
 				padding:20px;
 			}
-			
-			#newsArchiveToggle{
-				text-align:center;
-				color:#aeaeae;
-				font-family: 'Roboto Slab', serif;
-				border-top:1px solid rgba(0,0,0,0.05);
-				margin-top:5px;
-				padding:10px;
-				cursor:pointer;
-				font-size:12px;
-			}
-			
-			#newsArchiveToggle:hover{
-				text-decoration:underline;
-			}
-			
-			#newsArchive{
-				max-height:0px;
-				overflow:hidden;
-			}
     </style>
 		<script>
 			$(document).ready(function(){
@@ -102,19 +92,6 @@
 							$(this).css({borderTop:"0px none transparent"});
 							$(this).parent().find(".dropdown").css({backgroundImage:"url('https://caterpillarscount.unc.edu/images/newsDropdownArrow.png')"});
 						});
-					}
-				});
-				
-				$("#newsArchiveToggle").click(function(){
-					if(this.innerHTML.indexOf("View Archive") > -1){
-						$("#newsArchive").stop().animate({maxHeight:"99999999px"}, 259999);
-						$(this).text("Hide Archive");
-					}
-					else{
-						$("#newsArchive")[0].style.maxHeight = $("#newsArchive")[0].clientHeight;
-						
-						$("#newsArchive").stop().animate({maxHeight:"0px"}, 300);
-						$(this).text("View Archive");
 					}
 				});
 			});
@@ -208,10 +185,12 @@
 				<!--<div class="tagline"></div>-->
 				<div class="content">
 					<div class="newsSection">
+						<div class="image"></div>
 						<div class="link" onclick="window.open('https://google.com', '_blank')">Sample link</div>
 					</div>
 					
 					<div class="newsSection">
+						<div class="image"></div>
 						<div class="title">Sample in page content</div>
 						<div class="body">
 							<div class="padding">
@@ -221,54 +200,13 @@
 					</div>
 					
 					<div class="newsSection">
+						<div class="image"></div>
 						<div class="title">Sample in page content</div>
 						<div class="body">
 							<div class="padding">
 								content goes here
 							</div>
 						</div>
-					</div>
-					
-					<div id="newsArchive">
-						<div class="newsSection">
-							<div class="title">Sample in page content</div>
-							<div class="body">
-								<div class="padding">
-								content goes here
-								</div>
-							</div>
-						</div>
-						
-						<div class="newsSection">
-							<div class="title">Sample in page content</div>
-							<div class="body">
-								<div class="padding">
-								content goes here
-								</div>
-							</div>
-						</div>
-						
-						<div class="newsSection">
-							<div class="title">Sample in page content</div>
-							<div class="body">
-								<div class="padding">
-								content goes here
-								</div>
-							</div>
-						</div>
-						
-						<div class="newsSection">
-							<div class="title">Sample in page content</div>
-							<div class="body">
-								<div class="padding">
-								content goes here
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div id="newsArchiveToggle">
-						View Archive
 					</div>
 				</div>
 			</div>
