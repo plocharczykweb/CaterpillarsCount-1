@@ -198,63 +198,71 @@
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
         
         			var htmlToAdd = "";
-        for(var i = 0; i < news.length; i++){
-        	htmlToAdd += "<div class=\"newsSection\">";
-            htmlToAdd += 	"<div class=\"head\"";
-            if(news[i][3].trim().length > 0){
-                var target = "_blank";
-                if(news[i][3].trim().indexOf("caterpillarscount.unc.edu") > -1){
-                	target = "_self";
-                }
-            	htmlToAdd += " onclick=\"window.open('" + news[i][3].trim() + "', '" + target + "');\" class=\"highlighted underline pointer\"";
-            }
-            htmlToAdd += 	">";
-            htmlToAdd += 		"<div class=\"image\" style=\"background-image:url('" + news[i][0].trim() + "');\"></div>";
-            htmlToAdd += 		"<div class=\"textTable\">";
-            htmlToAdd += 			"<div class=\"text\">";
-            htmlToAdd += 				"<div class=\"title\">" + news[i][1] + "</div>";
-            if(news[i][2].trim().length > 0){
-            	htmlToAdd += 			"<div class=\"preview\">";
-                if(news[i][3].trim().length > 0){
-                    htmlToAdd += 		news[i][2];
-                }
-                else{
-                	htmlToAdd += 		news[i][2].substring(0, 150);
-                }
-                if(news[i][2].length > 150 && news[i][3].trim().length == 0){
-                    htmlToAdd += 		"...";
-                }
-                htmlToAdd +=			"</div>";
-            }
-            htmlToAdd += 			"</div>";
-    		htmlToAdd += 		"</div>";
-    		htmlToAdd += 	"</div>";
-            htmlToAdd += 	"<div class=\"body\">";
-            htmlToAdd += 		"<div>" + news[i][2] + "</div>";
-            htmlToAdd += 	"</div>";
-            if(news[i][2].length > 150 && news[i][3].trim().length == 0){
-            	htmlToAdd += 	"<div class=\"readMore\">Read more</div>";
-            }
-    		htmlToAdd += "</div>";
-        }
+        			for(var i = 0; i < news.length; i++){
+        				htmlToAdd += "<div class=\"newsSection\">";
+            				htmlToAdd += 	"<div class=\"head\"";
+            				if(news[i][3].trim().length > 0){
+                				var target = "_blank";
+                				if(news[i][3].trim().indexOf("caterpillarscount.unc.edu") > -1){
+                					target = "_self";
+                				}
+            					htmlToAdd += " onclick=\"window.open('" + news[i][3].trim() + "', '" + target + "');\" class=\"highlighted underline pointer\"";
+            				}
+            				htmlToAdd += 	">";
+            				htmlToAdd += 		"<div class=\"image\" style=\"background-image:url('" + news[i][0].trim() + "');\"></div>";
+            				htmlToAdd += 		"<div class=\"textTable\">";
+            				htmlToAdd += 			"<div class=\"text\">";
+            				htmlToAdd += 				"<div class=\"title\"";
+					if(news[i][3].trim().length > 0){
+					   	htmlToAdd +=			" style=\"color:inherit;\"";
+					}
+					htmlToAdd += 				">" + news[i][1] + "</div>";
+            				if(news[i][2].trim().length > 0){
+            					htmlToAdd += 			"<div class=\"preview\"";
+					if(news[i][3].trim().length > 0){
+					   	htmlToAdd +=			" style=\"color:inherit;\"";
+					}
+					htmlToAdd += 				">";
+                				if(news[i][3].trim().length > 0){
+                    					htmlToAdd += 		news[i][2];
+                				}
+                				else{
+                					htmlToAdd += 		news[i][2].substring(0, 150);
+                				}
+                				if(news[i][2].length > 150 && news[i][3].trim().length == 0){
+                    					htmlToAdd += 		"...";
+                				}
+                				htmlToAdd +=			"</div>";
+            				}
+            				htmlToAdd += 			"</div>";
+    					htmlToAdd += 		"</div>";
+    					htmlToAdd += 	"</div>";
+            				htmlToAdd += 	"<div class=\"body\">";
+            				htmlToAdd += 		"<div>" + news[i][2] + "</div>";
+            				htmlToAdd += 	"</div>";
+            				if(news[i][2].length > 150 && news[i][3].trim().length == 0){
+            					htmlToAdd += 	"<div class=\"readMore\">Read more</div>";
+            				}
+    					htmlToAdd += "</div>";
+        			}
         
-        $("#news")[0].innerHTML = htmlToAdd;
+        			$("#news")[0].innerHTML = htmlToAdd;
         
-    	$(".newsSection .readMore").click(function(){
-			if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
-				$(this).parent().find(".body").stop().animate({maxHeight:"99999999px"}, 259999);
-                $(this).parent().find(".preview").stop().hide(300); 
-				this.innerHTML = "Close";
-			}
-			else{
-				$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
+    				$(".newsSection .readMore").click(function(){
+					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
+						$(this).parent().find(".body").stop().animate({maxHeight:"99999999px"}, 259999);
+                				$(this).parent().find(".preview").stop().hide(300); 
+						this.innerHTML = "Close";
+					}
+					else{
+						$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
 						
-                $(this).parent().find(".preview").stop().show(300);
-				$(this).parent().find(".body").animate({maxHeight:"0px"}, 200, function(){
-					$(this).parent().find(".readMore").eq(0)[0].innerHTML = "Read more";
+                				$(this).parent().find(".preview").stop().show(300);
+						$(this).parent().find(".body").animate({maxHeight:"0px"}, 200, function(){
+							$(this).parent().find(".readMore").eq(0)[0].innerHTML = "Read more";
+						});
+					}
 				});
-			}
-		});
 			});
 		</script>
 	</head>
