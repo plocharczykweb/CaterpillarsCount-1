@@ -35,7 +35,7 @@
 	    		.newsSection .image{
 	    			height:120px;
 				width:120px;
-				margin:0px 20px  0px -120px;
+				margin-right:20px;
 				background-image:url('http://www.sciencemag.org/sites/default/files/styles/inline__699w__no_aspect/public/bird_16x9.jpg?itok=H7yn8bXq');
 				background-size:cover;
 				background-repeat:no-repeat;
@@ -46,6 +46,7 @@
 			.newsSection .title, .newsSection .link{
 				padding:20px;
 				font-size:28px;
+				float:left;
 			}
 			.newsSection .title{
 				color:#555;
@@ -191,11 +192,13 @@
 					<div class="newsSection">
 						<div class="image"></div>
 						<div class="link" onclick="window.open('https://google.com', '_blank')">Sample link</div>
+						<div class="clearBoth"></div>
 					</div>
 					
 					<div class="newsSection">
 						<div class="image"></div>
 						<div class="title">Sample in page content</div>
+						<div class="clearBoth"></div>
 						<div class="body">
 							<div class="padding">
 								content goes here
@@ -206,6 +209,7 @@
 					<div class="newsSection">
 						<div class="image"></div>
 						<div class="title">Sample in page content</div>
+						<div class="clearBoth"></div>
 						<div class="body">
 							<div class="padding">
 								content goes here
