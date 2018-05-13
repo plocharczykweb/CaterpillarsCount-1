@@ -73,6 +73,9 @@
 							<li><a href="../faq">FAQ</a></li>
 						</ul>
 					</li>
+					<li onclick="window.location = '../news';">
+						<span>News</span>
+					</li>
 					<li onclick="window.location = '../signIn';">
 						<span>Sign In</span>
 						<ul onclick="event.stopPropagation();">
