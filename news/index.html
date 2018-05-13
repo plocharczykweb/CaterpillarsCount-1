@@ -183,6 +183,8 @@
         			.newsSection .head .textTable{
             				padding-left:0px;
             				min-height:0px;
+					font-size:65%;
+					text-align:center;
         			}
         
         			.newsSection .readMore{
@@ -200,14 +202,17 @@
         			var htmlToAdd = "";
         			for(var i = 0; i < news.length; i++){
         				htmlToAdd += "<div class=\"newsSection\">";
-            				htmlToAdd += 	"<div class=\"head\"";
+            				htmlToAdd += 	"<div";
             				if(news[i][3].trim().length > 0){
                 				var target = "_blank";
                 				if(news[i][3].trim().indexOf("caterpillarscount.unc.edu") > -1){
                 					target = "_self";
                 				}
-            					htmlToAdd += " onclick=\"window.open('" + news[i][3].trim() + "', '" + target + "');\" class=\"highlighted underline pointer\"";
+            					htmlToAdd += " onclick=\"window.open('" + news[i][3].trim() + "', '" + target + "');\" class=\"head highlighted underline pointer\"";
             				}
+					else{
+						htmlToAdd += " class=\"head\"";
+					}
             				htmlToAdd += 	">";
             				htmlToAdd += 		"<div class=\"image\" style=\"background-image:url('" + news[i][0].trim() + "');\"></div>";
             				htmlToAdd += 		"<div class=\"textTable\">";
