@@ -28,16 +28,12 @@
 				overflow:hidden;
 			}
 			
-			.section .body{
-				text-align:center;
+			.section .grid{
+				width:668px;
+				margin:auto;
 			}
 			
-			.section .body .grid{
-				display:inline-block;
-				text-align:left;
-			}
-			
-			.section .body .grid .resource{
+			.section .grid .resource{
 				display:inline-block;
 				width:200px;
 				height:200px;
@@ -49,10 +45,10 @@
 				background-color:#555;
 				border-radius:5px;
 				overflow:hidden;
-				margin:20px;
+				margin:20px 10px;
 			}
 			
-			.section .body .grid .resource .text{
+			.section .grid .resource .text{
 				position:absolute;
 				bottom:0px;
 				left:0px;
@@ -62,6 +58,12 @@
 				box-sizing:border-box;
 				border-top:1px solid rgba(0,0,0,0.03);
 				text-align:center;
+			}
+			
+			@media screen and (max-width: 867px) {
+				.section .grid{
+					width:444px;
+				}
 			}
 		</style>
 		<script>
@@ -162,35 +164,30 @@
 				<div class="content">
 					<div class="section">
 						<div class="header">Header</div>
-						<div class="body">
-							<div class="grid">
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
+							div class="grid">
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
 							</div>
 						</div>
 					</div>
