@@ -16,7 +16,16 @@
 			}
 			
 			.section .header{
-				
+				text-transform:uppercase;
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-weight:700;
+				font-size:20px;
+				text-align:left;
+				color:#555;
+				background:rgba(0,0,0,0.03);
+				padding:20px;
+				border-radius:5px;
+				overflow:hidden;
 			}
 			
 			.section .grid{
@@ -25,7 +34,7 @@
 			
 			.section .grid .resource{
 				display:inline-block;
-				with:200px;
+				width:200px;
 				height:200px;
 				position:relative;
 				background-image:url("#");
@@ -35,6 +44,7 @@
 				background-color:#555;
 				border-radius:5px;
 				overflow:hidden;
+				margin:20px;
 			}
 			
 			.section .grid .resource .text{
@@ -42,9 +52,11 @@
 				bottom:0px;
 				left:0px;
 				width:100%;
-				background:#eee;
+				background:#f4f4f4;
 				padding:20px;
 				box-sizing:border-box;
+				border-top:1px solid rgba(0,0,0,0.03);
+				text-align:center;
 			}
 		</style>
 		<script>
@@ -143,16 +155,39 @@
 				<h2>Resources</h2>
 				<div class="tagline"></div>
 				<div class="content">
-					<div style="background:rgba(0,0,0,.02);solid #eee;padding:20px;border-radius:5px;">
-						<div class="section">
-							<div class="header"></div>
-							<div class="grid">
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
+					<div class="section">
+						<div class="header">Header</div>
+						<div class="grid">
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
+							</div>
+							<div class="resource">
+								<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
 							</div>
 						</div>
-						
+					</div>
+					<div style="background:rgba(0,0,0,.02);solid #eee;padding:20px;border-radius:5px;">
 						<ul style="background:transparent;">
 							<li><a href="../pdfs/GettingStarted.pdf">Getting Started</a></li>
 							<li><a href="../pdfs/TrainingParticipants.pdf">Training Participants</a></li>
