@@ -26,12 +26,20 @@
 				padding:20px;
 				border-radius:5px;
 				overflow:hidden;
+				cursor:pointer;
+				background-image:url("../images/resourceDropDownArrow.png");
+				background-position:right center;
+				background-size:15px auto;
+				background-repeat:no-repeat;
+				border-right:20px solid transparent;
+				padding-right:35px;
 			}
 			
 			.section .body{
 				text-align:center;
 				max-height:0px;
 				overflow:hidden;
+				margin-bottom:20px;
 			}
 			
 			.section .body .grid{
@@ -66,6 +74,8 @@
 				box-sizing:border-box;
 				border-top:1px solid rgba(0,0,0,0.03);
 				text-align:center;
+				font-size:16px;
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 			}
 			
 			@media screen and (max-width: 847px) {
@@ -103,11 +113,12 @@
 				$(".header").click(function(){
 					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
 						$(this).parent().find(".body").animate({maxHeight:"99999999px"}, 259999);
+						this.style.backgroundImage = "url('../images/resourceDropDownArrowUp.png')";
 					}
 					else{
 						$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
-						$(this).parent().find(".body").animate({maxHeight:"0px"}, 200, function(){
-							
+						$(this).parent().find(".body").animate({maxHeight:"0px"}, 300, function(){
+							$(this).parent().find(".header").eq(0)[0].style.backgroundImage = "url('../images/resourceDropDownArrow.png')";
 						});
 					}
 				});
