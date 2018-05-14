@@ -164,11 +164,11 @@
 					htmlToAdd += 		"<div class=\"grid\">";
 					for(var j = 0; j < sections[i][1].length; j++){
 						var target = "_blank";
-						if(sections[i][j][2].indexOf("caterpillarscount.unc.edu") > -1){
+						if(sections[i][1][j][2].indexOf("caterpillarscount.unc.edu") > -1){
 						   	target = "_self";
 						}
-						htmlToAdd += 		"<div class=\"resource\" style=\"background-image:url('" + sections[i][j][0] + "');\" onclick=\"window.open('" + sections[i][j][2] + "', '" + target + "');\">";
-						htmlToAdd += 			"<div class=\"text pointer underline highlighted\">" + sections[i][j][1] + "</div>";
+						htmlToAdd += 		"<div class=\"resource\" style=\"background-image:url('" + sections[i][1][j][0] + "');\" onclick=\"window.open('" + sections[i][1][j][2] + "', '" + target + "');\">";
+						htmlToAdd += 			"<div class=\"text pointer underline highlighted\">" + sections[i][1][j][1] + "</div>";
 						htmlToAdd += 		"</div>"
 					}
 					htmlToAdd += 		"</div>";
