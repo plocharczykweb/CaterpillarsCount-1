@@ -1,5 +1,51 @@
 <html>
 	<head>
+		<script>
+		var sections = [
+			[
+				"header 1",
+				[
+					["image URL", "text", "link"],
+					["image URL", "text", "link"],
+					["image URL", "text", "link"],
+				],
+			],
+			[
+				"header 2",
+				[
+					["image URL", "text", "link"],
+					["image URL", "text", "link"],
+				],
+			],
+		];
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		</script>
 		<title>Resources | Caterpillars Count!</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -75,7 +121,7 @@
 				border-top:1px solid rgba(0,0,0,0.03);
 				text-align:center;
 				font-size:16px;
-				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-family: 'Roboto Slab', serif;
 			}
 			
 			@media screen and (max-width: 847px) {
@@ -109,6 +155,27 @@
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				
+				var htmlToAdd = "";
+				for(var i = 0; i < sections.length; i++){
+					htmlToAdd += "<div class=\"section\">";
+					htmlToAdd += 	"<div class=\"header\">" + sections[i][0] + "</div>";
+					htmlToAdd += 	"<div class=\"body\">";
+					htmlToAdd += 		"<div class=\"grid\">";
+					for(var j = 0; j < sections[i][1].length; j++){
+						var target = "_blank";
+						if(sections[i][j][2].indexOf("caterpillarscount.unc.edu") > -1){
+						   	target = "_self";
+						}
+						htmlToAdd += 		"<div class=\"resource\" style=\"background-image:url('" + sections[i][j][0] + "');\" onclick=\"window.open('" + sections[i][j][2] + "', '" + target + "');\">";
+						htmlToAdd += 			"<div class=\"text pointer underline highlighted\">" + sections[i][j][1] + "</div>";
+						htmlToAdd += 		"</div>"
+					}
+					htmlToAdd += 		"</div>";
+					htmlToAdd += 	"</div>";
+					htmlToAdd += "</div>";
+				}
+				$("#resources")[0].innerHTML = htmlToAdd;
 				
 				$(".header").click(function(){
 					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
@@ -215,37 +282,8 @@
 				<h2>Resources</h2>
 				<div class="tagline"></div>
 				<div class="content">
-					<div class="section">
-						<div class="header">Header</div>
-						<div class="body">
-							<div class="grid">
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-								<div class="resource">
-									<div class="text pointer underline highlighted">Identification Skill Building Materials</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					<div id="resources"></div>
+					<!--
 					<div style="background:rgba(0,0,0,.02);solid #eee;padding:20px;border-radius:5px;">
 						<ul style="background:transparent;">
 							<li><a href="../pdfs/GettingStarted.pdf">Getting Started</a></li>
@@ -258,6 +296,7 @@
 							<li><a href="../forEducators">Lesson Plans for Educators</a></li>
 						</ul>
 					</div>
+					-->
 				</div>
 			</div>
 		</main>
