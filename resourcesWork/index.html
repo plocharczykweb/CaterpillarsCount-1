@@ -82,6 +82,7 @@
 			}
 			
 			.section .body{
+				background:rgba(0,0,0,0.03);
 				text-align:center;
 				max-height:0px;
 				overflow:hidden;
@@ -89,6 +90,8 @@
 			}
 			
 			.section .body .grid{
+				border-top:1px solid rgba(0,0,0,0.1);
+				padding-top:10px;
 				width:668px;
 				margin:0px -10px;
 				display:inline-block;
@@ -179,6 +182,7 @@
 				
 				$(".header").click(function(){
 					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
+						this.style.borderRadius = "5px 5px 0px 0px";
 						$(this).parent().find(".body").animate({maxHeight:"99999999px"}, 259999);
 						this.style.backgroundImage = "url('../images/resourceDropdownArrowUp.png')";
 					}
@@ -186,6 +190,7 @@
 						$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
 						$(this).parent().find(".body").animate({maxHeight:"0px"}, 300, function(){
 							$(this).parent().find(".header").eq(0)[0].style.backgroundImage = "url('../images/resourceDropdownArrow.png')";
+							$(this).parent().find(".header").eq(0)[0].style.borderRadius = "5px";
 						});
 					}
 				});
