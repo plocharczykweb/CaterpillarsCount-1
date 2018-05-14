@@ -30,6 +30,8 @@
 			
 			.section .body{
 				text-align:center;
+				max-height:0px;
+				overflow:hidden;
 			}
 			
 			.section .body .grid{
@@ -90,12 +92,25 @@
 				}
 				.section .body .grid .resource{
 					width:100%;
+					margin:20px 0px;
 				}
 			}
 		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				
+				$(".header").click(function(){
+					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
+						$(this).parent().find(".body").animate({maxHeight:"99999999px"}, 259999);
+					}
+					else{
+						$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
+						$(this).parent().find(".body").animate({maxHeight:"0px"}, 200, function(){
+							
+						});
+					}
+				});
 			});
 		</script>
 	</head>
