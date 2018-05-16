@@ -135,6 +135,57 @@ class Survey
 		
 		return new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
+	
+	public static function findByUser($user) {
+		//returns all surveys user has completed
+		$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `UserFKOfCreator`='" . $user->getID() . "'");
+		$surveysArray = array();
+		while($surveyRow = mysqli_fetch_assoc($query)){
+			$id = $surveyRow["ID"];
+			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
+			$plant = Plant::findByID($surveyRow["PlantFK"]);
+			$localDate = $surveyRow["LocalDate"];
+			$localTime = $surveyRow["LocalTime"];
+			$observationMethod = $surveyRow["ObservationMethod"];
+			$notes = $surveyRow["Notes"];
+			$wetLeaves = $surveyRow["WetLeaves"];
+			$plantSpecies = $surveyRow["PlantSpecies"];
+			$numberOfLeaves = $surveyRow["NumberOfLeaves"];
+			$averageLeafLength = $surveyRow["AverageLeafLength"];
+			$herbivoryScore = $surveyRow["HerbivoryScore"];
+			$submittedThroughApp = $surveyRow["SubmittedThroughApp"];
+			
+			$survey = new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+			
+			array_push($surveysArray, $survey);
+		}
+		//as well as all surveys completed at sites the user created or manages
+		$sites = $user->getSites();
+		for($i = 0; $i < count($sites); $i++){
+			//TODO: SiteFK column is not in Survey table.
+			$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `SiteFK`='" . $sites[$i]->getID() . "' AND `UserFKOfCreator`<>'" . $user->getID() . "'");
+			while($surveyRow = mysqli_fetch_assoc($query)){
+				$id = $surveyRow["ID"];
+				$observer = User::findByID($surveyRow["UserFKOfObserver"]);
+				$plant = Plant::findByID($surveyRow["PlantFK"]);
+				$localDate = $surveyRow["LocalDate"];
+				$localTime = $surveyRow["LocalTime"];
+				$observationMethod = $surveyRow["ObservationMethod"];
+				$notes = $surveyRow["Notes"];
+				$wetLeaves = $surveyRow["WetLeaves"];
+				$plantSpecies = $surveyRow["PlantSpecies"];
+				$numberOfLeaves = $surveyRow["NumberOfLeaves"];
+				$averageLeafLength = $surveyRow["AverageLeafLength"];
+				$herbivoryScore = $surveyRow["HerbivoryScore"];
+				$submittedThroughApp = $surveyRow["SubmittedThroughApp"];
+				
+				$survey = new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+				
+				array_push($surveysArray, $survey);
+			}
+		}
+		return $surveysArray;
+	}
 
 //GETTERS
 	public function getID() {
