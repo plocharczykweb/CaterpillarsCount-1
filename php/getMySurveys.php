@@ -12,6 +12,19 @@
 		for($i = 0; $i < count($surveys); $i++){
 			$arthropodSightings = $surveys[$i]->getArthropodSightings();
 			$arthropodSightingsArray = array();
+			for($j = 0; $j < count($arthropodSightings); $j++){
+				$arthropodSightingsArray[] = array(
+					"id" => $arthropodSightings[$j]->getID(),
+					"group" => $arthropodSightings[$j]->getGroup(),
+					"length" => $arthropodSightings[$j]->getLength(),
+					"quantity" => $arthropodSightings[$j]->getQuantity(),
+					"photoURL" => $arthropodSightings[$j]->getPhotoURL(),
+					"notes" => $arthropodSightings[$j]->getNotes(),
+					"hairy" => $arthropodSightings[$j]->getHairy(),
+					"rolled" => $arthropodSightings[$j]->getRolled(),
+					"tented" => $arthropodSightings[$j]->getTented(),
+				);
+			}
 			$surveysArray[] = array(
 				"id" => $surveys[$i]->getID(),
 				"observerID" => $surveys[$i]->getObserver()->getID(),
