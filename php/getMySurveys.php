@@ -7,12 +7,12 @@
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
-		$surveys = Survey::findByUser($user);
+		$surveys = Survey::findSurveysByUser($user, 0, 25);
 		$surveysArray = array();
 		for($i = 0; $i < count($surveys); $i++){
-			//$arthropodSightings = $surveys[$i]->getArthropodSightings();
+			$arthropodSightings = $surveys[$i]->getArthropodSightings();
 			$arthropodSightingsArray = array();
-			/*for($j = 0; $j < count($arthropodSightings); $j++){
+			for($j = 0; $j < count($arthropodSightings); $j++){
 				$arthropodSightingsArray[] = array(
 					"id" => $arthropodSightings[$j]->getID(),
 					"group" => $arthropodSightings[$j]->getGroup(),
@@ -24,7 +24,7 @@
 					"rolled" => $arthropodSightings[$j]->getRolled(),
 					"tented" => $arthropodSightings[$j]->getTented(),
 				);
-			}*/
+			}
 			$surveysArray[] = array(
 				"id" => $surveys[$i]->getID(),
 				"observerID" => $surveys[$i]->getObserver()->getID(),
