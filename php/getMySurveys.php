@@ -4,10 +4,12 @@
 	
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
+	$page = $_GET["page"];
+	$PAGE_LENGTH = 25;
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
-		$surveys = Survey::findSurveysByUser($user, 0, 25);
+		$surveys = Survey::findSurveysByUser($user, ((intval($page) - 1) * $PAGE_LENGTH), $PAGE_LENGTH);
 		$surveysArray = array();
 		for($i = 0; $i < count($surveys); $i++){
 			$arthropodSightings = $surveys[$i]->getArthropodSightings();
