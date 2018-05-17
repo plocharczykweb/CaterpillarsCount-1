@@ -136,14 +136,22 @@ class Survey
 		return new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
 	
-	public static function findByUser($user) {
+	public static function findSurveysByUser($user, $start, $limit) {
 		//returns all surveys user has completed
 		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `UserFKOfObserver`='" . $user->getID() . "'");
 		$surveysArray = array();
+		//as well as all surveys completed at sites the user created or manages
+		$sites = $user->getSites();
+		$siteIDs = array();
+		for($i = 0; $i < count($sites); $i++){
+			$siteIDs[] = $sites[$i]->getID();
+		}
+		//TODO: SiteFK column is not in Survey table.
+		$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "' ORDER BY Survey.LocalDate, Survey.LocalTime, Survey.ID LIMIT " . $start . ", " . $limit);
+		//$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK='" . $sites[$i]->getID() . "' AND Survey.UserFKOfObserver<>'" . $user->getID() . "'");
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
-			$observer = $user;
+			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
 			$plant = Plant::findByID($surveyRow["PlantFK"]);
 			$localDate = $surveyRow["LocalDate"];
 			$localTime = $surveyRow["LocalTime"];
@@ -159,31 +167,6 @@ class Survey
 			$survey = new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 			
 			array_push($surveysArray, $survey);
-		}
-		//as well as all surveys completed at sites the user created or manages
-		$sites = $user->getSites();
-		for($i = 0; $i < count($sites); $i++){
-			//TODO: SiteFK column is not in Survey table.
-			$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK='" . $sites[$i]->getID() . "' AND Survey.UserFKOfObserver<>'" . $user->getID() . "'");
-			while($surveyRow = mysqli_fetch_assoc($query)){
-				$id = $surveyRow["ID"];
-				$observer = User::findByID($surveyRow["UserFKOfObserver"]);
-				$plant = Plant::findByID($surveyRow["PlantFK"]);
-				$localDate = $surveyRow["LocalDate"];
-				$localTime = $surveyRow["LocalTime"];
-				$observationMethod = $surveyRow["ObservationMethod"];
-				$notes = $surveyRow["Notes"];
-				$wetLeaves = $surveyRow["WetLeaves"];
-				$plantSpecies = $surveyRow["PlantSpecies"];
-				$numberOfLeaves = $surveyRow["NumberOfLeaves"];
-				$averageLeafLength = $surveyRow["AverageLeafLength"];
-				$herbivoryScore = $surveyRow["HerbivoryScore"];
-				$submittedThroughApp = $surveyRow["SubmittedThroughApp"];
-				
-				$survey = new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
-				
-				array_push($surveysArray, $survey);
-			}
 		}
 		return $surveysArray;
 	}
