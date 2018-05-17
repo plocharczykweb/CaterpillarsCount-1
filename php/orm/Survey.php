@@ -138,7 +138,7 @@ class Survey
 	
 	public static function findByUser($user) {
 		//returns all surveys user has completed
-		$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `UserFKOfCreator`='" . $user->getID() . "'");
+		$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `UserFKOfObserver`='" . $user->getID() . "'");
 		$surveysArray = array();
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
@@ -163,7 +163,7 @@ class Survey
 		$sites = $user->getSites();
 		for($i = 0; $i < count($sites); $i++){
 			//TODO: SiteFK column is not in Survey table.
-			$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `SiteFK`='" . $sites[$i]->getID() . "' AND `UserFKOfCreator`<>'" . $user->getID() . "'");
+			$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK='" . $sites[$i]->getID() . "' AND Survey.UserFKOfObserver<>'" . $user->getID() . "'");
 			while($surveyRow = mysqli_fetch_assoc($query)){
 				$id = $surveyRow["ID"];
 				$observer = User::findByID($surveyRow["UserFKOfObserver"]);
