@@ -138,6 +138,7 @@ class Survey
 	
 	public static function findByUser($user) {
 		//returns all surveys user has completed
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT * FROM `Survey` WHERE `UserFKOfObserver`='" . $user->getID() . "'");
 		$surveysArray = array();
 		while($surveyRow = mysqli_fetch_assoc($query)){
