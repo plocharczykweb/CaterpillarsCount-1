@@ -747,135 +747,63 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 				clear:both;
 			}
 			
-			@media screen and (max-width: 400px) {
-				.cellDiv{
-					display:block;
-				}
-			
-				.cellDiv:first-of-type{
-					width:100%;
+			@media screen and (max-width: 1300px) {
+				header{
+					padding:25px 100px;
 				}
 				
-				.cellDiv .circleImage, .cellDiv .circleIcon{
-					margin:20px auto;
-					display:block;
-				}
-				
-				.cellDiv h3, .cellDiv h4{
-					display:block;
-					text-align:center;
-				}
-				
-				main .tagline{
-					font-size:15px;
-				}
-				
-				main .panel ul{
-					font-size:13px;
-				}
-			
-				main .panel p, main .panel ol, main .panel ul{
-					font-size:13px;
-				}
-				
-				main .panel .imageTextTable p.mobilePhoneCentered{
-					text-align:center;
-				}
-				
-				main .panel p{
-					background:rgba(0,0,0,.02);
-					box-sizing:border-box;
-					padding:10px;
-					border-radius:4px;
-					display:block;
-				}
-				
-				main .panel ul{
-					background:rgba(0,0,0,.02);
-					box-sizing:border-box;
-					padding:10px;
-					border-radius:4px;
-					display:block;
-					padding-left:27px;
-				}
-				main .panel .imageTextTable>.cellDiv>ul{
-					margin:10px 0px;
-				}
-				
-				
-				main .panel ol{
-					background:rgba(0,0,0,.02);
-					box-sizing:border-box;
-					padding:10px;
-					border-radius:4px;
-					display:block;
-					padding-left:24px;
-					margin:10px 0px;
+				nav>ul>li>ul{
+					padding:0px 100px;
 				}
 			}
-			
-			@media screen and (max-width: 406px) {
+
+			@media screen and (max-width: 1150px) {
+				header{
+					padding:25px 50px;
+				}
+				
+				nav>ul>li>ul{
+					padding:0px 50px;
+				}
+			}
+
+			@media screen and (max-width: 1018px) {
+				.tableDiv{
+					margin:20px auto;
+				}
+				
+				.imageTextTable .tableDiv{
+					margin:40px auto;
+				}
+			}
+
+			@media screen and (max-width: 1000px) {
+				header{
+					padding:25px 20px;
+				}
+				
+				nav>ul>li>ul{
+					padding:0px 20px;
+				}
+				
 				#splashOverlay{
 					margin-top:40px;
 				}
 				
+				#splashIntroText{
+					font-size:30px;
+				}
+				
 				#splashMainText{
-					font-size:36px;
+					font-size:55px;
 				}
-				#splashOverlay{
-					margin-top:10px;
+				
+				#splashButton{
+					padding:15px 30px;
+					font-size:14px;
 				}
 			}
-			
-			@media screen and (max-width: 599px) {
-				#splashOverlay{
-					margin-top:10px;
-				}
-			}
-			
-			@media screen and (max-width: 620px) {
-				.captionedCircleIconDiv{
-					width:150px;
-					margin:20px;
-				}
-				
-				.underConstructionImage{
-					width:150px;
-					height:150px;
-				}
-				
-				.circleImage{
-					width:100px;
-					height:100px;
-				}
-				
-				.circleIcon{
-					width:100px;
-					height:100px;
-				}
-				
-				footer{
-					padding:10px;
-				}
-				
-				footer>div{
-					display:block;
-					margin:20px 0px;
-					border:0px none transparent;
-					white-space:normal;
-				}
-				
-				footer img{
-					height:50px;
-				}
-			}
-			
-			@media screen and (max-width: 770px) {
-				main .panel{
-					padding:40px 20px;
-				}
-			}
-			
+
 			@media screen and (max-width: 900px) {
 				header{
 					padding:0px 10px;
@@ -979,60 +907,132 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 					font-size:15px;
 				}
 			}
+
+			@media screen and (max-width: 770px) {
+				main .panel{
+					padding:40px 20px;
+				}
+			}
+
+			@media screen and (max-width: 620px) {
+				.captionedCircleIconDiv{
+					width:150px;
+					margin:20px;
+				}
+				
+				.underConstructionImage{
+					width:150px;
+					height:150px;
+				}
+				
+				.circleImage{
+					width:100px;
+					height:100px;
+				}
+				
+				.circleIcon{
+					width:100px;
+					height:100px;
+				}
+				
+				footer{
+					padding:10px;
+				}
+				
+				footer>div{
+					display:block;
+					margin:20px 0px;
+					border:0px none transparent;
+					white-space:normal;
+				}
+				
+				footer img{
+					height:50px;
+				}
+			}
+
+			@media screen and (max-width: 599px) {
+				#splashOverlay{
+					margin-top:10px;
+				}
+			}
 			
-			@media screen and (max-width: 1000px) {
-				header{
-					padding:25px 20px;
-				}
-				
-				nav>ul>li>ul{
-					padding:0px 20px;
-				}
-				
+			@media screen and (max-width: 406px) {
 				#splashOverlay{
 					margin-top:40px;
 				}
 				
-				#splashIntroText{
-					font-size:30px;
-				}
-				
 				#splashMainText{
-					font-size:55px;
+					font-size:36px;
 				}
-				
-				#splashButton{
-					padding:15px 30px;
-					font-size:14px;
+				#splashOverlay{
+					margin-top:10px;
 				}
 			}
 			
-			@media screen and (max-width: 1018px) {
-				.tableDiv{
+			@media screen and (max-width: 400px) {
+				.cellDiv{
+					display:block;
+				}
+			
+				.cellDiv:first-of-type{
+					width:100%;
+				}
+				
+				.cellDiv .circleImage, .cellDiv .circleIcon{
 					margin:20px auto;
+					display:block;
 				}
 				
-				.imageTextTable .tableDiv{
-					margin:40px auto;
+				.cellDiv h3, .cellDiv h4{
+					display:block;
+					text-align:center;
 				}
-			}
+				
+				main .tagline{
+					font-size:15px;
+				}
+				
+				main .panel ul{
+					font-size:13px;
+				}
 			
-			@media screen and (max-width: 1150px) {
-				header{
-					padding:25px 50px;
+				main .panel p, main .panel ol, main .panel ul{
+					font-size:13px;
 				}
 				
-				nav>ul>li>ul{
-					padding:0px 50px;
-				}
-			}
-			
-			@media screen and (max-width: 1300px) {
-				header{
-					padding:25px 100px;
+				main .panel .imageTextTable p.mobilePhoneCentered{
+					text-align:center;
 				}
 				
-				nav>ul>li>ul{
-					padding:0px 100px;
+				main .panel p{
+					background:rgba(0,0,0,.02);
+					box-sizing:border-box;
+					padding:10px;
+					border-radius:4px;
+					display:block;
+				}
+				
+				main .panel ul{
+					background:rgba(0,0,0,.02);
+					box-sizing:border-box;
+					padding:10px;
+					border-radius:4px;
+					display:block;
+					padding-left:27px;
+				}
+				main .panel .imageTextTable>.cellDiv>ul{
+					margin:10px 0px;
+				}
+				
+				
+				main .panel ol{
+					background:rgba(0,0,0,.02);
+					box-sizing:border-box;
+					padding:10px;
+					border-radius:4px;
+					display:block;
+					padding-left:24px;
+					margin:10px 0px;
 				}
 			}
