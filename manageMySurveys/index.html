@@ -23,7 +23,30 @@
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				
+				loadPage(1);
 			});
+			
+			var surveys = [];
+			function loadPage(pageNumber){
+				$.get("../php/getMySurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&page=" + pageNumber, function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						surveys = JSON.parse(data.replace("true|", ""));
+						alert(surveys);
+					}
+					else{
+						queueNotice("error", data.replace("false|", ""));
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+			}
 		</script>
 	</head>
 	<body>
