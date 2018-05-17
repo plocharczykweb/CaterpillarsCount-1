@@ -142,7 +142,7 @@ class Survey
 		$surveysArray = array();
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
-			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
+			$observer = $user;
 			$plant = Plant::findByID($surveyRow["PlantFK"]);
 			$localDate = $surveyRow["LocalDate"];
 			$localTime = $surveyRow["LocalTime"];
