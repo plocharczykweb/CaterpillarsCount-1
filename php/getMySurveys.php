@@ -49,6 +49,7 @@
 				"arthropodSightings" => $arthropodSightingsArray,
 			);
 		}
-		die(json_encode($surveysArray));
+		die("true|" . json_encode($surveysArray));
 	}
+	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
