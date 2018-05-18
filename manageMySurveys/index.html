@@ -56,6 +56,7 @@
 			#surveys .survey .arthropodSightingsInfo{
 				max-height:0px;
 				overflow:hidden;
+				color:#999;
 			}
 			
 			#surveys .survey .arthropodSightingsInfo .arthropodSighting{
@@ -77,6 +78,13 @@
 				
 				loadPage(1);
 			});
+			
+			function singular(word){
+				if(word[word.length - 1] == "s"){
+					return word.substring(0, (word.length - 1));
+				}
+				return word;
+			}
 			
 			function plural(word){
 				if(word[word.length - 1] == "s"){
@@ -102,7 +110,9 @@
 							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</div>";
 							htmlToAdd += 	"<div class=\"surveyInfo\">";
 							htmlToAdd += 		"<div>Observation method: " + surveys[i]["observaionMethod"] + "</div>";
-							htmlToAdd += 		"<div>Notes: " + surveys[i]["notes"] + "</div>";
+							if(surveys[i]["notes"].trim().length > 0){
+								htmlToAdd += 	"<div>Notes: " + surveys[i]["notes"] + "</div>";
+							}
 							htmlToAdd += 		"<div>Wet leaves: " + surveys[i]["wetLeaves"] + "</div>";
 							htmlToAdd += 		"<div>Number of leaves: " + surveys[i]["numberOfLeaves"] + "</div>";
 							htmlToAdd += 		"<div>Average leaf length: " + surveys[i]["averageLeafLength"] + "</div>";
@@ -112,22 +122,29 @@
 							htmlToAdd +=		"<div>";
 							for(var j = 0; j < surveys[i]["arthropodSightings"].length; j++){
 								htmlToAdd +=		"<div class=\"arthropodSighting\">";
-								htmlToAdd +=			"<div>" + surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + plural(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
+								if(surveys[i]["arthropodSightings"][j]["quantity"] == 1){
+									htmlToAdd +=		"<div>" + surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + singular(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
+								}
+								else{
+									htmlToAdd +=		"<div>" + surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + plural(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
+								}
 								if(surveys[i]["arthropodSightings"][j]["group"] == "caterpillar"){
 								   	htmlToAdd +=		"<div>Hairy/spiny: " + surveys[i]["arthropodSightings"][j]["hairy"] + "</div>";
 								   	htmlToAdd +=		"<div>In a leaf roll: " + surveys[i]["arthropodSightings"][j]["rolled"] + "</div>";
 								   	htmlToAdd +=		"<div>In a silk tent: " + surveys[i]["arthropodSightings"][j]["tented"] + "</div>";
 								}
-								htmlToAdd +=			"<div>Notes: " + surveys[i]["arthropodSightings"][j]["notes"] + "</div>";
+								if(surveys[i]["arthropodSightings"][j]["notes"].trim().length > 0){
+									htmlToAdd +=		"<div>Notes: " + surveys[i]["arthropodSightings"][j]["notes"] + "</div>";
+								}
 								htmlToAdd +=		"</div>";
 							}
 							htmlToAdd +=		"</div>";
 							htmlToAdd += 	"</div>";
 							if(surveys[i]["arthropodSightings"].length > 1){
-								htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">" + surveys[i]["arthropodSightings"].length + " Arthropod Sightings</div>";
+								htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">Show " + surveys[i]["arthropodSightings"].length + " Arthropod Sightings</div>";
 							}
 							else if(surveys[i]["arthropodSightings"].length > 0){
-								htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">" + surveys[i]["arthropodSightings"].length + " Arthropod Sighting</div>";
+								htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">Show " + surveys[i]["arthropodSightings"].length + " Arthropod Sighting</div>";
 							}
 							htmlToAdd += "</div>";
 						}
@@ -148,11 +165,14 @@
 			
 			function toggleArthropodSightings(arthropodSightingsInfoDiv){
 				if(arthropodSightingsInfoDiv.style.maxHeight == "0px" || arthropodSightingsInfoDiv.style.maxHeight == ""){
+					arthropodSightingsInfoDiv.innerHTML = arthropodSightingsInfoDiv.innerHTML.replace("Show", "Hide");
 					$(arthropodSightingsInfoDiv).stop().animate({maxHeight:"99999999px"}, 259999);
 				}
 				else{
 					arthropodSightingsInfoDiv.style.maxHeight = arthropodSightingsInfoDiv.clientHeight + "px";
-					$(arthropodSightingsInfoDiv).stop().animate({maxHeight:"0px"}, 300);
+					$(arthropodSightingsInfoDiv).stop().animate({maxHeight:"0px"}, 300, function(){
+						arthropodSightingsInfoDiv.innerHTML = arthropodSightingsInfoDiv.innerHTML.replace("Hide", "Show");
+					});
 				}
 			}
 		</script>
