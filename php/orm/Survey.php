@@ -142,14 +142,11 @@ class Survey
 		$surveysArray = array();
 		//as well as all surveys completed at sites the user created or manages
 		$sites = $user->getSites();
-		$siteIDs = array();
+		$siteIDs = array(-1);
 		for($i = 0; $i < count($sites); $i++){
 			$siteIDs[] = $sites[$i]->getID();
 		}
-		//TODO: SiteFK column is not in Survey table.
 		$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "' ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Survey.ID DESC LIMIT " . $start . ", " . $limit);
-		//$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK='" . $sites[$i]->getID() . "' AND Survey.UserFKOfObserver<>'" . $user->getID() . "'");
-		//TODO: check if query has ay results
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
 			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
