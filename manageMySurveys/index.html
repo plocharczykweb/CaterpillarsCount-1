@@ -21,8 +21,35 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
 		<style>
-			#surveys>div{
+			#surveys .survey{
 				margin:20px 0px;
+			}
+			
+			#surveys .survey .headInfo{
+				background:#333;
+			}
+			
+			#surveys .survey .headInfo>div{
+				padding:10px;
+				display:inline-block;
+			}
+			
+			#surveys .survey .headInfo>div:first-of-type{
+				background:rgba(255,255,255,0.3);
+			}
+			
+			#surveys .survey .siteInfo{
+				padding:10px;
+				color:#fff;
+			}
+			
+			#surveys .survey .surveyInfo{
+				padding:10px;
+			}
+			
+			#surveys .survey .arthropodSightingsInfo{
+				height:0px;
+				overflow:hidden;
 			}
 		</style>
 		<script>
@@ -40,11 +67,21 @@
 						surveys = JSON.parse(data.replace("true|", ""));
 						var htmlToAdd = "";
 						for(var i = 0; i < surveys.length; i++){
-							htmlToAdd += "<div>";
-							htmlToAdd += 	"<div>" + surveys[i]["localTime"] + " " + surveys[i]["localDate"] + "</div>";
-							htmlToAdd += 	"<div><a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantCode"] + ": " + surveys[i]["plantSpecies"] + "</div>";
-							htmlToAdd += 	"<div>" + surveys[i]["observerFullName"] + ", " + surveys[i]["observaionMethod"] + ", " + surveys[i]["notes"] + ", " + surveys[i]["wetLeaves"] + ", " + surveys[i]["numberOfLeaves"] + ", " + surveys[i]["averageLeafLength"] + ", " + surveys[i]["herbivoryScore"] + "</div>";
-							htmlToAdd += 	"<div>" + surveys[i]["arthropodSightings"] + "</div>";
+							htmlToAdd += "<div class=\"survey\">";
+							htmlToAdd += 	"<div class=\"headInfo\">";
+							htmlToAdd +=		"<div>" + surveys[i]["localDate"] + " " + surveys[i]["localTime"] + "</div>";
+							htmlToAdd +=		"<div>" + surveys[i]["observerFullName"] + "</div>";
+							htmlToAdd +=	"</div>"
+							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantCode"] + ": " + surveys[i]["plantSpecies"] + "</div>";
+							htmlToAdd += 	"<div class=\"surveyInfo\">";
+							htmlToAdd += 		"<div>" + surveys[i]["observaionMethod"] + "</div>";
+							htmlToAdd += 		"<div>" + surveys[i]["notes"] + "</div>";
+							htmlToAdd += 		"<div>" + surveys[i]["wetLeaves"] + "</div>";
+							htmlToAdd += 		"<div>" + surveys[i]["numberOfLeaves"] + "</div>";
+							htmlToAdd += 		"<div>" + surveys[i]["averageLeafLength"] + "</div>";
+							htmlToAdd += 		"<div>" + surveys[i]["herbivoryScore"] + "</div>";
+							htmlToAdd +=	"</div>";
+							htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">" + surveys[i]["arthropodSightings"] + "</div>";
 							htmlToAdd += "</div>";
 						}
 						$("#surveys")[0].innerHTML = htmlToAdd;
