@@ -57,6 +57,13 @@
 				overflow:hidden;
 				background:rgba(0,0,0,0.1);
 			}
+			
+			#surveys .survey arthropodSightingsDropdownButtonDiv{
+				padding:10px;
+				background:rgba(0,0,0,0.2);
+				text-align:center;
+				cursor:pointer;
+			}
 		</style>
 		<script>
 			$(document).ready(function(){
@@ -77,9 +84,9 @@
 							htmlToAdd += "<div class=\"survey\">";
 							htmlToAdd += 	"<div class=\"headInfo\">";
 							htmlToAdd +=		"<div>" + surveys[i]["localDate"] + " " + surveys[i]["localTime"] + "</div>";
-							htmlToAdd +=		"<div>" + surveys[i]["observerFullName"] + "</div>";
+							htmlToAdd +=		"<div><a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 							htmlToAdd +=	"</div>"
-							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", Code <span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: " + surveys[i]["plantSpecies"] + "</div>";
+							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</div>";
 							htmlToAdd += 	"<div class=\"surveyInfo\">";
 							htmlToAdd += 		"<div>Observation method: " + surveys[i]["observaionMethod"] + "</div>";
 							htmlToAdd += 		"<div>Notes: " + surveys[i]["notes"] + "</div>";
@@ -89,6 +96,7 @@
 							htmlToAdd += 		"<div>Herbivory score: " + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
 							htmlToAdd +=	"</div>";
 							htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">" + surveys[i]["arthropodSightings"] + "</div>";
+							htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\">" + surveys[i]["arthropodSightings"].length + " Arthropod Sightings</div>";
 							htmlToAdd += "</div>";
 						}
 						$("#surveys")[0].innerHTML = htmlToAdd;
