@@ -58,7 +58,7 @@
 				background:rgba(0,0,0,0.1);
 			}
 			
-			#surveys .survey arthropodSightingsDropdownButtonDiv{
+			#surveys .survey .arthropodSightingsDropdownButtonDiv{
 				padding:10px;
 				background:rgba(0,0,0,0.2);
 				text-align:center;
@@ -96,7 +96,12 @@
 							htmlToAdd += 		"<div>Herbivory score: " + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
 							htmlToAdd +=	"</div>";
 							htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">" + surveys[i]["arthropodSightings"] + "</div>";
-							htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\">" + surveys[i]["arthropodSightings"].length + " Arthropod Sightings</div>";
+							if(surveys[i]["arthropodSightings"].length > 1){
+								htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\">" + surveys[i]["arthropodSightings"].length + " Arthropod Sightings</div>";
+							}
+							else if(surveys[i]["arthropodSightings"].length > 0){
+								htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\">" + surveys[i]["arthropodSightings"].length + " Arthropod Sighting</div>";
+							}
 							htmlToAdd += "</div>";
 						}
 						$("#surveys")[0].innerHTML = htmlToAdd;
