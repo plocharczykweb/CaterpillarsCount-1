@@ -26,6 +26,7 @@
 				font-family: 'Roboto Slab', serif;
 				border-radius:5px;
 				overflow:hidden;
+				background:rgba(0,0,0,0.05);
 			}
 			
 			#surveys .survey .headInfo{
@@ -49,21 +50,23 @@
 			
 			#surveys .survey .surveyInfo{
 				padding:10px;
-				background:rgba(0,0,0,0.05);
 				color:#555;
 			}
 			
 			#surveys .survey .arthropodSightingsInfo{
 				max-height:0px;
 				overflow:hidden;
-				background:rgba(0,0,0,0.1);
+			}
+			
+			#surveys .survey .arthropodSightingsInfo .arthropodSighting{
+				border-top:1px solid rgba(0,0,0,0.05);
+				padding:10px;
 			}
 			
 			#surveys .survey .arthropodSightingsDropdownButtonDiv{
 				padding:10px;
-				background:rgba(0,0,0,0.05);
 				border-top:1px solid rgba(0,0,0,0.05);
-				color:#ddd;
+				color:#bbb;
 				text-align:center;
 				cursor:pointer;
 			}
@@ -74,6 +77,13 @@
 				
 				loadPage(1);
 			});
+			
+			function plural(word){
+				if(word[word.length - 1] == "s"){
+					return word;
+				}
+				return word + "s";
+			}
 			
 			var surveys = [];
 			function loadPage(pageNumber){
@@ -99,7 +109,19 @@
 							htmlToAdd += 		"<div>Herbivory score: " + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
 							htmlToAdd +=	"</div>";
 							htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">";
-							htmlToAdd += 		surveys[i]["arthropodSightings"];
+							htmlToAdd +=		"<div>";
+							for(var j = 0; j < surveys[i]["arthropodSightings"].length; j++){
+								htmlToAdd +=		"<div class=\"arthropodSighting\">";
+								htmlToAdd +=			"<div>" + surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + plural(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
+								if(surveys[i]["arthropodSightings"][j]["group"] == "caterpillar"){
+								   	htmlToAdd +=		"<div>Hairy/spiny: " + surveys[i]["arthropodSightings"][j]["hairy"] + "</div>";
+								   	htmlToAdd +=		"<div>In a leaf roll: " + surveys[i]["arthropodSightings"][j]["rolled"] + "</div>";
+								   	htmlToAdd +=		"<div>In a silk tent: " + surveys[i]["arthropodSightings"][j]["tented"] + "</div>";
+								}
+								htmlToAdd +=			"<div>Notes: " + surveys[i]["arthropodSightings"][j]["notes"] + "</div>";
+								htmlToAdd +=		"</div>";
+							}
+							htmlToAdd +=		"</div>";
 							htmlToAdd += 	"</div>";
 							if(surveys[i]["arthropodSightings"].length > 1){
 								htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">" + surveys[i]["arthropodSightings"].length + " Arthropod Sightings</div>";
