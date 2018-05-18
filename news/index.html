@@ -267,7 +267,8 @@
 						this.innerHTML = "Close";
 					}
 					else{
-						$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
+						$(this).parent().find(".body").eq(0).stop();
+						$(this).parent().find(".body").eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
 						
                 				$(this).parent().find(".preview").stop().show(300);
 						$(this).parent().find(".body").animate({maxHeight:"0px"}, 200, function(){
