@@ -24,6 +24,8 @@
 			#surveys .survey{
 				margin:20px 0px;
 				font-family: 'Roboto Slab', serif;
+				border-radius:5px;
+				overflow:hidden;
 			}
 			
 			#surveys .survey .headInfo{
@@ -47,11 +49,13 @@
 			
 			#surveys .survey .surveyInfo{
 				padding:10px;
+				background:rgba(0,0,0,0.02);
 			}
 			
 			#surveys .survey .arthropodSightingsInfo{
 				height:0px;
 				overflow:hidden;
+				background:rgba(0,0,0,0.04);
 			}
 		</style>
 		<script>
@@ -75,7 +79,7 @@
 							htmlToAdd +=		"<div>" + surveys[i]["localDate"] + " " + surveys[i]["localTime"] + "</div>";
 							htmlToAdd +=		"<div>" + surveys[i]["observerFullName"] + "</div>";
 							htmlToAdd +=	"</div>"
-							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantCode"] + ": " + surveys[i]["plantSpecies"] + "</div>";
+							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", Code <span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: " + surveys[i]["plantSpecies"] + "</div>";
 							htmlToAdd += 	"<div class=\"surveyInfo\">";
 							htmlToAdd += 		"<div>Observation method: " + surveys[i]["observaionMethod"] + "</div>";
 							htmlToAdd += 		"<div>Notes: " + surveys[i]["notes"] + "</div>";
