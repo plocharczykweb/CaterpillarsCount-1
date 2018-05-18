@@ -207,7 +207,7 @@
 				$(".header").click(function(){
 					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
 						this.style.borderRadius = "5px 5px 0px 0px";
-						$(this).parent().find(".body").animate({maxHeight:"99999999px"}, 259999);
+						$(this).parent().find(".body").stop().animate({maxHeight:"99999999px"}, 259999);
 						this.style.backgroundImage = "url('../images/resourceDropdownArrowUp.png')";
 					}
 					else{
