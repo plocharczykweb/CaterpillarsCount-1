@@ -40,7 +40,12 @@
 						surveys = JSON.parse(data.replace("true|", ""));
 						var htmlToAdd = "";
 						for(var i = 0; i < surveys.length; i++){
-							htmlToAdd += "<div>" + JSON.stringify(surveys[i]) + "</div>"
+							htmlToAdd += "<div>";
+							htmlToAdd += 	"<div>" + surveys[i]["localTime"] + " " + surveys[i]["localDate"] + "</div>";
+							htmlToAdd += 	"<div><a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantCode"] + ": " + surveys[i]["plantSpecies"] + "</div>";
+							htmlToAdd += 	"<div>" + surveys[i]["observerFullName"] + ", " + surveys[i]["observaionMethod"] + ", " + surveys[i]["notes"] + ", " + surveys[i]["wetLeaves"] + ", " + surveys[i]["numberOfLeaves"] + ", " + surveys[i]["averageLeafLength"] + ", " + surveys[i]["herbivoryScore"] + "</div>";
+							htmlToAdd += 	"<div>" + surveys[i]["arthropodSightings"] + "</div>";
+							htmlToAdd += "</div>";
 						}
 						$("#surveys")[0].innerHTML = htmlToAdd;
 					}
