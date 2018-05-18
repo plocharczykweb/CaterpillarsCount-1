@@ -20,6 +20,11 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
+		<style>
+			#surveys>div{
+				margin:20px 0px;
+			}
+		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
@@ -33,7 +38,11 @@
 					//success
 					if(data.indexOf("true|") == 0){
 						surveys = JSON.parse(data.replace("true|", ""));
-						alert(surveys);
+						var htmlToAdd = "";
+						for(var i = 0; i < surveys.length; i++){
+							htmlToAdd += "<div>" + JSON.stringify(surveys[i]) + "</div>"
+						}
+						$("#surveys")[0].innerHTML = htmlToAdd;
 					}
 					else{
 						queueNotice("error", data.replace("false|", ""));
@@ -137,8 +146,10 @@
 		<main>
 			<div class="panel">
 				<h2>Manage My Surveys</h2>
-				<div class="tagline">...will be coming soon</div>
-				<div class="underConstructionImage"></div>
+				<div class="tagline"></div>
+				<div class="content">
+					<div id="surveys"></div>
+				</div>
 			</div>
 		</main>
 		<footer>
