@@ -211,7 +211,8 @@
 						this.style.backgroundImage = "url('../images/resourceDropdownArrowUp.png')";
 					}
 					else{
-						$(this).parent().find(".body").stop().eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
+						$(this).parent().find(".body").eq(0).stop();
+						$(this).parent().find(".body").eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
 						$(this).parent().find(".body").animate({maxHeight:"0px"}, 300, function(){
 							$(this).parent().find(".header").eq(0)[0].style.backgroundImage = "url('../images/resourceDropdownArrow.png')";
 							$(this).parent().find(".header").eq(0)[0].style.borderRadius = "5px";
