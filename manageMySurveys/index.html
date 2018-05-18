@@ -23,10 +23,12 @@
 		<style>
 			#surveys .survey{
 				margin:20px 0px;
+				font-family: 'Roboto Slab', serif;
 			}
 			
 			#surveys .survey .headInfo{
 				background:#333;
+				color:#fff;
 			}
 			
 			#surveys .survey .headInfo>div{
@@ -35,7 +37,7 @@
 			}
 			
 			#surveys .survey .headInfo>div:first-of-type{
-				background:rgba(255,255,255,0.3);
+				background:rgba(255,255,255,0.2);
 			}
 			
 			#surveys .survey .siteInfo{
@@ -64,6 +66,7 @@
 				$.get("../php/getMySurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&page=" + pageNumber, function(data){
 					//success
 					if(data.indexOf("true|") == 0){
+						var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 						surveys = JSON.parse(data.replace("true|", ""));
 						var htmlToAdd = "";
 						for(var i = 0; i < surveys.length; i++){
@@ -74,12 +77,12 @@
 							htmlToAdd +=	"</div>"
 							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantCode"] + ": " + surveys[i]["plantSpecies"] + "</div>";
 							htmlToAdd += 	"<div class=\"surveyInfo\">";
-							htmlToAdd += 		"<div>" + surveys[i]["observaionMethod"] + "</div>";
-							htmlToAdd += 		"<div>" + surveys[i]["notes"] + "</div>";
-							htmlToAdd += 		"<div>" + surveys[i]["wetLeaves"] + "</div>";
-							htmlToAdd += 		"<div>" + surveys[i]["numberOfLeaves"] + "</div>";
-							htmlToAdd += 		"<div>" + surveys[i]["averageLeafLength"] + "</div>";
-							htmlToAdd += 		"<div>" + surveys[i]["herbivoryScore"] + "</div>";
+							htmlToAdd += 		"<div>Observation method: " + surveys[i]["observaionMethod"] + "</div>";
+							htmlToAdd += 		"<div>Notes: " + surveys[i]["notes"] + "</div>";
+							htmlToAdd += 		"<div>Wet leaves: " + surveys[i]["wetLeaves"] + "</div>";
+							htmlToAdd += 		"<div>Number of leaves: " + surveys[i]["numberOfLeaves"] + "</div>";
+							htmlToAdd += 		"<div>Average leaf length: " + surveys[i]["averageLeafLength"] + "</div>";
+							htmlToAdd += 		"<div>Herbivory score: " + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
 							htmlToAdd +=	"</div>";
 							htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">" + surveys[i]["arthropodSightings"] + "</div>";
 							htmlToAdd += "</div>";
