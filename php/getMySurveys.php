@@ -31,6 +31,7 @@
 				"id" => $surveys[$i]->getID(),
 				"observerID" => $surveys[$i]->getObserver()->getID(),
 				"observerFullName" => $surveys[$i]->getObserver()->getFullName(),
+				"observerEmail" => $surveys[$i]->getObserver()->getEmail(),
 				"plantCode" => $surveys[$i]->getPlant()->getCode(),
 				"siteID" => $surveys[$i]->getPlant()->getSite()->getID(),
 				"siteName" => $surveys[$i]->getPlant()->getSite()->getName(),
