@@ -80,8 +80,8 @@
 			#surveys .survey .surveyInfo>div:last-of-type>div{
 				border-top:1px solid rgba(0,0,0,0.05);
 				padding:10px;
-				text-align:left;
 				font-style:italic;
+				text-transform:none;
 			}
 			
 			#surveys .survey .surveyInfo .surveyInfoIcon{
@@ -208,7 +208,7 @@
 							htmlToAdd +=		"</div>";
 							htmlToAdd += 		"<div>";
 							if(surveys[i]["notes"].trim().length > 0){
-								htmlToAdd += 		"<div>" + surveys[i]["notes"] + "</div>";
+								htmlToAdd += 		"<div>*" + surveys[i]["notes"] + "</div>";
 							}
 							htmlToAdd += 		"</div>";
 							htmlToAdd +=	"</div>";
