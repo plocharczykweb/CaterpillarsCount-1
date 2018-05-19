@@ -69,10 +69,16 @@
 				vertical-align:middle;
 			}
 			
+			#surveys .survey .arthropodSightingsInfo .arthropodSighting>div:nth-of-type(2){
+				padding-left:10px;
+			}
+			
 			#surveys .survey .arthropodSightingsInfo .arthropodSighting .arthropodImage{
 				width:60px;
 				height:60px;
-				background:red;
+				background-position:center;
+				background-size:contain;
+				background-repeat:no-repeat;
 			}
 			
 			#surveys .survey .arthropodSightingsDropdownButtonDiv{
@@ -138,7 +144,7 @@
 							for(var j = 0; j < surveys[i]["arthropodSightings"].length; j++){
 								htmlToAdd +=	"<div class=\"arthropodSighting\">";
 								htmlToAdd +=		"<div>";
-								htmlToAdd +=			"<div class=\"arthropodImage\"></div>";
+								htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/" + surveys[i]["arthropodSightings"][j]["group"] + ".png');\"></div>";
 								htmlToAdd +=		"</div>";
 								htmlToAdd +=		"<div>";
 								if(surveys[i]["arthropodSightings"][j]["quantity"] == 1){
