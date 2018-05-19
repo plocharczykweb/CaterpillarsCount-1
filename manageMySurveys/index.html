@@ -149,12 +149,20 @@
 								htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/" + surveys[i]["arthropodSightings"][j]["group"] + ".png');\"></div>";
 								htmlToAdd +=		"</div>";
 								htmlToAdd +=		"<div>";
+								htmlToAdd +=			"<div>";
+								if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
+									htmlToAdd +=			"<a href=\"../images/arthropods/" + surveys[i]["arthropodSightings"][j]["photoURL"] + "\" target=\"_blank\">";
+								}
 								if(surveys[i]["arthropodSightings"][j]["quantity"] == 1){
-									htmlToAdd +=		"<div>" + surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + singular(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
+									htmlToAdd +=			surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + singular(surveys[i]["arthropodSightings"][j]["group"]);
 								}
 								else{
-									htmlToAdd +=		"<div>" + surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + plural(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
+									htmlToAdd +=			surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + plural(surveys[i]["arthropodSightings"][j]["group"]);
 								}
+								if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
+									htmlToAdd +=			"</a>";
+								}
+								htmlToAdd +=			"</div>";
 								if(surveys[i]["arthropodSightings"][j]["group"] == "caterpillar"){
 								   	htmlToAdd +=		"<div>Hairy/spiny: " + surveys[i]["arthropodSightings"][j]["hairy"] + "</div>";
 								   	htmlToAdd +=		"<div>In a leaf roll: " + surveys[i]["arthropodSightings"][j]["rolled"] + "</div>";
