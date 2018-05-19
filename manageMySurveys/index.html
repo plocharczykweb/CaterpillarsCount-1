@@ -54,9 +54,19 @@
 			}
 			
 			#surveys .survey .surveyInfo>div{
+				float:left;
 				width:25%;
 				text-align:center;
 				font-size:14px;
+				padding:10px;
+				box-sizing:border-box;
+			}
+			
+			#surveys .survey .surveyInfo>div:last-of-type{
+				float:none;
+				clear:both;
+				text-align:left;
+				font-style:italic;
 			}
 			
 			#surveys .survey .surveyInfo .surveyInfoIcon{
@@ -173,9 +183,7 @@
 							htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
 							htmlToAdd += 			"<div>" + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
 							htmlToAdd +=		"</div>";
-							if(surveys[i]["notes"].trim().length > 0){
-								htmlToAdd += 	"<div>" + surveys[i]["notes"] + "</div>";
-							}
+							htmlToAdd += 	"<div>" + surveys[i]["notes"] + "</div>";
 							htmlToAdd +=	"</div>";
 							htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">";
 							surveys[i]["arthropodSightings"].sort(function(a, b){
