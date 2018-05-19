@@ -158,7 +158,7 @@
 							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</div>";
 							htmlToAdd += 	"<div class=\"surveyInfo\">";
 							htmlToAdd +=		"<div>";
-							htmlToAdd +=			"<div class=\"herbivoryScoreImage\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + "');\"></div>";
+							htmlToAdd +=			"<div class=\"herbivoryScoreImage\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
 							htmlToAdd +=		"</div>";
 							htmlToAdd += 		"<div>";
 							htmlToAdd += 			"<div>Observation method: " + surveys[i]["observaionMethod"] + "</div>";
