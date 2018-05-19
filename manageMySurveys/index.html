@@ -184,7 +184,7 @@
 							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</div>";
 							htmlToAdd += 	"<div class=\"surveyInfo\">";
 							htmlToAdd += 		"<div>";
-							htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
+							htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/" + surveys[i]["observaionMethod"].replace(/ /g, "").replace(surveys[i]["observaionMethod"][0], surveys[i]["observaionMethod"][0].toLowerCase()) + ".png');\"></div>";
 							htmlToAdd += 			"<div>" + surveys[i]["observaionMethod"] + "</div>";
 							htmlToAdd +=		"</div>";
 							htmlToAdd +=		"<div>";
@@ -196,7 +196,12 @@
 							else{
 								htmlToAdd += 		" dry ";
 							}
-							htmlToAdd += 			"leaves</div>";
+							if(surveys[i]["numberOfLeaves"] == 1){
+								htmlToAdd += 		"leaf</div>";
+							}
+							else{
+								htmlToAdd += 		"leaves</div>";
+							}
 							htmlToAdd +=		"</div>";
 							htmlToAdd +=		"<div>";
 							htmlToAdd += 			"<div class=\"surveyInfoIcon\">" + surveys[i]["averageLeafLength"] + "cm</div>";
