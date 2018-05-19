@@ -51,29 +51,22 @@
 			#surveys .survey .surveyInfo{
 				padding:10px;
 				color:#555;
-				display:table;
-				width:100%;
 			}
 			
 			#surveys .survey .surveyInfo>div{
-				display:table-cell;
-				vertical-align:middle;
+				width:25%;
+				text-align:center;
+				font-size:14px;
 			}
 			
-			#surveys .survey .surveyInfo>div:nth-of-type(1){
-				width:30px;
-			}
-			#surveys .survey .surveyInfo>div:nth-of-type(2){
-				padding-left:10px;
-			}
-			
-			#surveys .survey .surveyInfo .herbivoryScoreImage{
-				width:30px;
-				height:30px;
+			#surveys .survey .surveyInfo .surveyInfoIcon{
+				width:100%;
+				height:60px;
 				opacity:0.3;
 				background-position:center;
 				background-size:contain;
 				background-repeat:no-repeat;
+				font-size:60px;
 			}
 			
 			#surveys .survey .arthropodSightingsInfo{
@@ -157,23 +150,32 @@
 							htmlToAdd +=	"</div>"
 							htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</div>";
 							htmlToAdd += 	"<div class=\"surveyInfo\">";
-							htmlToAdd +=		"<div>";
-							htmlToAdd +=			"<div class=\"herbivoryScoreImage\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
-							htmlToAdd +=		"</div>";
 							htmlToAdd += 		"<div>";
-							htmlToAdd += 			"<div>Observation method: " + surveys[i]["observaionMethod"] + "</div>";
-							if(surveys[i]["notes"].trim().length > 0){
-								htmlToAdd += 		"<div>Notes: " + surveys[i]["notes"] + "</div>";
-							}
-							htmlToAdd += 			"<div>Number of leaves: " + surveys[i]["numberOfLeaves"] + "</div>";
-							htmlToAdd += 			"<div>Average leaf length: " + surveys[i]["averageLeafLength"] + "cm</div>";
-							htmlToAdd += 			"<div>Herbivory score: " + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
-							htmlToAdd += 			"<div";
-							if(!surveys[i]["wetLeaves"]){
-							   htmlToAdd += 		" style=\"opacity:.5;\"";
-							}
-							htmlToAdd += 			">Wet leaves: " + surveys[i]["wetLeaves"] + "</div>";
+							htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
+							htmlToAdd += 			"<div>" + surveys[i]["observaionMethod"] + "</div>";
 							htmlToAdd +=		"</div>";
+							htmlToAdd +=		"<div>";
+							htmlToAdd += 			"<div class=\"surveyInfoIcon\">" + surveys[i]["numberOfLeaves"] + "</div>";
+							htmlToAdd += 			"<div>";
+							if(surveys[i]["wetLeaves"]){
+								htmlToAdd += 		" wet ";
+							}
+							else{
+								htmlToAdd += 		" dry ";
+							}
+							htmlToAdd += 			"leaves</div>";
+							htmlToAdd +=		"</div>";
+							htmlToAdd +=		"<div>";
+							htmlToAdd += 			"<div class=\"surveyInfoIcon\">" + surveys[i]["averageLeafLength"] + "cm</div>";
+							htmlToAdd += 			"<div>average leaf length</div>";
+							htmlToAdd +=		"</div>";
+							htmlToAdd +=		"<div>";
+							htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
+							htmlToAdd += 			"<div>" + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
+							htmlToAdd +=		"</div>";
+							if(surveys[i]["notes"].trim().length > 0){
+								htmlToAdd += 	"<div>" + surveys[i]["notes"] + "</div>";
+							}
 							htmlToAdd +=	"</div>";
 							htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">";
 							surveys[i]["arthropodSightings"].sort(function(a, b){
