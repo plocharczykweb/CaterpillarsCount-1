@@ -246,22 +246,22 @@
 								if(surveys[i]["arthropodSightings"][j]["group"] == "caterpillar"){
 								   	htmlToAdd +=		"<div";
 									if(!surveys[i]["arthropodSightings"][j]["hairy"]){
-							   			htmlToAdd += 	" style=\"opacity:.5;\"";
+							   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\"";
 									}
-									htmlToAdd += 		">Hairy/spiny: " + surveys[i]["arthropodSightings"][j]["hairy"] + "</div>";
+									htmlToAdd += 		">Hairy/spiny</div>";
 								   	htmlToAdd +=		"<div";
 									if(!surveys[i]["arthropodSightings"][j]["rolled"]){
-							   			htmlToAdd += 	" style=\"opacity:.5;\"";
+							   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\"";
 									}
-									htmlToAdd += 		">In a leaf roll: " + surveys[i]["arthropodSightings"][j]["rolled"] + "</div>";
+									htmlToAdd += 		">In a leaf roll</div>";
 								   	htmlToAdd +=		"<div";
 									if(!surveys[i]["arthropodSightings"][j]["tented"]){
-							   			htmlToAdd += 	" style=\"opacity:.5;\"";
+							   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\">Not in a silk tent</div>";
 									}
-									htmlToAdd += 		">In a silk tent: " + surveys[i]["arthropodSightings"][j]["tented"] + "</div>";
+									htmlToAdd += 		">In a silk tent</div>";
 								}
 								if(surveys[i]["arthropodSightings"][j]["notes"].trim().length > 0){
-									htmlToAdd +=		"<div>Notes: " + surveys[i]["arthropodSightings"][j]["notes"] + "</div>";
+									htmlToAdd +=		"<div class=\"italic\">*" + surveys[i]["arthropodSightings"][j]["notes"] + "</div>";
 								}
 								htmlToAdd +=		"</div>";
 								htmlToAdd +=	"</div>";
