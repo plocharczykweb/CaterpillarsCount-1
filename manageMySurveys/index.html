@@ -109,6 +109,9 @@
 			}
 			
 			function plural(word){
+				if(word[word.length - 1] == "y" && ["a", "e", "i", "o", "u"].indexOf(word[word.length - 2]) == -1){
+					return word.substring(0, (word.length - 1)) + "ies";
+				}
 				if(word[word.length - 1] == "s"){
 					return word;
 				}
