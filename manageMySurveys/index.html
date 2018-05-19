@@ -57,7 +57,7 @@
 				width:25%;
 				text-align:center;
 				font-size:12px;
-				padding:20px 10px;
+				padding:40px 10px;
 				box-sizing:border-box;
 				text-transform:uppercase;
 				border-right:1px solid rgba(0,0,0,0.05);
@@ -72,11 +72,14 @@
 			#surveys .survey .surveyInfo>div:last-of-type{
 				float:none;
 				clear:both;
+				border-right:0px none transparent;
+			}
+			
+			#surveys .survey .surveyInfo>div:last-of-type>div{
+				border-top:1px solid rgba(0,0,0,0.05);
+				padding:10px;
 				text-align:left;
 				font-style:italic;
-				border-right:0px none transparent;
-				border-top:1px solid rgba(0,0,0,0.05);
-				background:rgba(0,0,0,0.05);
 			}
 			
 			#surveys .survey .surveyInfo .surveyInfoIcon{
@@ -99,6 +102,7 @@
 				max-height:0px;
 				overflow:hidden;
 				color:#999;
+				background:rgba(0,0,0,0.05);
 			}
 			
 			#surveys .survey .arthropodSightingsInfo .arthropodSighting{
@@ -131,9 +135,10 @@
 			#surveys .survey .arthropodSightingsDropdownButtonDiv{
 				padding:10px;
 				border-top:1px solid rgba(0,0,0,0.05);
-				color:#bbb;
+				color:#aaa;
 				text-align:center;
 				cursor:pointer;
+				background:rgba(0,0,0,0.05);
 			}
 		</style>
 		<script>
@@ -199,7 +204,11 @@
 							htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
 							htmlToAdd += 			"<div>" + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
 							htmlToAdd +=		"</div>";
-							htmlToAdd += 	"<div>" + surveys[i]["notes"] + "</div>";
+							htmlToAdd += 	"<div>";
+							if(surveys[i]["notes"].trim().length > 0){
+								htmlToAdd += 	"<div>" + surveys[i]["notes"] + "</div>";
+							}
+							htmlToAdd += 	"<div>";
 							htmlToAdd +=	"</div>";
 							htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">";
 							surveys[i]["arthropodSightings"].sort(function(a, b){
