@@ -166,7 +166,8 @@ class Survey
 			
 			array_push($surveysArray, $survey);
 		}
-		return $surveysArray;
+		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS Count FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "'))["Count"]);
+		return array($totalCount, $surveysArray);
 	}
 
 //GETTERS
