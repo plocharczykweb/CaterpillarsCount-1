@@ -10,7 +10,7 @@
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
 		$start = "last";
-		if($page != "last"){
+		if($page !== "last"){
 			$start = ((intval($page) - 1) * $PAGE_LENGTH);
 		}
 		$surveys = Survey::findSurveysByUser($user, $start, $PAGE_LENGTH);
