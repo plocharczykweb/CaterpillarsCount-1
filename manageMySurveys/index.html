@@ -230,7 +230,12 @@
 						//success
 						if(data.indexOf("true|") == 0){
 							if(surveys.length > 0){
-								GLOBALPageNumber = pageNumber;
+								if(pageNumber == "last"){
+									GLOBALPageNumber = surveys[0];
+								}
+								else{
+									GLOBALPageNumber = pageNumber;
+								}
 							}
 							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
