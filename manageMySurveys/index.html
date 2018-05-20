@@ -159,11 +159,9 @@
 			}
 			#pageNav .autoPage:first-of-type{
 				border-right:1px solid rgba(0,0,0,0.1);
-				margin-right:-1px;
 			}
 			#pageNav .autoPage:last-of-type{
 				border-left:1px solid rgba(0,0,0,0.1);
-				margin-left:-1px;
 			}
 			
 			#pageNav #pageNumbers{
@@ -176,12 +174,12 @@
 				background:#fff;
 				color:#fed136;
 				cursor:pointer;
-				border-right:1px solid #eee;
-				margin-right:-1px;
+			}
+			#pageNav #pageNumbers .pageNumber:first-of-type{
+				padding-left:20px;
 			}
 			#pageNav #pageNumbers .pageNumber:last-of-type{
-				border-right:0px none transparent;
-				margin-right:0px;
+				padding-right:20px;
 			}
 			
 			#pageNav #pageNumbers #currentPageNumber{
@@ -438,6 +436,12 @@
 			function updatePageNavigationBar(){
 				//some odd number representing max number of pages in page nav
 				var numberOfPagesInNav = 9;
+				if($(window).width() < 500){
+					var numberOfPagesInNav = 3;
+				}
+				else if($(window).width() < 900){
+					var numberOfPagesInNav = 5;
+				}
 				
 				while(numberOfPagesInNav > GLOBALTotalPages && numberOfPagesInNav > 0){
 				      	numberOfPagesInNav -= 2;
