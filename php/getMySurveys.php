@@ -10,6 +10,8 @@
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
 		$surveys = Survey::findSurveysByUser($user, ((intval($page) - 1) * $PAGE_LENGTH), $PAGE_LENGTH);
+		$totalCount = $surveys[0];
+		$surveys = $surveys[1];
 		$surveysArray = array();
 		for($i = 0; $i < count($surveys); $i++){
 			$arthropodSightings = $surveys[$i]->getArthropodSightings();
@@ -53,7 +55,7 @@
 				"arthropodSightings" => $arthropodSightingsArray,
 			);
 		}
-		die("true|" . json_encode($surveysArray));
+		die("true|" . json_encode(array($totalCount, $surveysArray)));
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
