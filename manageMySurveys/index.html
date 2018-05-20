@@ -139,15 +139,43 @@
 				background:rgba(0,0,0,0.05);
 			}
 			
-			#pageNumbers .pageNumber{
-				background:green;
-				color:#fff;
-				cursor:pointer;
+			#pageNav{
+				display:inline-block;
+				margin:auto;
+				border:1px solid #eee;
+				border-bottom:3px solid #eee;
+				border-radius:5px;
+				overflow:hidden;
 			}
 			
-			#pageNumbers #currentPageNumber{
+			#pageNav .autoPage{
+				float:left;
+				padding:10px;
+				background:#fed136;
+				color:#fff;
+			}
+			
+			#pageNav #pageNumbers{
+				float:left;
+				width:250px;
+			}
+			
+			#pageNav #pageNumbers .pageNumber{
+				float:left;
+				padding:10px;
 				background:#fff;
-				color:#000;
+				color:#fed136;
+				cursor:pointer;
+				border-right:1px solid #eee;
+				margin-right:-1px;
+			}
+			#pageNav #pageNumbers .pageNumber:last-of-type{
+				border-right:0px none transparent;
+				margin-right:0px;
+			}
+			
+			#pageNav #pageNumbers #currentPageNumber{
+				color:#bbb;
 				cursor:default;
 			}
 			
@@ -537,11 +565,12 @@
 				<div class="content">
 					<div id="surveys"></div>
 					<div id="pageNav">
-						<button onclick="loadFirstPage();">&lt;&lt;</button>
-						<button onclick="loadPreviousPage();">Previous</button>
+						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
+						<div class="autoPage" onclick="loadPreviousPage();">Prev</div>
 						<div id="pageNumbers"></div>
-						<button onclick="loadNextPage();">Next</button>
-						<button onclick="loadLastPage();">&gt;&gt;</button>
+						<div class="autoPage" onclick="loadNextPage();">Next</div>
+						<div class="autoPage" onclick="loadLastPage();">&gt;&gt;</div>
+						<div class="clear:both;"></div>
 					</div>
 				</div>
 			</div>
