@@ -221,6 +221,7 @@
 			
 			var surveys = [];
 			var GLOBALPageNumber = 1;
+			var GLOBALTotalPages = 0;
 			var loadingPage = false;
 			function loadPage(pageNumber){
 				if(!loadingPage){
@@ -228,10 +229,15 @@
 					$.get("../php/getMySurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&page=" + pageNumber, function(data){
 						//success
 						if(data.indexOf("true|") == 0){
-							GLOBALPageNumber = pageNumber;
+							if(surveys.length > 0){
+								GLOBALPageNumber = pageNumber;
+							}
 							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 							surveys = JSON.parse(data.replace("true|", ""));
+							GLOBALTotalPages = surveys[0];
+							updatePageNavigationBar();
+							surveys = surveys[1];
 							var htmlToAdd = "";
 							for(var i = 0; i < surveys.length; i++){
 								htmlToAdd += "<div class=\"survey\">";
@@ -357,14 +363,28 @@
 				}
 			}
 			
+			function loadFirstPage(){
+				loadPage(1);
+			}
+			
+			function loadLastPage(){
+				loadPage("last");
+			}
+			
 			function loadNextPage(){
-				loadPage(++GLOBALPageNumber);
+				loadPage(GLOBALPageNumber + 1);
 			}
 			
 			function loadPreviousPage(){
 				if(GLOBALPageNumber > 1){
-					loadPage(--GLOBALPageNumber);
+					loadPage(GLOBALPageNumber - 1);
 				}
+			}
+			
+			function updatePageNavigationBar(){
+				$("#currentPageNumber")[0].innerHTML = GLOBALPageNumber;
+				//GLOBALPageNumber
+				//GLOBALTotalPages
 			}
 			
 			function toggleArthropodSightings(arthropodSightingsInfoDiv){
@@ -472,8 +492,11 @@
 				<div class="tagline"></div>
 				<div class="content">
 					<div id="surveys"></div>
+					<button onclick="loadFirstPage();">&lt;&lt;</button>
+					<button onclick="loadPreviousPage();">Previous</button>
+					<div id="currentPageNumber">1</div>
 					<button onclick="loadNextPage();">Next</button>
-					<button onclick="loadPreviousPage();">Last</button>
+					<button onclick="loadLastPage();">&gt;&gt;</button>
 				</div>
 			</div>
 		</main>
