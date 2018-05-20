@@ -148,8 +148,8 @@ class Survey
 		}
 		
 		$query = mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "');
-		$row = mysqli_fetch_assoc($query);
-		$totalCount = intval($row["Count"]);
+		$row = mysqli_fetch_array($query, MYSQLI_NUM);
+		$totalCount = intval($row[0]);
 		if($start == "last"){
 			$start = $totalCount - ($totalCount % $limit);
 		}
