@@ -146,6 +146,8 @@
 				border-bottom:3px solid #eee;
 				border-radius:5px;
 				overflow:hidden;
+				font-size:14px;
+				font-family: 'Roboto Slab', serif;
 			}
 			
 			#pageNav .autoPage{
@@ -153,11 +155,19 @@
 				padding:10px;
 				background:#fed136;
 				color:#fff;
+				cursor:pointer;
+			}
+			#pageNav .autoPage:first-of-type{
+				border-right:1px solid rgba(0,0,0,0.1);
+				margin-right:-1px;
+			}
+			#pageNav .autoPage:last-of-type{
+				border-left:1px solid rgba(0,0,0,0.1);
+				margin-left:-1px;
 			}
 			
 			#pageNav #pageNumbers{
 				float:left;
-				width:250px;
 			}
 			
 			#pageNav #pageNumbers .pageNumber{
@@ -566,9 +576,9 @@
 					<div id="surveys"></div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
-						<div class="autoPage" onclick="loadPreviousPage();">Prev</div>
+						<div class="autoPage" onclick="loadPreviousPage();">&lt;</div>
 						<div id="pageNumbers"></div>
-						<div class="autoPage" onclick="loadNextPage();">Next</div>
+						<div class="autoPage" onclick="loadNextPage();">&gt;</div>
 						<div class="autoPage" onclick="loadLastPage();">&gt;&gt;</div>
 						<div class="clear:both;"></div>
 					</div>
