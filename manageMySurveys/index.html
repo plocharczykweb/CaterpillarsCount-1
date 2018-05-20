@@ -146,7 +146,7 @@
 				border-bottom:2px solid #eee;
 				border-radius:5px;
 				overflow:hidden;
-				font-size:14px;
+				font-size:16px;
 				font-family: 'Roboto Slab', serif;
 			}
 			
@@ -158,10 +158,10 @@
 				cursor:pointer;
 			}
 			#pageNav .autoPage:nth-of-type(1), #pageNav .autoPage:nth-of-type(2){
-				border-right:1px solid rgba(0,0,0,0.1);
+				border-right:1px solid rgba(0,0,0,0.05);
 			}
-			#pageNav .autoPage:nth-of-type(3), #pageNav .autoPage:nth-of-type(4){
-				border-left:1px solid rgba(0,0,0,0.1);
+			#pageNav .autoPage:nth-of-type(4), #pageNav .autoPage:nth-of-type(5){
+				border-left:1px solid rgba(0,0,0,0.05);
 			}
 			
 			#pageNav #pageNumbers{
@@ -209,7 +209,7 @@
 				}
 				
 				#pageNav{
-					font-size:16px;
+					font-size:20px;
 				}
 				
 				#pageNav .autoPage, #pageNav #pageNumbers .pageNumber{
@@ -219,7 +219,7 @@
 			}
 			@media screen and (max-width: 500px){
 				#pageNav{
-					font-size:20px;
+					font-size:23px;
 				}
 			}
 			@media screen and (max-width: 400px){
@@ -596,7 +596,7 @@
 				<div class="tagline"></div>
 				<div class="content">
 					<div id="surveys"></div>
-					<div class="center">
+					<div class="centeredText">
 						<div id="pageNav">
 							<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
 							<div class="autoPage" onclick="loadPreviousPage();">&lt;</div>
