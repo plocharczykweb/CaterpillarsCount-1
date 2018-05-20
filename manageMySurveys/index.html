@@ -171,7 +171,7 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				
-				loadPage(1);
+				loadFirstPage();
 			});
 			
 			function singular(word){
@@ -229,6 +229,8 @@
 					$.get("../php/getMySurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&page=" + pageNumber, function(data){
 						//success
 						if(data.indexOf("true|") == 0){
+							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
+							surveys = JSON.parse(data.replace("true|", ""));
 							if(surveys.length > 0){
 								if(pageNumber == "last"){
 									GLOBALPageNumber = surveys[0];
@@ -237,9 +239,6 @@
 									GLOBALPageNumber = pageNumber;
 								}
 							}
-							
-							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
-							surveys = JSON.parse(data.replace("true|", ""));
 							GLOBALTotalPages = surveys[0];
 							updatePageNavigationBar();
 							surveys = surveys[1];
