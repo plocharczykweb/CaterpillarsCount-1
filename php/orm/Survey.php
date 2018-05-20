@@ -151,7 +151,8 @@ class Survey
 		$query = null;
 		if($start == "last"){
 			$newStart = $totalCount - ($totalCount % intval($limit));
-			$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "' ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Survey.ID DESC LIMIT " . $newStart . ", " . ($totalCount % intval($limit)));
+			return $totalCount . ", " . $newStart;
+			$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "' ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Survey.ID DESC LIMIT " . $newStart . ", " . $limit);
 		}
 		else{
 			$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "' ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Survey.ID DESC LIMIT " . $start . ", " . $limit);
