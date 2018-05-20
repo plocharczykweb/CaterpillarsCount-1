@@ -219,7 +219,6 @@
 				return formattedHours + ":" + minutes + ampm;
 			}
 			
-			var surveys = [];
 			var GLOBALPageNumber = 1;
 			var GLOBALTotalPages = 0;
 			var loadingPage = false;
@@ -230,17 +229,18 @@
 						//success
 						if(data.indexOf("true|") == 0){
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
-							surveys = JSON.parse(data.replace("true|", ""));
+							var data = JSON.parse(data.replace("true|", ""));
+							var totalPages = data[0];
+							var surveys = data[1];
 							if(surveys.length > 0){
 								if(pageNumber == "last"){
-									GLOBALPageNumber = surveys[0];
+									GLOBALPageNumber = totalPages;
 								}
 								else{
 									GLOBALPageNumber = pageNumber;
 								}
-								GLOBALTotalPages = surveys[0];
+								GLOBALTotalPages = totalPages;
 								updatePageNavigationBar();
-								surveys = surveys[1];
 								var htmlToAdd = "";
 								for(var i = 0; i < surveys.length; i++){
 									htmlToAdd += "<div class=\"survey\">";
