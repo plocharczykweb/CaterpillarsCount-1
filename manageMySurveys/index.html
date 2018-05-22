@@ -491,6 +491,10 @@
 					});
 				}
 			}
+			
+			function filter(user){
+				
+			}
 		</script>
 	</head>
 	<body>
@@ -583,6 +587,7 @@
 				<h2>Manage My Surveys</h2>
 				<div class="tagline"></div>
 				<div class="content">
+					<input type="text" placeholder="user search" onkeyup="filter(user);"/>
 					<div id="surveys"></div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
