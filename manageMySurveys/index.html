@@ -202,7 +202,7 @@
 					font-size:20px;
 				}
 			}
-			@media screen and (max-width: 500px){
+			@media screen and (max-width: 610px){
 				#pageNav{
 					font-size:23px;
 				}
@@ -439,10 +439,13 @@
 			function updatePageNavigationBar(){
 				//some odd number representing max number of pages in page nav
 				var numberOfPagesInNav = 9;
-				if($(window).width() < 500){
+				if($(window).width() <= 490){
+					var numberOfPagesInNav = 1;
+				}
+				if($(window).width() <= 610){
 					var numberOfPagesInNav = 3;
 				}
-				else if($(window).width() < 900){
+				else if($(window).width() <= 900){
 					var numberOfPagesInNav = 5;
 				}
 				
