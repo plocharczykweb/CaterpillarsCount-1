@@ -272,13 +272,16 @@
 			
 			var GLOBALPageNumber = 1;
 			var GLOBALTotalPages = 0;
+			var GLOBALFilters = {"user":""};
 			var loadingPage = false;
-			function loadPage(pageNumber){
+			function loadPage(pageNumber, filters){
 				if(!loadingPage){
 					loadingPage = true;
-					$.get("../php/getMySurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&page=" + pageNumber, function(data){
+					$.get("../php/getMySurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&page=" + pageNumber + "&filters=" + encodeURIComponent(JSON.stringify(filters)), function(data){
 						//success
 						if(data.indexOf("true|") == 0){
+							GLOBALFilters = filters;
+							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 							var data = JSON.parse(data.replace("true|", ""));
 							var totalPages = data[0];
@@ -419,20 +422,20 @@
 			}
 			
 			function loadFirstPage(){
-				loadPage(1);
+				loadPage(1, GLOBALFilters);
 			}
 			
 			function loadLastPage(){
-				loadPage("last");
+				loadPage("last", GLOBALFilters);
 			}
 			
 			function loadNextPage(){
-				loadPage(GLOBALPageNumber + 1);
+				loadPage(GLOBALPageNumber + 1, GLOBALFilters);
 			}
 			
 			function loadPreviousPage(){
 				if(GLOBALPageNumber > 1){
-					loadPage(GLOBALPageNumber - 1);
+					loadPage(GLOBALPageNumber - 1, GLOBALFilters);
 				}
 			}
 			
@@ -473,7 +476,7 @@
 						htmlToAdd += " id=\"currentPageNumber\">" + i + "</div>";
 					}
 					else{
-						htmlToAdd += " onclick=\"loadPage(" + i + ");\">" + i + "</div>";
+						htmlToAdd += " onclick=\"loadPage(" + i + ", GLOBALFilters);\">" + i + "</div>";
 					}
 				}
 				$("#pageNumbers")[0].innerHTML = htmlToAdd;
@@ -492,8 +495,16 @@
 				}
 			}
 			
-			function filter(user){
-				
+			function filter(){
+				if(!loadingPage){
+					var filters = {"user": $('#userSearch')[0].value.trim()};
+					for (var property in filters) {
+						if (filters.hasOwnProperty(property) && GLOBALFilters[property] !== filters[property]) {
+							loadPage(1, filters);
+							break;
+						}
+					}
+				}
 			}
 		</script>
 	</head>
@@ -587,7 +598,8 @@
 				<h2>Manage My Surveys</h2>
 				<div class="tagline"></div>
 				<div class="content">
-					<input type="text" placeholder="user search" onkeyup="filter(user);"/>
+					<input type="text" id="userSearch" placeholder="user search"/>
+					<button onclick="filter();">Filter</button>
 					<div id="surveys"></div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
