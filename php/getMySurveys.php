@@ -5,7 +5,7 @@
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
 	$page = $_GET["page"];
-	$PAGE_LENGTH = 25;
+	$PAGE_LENGTH = 1;
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
