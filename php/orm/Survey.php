@@ -136,7 +136,7 @@ class Survey
 		return new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
 	
-	public static function findSurveysByUser($user, $start, $limit) {
+	public static function findSurveysByUser($user, $filters, $start, $limit) {
 		//returns all surveys user has completed
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$surveysArray = array();
@@ -146,6 +146,25 @@ class Survey
 		for($i = 0; $i < count($sites); $i++){
 			$siteIDs[] = $sites[$i]->getID();
 		}
+		
+		/*
+		$filterKeys = array_keys($filters);
+		$additionalSQL = "";
+		for($i = 0; $i < $filterKeys.length; $i++){
+			$category = $filterKeys[$i];
+			$value = trim($filters[$category]);
+			
+			if($category == "user"){
+				if(strpos($value, " ") !== false){
+					//check name
+					$additionalSQL .= " CONCAT_WS(' ', User.FirstName, User.LastName)";
+				}
+				else{
+					//check name and email
+				}
+			}
+		}
+		*/
 		
 		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "'"))["Count"]);
 		if($start === "last"){
@@ -158,6 +177,12 @@ class Survey
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
 			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
+			
+			//filter out by user search
+			if(trim($filters["user"]).length > 0 && strpos($observer->getFullName(), trim($filters["user"])) === false && strpos($observer->getEmail(), trim($filters["user"])) === false){
+				continue;
+			}
+			
 			$plant = Plant::findByID($surveyRow["PlantFK"]);
 			$localDate = $surveyRow["LocalDate"];
 			$localTime = $surveyRow["LocalTime"];
