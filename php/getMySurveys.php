@@ -5,7 +5,7 @@
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
 	$page = $_GET["page"];
-	$filters = json_decode($_GET["filters"]);
+	$filters = json_decode(rawurldecode($_GET["filters"]));
 	$PAGE_LENGTH = 3;
 	
 	$user = User::findBySignInKey($email, $salt);
