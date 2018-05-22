@@ -5,6 +5,7 @@
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
 	$page = $_GET["page"];
+	$filters = $_GET["filters"];
 	$PAGE_LENGTH = 3;
 	
 	$user = User::findBySignInKey($email, $salt);
@@ -13,7 +14,7 @@
 		if($page !== "last"){
 			$start = ((intval($page) - 1) * $PAGE_LENGTH);
 		}
-		$surveys = Survey::findSurveysByUser($user, $start, $PAGE_LENGTH);
+		$surveys = Survey::findSurveysByUser($user, $filters, $start, $PAGE_LENGTH);
 		$totalPages = ceil($surveys[0]/$PAGE_LENGTH);
 		$surveys = $surveys[1];
 		$surveysArray = array();
