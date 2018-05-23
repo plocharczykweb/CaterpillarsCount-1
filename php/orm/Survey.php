@@ -153,14 +153,14 @@ class Survey
 			$additionalSQL .= " AND (User.Email LIKE '%" . $userSearch . "%' OR CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%')";
 		}
 		
-		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UskerFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL))["Count"]);
+		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL))["Count"]);
 		if($start === "last"){
 			$start = $totalCount - ($totalCount % intval($limit));
 			if($start == $totalCount && $totalCount > 0){
 				$start = $totalCount - intval($limit);
 			}
 		}
-		$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UskerFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL . " ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Survey.ID DESC LIMIT " . $start . ", " . $limit);
+		$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL . " ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Survey.ID DESC LIMIT " . $start . ", " . $limit);
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
 			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
