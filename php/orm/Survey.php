@@ -153,7 +153,7 @@ class Survey
 		if(strlen($userSearch) > 0){
 			$additionalSQL .= " AND (User.Email LIKE '%" . $userSearch . "%' OR CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%')";
 			//$thirdOrderBy = "LEAST(POSITION('" . $userSearch . "' IN CONCAT(User.FirstName, ' ', User.LastName)), POSITION('" . $userSearch . "' IN User.Email)) ASC";
-			$thirdOrderBy = "POSITION('" . $userSearch . "' IN CONCAT(CONCAT(User.FirstName, ' ', User.LastName)), '                                                                                                                           ', User.Email)) ASC";
+			$thirdOrderBy = "POSITION('" . $userSearch . "' IN CONCAT(CONCAT(User.FirstName, ' ', User.LastName), '                                                                                                                           ', User.Email)) ASC";
 		}
 		
 		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL))["Count"]);
