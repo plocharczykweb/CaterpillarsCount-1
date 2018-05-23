@@ -179,7 +179,8 @@ class Survey
 			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
 			
 			//filter out by user search
-			if(strlen(trim($filters["user"])) > 0 && strpos($observer->getFullName(), trim($filters["user"])) === false && strpos($observer->getEmail(), trim($filters["user"])) === false){
+			$userSearch = trim($filters["user"]);
+			if(strlen($userSearch) > 0 && is_bool(stristr($observer->getFullName(), $userSearch)) && is_bool(stristr($observer->getEmail(), $userSearch))){
 				continue;
 			}
 			
