@@ -287,6 +287,9 @@
 							var totalPages = data[0];
 							var surveys = data[1];
 							if(surveys.length == 0){
+								if(pageNumber > 1){
+									return false;
+								}
 								queueNotice("alert", "No surveys found.");
 							}
 							if(pageNumber == "last"){
