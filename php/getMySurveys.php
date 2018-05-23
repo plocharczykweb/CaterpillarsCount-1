@@ -15,8 +15,7 @@
 			$start = ((intval($page) - 1) * $PAGE_LENGTH);
 		}
 		$surveys = Survey::findSurveysByUser($user, $filters, $start, $PAGE_LENGTH);
-		$totalPages = ceil($surveys[0]/$PAGE_LENGTH);
-		$surveys = $surveys[1];
+		$totalPages = ceil(count($surveys)/$PAGE_LENGTH);
 		$surveysArray = array();
 		for($i = 0; $i < count($surveys); $i++){
 			if(is_object($surveys[$i]) && get_class($surveys[$i]) == "Survey"){
