@@ -180,8 +180,7 @@ class Survey
 			
 			//filter out by user search
 			$userSearch = trim($filters["user"]);
-			if(strlen($userSearch) > 0 && is_bool(stristr($observer->getFullName(), $userSearch))){
-				// && is_bool(stristr($observer->getEmail(), $userSearch))
+			if(strlen($userSearch) > 0 && is_bool(stristr($observer->getFullName(), $userSearch)) && is_bool(stristr($observer->getEmail(), $userSearch))){
 				continue;
 			}
 			
