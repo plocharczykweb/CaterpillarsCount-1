@@ -147,25 +147,6 @@ class Survey
 			$siteIDs[] = $sites[$i]->getID();
 		}
 		
-		/*
-		$filterKeys = array_keys($filters);
-		$additionalSQL = "";
-		for($i = 0; $i < $filterKeys.length; $i++){
-			$category = $filterKeys[$i];
-			$value = trim($filters[$category]);
-			
-			if($category == "user"){
-				if(strpos($value, " ") !== false){
-					//check name
-					$additionalSQL .= " CONCAT_WS(' ', User.FirstName, User.LastName)";
-				}
-				else{
-					//check name and email
-				}
-			}
-		}
-		*/
-		
 		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "'"))["Count"]);
 		if($start === "last"){
 			$start = $totalCount - ($totalCount % intval($limit));
@@ -200,7 +181,7 @@ class Survey
 			
 			array_push($surveysArray, $survey);
 		}
-		return array($totalCount, $surveysArray);
+		return $surveysArray;
 	}
 
 //GETTERS
