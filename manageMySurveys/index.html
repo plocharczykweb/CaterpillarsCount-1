@@ -286,125 +286,127 @@
 							var data = JSON.parse(data.replace("true|", ""));
 							var totalPages = data[0];
 							var surveys = data[1];
-							if(surveys.length > 0){
-								if(pageNumber == "last"){
-									GLOBALPageNumber = totalPages;
+							if(surveys.length == 0){
+								queueNotice("alert", "No surveys found.");
+								return false;
+							}
+							if(pageNumber == "last"){
+								GLOBALPageNumber = totalPages;
+							}
+							else{
+								GLOBALPageNumber = pageNumber;
+							}
+							GLOBALTotalPages = totalPages;
+							updatePageNavigationBar();
+							var htmlToAdd = "";
+							for(var i = 0; i < surveys.length; i++){
+								htmlToAdd += "<div class=\"survey\">";
+								htmlToAdd += 	"<div class=\"headInfo\">";
+								htmlToAdd +=		"<div>" + getReadableDate(surveys[i]["localDate"]) + ", " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
+								htmlToAdd +=	"</div>"
+								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</div>";
+								htmlToAdd += 	"<div class=\"surveyInfo\">";
+								htmlToAdd += 		"<div>";
+								htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/" + surveys[i]["observaionMethod"].replace(/ /g, "").replace(surveys[i]["observaionMethod"][0], surveys[i]["observaionMethod"][0].toLowerCase()) + ".png');\"></div>";
+								htmlToAdd += 			"<div>" + surveys[i]["observaionMethod"] + "</div>";
+								htmlToAdd +=		"</div>";
+								htmlToAdd +=		"<div>";
+								htmlToAdd += 			"<div class=\"surveyInfoIcon\">" + surveys[i]["numberOfLeaves"] + "</div>";
+								htmlToAdd += 			"<div>";
+								if(surveys[i]["wetLeaves"]){
+									htmlToAdd += 		" wet ";
 								}
 								else{
-									GLOBALPageNumber = pageNumber;
+									htmlToAdd += 		" dry ";
 								}
-								GLOBALTotalPages = totalPages;
-								updatePageNavigationBar();
-								var htmlToAdd = "";
-								for(var i = 0; i < surveys.length; i++){
-									htmlToAdd += "<div class=\"survey\">";
-									htmlToAdd += 	"<div class=\"headInfo\">";
-									htmlToAdd +=		"<div>" + getReadableDate(surveys[i]["localDate"]) + ", " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
-									htmlToAdd +=	"</div>"
-									htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</div>";
-									htmlToAdd += 	"<div class=\"surveyInfo\">";
-									htmlToAdd += 		"<div>";
-									htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/" + surveys[i]["observaionMethod"].replace(/ /g, "").replace(surveys[i]["observaionMethod"][0], surveys[i]["observaionMethod"][0].toLowerCase()) + ".png');\"></div>";
-									htmlToAdd += 			"<div>" + surveys[i]["observaionMethod"] + "</div>";
+								if(surveys[i]["numberOfLeaves"] == 1){
+									htmlToAdd += 		"leaf</div>";
+								}
+								else{
+									htmlToAdd += 		"leaves</div>";
+								}
+								htmlToAdd +=		"</div>";
+								htmlToAdd +=		"<div>";
+								htmlToAdd += 			"<div class=\"surveyInfoIcon\">" + surveys[i]["averageLeafLength"] + "cm</div>";
+								htmlToAdd += 			"<div>average leaf length</div>";
+								htmlToAdd +=		"</div>";
+								htmlToAdd +=		"<div>";
+								htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
+								htmlToAdd += 			"<div>" + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
+								htmlToAdd +=		"</div>";
+								htmlToAdd += 		"<div>";
+								if(surveys[i]["notes"].trim().length > 0){
+									htmlToAdd += 		"<div>*" + surveys[i]["notes"] + "</div>";
+								}
+								htmlToAdd += 		"</div>";
+								htmlToAdd +=	"</div>";
+								htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">";
+								surveys[i]["arthropodSightings"].sort(function(a, b){
+									if(a["group"].toLowerCase() < b["group"].toLowerCase()){return -1;}
+									if(a["group"].toLowerCase() > b["group"].toLowerCase()){return 1;}
+									return 0;
+								})
+								for(var j = 0; j < surveys[i]["arthropodSightings"].length; j++){
+									htmlToAdd +=	"<div class=\"arthropodSighting\">";
+									htmlToAdd +=		"<div>";
+									htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/" + surveys[i]["arthropodSightings"][j]["group"] + ".png');\"></div>";
 									htmlToAdd +=		"</div>";
 									htmlToAdd +=		"<div>";
-									htmlToAdd += 			"<div class=\"surveyInfoIcon\">" + surveys[i]["numberOfLeaves"] + "</div>";
-									htmlToAdd += 			"<div>";
-									if(surveys[i]["wetLeaves"]){
-										htmlToAdd += 		" wet ";
+									htmlToAdd +=			"<div>";
+									if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
+										htmlToAdd +=			"<a href=\"../images/arthropods/" + surveys[i]["arthropodSightings"][j]["photoURL"] + "\" target=\"_blank\">";
+									}
+									if(surveys[i]["arthropodSightings"][j]["quantity"] == 1){
+										htmlToAdd +=			surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + singular(surveys[i]["arthropodSightings"][j]["group"]);
 									}
 									else{
-										htmlToAdd += 		" dry ";
+										htmlToAdd +=			surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + plural(surveys[i]["arthropodSightings"][j]["group"]);
 									}
-									if(surveys[i]["numberOfLeaves"] == 1){
-										htmlToAdd += 		"leaf</div>";
+									if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
+										htmlToAdd +=			"</a>";
 									}
-									else{
-										htmlToAdd += 		"leaves</div>";
+									htmlToAdd +=			"</div>";
+									if(surveys[i]["arthropodSightings"][j]["group"] == "caterpillar"){
+										var exclamation = "!";
+									   	htmlToAdd +=		"<div";
+										if(!surveys[i]["arthropodSightings"][j]["hairy"]){
+											exclamation = "";
+								   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\"";
+										}
+										htmlToAdd += 		">With hairy/spiny characteristics" + exclamation + "</div>";
+										
+										exclamation = "!";
+									   	htmlToAdd +=		"<div";
+										if(!surveys[i]["arthropodSightings"][j]["rolled"]){
+											exclamation = "";
+								   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\"";
+										}
+										htmlToAdd += 		">In a leaf roll" + exclamation + "</div>";
+										
+										exclamation = "!";
+									   	htmlToAdd +=		"<div";
+										if(!surveys[i]["arthropodSightings"][j]["tented"]){
+											exclamation = "";
+								   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\"";
+										}
+										htmlToAdd += 		">In a silk tent" + exclamation + "</div>";
+									}
+									if(surveys[i]["arthropodSightings"][j]["notes"].trim().length > 0){
+										htmlToAdd +=		"<div class=\"italic\">*" + surveys[i]["arthropodSightings"][j]["notes"] + "</div>";
 									}
 									htmlToAdd +=		"</div>";
-									htmlToAdd +=		"<div>";
-									htmlToAdd += 			"<div class=\"surveyInfoIcon\">" + surveys[i]["averageLeafLength"] + "cm</div>";
-									htmlToAdd += 			"<div>average leaf length</div>";
-									htmlToAdd +=		"</div>";
-									htmlToAdd +=		"<div>";
-									htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
-									htmlToAdd += 			"<div>" + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
-									htmlToAdd +=		"</div>";
-									htmlToAdd += 		"<div>";
-									if(surveys[i]["notes"].trim().length > 0){
-										htmlToAdd += 		"<div>*" + surveys[i]["notes"] + "</div>";
-									}
-									htmlToAdd += 		"</div>";
 									htmlToAdd +=	"</div>";
-									htmlToAdd += 	"<div class=\"arthropodSightingsInfo\">";
-									surveys[i]["arthropodSightings"].sort(function(a, b){
-										if(a["group"].toLowerCase() < b["group"].toLowerCase()){return -1;}
-										if(a["group"].toLowerCase() > b["group"].toLowerCase()){return 1;}
-										return 0;
-									})
-									for(var j = 0; j < surveys[i]["arthropodSightings"].length; j++){
-										htmlToAdd +=	"<div class=\"arthropodSighting\">";
-										htmlToAdd +=		"<div>";
-										htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/" + surveys[i]["arthropodSightings"][j]["group"] + ".png');\"></div>";
-										htmlToAdd +=		"</div>";
-										htmlToAdd +=		"<div>";
-										htmlToAdd +=			"<div>";
-										if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
-											htmlToAdd +=			"<a href=\"../images/arthropods/" + surveys[i]["arthropodSightings"][j]["photoURL"] + "\" target=\"_blank\">";
-										}
-										if(surveys[i]["arthropodSightings"][j]["quantity"] == 1){
-											htmlToAdd +=			surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + singular(surveys[i]["arthropodSightings"][j]["group"]);
-										}
-										else{
-											htmlToAdd +=			surveys[i]["arthropodSightings"][j]["quantity"] + " " + surveys[i]["arthropodSightings"][j]["length"] + "mm " + plural(surveys[i]["arthropodSightings"][j]["group"]);
-										}
-										if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
-											htmlToAdd +=			"</a>";
-										}
-										htmlToAdd +=			"</div>";
-										if(surveys[i]["arthropodSightings"][j]["group"] == "caterpillar"){
-											var exclamation = "!";
-										   	htmlToAdd +=		"<div";
-											if(!surveys[i]["arthropodSightings"][j]["hairy"]){
-												exclamation = "";
-									   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\"";
-											}
-											htmlToAdd += 		">With hairy/spiny characteristics" + exclamation + "</div>";
-											
-											exclamation = "!";
-										   	htmlToAdd +=		"<div";
-											if(!surveys[i]["arthropodSightings"][j]["rolled"]){
-												exclamation = "";
-									   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\"";
-											}
-											htmlToAdd += 		">In a leaf roll" + exclamation + "</div>";
-											
-											exclamation = "!";
-										   	htmlToAdd +=		"<div";
-											if(!surveys[i]["arthropodSightings"][j]["tented"]){
-												exclamation = "";
-									   			htmlToAdd += 	" style=\"opacity:.5;text-decoration:line-through;\"";
-											}
-											htmlToAdd += 		">In a silk tent" + exclamation + "</div>";
-										}
-										if(surveys[i]["arthropodSightings"][j]["notes"].trim().length > 0){
-											htmlToAdd +=		"<div class=\"italic\">*" + surveys[i]["arthropodSightings"][j]["notes"] + "</div>";
-										}
-										htmlToAdd +=		"</div>";
-										htmlToAdd +=	"</div>";
-									}
-									htmlToAdd += 	"</div>";
-									if(surveys[i]["arthropodSightings"].length > 1){
-										htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">Show " + surveys[i]["arthropodSightings"].length + " Arthropod Sightings</div>";
-									}
-									else if(surveys[i]["arthropodSightings"].length > 0){
-										htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">Show " + surveys[i]["arthropodSightings"].length + " Arthropod Sighting</div>";
-									}
-									htmlToAdd += "</div>";
 								}
-								$("#surveys")[0].innerHTML = htmlToAdd;
+								htmlToAdd += 	"</div>";
+								if(surveys[i]["arthropodSightings"].length > 1){
+									htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">Show " + surveys[i]["arthropodSightings"].length + " Arthropod Sightings</div>";
+								}
+								else if(surveys[i]["arthropodSightings"].length > 0){
+									htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">Show " + surveys[i]["arthropodSightings"].length + " Arthropod Sighting</div>";
+								}
+								htmlToAdd += "</div>";
 							}
+							$("#surveys")[0].innerHTML = htmlToAdd;
 						}
 						else{
 							queueNotice("error", data.replace("false|", ""));
