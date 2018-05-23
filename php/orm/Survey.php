@@ -148,7 +148,7 @@ class Survey
 		}
 		
 		$additionalSQL = "";
-		$userSearch = trim($filters["user"]));
+		$userSearch = trim($filters["user"]);
 		if(strlen($userSearch) > 0){
 			$additionalSQL .= " AND (User.Email LIKE '%" . $userSearch . "%' OR CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%')";
 		}
