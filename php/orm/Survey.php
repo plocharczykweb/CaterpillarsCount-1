@@ -152,7 +152,10 @@ class Survey
 		$userSearch = trim($filters["user"]);
 		if(strlen($userSearch) > 0){
 			$additionalSQL .= " AND (User.Email LIKE '%" . $userSearch . "%' OR CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%')";
+			//change from closest to beginning of full name to:
+			//closest to beginning of first name OR closest to beginning of last name, prioritizing first name matches?
 			$prioritySortingMetric = " POSITION('" . $userSearch . "' IN CONCAT(CONCAT(User.FirstName, ' ', User.LastName), '                                                                                                                           ', User.Email)) ASC,";
+			//WORK ON UPDATE: $prioritySortingMetric = " LEAST(POSITION('" . $userSearch . "' IN User.FirstName), POSITION('" . $userSearch . "' IN User.LasttName)) ASC,";
 		}
 		
 		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL))["Count"]);
