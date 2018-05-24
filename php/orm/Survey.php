@@ -152,7 +152,6 @@ class Survey
 		$userSearch = trim($filters["user"]);
 		if(strlen($userSearch) > 0){
 			$additionalSQL .= " AND (User.Email LIKE '%" . $userSearch . "%' OR CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%')";
-			//$thirdOrderBy = "LEAST(POSITION('" . $userSearch . "' IN CONCAT(User.FirstName, ' ', User.LastName)), POSITION('" . $userSearch . "' IN User.Email)) ASC";
 			$prioritySortingMetric = " POSITION('" . $userSearch . "' IN CONCAT(CONCAT(User.FirstName, ' ', User.LastName), '                                                                                                                           ', User.Email)) ASC,";
 		}
 		
