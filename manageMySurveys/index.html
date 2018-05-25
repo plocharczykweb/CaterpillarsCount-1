@@ -21,6 +21,12 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
 		<style>
+			h3:nth-of-type(1) ~ h3{
+				padding-top:1em;
+				border-top:3px dashed rgba(0,0,0,0.5);
+				width:100%
+			}
+			
 			#surveys .survey{
 				margin-bottom:20px;
 				font-family: 'Roboto Slab', serif;
@@ -248,12 +254,6 @@
 					font-size:23px;
 				}
 			}
-			@media screen and (max-width: 400px){
-				#surveys .survey .surveyInfo>div:first-of-type .surveyInfoIcon{
-					height:40px;
-					font-size:40px;
-				}
-			}
 		</style>
 		<script>
 			$(document).ready(function(){
@@ -287,8 +287,8 @@
 			
 			function getReadableDate(databaseFormattedDate){
 				//PRE: databaseFormattedDate format is YYYY-MM-DD
-				//var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-				var months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
+				var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+				//var months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
 				
 				var year = databaseFormattedDate.substring(0, 4);
 				var month = months[Number(databaseFormattedDate.substring(5, 7)) - 1];
