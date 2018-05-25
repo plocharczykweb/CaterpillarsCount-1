@@ -42,6 +42,16 @@
 			#surveys .survey .siteInfo{
 				padding:5px;
 				color:#fff;
+				padding-right:100px;
+				position:relative;
+			}
+			
+			#surveys .survey .siteInfo .time{
+				position:absolute;
+				right:0px;
+				top:0px;
+				padding:5px;
+				background:rgba(0,0,0,0.2);
 			}
 			
 			#surveys .survey .surveyInfo{
@@ -50,7 +60,7 @@
 			
 			#surveys .survey .surveyInfo>div{
 				float:left;
-				width:25%;
+				width:20%;
 				text-align:center;
 				font-size:12px;
 				padding:5px 10px;
@@ -60,7 +70,7 @@
 				margin-right:-1px;
 			}
 			
-			#surveys .survey .surveyInfo>div:nth-of-type(4){
+			#surveys .survey .surveyInfo>div:nth-of-type(5){
 				border-right:0px none transparent;
 				margin-right:0px;
 			}
@@ -140,7 +150,7 @@
 				text-align:center;
 				cursor:pointer;
 				background:rgba(0,0,0,0.05);
-				font-size:14px;
+				font-size:13px;
 			}
 			
 			#pageNav{
@@ -315,8 +325,12 @@
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div>" + getReadableDate(surveys[i]["localDate"]) + ", " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>"
-								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</div>";
+								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div></div>";
 								htmlToAdd += 	"<div class=\"surveyInfo\">";
+								htmlToAdd += 		"<div>";
+								htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/" + surveys[i]["observaionMethod"].replace(/ /g, "").replace(surveys[i]["observaionMethod"][0], surveys[i]["observaionMethod"][0].toLowerCase()) + ".png');\"></div>";
+								htmlToAdd += 			"<div><a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
+								htmlToAdd +=		"</div>";
 								htmlToAdd += 		"<div>";
 								htmlToAdd += 			"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/" + surveys[i]["observaionMethod"].replace(/ /g, "").replace(surveys[i]["observaionMethod"][0], surveys[i]["observaionMethod"][0].toLowerCase()) + ".png');\"></div>";
 								htmlToAdd += 			"<div>" + surveys[i]["observaionMethod"] + "</div>";
