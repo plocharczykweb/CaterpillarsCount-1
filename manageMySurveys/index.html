@@ -32,6 +32,7 @@
 			#surveys .survey .headInfo{
 				background:#333;
 				color:#fff;
+				display:none;
 			}
 			
 			#surveys .survey .headInfo>div{
@@ -44,6 +45,7 @@
 				color:#fff;
 				padding-right:100px;
 				position:relative;
+				disply:table;
 			}
 			
 			#surveys .survey .siteInfo .time{
@@ -52,6 +54,9 @@
 				top:0px;
 				padding:5px;
 				background:rgba(0,0,0,0.2);
+				box-sizing:border-box;
+				disply:table-cell;
+				vertical-align:middle;
 			}
 			
 			#surveys .survey .surveyInfo{
@@ -192,6 +197,13 @@
 			}
 			
 			@media screen and (max-width: 900px) {
+				.headInfo{
+					display:block;
+				}
+				#surveys .survey .siteInfo .time, #surveys .survey .surveyInfo>div:first-of-type{
+					display:none;
+				}
+				
 				#surveys .survey .surveyInfo>div{
 					width:50%;
 					border-right:0px none transparent;
