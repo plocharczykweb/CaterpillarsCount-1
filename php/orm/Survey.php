@@ -148,13 +148,13 @@ class Survey
 		}
 		
 		$additionalSQL = "";
-		$prioritySortingMetric = "";
+		//$prioritySortingMetric = "";
 		$userSearch = trim($filters["user"]);
 		if(strlen($userSearch) > 0){
-			$additionalSQL .= " AND (User.Email LIKE '%" . $userSearch . "%' OR CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%')";
+			$additionalSQL .= " AND CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%'";
 			//change from closest to beginning of full name to:
 			//closest to beginning of first name OR closest to beginning of last name, prioritizing first name matches?
-			$prioritySortingMetric = " POSITION('" . $userSearch . "' IN CONCAT(CONCAT(User.FirstName, ' ', User.LastName), '                                                                                                                           ', User.Email)) ASC,";
+			//$prioritySortingMetric = " POSITION('" . $userSearch . "' IN CONCAT(CONCAT(User.FirstName, ' ', User.LastName), '                                                                                                                           ', User.Email)) ASC,";
 			//WORK ON UPDATE: $prioritySortingMetric = " LEAST(POSITION('" . $userSearch . "' IN User.FirstName), POSITION('" . $userSearch . "' IN User.LasttName)) ASC,";
 		}
 		
@@ -165,7 +165,7 @@ class Survey
 				$start = $totalCount - intval($limit);
 			}
 		}
-		$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL . " ORDER BY" . $prioritySortingMetric . " Survey.LocalDate DESC, Survey.LocalTime DESC, Survey.ID DESC LIMIT " . $start . ", " . $limit);
+		$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL . " ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Plant.Code DESC LIMIT " . $start . ", " . $limit);
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
 			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
