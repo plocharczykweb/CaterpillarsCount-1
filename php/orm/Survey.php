@@ -147,25 +147,28 @@ class Survey
 			$siteIDs[] = $sites[$i]->getID();
 		}
 		
+		$baseTable = "`Survey`";
 		$additionalSQL = "";
-		//$prioritySortingMetric = "";
+		
+		$arthropodSearch = trim($filters["arthropod"]);
+		if(strlen($arthropodSearch) > 0){
+			$baseTable = "`ArthropodSighting` JOIN `Survey` ON ArthropodSighting.SurveyFK = Survey.ID";
+			$additionalSQL .= " AND ArthropodSighting.Group='" . $arthropodSearch . "'";
+		}
+		
 		$userSearch = trim($filters["user"]);
 		if(strlen($userSearch) > 0){
 			$additionalSQL .= " AND CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%'";
-			//change from closest to beginning of full name to:
-			//closest to beginning of first name OR closest to beginning of last name, prioritizing first name matches?
-			//$prioritySortingMetric = " POSITION('" . $userSearch . "' IN CONCAT(CONCAT(User.FirstName, ' ', User.LastName), '                                                                                                                           ', User.Email)) ASC,";
-			//WORK ON UPDATE: $prioritySortingMetric = " LEAST(POSITION('" . $userSearch . "' IN User.FirstName), POSITION('" . $userSearch . "' IN User.LasttName)) ASC,";
 		}
 		
-		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL))["Count"]);
+		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM " . $baseTable . " JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL))["Count"]);
 		if($start === "last"){
 			$start = $totalCount - ($totalCount % intval($limit));
 			if($start == $totalCount && $totalCount > 0){
 				$start = $totalCount - intval($limit);
 			}
 		}
-		$query = mysqli_query($dbconn, "SELECT Survey.* FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL . " ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Plant.Code DESC LIMIT " . $start . ", " . $limit);
+		$query = mysqli_query($dbconn, "SELECT Survey.* FROM " . $baseTable . " JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL . " ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Plant.Code DESC LIMIT " . $start . ", " . $limit);
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
 			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
