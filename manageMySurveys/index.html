@@ -314,7 +314,7 @@
 			
 			var GLOBALPageNumber = 1;
 			var GLOBALTotalPages = 0;
-			var GLOBALFilters = {"user":""};
+			var GLOBALFilters = {"user":"", "arthropod":""};
 			var loadingPage = false;
 			function loadPage(pageNumber, filters){
 				if(!loadingPage){
@@ -555,7 +555,7 @@
 			
 			function filter(){
 				if(!loadingPage){
-					var filters = {"user": $('#userSearch')[0].value.trim()};
+					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": $('#arthropodSearch')[0].value.trim()};
 					for (var property in filters) {
 						if (filters.hasOwnProperty(property) && GLOBALFilters[property] !== filters[property]) {
 							loadPage(1, filters);
@@ -657,6 +657,7 @@
 				<div class="tagline"></div>
 				<div class="content">
 					<input type="text" id="userSearch" placeholder="user search"/>
+					<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
 					<button onclick="filter();">Filter</button>
 					<div id="surveys"></div>
 					<div id="pageNav">
