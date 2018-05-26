@@ -163,6 +163,19 @@ class Survey
 			$additionalSQL .= " AND CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%'";
 		}
 		
+		$siteSearch = trim($filters["site"]);
+		$circleSearch = intval($filters["circle"]);
+		$codeSearch = trim($filters["code"]);
+		if(strlen($codeSearch) > 0){
+			$additionalSQL .= " AND Plant.Code='" . $codeSearch . "'";
+		}
+		else if(strlen($siteSearch) > 0){
+			$additionalSQL .= " AND Site.Name='" . $siteSearch . "'";
+			if(strlen($circleSearch) > 0){
+				$additionalSQL .= " AND Plant.Circle='" . $circleSearch . "'";
+			}
+		}
+		
 		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM (SELECT DISTINCT Survey.ID FROM " . $baseTable . " JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL . $groupBy . ") AS Results"))["Count"]);
 		if($start === "last"){
 			$start = $totalCount - ($totalCount % intval($limit));
