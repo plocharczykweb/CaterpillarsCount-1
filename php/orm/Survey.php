@@ -163,14 +163,14 @@ class Survey
 			$additionalSQL .= " AND CONCAT(User.FirstName, ' ', User.LastName) LIKE '%" . $userSearch . "%'";
 		}
 		
-		$siteSearch = trim($filters["site"]);
+		$siteSearch = intval($filters["site"]);
 		$circleSearch = intval($filters["circle"]);
 		$codeSearch = trim($filters["code"]);
 		if(strlen($codeSearch) > 0){
 			$additionalSQL .= " AND Plant.Code='" . $codeSearch . "'";
 		}
 		else if(strlen($siteSearch) > 0){
-			$additionalSQL .= " AND Site.Name='" . $siteSearch . "'";
+			$additionalSQL .= " AND Plant.SiteFK='" . $siteSearch . "'";
 			if(strlen($circleSearch) > 0){
 				$additionalSQL .= " AND Plant.Circle='" . $circleSearch . "'";
 			}
