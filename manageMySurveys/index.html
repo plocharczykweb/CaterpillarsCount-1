@@ -212,6 +212,10 @@
 				cursor:default;
 			}
 			
+			#circleSearch{
+				display:none;
+			}
+			
 			@media screen and (max-width: 900px) {
 				#surveys .survey .headInfo{
 					display:block;
@@ -314,7 +318,7 @@
 			
 			var GLOBALPageNumber = 1;
 			var GLOBALTotalPages = 0;
-			var GLOBALFilters = {"user":"", "arthropod":""};
+			var GLOBALFilters = {"user":"", "arthropod":"", "site":"", "circle":"", "code":""};
 			var loadingPage = false;
 			function loadPage(pageNumber, filters){
 				if(!loadingPage){
@@ -555,7 +559,7 @@
 			
 			function filter(){
 				if(!loadingPage){
-					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": $('#arthropodSearch')[0].value.trim()};
+					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": $('#arthropodSearch')[0].value.trim(), "site": $('#siteSearch')[0].value.trim(), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim()};
 					for (var property in filters) {
 						if (filters.hasOwnProperty(property) && GLOBALFilters[property] !== filters[property]) {
 							loadPage(1, filters);
@@ -658,6 +662,9 @@
 				<div class="content">
 					<input type="text" id="userSearch" placeholder="user search"/>
 					<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
+					<input type="text" id="siteSearch" placeholder="site search" oninput="$('#circleSearch').show();"/>
+					<input type="text" id="circleSearch" placeholder="circle search"/>
+					<input type="text" id="codeSearch" placeholder="code search"/>
 					<button onclick="filter();">Filter</button>
 					<div id="surveys"></div>
 					<div id="pageNav">
