@@ -699,9 +699,9 @@
 					if(data.indexOf("true|") == 0){
 						var sites = JSON.parse(data.replace("true|", ""));
 						var htmlToAdd = "<div class=\"select\">";
-						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);$('#circleSeach').hide(300);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
+						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);$('#circleSearch').hide(300);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
 						for(var i = 0; i < sites.length; i++){
-							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);$('#circleSeach').show(300);\">	<div class=\"value\">" + sites[i]["id"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["name"] + " (" + sites[i]["region"] + ")</div></div></div>";
+							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);$('#circleSearch').show(300);\">	<div class=\"value\">" + sites[i]["id"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["name"] + " (" + sites[i]["region"] + ")</div></div></div>";
 						}
 						htmlToAdd += "</div>";
 						$("#siteSearch")[0].innerHTML = htmlToAdd;
