@@ -683,7 +683,7 @@
 			
 			function filter(){
 				if(!loadingPage){
-					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": getSelectValue($('#arthropodSearch .select').eq(0)), "site": getSelectValue($('#siteSearch .select').eq(0)), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim()};
+					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": getSelectValue($('#arthropodSearch')), "site": getSelectValue($('#siteSearch .select').eq(0)), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim()};
 					for (var property in filters) {
 						if (filters.hasOwnProperty(property) && GLOBALFilters[property] !== filters[property]) {
 							loadPage(1, filters);
@@ -973,12 +973,12 @@
 							<div id="siteCircleFilter">
 								<div class="inputTitle">Site:</div>
 								<div id="siteSearch"></div>
-								<div class="toggleLink underline pointer" onclick="$('#siteCircleFilter').fadeOut(200);$('#surveylocationCodeFilter').fadeIn(200);">Filter by specific survey location code instead</div>
+								<div class="toggleLink underline pointer" onclick="$('#siteCircleFilter').fadeOut(0);$('#surveylocationCodeFilter').fadeIn(200);">Filter by specific survey location code instead</div>
 							</div>
 							<div id="surveylocationCodeFilter">
 								<div class="inputTitle">Survey location code:</div>
 								<input type="text" id="codeSearch" placeholder="code search"/>
-								<div class="toggleLink underline pointer" onclick="$('#surveylocationCodeFilter').fadeOut(200);$('#siteCircleFilter').fadeIn(200);">Filter by site/circle instead</div>
+								<div class="toggleLink underline pointer" onclick="$('#surveylocationCodeFilter').fadeOut(0);$('#siteCircleFilter').fadeIn(200);">Filter by site/circle instead</div>
 							</div>
 						</div>
 						<div class="filter" style="display:none;">
