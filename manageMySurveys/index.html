@@ -212,10 +212,6 @@
 				cursor:default;
 			}
 			
-			#circleSearch{
-				display:none;
-			}
-			
 			#iconBar{
 				text-align:right;
 				background:#eee;
@@ -233,6 +229,35 @@
 				display:none;
 				background:#eee;
 				border-top:1px solid rgba(0,0,0,0.05);
+				display:table;
+				width:100%;
+			}
+			
+			#filters>.filter{
+				border-right:1px solid rgba(0,0,0,0.05);
+				padding:20px;
+				display:table-cell;
+				vertical-align:top;
+				box-sizing:border-box;
+				width:25%;
+			}
+			#filters>.filter:last-of-type{
+				border-right:0px none transparent;
+			}
+			
+			#filters>.filter .inputTitle{
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				color:#666;
+				text-transform:uppercase;
+				font-size:14px;
+			}
+			
+			#filters>button{
+				margin:20px -20px -20px -20px;
+				width:100%;
+				border-radius:0px;
+				padding:20px;
+				box-sizing:content-box;
 			}
 			
 			@media screen and (max-width: 900px) {
@@ -680,14 +705,27 @@
 					<img src="../images/filterIcon.png" onclick="$('#filters').show(300);"/>
 				</div>
 				<div id="filters">
-					<div class="content">
+					<div class="filter">
+						<div class="inputTitle">User:</div>
 						<input type="text" id="userSearch" placeholder="user search"/>
-						<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
-						<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
-						<input type="text" id="circleSearch" placeholder="circle search"/>
-						<input type="text" id="codeSearch" placeholder="code search"/>
-						<button onclick="filter();">Filter</button>
 					</div>
+					<div class="filter">
+						<div class="inputTitle">Arthropod:</div>
+						<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
+					</div>
+					<div class="filter">
+						<div class="inputTitle">Site:</div>
+						<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
+					</div>
+					<div class="filter" style="display:none;">
+						<div class="inputTitle">Circle:</div>
+						<input type="text" id="circleSearch" placeholder="circle search"/>
+					</div>
+					<div class="filter">
+						<div class="inputTitle">Survey location code:</div>
+						<input type="text" id="codeSearch" placeholder="code search"/>
+					</div>
+					<button onclick="filter();">Apply Filters</button>
 				</div>
 			</div>
 			<div class="panel" style="display:none;"></div>
