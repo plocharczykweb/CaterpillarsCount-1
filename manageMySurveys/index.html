@@ -224,6 +224,7 @@
 				text-align:right;
 				padding:20px;
 				background:#444;
+				border-radius:5px;
 			}
 			
 			#iconBar>img{
@@ -671,20 +672,20 @@
 		</header>
 		<main>
 			<div class="panel">
-				<div id="iconBar">
-					<img src="../images/filterIconWhite.png" onclick="$('#filters').show(300);"/>
-				</div>
-				<div id="filters">
-					<input type="text" id="userSearch" placeholder="user search"/>
-					<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
-					<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
-					<input type="text" id="circleSearch" placeholder="circle search"/>
-					<input type="text" id="codeSearch" placeholder="code search"/>
-					<button onclick="filter();">Filter</button>
-				</div>
 				<h2>Manage My Surveys</h2>
 				<div class="tagline"></div>
 				<div class="content">
+					<div id="iconBar">
+						<img src="../images/filterIconWhite.png" onclick="$('#filters').show(300);"/>
+					</div>
+					<div id="filters">
+						<input type="text" id="userSearch" placeholder="user search"/>
+						<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
+						<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
+						<input type="text" id="circleSearch" placeholder="circle search"/>
+						<input type="text" id="codeSearch" placeholder="code search"/>
+						<button onclick="filter();">Filter</button>
+					</div>
 					<div id="surveys"></div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
