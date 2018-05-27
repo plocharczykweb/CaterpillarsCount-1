@@ -254,6 +254,16 @@
 				font-size:14px;
 			}
 			
+			#filters>.filter .toggleLink{
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				color:#aaa;
+				text-transform:uppercase;
+				font-size:10px;
+				margin-top:5px;
+				margin-right:5px;
+				text-align:right;
+			}
+			
 			#surveylocationCodeFilter{
 				display:none;
 			}
@@ -673,7 +683,7 @@
 			
 			function filter(){
 				if(!loadingPage){
-					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": $('#arthropodSearch')[0].value.trim(), "site": $('#siteSearch')[0].value.trim(), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim()};
+					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": getSelectValue($('#arthropodSearch .select').eq(0)), "site": getSelectValue($('#siteSearch .select').eq(0)), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim()};
 					for (var property in filters) {
 						if (filters.hasOwnProperty(property) && GLOBALFilters[property] !== filters[property]) {
 							loadPage(1, filters);
@@ -941,18 +951,34 @@
 						</div>
 						<div class="filter">
 							<div class="inputTitle">Arthropod:</div>
-							<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
+							<div class="select" id="arthropodSearch">
+								<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
+							</div>
 						</div>
 						<div class="filter">
 							<div id="siteCircleFilter">
-								<div class="inputTitle">Location:</div>
+								<div class="inputTitle">Site:</div>
 								<div id="siteSearch"></div>
-								<div class="underline pointer" onclick="$('#siteCircleFilter').fadeOut(200);$('#surveylocationCodeFilter').fadeIn(200);">Filter by specific survey location code instead</div>
+								<div class="toggleLink underline pointer" onclick="$('#siteCircleFilter').fadeOut(200);$('#surveylocationCodeFilter').fadeIn(200);">Filter by specific survey location code instead</div>
 							</div>
 							<div id="surveylocationCodeFilter">
 								<div class="inputTitle">Survey location code:</div>
 								<input type="text" id="codeSearch" placeholder="code search"/>
-								<div class="underline pointer" onclick="$('#surveylocationCodeFilter').fadeOut(200);$('#siteCircleFilter').fadeIn(200);">Filter by site/circle instead</div>
+								<div class="toggleLink underline pointer" onclick="$('#surveylocationCodeFilter').fadeOut(200);$('#siteCircleFilter').fadeIn(200);">Filter by site/circle instead</div>
 							</div>
 						</div>
 						<div class="filter" style="display:none;">
