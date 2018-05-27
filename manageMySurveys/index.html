@@ -265,6 +265,69 @@
 				background:rgba(0,0,0,0.07);
 			}
 			
+			.select{
+				width:100%;
+				-webkit-appearance: none;
+    				-moz-appearance: none;
+    				appearance: none;
+    				border-radius:4px;
+    				overflow:hidden;
+    				background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				color:#aaa;
+				box-sizing:border-box;
+				margin-top:5px;
+				cursor:pointer;
+			}
+			
+			.select{
+				padding:0px;
+				color:#aaa;
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			}
+			
+			.select .option{
+				max-height:0px;
+				overflow:hidden;
+			}
+			
+			.select .option.selected{
+				max-height:250px;
+				overflow:hidden;
+			}
+			
+			.select .option .value{
+				display:none;
+			}
+			
+			.select .option .shown{
+				padding:16px;
+				position:relative;
+				font-size:16px;
+			}
+			
+			.select .option:nth-of-type(even){
+				background:#f7f7f7;
+			}
+			
+			.select .option .shown .image{
+				height:34px;
+				width:34px;
+				background-size:contain;
+				background-repeat:no-repeat;
+				background-position:center;
+				display:inline-block;
+				opacity:.4;
+				position:absolute;
+				right:20px;
+				top:10px;
+			}
+			
+			.select .option .shown .text{
+				display:inline-block;
+			}
+			
 			@media screen and (max-width: 900px) {
 				#surveys .survey .headInfo{
 					display:block;
@@ -617,6 +680,165 @@
 					}
 				}
 			}
+			
+			function populateSurveySites(){
+				$.get("../php/getMySurveySites.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						var sites = JSON.parse(data.replace("true|", ""));
+						var htmlToAdd = "<div class=\"select\">";
+						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
+						for(var i = 0; i < sites.length; i++){
+							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);\">	<div class=\"value\">" + sites[i]["id"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["name"] + " (" + sites[i]["region"] + ")</div></div></div>";
+						}
+						htmlToAdd += "</div>";
+						$("#siteSearch")[0].innerHTML = htmlToAdd;
+					}
+					else{
+						queueNotice("error", data.replace("false|", ""));
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+				
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			function toggleMaxHeight(elements){
+				//switch the max height of all elements specified as "elements" between 0px and 250px
+				elements = $(elements);
+				for(var i = 0; i < elements.length; i++){
+					if(elements.eq(i)[0].style.maxHeight != "250px"){
+						elements.eq(i).stop().animate({maxHeight:"250px"});
+					}
+					else{
+						elements.eq(i).stop().animate({maxHeight:"0px"});
+					}
+				}
+			}
+			
+			var selectToggling = false;
+			function autoOpenSelect(selectElement){
+				if(!selectToggling){
+					selectToggling = true;
+					if(getSelectValue(selectElement) == ""){
+						if($(selectElement)[0].className.indexOf("active") > -1){
+							var activeClassName = $(selectElement)[0].className.substring($(selectElement)[0].className.indexOf("active"));
+							if(activeClassName.indexOf(" ") > -1){
+								activeClassName = activeClassName.substring(0, activeClassName.indexOf(" "));
+							}
+							$(selectElement)[0].className = $(selectElement)[0].className.replace(activeClassName, "").trim();
+						}
+						$(selectElement)[0].className = $(selectElement)[0].className + " active" + (getYPosition(selectElement) - 100);
+						elements = $(selectElement).find(".option").animate({maxHeight:"250px"}, "swing", function(){selectToggling = false;});
+					}
+				}
+			}
+			
+			function selectOption(optionElement){
+				if(!selectToggling){
+					selectToggling = true;
+					//select an option in a custiom .select or open the custom .select
+					if(optionElement.parentNode.className.indexOf("active") > -1){
+						var preScrollTop = Number(optionElement.parentNode.className.replace(/\D/g, ""));
+						optionElement.parentNode.className = optionElement.parentNode.className.replace("active" + preScrollTop, "").trim();
+						$('html, body').animate({ scrollTop: preScrollTop }, 400);
+					}
+					else{
+						optionElement.parentNode.className = optionElement.parentNode.className + " active" + $(document).scrollTop();
+					}
+					
+					toggleMaxHeight($(optionElement.parentNode).find(".option"));
+					var selectedElement = $(optionElement.parentNode).find(".selected").eq(0)[0];
+					selectedElement.className = selectedElement.className.replace("selected", "").trim();
+					optionElement.className = optionElement.className + " selected";
+					$(optionElement).stop().animate({maxHeight:"250px"}, "swing", function(){selectToggling = false});
+				}
+			}
+			
+			function setSelectValue(selectElement, val){
+				//set the value of a custom .select and show the selected option
+				selectElement = $(selectElement)[0];
+				var options = selectElement.getElementsByClassName("option");
+				for(var i = 0; i < options.length; i++){
+					options[i].className = "option";
+					options[i].style.maxHeight = "0px";
+					options[i].style.overflow = "hidden";
+					if(options[i].getElementsByClassName("value")[0].innerHTML == val){
+						options[i].className = "option selected";
+						options[i].style.maxHeight = "250px";
+						options[i].style.overflow = "hidden";
+					}
+				}
+			}
+			
+			function getSelectValue(selectElement){
+				//return the value of a custom .select
+				if($(selectElement).find(".selected .value").length < 1){
+					return "";
+				}
+				return $(selectElement).find(".selected .value")[0].innerHTML;
+			}
+			
+			function getSelectText(selectElement){
+				//return the show text of a custom .select
+				return $(selectElement).find(".selected .text")[0].innerHTML;
+			}
+			
+			function getSelectTextByValue(selectElement, val){
+				//given the value of a custom .select, return that values corresponding text
+				selectElement = $(selectElement)[0];
+				var options = selectElement.getElementsByClassName("option");
+				for(var i = 0; i < options.length; i++){
+					if($(options[i]).find(".value").eq(0)[0].innerHTML == val){
+						return $(options[i]).find(".text").eq(0)[0].innerHTML;
+					}
+				}
+			}
+			
+			function getSelectValueByText(selectElement, txt){
+				//given the value of a custom .select, return that values corresponding text
+				selectElement = $(selectElement)[0];
+				var options = selectElement.getElementsByClassName("option");
+				for(var i = 0; i < options.length; i++){
+					if($(options[i]).find(".text").eq(0)[0].innerHTML == txt){
+						return $(options[i]).find(".value").eq(0)[0].innerHTML;
+					}
+				}
+			}
+			
+			function getSelectImageByText(selectElement, txt){
+				//given the value of a custom .select, return that values corresponding text
+				selectElement = $(selectElement)[0];
+				var options = selectElement.getElementsByClassName("option");
+				for(var i = 0; i < options.length; i++){
+					if($(options[i]).find(".text").eq(0)[0].innerHTML == txt){
+						bgimg = $(options[i]).find(".image").eq(0)[0].style.backgroundImage;
+						return bgimg.substring(bgimg.indexOf("(") + 1, bgimg.lastIndexOf(")")).replace(/"/g, "").replace(/'/g, "");
+						//TODO: remove this line. "
+					}
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -713,7 +935,7 @@
 					<div id="filters">
 						<div class="filter">
 							<div class="inputTitle">User:</div>
-							<input type="text" id="userSearch" placeholder="user search"/>
+							<input type="text" id="userSearch" placeholder="John Smith"/>
 						</div>
 						<div class="filter">
 							<div class="inputTitle">Arthropod:</div>
@@ -722,13 +944,13 @@
 						<div class="filter">
 							<div id="siteCircleFilter">
 								<div class="inputTitle">Location:</div>
-								<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
-								<div class="underline" onclick="$('#siteCircleFilter').fadeOut(200);$('#surveylocationCodeFilter').fadeIn(200);">Filter by specific survey location code instead</div>
+								<div id="siteSearch"></div>
+								<div class="underline pointer" onclick="$('#siteCircleFilter').fadeOut(200);$('#surveylocationCodeFilter').fadeIn(200);">Filter by specific survey location code instead</div>
 							</div>
 							<div id="surveylocationCodeFilter">
 								<div class="inputTitle">Survey location code:</div>
 								<input type="text" id="codeSearch" placeholder="code search"/>
-								<div class="underline" onclick="$('#surveylocationCodeFilter').fadeOut(200);$('#siteCircleFilter').fadeIn(200);">Filter by site/circle instead</div>
+								<div class="underline pointer" onclick="$('#surveylocationCodeFilter').fadeOut(200);$('#siteCircleFilter').fadeIn(200);">Filter by site/circle instead</div>
 							</div>
 						</div>
 						<div class="filter" style="display:none;">
