@@ -699,9 +699,9 @@
 					if(data.indexOf("true|") == 0){
 						var sites = JSON.parse(data.replace("true|", ""));
 						var htmlToAdd = "<div class=\"select\">";
-						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
+						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);$('#circleSeach').hide(300);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
 						for(var i = 0; i < sites.length; i++){
-							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);\">	<div class=\"value\">" + sites[i]["id"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["name"] + " (" + sites[i]["region"] + ")</div></div></div>";
+							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);$('#circleSeach').show(300);\">	<div class=\"value\">" + sites[i]["id"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["name"] + " (" + sites[i]["region"] + ")</div></div></div>";
 						}
 						htmlToAdd += "</div>";
 						$("#siteSearch")[0].innerHTML = htmlToAdd;
@@ -973,12 +973,12 @@
 							<div id="siteCircleFilter">
 								<div class="inputTitle">Site:</div>
 								<div id="siteSearch"></div>
-								<div class="toggleLink underline pointer" onclick="$('#siteCircleFilter').fadeOut(0);$('#surveylocationCodeFilter').fadeIn(200);">Filter by specific survey location code instead</div>
+								<div class="toggleLink underline pointer" onclick="$('#siteCircleFilter').fadeOut(0);$('#surveylocationCodeFilter').fadeIn(200);setSelectValue($('#siteSearch .select').eq(0), '');$('#circleSearch')[0].value = '';$('#circleSearch').fadeOut(0);">Filter by specific survey location code instead</div>
 							</div>
 							<div id="surveylocationCodeFilter">
 								<div class="inputTitle">Survey location code:</div>
-								<input type="text" id="codeSearch" placeholder="code search"/>
-								<div class="toggleLink underline pointer" onclick="$('#surveylocationCodeFilter').fadeOut(0);$('#siteCircleFilter').fadeIn(200);">Filter by site/circle instead</div>
+								<input type="text" id="codeSearch"/>
+								<div class="toggleLink underline pointer" onclick="$('#surveylocationCodeFilter').fadeOut(0);$('#siteCircleFilter').fadeIn(200);$('#codeSearch')[0].value='';">Filter by site/circle instead</div>
 							</div>
 						</div>
 						<div class="filter" style="display:none;">
