@@ -241,7 +241,7 @@
 				display:table-cell;
 				vertical-align:top;
 				box-sizing:border-box;
-				width:25%;
+				width:33.33%;
 			}
 			#filters>.filter:last-of-type{
 				border-right:0px none transparent;
@@ -254,10 +254,15 @@
 				font-size:14px;
 			}
 			
+			#surveylocationCodeFilter{
+				display:none;
+			}
+			
 			#filtersDropdown>button{
 				margin:0px;
 				width:100%;
 				border-radius:0px;
+				background:rgba(0,0,0,0.07);
 			}
 			
 			@media screen and (max-width: 900px) {
@@ -715,16 +720,20 @@
 							<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
 						</div>
 						<div class="filter">
-							<div class="inputTitle">Site:</div>
-							<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
+							<div id="siteCircleFilter">
+								<div class="inputTitle">Location:</div>
+								<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
+								<div class="underline" onclick="$('#siteCircleFilter').fadeOut(200);$('#surveylocationCodeFilter').fadeIn(200);">Filter by specific survey location code instead</div>
+							</div>
+							<div id="surveylocationCodeFilter">
+								<div class="inputTitle">Survey location code:</div>
+								<input type="text" id="codeSearch" placeholder="code search"/>
+								<div class="underline" onclick="$('#surveylocationCodeFilter').fadeOut(200);$('#siteCircleFilter').fadeIn(200);">Filter by site/circle instead</div>
+							</div>
 						</div>
 						<div class="filter" style="display:none;">
 							<div class="inputTitle">Circle:</div>
 							<input type="text" id="circleSearch" placeholder="circle search"/>
-						</div>
-						<div class="filter">
-							<div class="inputTitle">Survey location code:</div>
-							<input type="text" id="codeSearch" placeholder="code search"/>
 						</div>
 					</div>
 					<button onclick="filter();">Apply Filters</button>
