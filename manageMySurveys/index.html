@@ -216,16 +216,7 @@
 				display:none;
 			}
 			
-			.panel:first-of-type{
-				position:relative;
-			}
-			
 			#iconBar{
-				position:absolute;
-				top:0px;
-				left:0px;
-				width:100%;
-				box-sizing:border-box;
 				text-align:right;
 				padding:20px;
 				background:#eee;
@@ -237,7 +228,9 @@
 			}
 			
 			#filters{
+				padding:20px;
 				display:none;
+				background:#f7f7f7;
 			}
 			
 			@media screen and (max-width: 900px) {
@@ -680,21 +673,23 @@
 			<div id="navBack" onclick="resetMenu(false);">&#10094;</div>
 		</header>
 		<main>
+			<div>
+				<div id="iconBar">
+					<img src="../images/filterIcon.png" onclick="$('#filters').show(300);"/>
+				</div>
+				<div id="filters">
+					<input type="text" id="userSearch" placeholder="user search"/>
+					<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
+					<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
+					<input type="text" id="circleSearch" placeholder="circle search"/>
+					<input type="text" id="codeSearch" placeholder="code search"/>
+					<button onclick="filter();">Filter</button>
+				</div>
+			</div>
 			<div class="panel">
 				<h2>Manage My Surveys</h2>
 				<div class="tagline"></div>
 				<div class="content">
-					<div id="iconBar">
-						<img src="../images/filterIcon.png" onclick="$('#filters').show(300);"/>
-					</div>
-					<div id="filters">
-						<input type="text" id="userSearch" placeholder="user search"/>
-						<input type="text" id="arthropodSearch" placeholder="arthropod search"/>
-						<input type="text" id="siteSearch" placeholder="site ID search" oninput="$('#circleSearch').show(300);"/>
-						<input type="text" id="circleSearch" placeholder="circle search"/>
-						<input type="text" id="codeSearch" placeholder="code search"/>
-						<button onclick="filter();">Filter</button>
-					</div>
 					<div id="surveys"></div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
