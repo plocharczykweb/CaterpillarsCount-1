@@ -1,6 +1,7 @@
 <?php
 	header('Access-Control-Allow-Origin: *');
 	
+	require_once('orm/resources/Keychain.php');
 	require_once('orm/User.php');
 	require_once('orm/Site.php');
 	
@@ -14,6 +15,7 @@
 		for($i = 0; $i < count($sites); $i++){
 			$siteIDs[] = $sites[$i]->getID();
 		}
+		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT Site.ID FROM `Survey` JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `Site` ON Plant.SiteFK=Site.ID WHERE Survey.UserFKOfObserver='" . $user->getID() . "'");
 		while($siteRow = mysqli_fetch_assoc($query)){
 			$id = $siteRow["ID"];
