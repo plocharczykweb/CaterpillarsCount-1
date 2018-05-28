@@ -752,26 +752,22 @@
 			}
 			
 			function showSurveyLocationCodeFilter(){
-				$("#locationFilters").stop().fadeOut(200);
-				toggleHeight("#locationFilters", function(){
+				$("#locationFilters").stop().hide(200, function(){
 					$('#siteCircleFilter').fadeOut(0);
 					setSelectValue($('#siteSearch .select').eq(0), '');
 					$('#circleSearch')[0].value = '';
 					$('#circleSearchDiv').fadeOut(0);
 					$('#surveylocationCodeFilter').fadeIn(0);
-					$("#locationFilters").stop().fadeIn(200);
-					toggleHeight("#locationFilters");
+					$("#locationFilters").stop().show(200);
 				});
 			}
 			
 			function showSiteCircleFilter(){
-				$("#locationFilters").stop().fadeOut(200);
-				toggleHeight("#locationFilters", function(){
+				$("#locationFilters").stop().hide(200, function(){
 					$('#surveylocationCodeFilter').fadeOut(0);
 					$('#codeSearch')[0].value='';
 					$('#siteCircleFilter').fadeIn(0);
-					$("#locationFilters").stop().fadeIn(200);
-					toggleHeight("#locationFilters");
+					$("#locationFilters").stop().show(200);
 				});
 			}
 			
