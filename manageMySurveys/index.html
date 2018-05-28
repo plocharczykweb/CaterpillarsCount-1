@@ -225,9 +225,10 @@
 			}
 			
 			#filtersDropdown{
-				display:none;
 				background:#eee;
 				border-top:1px solid rgba(0,0,0,0.05);
+				max-height:0px;
+				overflow:hidden;
 			}
 			
 			#filters{
@@ -245,6 +246,7 @@
 			}
 			#filters>.filter:last-of-type{
 				border-right:0px none transparent;
+				border-bottom:0px none transparent;
 			}
 			
 			#filters>.filter .inputTitle{
@@ -262,6 +264,15 @@
 				margin-top:5px;
 				margin-right:5px;
 				text-align:right;
+			}
+			
+			#circleSearchDiv{
+				padding-top:20px;
+				display:none;
+			}
+			
+			#locationFilters{
+				overflow:hidden;
 			}
 			
 			#surveylocationCodeFilter{
@@ -374,6 +385,13 @@
 				
 				#pageNav #pageNumbers .pageNumber, #pageNav .autoPage{
 					padding:20px 10px;
+				}
+				
+				#filters>.filter{
+					width:100%;
+					display:block;
+					border-right:0px none transparent;
+					border-bottom:1px solid rgba(0,0,0,0.05);
 				}
 			}
 			@media screen and (max-width: 610px){
@@ -693,6 +711,18 @@
 				}
 			}
 			
+			function toggleHeight(ele, closeFunction){
+				ele = $(ele)[0];
+				closeFunction = closeFunction || function(){};
+				if(ele.style.maxHeight == "0px" || ele.style.maxHeight == ""){
+					$(ele).stop().animate({maxHeight:"99999999px"}, 259999);
+				}
+				else{
+					ele.style.maxHeight = ele.clientHeight + "px";
+					$(ele).stop().animate({maxHeight:"0px"}, 300, closeFunction);
+				}
+			}
+			
 			function populateSurveySites(){
 				$.get("../php/getMySurveySites.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 					//success
@@ -713,11 +743,27 @@
 				.fail(function(){
 					//error
 					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
-				})
-				.always(function() {
-					//complete
 				});
-				
+			}
+			
+			function showSurveylocationCodeFilter(){
+				toggleHeight("#locationFilters", function(){
+					$('#siteCircleFilter').fadeOut(0);
+					setSelectValue($('#siteSearch .select').eq(0), '');
+					$('#circleSearch')[0].value = '';
+					$('#circleSearchDiv').fadeOut(0);
+					$('#surveylocationCodeFilter').fadeIn(0);
+					toggleHeight("#locationFilters");
+				});
+			}
+			
+			function showSiteCircleFilter(){
+				toggleHeight("#locationFilters", function(){
+					$('#surveylocationCodeFilter').fadeOut(0);
+					$('#codeSearch')[0].value='';
+					$('#siteCircleFilter').fadeIn(0);
+					toggleHeight("#locationFilters");
+				});
 			}
 			
 			
@@ -941,7 +987,7 @@
 		<main>
 			<div class="panel" style="padding:0px;">
 				<div id="iconBar">
-					<img src="../images/filterIcon.png" onclick="$('#filtersDropdown').show(300);"/>
+					<img src="../images/filterIcon.png" onclick="toggleHeight($('#filtersDropdown'));"/>
 				</div>
 				<div id="filtersDropdown">
 					<div id="filters">
@@ -970,19 +1016,21 @@
 							</div>
 						</div>
 						<div class="filter">
-							<div id="siteCircleFilter">
-								<div class="inputTitle">Site:</div>
-								<div id="siteSearch"></div>
-								<div id="circleSearchDiv">
-									<div class="inputTitle">Circle:</div>
-									<input type="text" id="circleSearch" placeholder="circle search"/>
+							<div id="locationFilters">
+								<div id="siteCircleFilter">
+									<div class="inputTitle">Site:</div>
+									<div id="siteSearch"></div>
+									<div id="circleSearchDiv">
+										<div class="inputTitle">Circle:</div>
+										<input type="text" id="circleSearch" placeholder="circle search"/>
+									</div>
+									<div class="toggleLink underline pointer" onclick="showSurveyLocationCodeFilter();">Filter by specific survey location code instead</div>
 								</div>
-								<div class="toggleLink underline pointer" onclick="$('#siteCircleFilter').fadeOut(0);$('#surveylocationCodeFilter').fadeIn(200);setSelectValue($('#siteSearch .select').eq(0), '');$('#circleSearch')[0].value = '';$('#circleSearchDiv').fadeOut(0);">Filter by specific survey location code instead</div>
-							</div>
-							<div id="surveylocationCodeFilter">
-								<div class="inputTitle">Survey location code:</div>
-								<input type="text" id="codeSearch"/>
-								<div class="toggleLink underline pointer" onclick="$('#surveylocationCodeFilter').fadeOut(0);$('#siteCircleFilter').fadeIn(200);$('#codeSearch')[0].value='';">Filter by site/circle instead</div>
+								<div id="surveylocationCodeFilter">
+									<div class="inputTitle">Survey location code:</div>
+									<input type="text" id="codeSearch"/>
+									<div class="toggleLink underline pointer" onclick="showSiteCircleFilter();">Filter by site/circle instead</div>
+								</div>
 							</div>
 						</div>
 					</div>
