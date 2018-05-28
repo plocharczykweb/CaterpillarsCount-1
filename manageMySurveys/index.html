@@ -1027,13 +1027,13 @@
 									<div id="siteSearch"></div>
 									<div id="circleSearchDiv">
 										<div class="inputTitle">Circle:</div>
-										<input type="text" id="circleSearch" placeholder="circle search"/>
+										<input type="number" id="circleSearch" placeholder="circle search"/>
 									</div>
 									<div class="toggleLink underline pointer" onclick="showSurveyLocationCodeFilter();">Filter by specific survey location code instead</div>
 								</div>
 								<div id="surveylocationCodeFilter">
 									<div class="inputTitle">Survey location code:</div>
-									<input type="text" id="codeSearch"/>
+									<input type="text" id="codeSearch" oninput="this.value = this.value.toUpperCase().replace(/ /g, '');"/>
 									<div class="toggleLink underline pointer" onclick="showSiteCircleFilter();">Filter by site/circle instead</div>
 								</div>
 							</div>
