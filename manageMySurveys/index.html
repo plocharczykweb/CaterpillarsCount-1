@@ -234,6 +234,7 @@
 			#filters{
 				display:table;
 				width:100%;
+				background:rgba(0,0,0,0.01);
 			}
 			
 			#filters>.filter{
@@ -283,7 +284,7 @@
 				margin:0px;
 				width:100%;
 				border-radius:0px;
-				background:rgba(0,0,0,0.07);
+				background:rgba(0,0,0,0.09);
 			}
 			
 			.select{
@@ -404,7 +405,7 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				
-				loadFirstPage();
+				loadFirstPage(true);
 				
 				populateSurveySites();
 				
@@ -462,7 +463,8 @@
 			var GLOBALTotalPages = 0;
 			var GLOBALFilters = {"user":"", "arthropod":"", "site":"", "circle":"", "code":""};
 			var loadingPage = false;
-			function loadPage(pageNumber, filters){
+			function loadPage(pageNumber, filters, firstLoad){
+				firstLoad = firstLoad || false;
 				if(!loadingPage){
 					loadingPage = true;
 					$.get("../php/getMySurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&page=" + pageNumber + "&filters=" + encodeURIComponent(JSON.stringify(filters)), function(data){
@@ -486,7 +488,9 @@
 							else{
 								GLOBALPageNumber = pageNumber;
 							}
-							scrollToElement($("#iconBar"));
+							if(!firstLoad){
+								scrollToElement($("#iconBar"));
+							}
 							GLOBALTotalPages = totalPages;
 							updatePageNavigationBar();
 							var htmlToAdd = "";
@@ -625,8 +629,9 @@
 				}
 			}
 			
-			function loadFirstPage(){
-				loadPage(1, GLOBALFilters);
+			function loadFirstPage(firstLoad){
+				firstLoad = firstLoad || false;
+				loadPage(1, GLOBALFilters, firstLoad);
 			}
 			
 			function loadLastPage(){
@@ -747,21 +752,25 @@
 			}
 			
 			function showSurveyLocationCodeFilter(){
+				$("#locationFilters").stop().fadeOut(200);
 				toggleHeight("#locationFilters", function(){
 					$('#siteCircleFilter').fadeOut(0);
 					setSelectValue($('#siteSearch .select').eq(0), '');
 					$('#circleSearch')[0].value = '';
 					$('#circleSearchDiv').fadeOut(0);
 					$('#surveylocationCodeFilter').fadeIn(0);
+					$("#locationFilters").stop().fadeIn(200);
 					toggleHeight("#locationFilters");
 				});
 			}
 			
 			function showSiteCircleFilter(){
+				$("#locationFilters").stop().fadeOut(200);
 				toggleHeight("#locationFilters", function(){
 					$('#surveylocationCodeFilter').fadeOut(0);
 					$('#codeSearch')[0].value='';
 					$('#siteCircleFilter').fadeIn(0);
+					$("#locationFilters").stop().fadeIn(200);
 					toggleHeight("#locationFilters");
 				});
 			}
@@ -1016,7 +1025,7 @@
 							</div>
 						</div>
 						<div class="filter">
-							<div id="locationFilters">
+							<div id="locationFilters" style="max-height:999999px;">
 								<div id="siteCircleFilter">
 									<div class="inputTitle">Site:</div>
 									<div id="siteSearch"></div>
