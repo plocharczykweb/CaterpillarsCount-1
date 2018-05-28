@@ -758,7 +758,9 @@
 					$('#circleSearch')[0].value = '';
 					$('#circleSearchDiv').fadeOut(0);
 					$('#surveylocationCodeFilter').fadeIn(0);
-					$("#locationFilters").stop().show(200);
+					setTimeout(function(){
+						$("#locationFilters").stop().show(200);
+					}, 100);
 				});
 			}
 			
@@ -767,7 +769,9 @@
 					$('#surveylocationCodeFilter').fadeOut(0);
 					$('#codeSearch')[0].value='';
 					$('#siteCircleFilter').fadeIn(0);
-					$("#locationFilters").stop().show(200);
+					setTimeout(function(){
+						$("#locationFilters").stop().show(200);
+					}, 100);
 				});
 			}
 			
@@ -1027,7 +1031,7 @@
 									<div id="siteSearch"></div>
 									<div id="circleSearchDiv">
 										<div class="inputTitle">Circle:</div>
-										<input type="number" id="circleSearch" placeholder="circle search"/>
+										<input type="number" id="circleSearch" placeholder="circle search" oninput="this.value=this.value.replace(/\D/g, '');"/>
 									</div>
 									<div class="toggleLink underline pointer" onclick="showSurveyLocationCodeFilter();">Filter by specific survey location code instead</div>
 								</div>
