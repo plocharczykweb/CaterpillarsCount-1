@@ -34,8 +34,6 @@
 				border-radius:5px;
 				overflow:hidden;
 				background:rgba(0,0,0,0.05);
-				padding-right:20px;
-				position:relative;
 			}
 			
 			#surveys .survey .headInfo{
@@ -54,24 +52,27 @@
 				color:#fff;
 				padding-right:100px;
 				position:relative;
-				disply:table;
 			}
 			
 			#surveys .survey .siteInfo .options{
 				position:absolute;
 				right:0px;
 				top:0px;
-				padding:5px;
 				background:rgba(0,0,0,0.5);
 				box-sizing:border-box;
-				disply:table-cell;
-				vertical-align:middle;
+				display:table;
 				text-align:center;
 				width:60px;
+				height:31px;
 			}
-			
-			#surveys .survey .siteInfo .options>img{
-				height:20px;
+			#surveys .survey .siteInfo .options>div{
+				display:table-cell;
+				vertical-align:middle;
+				padding:5px;
+				box-sizing:border-box;
+			}
+			#surveys .survey .siteInfo .options>div>img{
+				height:15px;
 			}
 			
 			#surveys .survey .siteInfo .time{
@@ -81,8 +82,6 @@
 				padding:5px;
 				background:rgba(0,0,0,0.2);
 				box-sizing:border-box;
-				disply:table-cell;
-				vertical-align:middle;
 				width:90px;
 				text-align:center;
 			}
