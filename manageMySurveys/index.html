@@ -52,7 +52,7 @@
 				cursor:pointer;
 				color:#fff;
 				text-align:center;
-				padding:5px 0px;
+				padding-bottom:3px;
 			}
 			
 			#surveys .survey .options>div>img{
@@ -524,7 +524,7 @@
 									htmlToAdd += "<h3>" + getReadableDate(surveys[i]["localDate"]) + "</h3>";
 								}
 								htmlToAdd += "<div class=\"survey\">";
-								htmlToAdd += 	"<div class=\"options\"><div>&times;</div><div><img src=\"../images/editWhite.png\"/></div></div>";
+								htmlToAdd += 	"<div class=\"options\"><div><img src=\"../images/deleteWhite.png\"/></div><div><img src=\"../images/editWhite.png\"/></div></div>";
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div>" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>"
