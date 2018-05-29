@@ -34,6 +34,17 @@
 				border-radius:5px;
 				overflow:hidden;
 				background:rgba(0,0,0,0.05);
+				padding-right:30px;
+				position:relative;
+			}
+			
+			#surveys .survey .options{
+				position:absolute;
+				top:0px;
+				right:0px;
+				bottom:0px;
+				height:30px;
+				background:#444;
 			}
 			
 			#surveys .survey .headInfo{
@@ -501,6 +512,7 @@
 									htmlToAdd += "<h3>" + getReadableDate(surveys[i]["localDate"]) + "</h3>";
 								}
 								htmlToAdd += "<div class=\"survey\">";
+								htmlToAdd += 	"<div class=\"options\"></div>";
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div>" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>"
