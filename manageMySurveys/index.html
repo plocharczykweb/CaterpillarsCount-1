@@ -69,8 +69,11 @@
 			#surveys .survey .siteInfo .options>div{
 				display:table-cell;
 				vertical-align:middle;
-				padding:5px;
 				box-sizing:border-box;
+			}
+			
+			#surveys .survey .siteInfo .options>div>img{
+				cursor:pointer;
 			}
 			
 			#surveys .survey .siteInfo .time{
@@ -80,7 +83,7 @@
 				padding:5px;
 				background:rgba(0,0,0,0.2);
 				box-sizing:border-box;
-				width:90px;
+				width:80px;
 				text-align:center;
 			}
 			
@@ -1012,6 +1015,7 @@
 		<main>
 			<div class="panel" style="padding:0px;">
 				<div id="iconBar">
+					<img src="../images/delete.png"/>
 					<img src="../images/filterIcon.png" onclick="toggleHeight($('#filtersDropdown'));"/>
 				</div>
 				<div id="filtersDropdown">
