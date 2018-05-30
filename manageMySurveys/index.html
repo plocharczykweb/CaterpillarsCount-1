@@ -520,11 +520,11 @@
 									lastDate = surveys[i]["localDate"];
 									htmlToAdd += "<h3>" + getReadableDate(surveys[i]["localDate"]) + "</h3>";
 								}
-								htmlToAdd += "<div class=\"survey\">";
+								htmlToAdd += "<div class=\"survey\" id=\"" + surveys[i]["id"] + "\">";
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div>" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>"
-								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div><div class=\"options\"><div><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\"/></div><div><img src=\"../images/deleteWhite.png\" style=\"height:13px;\"/></div></div></div>";
+								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div><div class=\"options\"><div><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\" onclick=\"editSurvey(" + surveys[i]["id"] + ");\"/></div><div><img src=\"../images/deleteWhite.png\" style=\"height:13px;\" onclick=\"promptConfirm('Are you sure you want to delete " + surveys[i]["observerFullName"] + "\'s survey of " + surveys[i]["plantCode"] + " on " + getReadableDate(surveys[i]["localDate"]) + " at " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "? You will not be able to undo this action.', 'Nevermind.', 'Yes, I am sure!', function(){}, function(){deleteSurvey(" + surveys[i]["id"] + ");});\"/></div></div></div>";
 								htmlToAdd += 	"<div class=\"surveyInfo\">";
 								htmlToAdd += 		"<div>";
 								htmlToAdd += 			"<div>";
@@ -573,7 +573,7 @@
 									return 0;
 								});
 								for(var j = 0; j < surveys[i]["arthropodSightings"].length; j++){
-									htmlToAdd +=	"<div class=\"arthropodSighting\">";
+									htmlToAdd +=	"<div class=\"arthropodSighting\" id=\"" + surveys[i]["arthropodSightings"][j]["id"] + "\">";
 									htmlToAdd +=		"<div>";
 									htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/" + surveys[i]["arthropodSightings"][j]["group"] + ".png');\"></div>";
 									htmlToAdd +=		"</div>";
@@ -793,6 +793,14 @@
 						$("#locationFilters").stop().show(200);
 					}, 100);
 				});
+			}
+			
+			function deleteSurvey(id){
+				alert("deleting" + id);
+			}
+			
+			function editSurvey(id){
+				alert("editing" + id);
 			}
 			
 			
