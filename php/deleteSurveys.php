@@ -14,7 +14,7 @@
     		for($i = 0; $i < count($surveyIDs); $i++){
       			$survey = Survey::findByID($surveyIDs[$i]);
       			if(is_object($survey) && get_class($survey) == "Survey"){
-        			if($survey->getObserver() === $user || in_array($survey->getPlant()->getSite(), $user->getSites(), true)){
+        			if($survey->getObserver() == $user || in_array($survey->getPlant()->getSite(), $user->getSites())){
           				$survey->permanentDelete();
 					$successes++;
         			}
