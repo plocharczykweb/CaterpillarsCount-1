@@ -737,15 +737,30 @@
 			}
 			
 			function toggleHeight(ele, closeFunction){
+				closeFunction = closeFunction || function(){};
+				if(!openHeight(ele)){
+					closeHeight(ele, closeFunction);
+				}
+			}
+			
+			function closeHeight(ele, closeFunction){
 				ele = $(ele)[0];
 				closeFunction = closeFunction || function(){};
-				if(ele.style.maxHeight == "0px" || ele.style.maxHeight == ""){
-					$(ele).stop().animate({maxHeight:"99999999px"}, 259999);
-				}
-				else{
+				if(ele.style.maxHeight != "0px" && ele.style.maxHeight != ""){
 					ele.style.maxHeight = ele.clientHeight + "px";
 					$(ele).stop().animate({maxHeight:"0px"}, 300, closeFunction);
+					return true;
 				}
+				return false;
+			}
+			
+			function openHeight(ele){
+				ele = $(ele)[0];
+				if(ele.style.maxHeight == "0px" || ele.style.maxHeight == ""){
+					$(ele).stop().animate({maxHeight:"99999999px"}, 259999);
+					return true;
+				}
+				return false;
 			}
 			
 			function populateSurveySites(){
@@ -1024,8 +1039,8 @@
 		<main>
 			<div class="panel" style="padding:0px;">
 				<div id="iconBar">
-					<img src="../images/delete.png" onclick="toggleHeight($('#batchDeleteDropdown'));"/>
-					<img src="../images/filterIcon.png" onclick="toggleHeight($('#filtersDropdown'));"/>
+					<img src="../images/delete.png" onclick="closeHeight($('#filtersDropdown'));toggleHeight($('#batchDeleteDropdown'));"/>
+					<img src="../images/filterIcon.png" onclick="closeHeight($('#batchDeleteDropdown'));toggleHeight($('#filtersDropdown'));"/>
 					<div class="clearBoth"></div>
 				</div>
 				<div id="batchDeleteDropdown">
