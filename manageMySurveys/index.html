@@ -244,7 +244,7 @@
 				float:right;
 			}
 			
-			#filtersDropdown{
+			#filtersDropdown, #batchDeleteDropdown{
 				background:#eee;
 				border-top:1px solid rgba(0,0,0,0.05);
 				max-height:0px;
@@ -524,7 +524,7 @@
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div>" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>"
-								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div><div class=\"options\"><div><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\" onclick=\"editSurvey(" + surveys[i]["id"] + ");\"/></div><div><img src=\"../images/deleteWhite.png\" style=\"height:13px;\" onclick=\"promptConfirm('Are you sure you want to delete " + surveys[i]["observerFullName"] + "s survey of " + surveys[i]["plantCode"] + " on " + getReadableDate(surveys[i]["localDate"]) + " at " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "? You will not be able to undo this action.', 'Nevermind.', 'Yes, I am sure!', function(){}, function(){deleteSurvey(" + surveys[i]["id"] + ");});\"/></div></div></div>";
+								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div><div class=\"options\"><div><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\" onclick=\"editSurvey(" + surveys[i]["id"] + ");\"/></div><div><img src=\"../images/deleteWhite.png\" style=\"height:13px;\" onclick=\"promptConfirm('Are you sure you want to delete " + surveys[i]["observerFullName"] + "\\'s " + surveys[i]["plantCode"] + " survey on " + getReadableDate(surveys[i]["localDate"]) + " at " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "? You will not be able to undo this action.', 'Nevermind.', 'Yes, I am sure!', function(){}, function(){deleteSurvey(" + surveys[i]["id"] + ");});\"/></div></div></div>";
 								htmlToAdd += 	"<div class=\"surveyInfo\">";
 								htmlToAdd += 		"<div>";
 								htmlToAdd += 			"<div>";
@@ -1024,9 +1024,12 @@
 		<main>
 			<div class="panel" style="padding:0px;">
 				<div id="iconBar">
-					<img src="../images/delete.png"/>
+					<img src="../images/delete.png" onclick="toggleHeight($('#batchDeleteDropdown'));"/>
 					<img src="../images/filterIcon.png" onclick="toggleHeight($('#filtersDropdown'));"/>
 					<div class="clearBoth"></div>
+				</div>
+				<div id="batchDeleteDropdown">
+					To batch delete surveys, scroll down and select all the surveys you want to delete. Then click the batch delete button. If you do not want to batch delete your surveys, close this menu.
 				</div>
 				<div id="filtersDropdown">
 					<div id="filters">
