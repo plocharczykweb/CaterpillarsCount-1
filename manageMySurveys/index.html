@@ -849,7 +849,7 @@
 			
 			function batchDelete(){
 				alert("batch deleting");
-				IDArray = [];
+				var IDArray = [];
 				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.location.getItem("email")) + "&salt=" + window.location.getItem("salt") + "&surveyIDs=" + JSON.stringify(IDArray), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
