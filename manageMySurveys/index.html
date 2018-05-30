@@ -251,7 +251,7 @@
 				overflow:hidden;
 			}
 			
-			#batchDeleteDropdown{
+			#batchDeleteDropdown>div{
 				padding:20px;
 				font-size:17px;
 				font-family: 'Roboto Slab', serif;
@@ -676,6 +676,10 @@
 				}
 			}
 			
+			function reloadPage(){
+				loadPage(GLOBALPageNumber, GLOBALFilters);
+			}
+			
 			function updatePageNavigationBar(){
 				//some odd number representing max number of pages in page nav
 				var numberOfPagesInNav = 9;
@@ -820,10 +824,53 @@
 			
 			function deleteSurvey(id){
 				alert("deleting" + id);
+				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.location.getItem("email")) + "&salt=" + window.location.getItem("salt") + "&surveyIDs=" + JSON.stringify([id]), function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						queueNotice("confirmation", "Surveys deleted!");
+						reloadPage();
+					}
+					else{
+						queueNotice("error", data.replace("false|", ""));
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
 			}
 			
 			function editSurvey(id){
 				alert("editing" + id);
+			}
+			
+			function batchDelete(){
+				alert("batch deleting");
+				IDArray = [];
+				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.location.getItem("email")) + "&salt=" + window.location.getItem("salt") + "&surveyIDs=" + JSON.stringify(IDArray), function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						queueNotice("confirmation", "Surveys deleted!");
+						reloadPage();
+					}
+					else{
+						var batchDeleteError = data.replace("false|", "");
+						queueNotice("error", batchDeleteError);
+						if(batchDeleteError.indexOf("Only") == 0){
+							reloadPage();
+						}
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
 			}
 			
 			
@@ -1052,7 +1099,10 @@
 					<div class="clearBoth"></div>
 				</div>
 				<div id="batchDeleteDropdown">
-					To batch delete surveys, scroll down and select all the surveys you want to delete. Then click the batch delete button. If you do not want to batch delete your surveys, close this menu.
+					<div>
+						To batch delete surveys, scroll down and select all the surveys you want to delete. Then click the batch delete button. If you do not want to batch delete your surveys, close this menu.
+						<button onclick="batchDelete();">Batch Delete</button>
+					</div>
 				</div>
 				<div id="filtersDropdown">
 					<div id="filters">
