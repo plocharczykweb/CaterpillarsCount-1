@@ -725,6 +725,10 @@
 				return selected.indexOf(surveyID + "") > -1;
 			}
 			
+			function selectAll(){
+				//TODO
+			}
+			
 			function clearSelected(){
 				$(".checked").removeClass("checked")
 				selected = [];
@@ -1178,7 +1182,7 @@
 				</div>
 				<div id="batchDeleteDropdown">
 					<div>
-						Batch delete is now active. Select the surveys you'd like to delete.
+						Batch delete is now active. <span onclick="selectAll();" class="pointer underline">Select all</span>, <span onclick="clearSelected();" class="pointer underline">deselect all</span>, or manually select the surveys you'd like to delete.
 						<button onclick="batchDelete();" id="batchDeleteButton">Batch Delete 0 Surveys</button>
 					</div>
 				</div>
