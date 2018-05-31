@@ -78,10 +78,8 @@
 				cursor:pointer;
 			}
 			
-			#surveys .survey .siteInfo .options>div:nth-of-type(3){
-				display:none;
-			}
 			#surveys .survey .siteInfo .options>div>.checkbox{
+				display:none;
 				height:11px;
 				width:11px;
 			}
@@ -786,24 +784,24 @@
 			}
 			
 			function toggleCheckboxes(){
-				if($("#surveys .survey .siteInfo .options>div:nth-of-type(1)").length > 0 && $("#surveys .survey .siteInfo .options>div:nth-of-type(1)").eq(0)[0].style.display == "block"){
-					showCheckboxes();
+				if($("#surveys .survey .siteInfo .options>div:nth-of-type(1)").length > 0 && $("#surveys .survey .siteInfo .options>div:nth-of-type(3)>.checkbox").eq(0)[0].style.display == "block"){
+					hideCheckboxes();
 				}
 				else{
-					hideCheckboxes();
+					showCheckboxes();
 				}
 			}
 			
 			function showCheckboxes(){
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(1)").stop().hide(300);
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(2)").stop().hide(300);
-				$("#surveys .survey .siteInfo .options>div:nth-of-type(3)").stop().show(300);
+				$("#surveys .survey .siteInfo .options>div:nth-of-type(3)>.checkbox").stop().show(300);
 			}
 			
 			function hideCheckboxes(){
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(1)").stop().show(300);
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(2)").stop().show(300);
-				$("#surveys .survey .siteInfo .options>div:nth-of-type(3)").stop().hide(300);
+				$("#surveys .survey .siteInfo .options>div:nth-of-type(3)>.checkbox").stop().hide(300);
 			}
 			
 			function populateSurveySites(){
