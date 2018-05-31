@@ -713,6 +713,7 @@
 						selected.splice(index, 1);
 					}
 				}
+				$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + selected.length + " Surveys";
 			}
 			
 			function isSelected(surveyID){
@@ -916,7 +917,7 @@
 			function batchDelete(){
 				alert("batch deleting");
 				var IDArray = [];
-				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&surveyIDs=" + JSON.stringify(IDArray), function(data){
+				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&surveyIDs=" + JSON.stringify(selected), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
 						queueNotice("confirmation", "Surveys deleted!");
@@ -1167,7 +1168,7 @@
 				<div id="batchDeleteDropdown">
 					<div>
 						Batch delete is now active. Select the surveys you'd like to delete.
-						<button onclick="batchDelete();">Batch Delete Selected Surveys</button>
+						<button onclick="batchDelete();" id="batchDeleteButton">Batch Delete 0 Surveys</button>
 					</div>
 				</div>
 				<div id="filtersDropdown">
