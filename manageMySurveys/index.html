@@ -713,7 +713,12 @@
 						selected.splice(index, 1);
 					}
 				}
-				$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + selected.length + " Surveys";
+				if(selected.length == 1){
+					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + selected.length + " Survey";
+				}
+				else{
+					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + selected.length + " Surveys";
+				}
 			}
 			
 			function isSelected(surveyID){
