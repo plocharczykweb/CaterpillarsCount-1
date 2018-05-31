@@ -499,6 +499,7 @@
 				return formattedHours + ":" + minutes + ampm;
 			}
 			
+			var selected = [];
 			var GLOBALPageNumber = 1;
 			var GLOBALTotalPages = 0;
 			var GLOBALFilters = {"user":"", "arthropod":"", "site":"", "circle":"", "code":""};
@@ -544,7 +545,17 @@
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div>" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>";
-								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div><div class=\"options\"><div><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\" onclick=\"editSurvey(" + surveys[i]["id"] + ");\"/></div><div><img src=\"../images/deleteWhite.png\" style=\"height:13px;\" onclick=\"promptConfirm('Are you sure you want to delete " + surveys[i]["observerFullName"] + "\\'s " + surveys[i]["plantCode"] + " survey from " + getReadableDate(surveys[i]["localDate"]) + " at " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "? You will not be able to undo this action.', 'Nevermind.', 'Yes, I am sure!', function(){}, function(){deleteSurvey(" + surveys[i]["id"] + ");});\"/></div><div><div class=\"checkboxHolder\"><div class=\"checkbox\" onclick=\"toggleCheckbox($(this));\"></div></div></div></div></div>";
+								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div><div class=\"options\"><div";
+								if($("#batchDeleteDropdown")[0].style.maxWidth != "" && $("#batchDeleteDropdown")[0].style.maxWidth != "0px"){
+									htmlToAdd += " style=\"display:none;\"><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\" onclick=\"editSurvey(" + surveys[i]["id"] + ");\"/></div><div style=\"display:none;\"><img src=\"../images/deleteWhite.png\" style=\"height:13px;\" onclick=\"promptConfirm('Are you sure you want to delete " + surveys[i]["observerFullName"] + "\\'s " + surveys[i]["plantCode"] + " survey from " + getReadableDate(surveys[i]["localDate"]) + " at " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "? You will not be able to undo this action.', 'Nevermind.', 'Yes, I am sure!', function(){}, function(){deleteSurvey(" + surveys[i]["id"] + ");});\"/></div><div><div class=\"checkboxHolder\" style=\"display:block;\"><div class=\"checkbox"
+									if(isSelected(surveys[i]["id"])){
+										htmlToAdd += " checked";
+									}
+								}
+								else{
+									htmlToAdd += "><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\" onclick=\"editSurvey(" + surveys[i]["id"] + ");\"/></div><div><img src=\"../images/deleteWhite.png\" style=\"height:13px;\" onclick=\"promptConfirm('Are you sure you want to delete " + surveys[i]["observerFullName"] + "\\'s " + surveys[i]["plantCode"] + " survey from " + getReadableDate(surveys[i]["localDate"]) + " at " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "? You will not be able to undo this action.', 'Nevermind.', 'Yes, I am sure!', function(){}, function(){deleteSurvey(" + surveys[i]["id"] + ");});\"/></div><div><div class=\"checkboxHolder\"><div class=\"checkbox"
+								}
+								htmlToAdd +=	"\" onclick=\"toggleCheckbox($(this));toggleSelected($(this), " + surveys[i]["id"] + ");\"></div></div></div></div></div>";
 								htmlToAdd += 	"<div class=\"surveyInfo\">";
 								htmlToAdd += 		"<div>";
 								htmlToAdd += 			"<div>";
@@ -692,6 +703,26 @@
 				loadPage(GLOBALPageNumber, GLOBALFilters);
 			}
 			
+			function toggleSelected(checkbox, surveyID){
+				if(checkbxoIsChecked(checkbox)){
+					selected[selected.length] = surveyID + "";
+				}
+				else{
+					var index = selected.indexOf(surveyID + "");
+					if(index > -1) {
+						selected.splice(index, 1);
+					}
+				}
+			}
+			
+			function isSelected(surveyID){
+				return selected.indexOf(surveyID + "") > -1;
+			}
+			
+			function clearSelected(){
+				selected = [];
+			}
+			
 			function updatePageNavigationBar(){
 				//some odd number representing max number of pages in page nav
 				var numberOfPagesInNav = 9;
@@ -803,6 +834,7 @@
 			}
 			
 			function hideCheckboxes(){
+				clearSelected();
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(1)").stop().show(300);
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(2)").stop().show(300);
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(3)>.checkboxHolder").stop().hide(300);
