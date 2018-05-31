@@ -58,7 +58,7 @@
 			}
 			die("false|" . $errors);
 		}
-		die("true|");
+		die("true|" . $successes);
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
