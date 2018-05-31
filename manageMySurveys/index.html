@@ -894,7 +894,7 @@
 				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + localStorage.getItem("salt") + "&surveyIDs=" + JSON.stringify([id]), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
-						queueNotice("confirmation", "Surveys deleted!");
+						queueNotice("confirmation", "Survey deleted!");
 						reloadPage();
 					}
 					else{
@@ -920,7 +920,13 @@
 				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&surveyIDs=" + JSON.stringify(selected), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
-						queueNotice("confirmation", "Surveys deleted!");
+						var numberOfSurveys = Number(data.replace("true|", ""));
+						if(numberOfSurveys == 1){
+						   	queueNotice("confirmation", "Survey deleted!");
+						}
+						else{
+							queueNotice("confirmation", numberOfSurveys + " surveys deleted!");
+						}
 						reloadPage();
 					}
 					else{
