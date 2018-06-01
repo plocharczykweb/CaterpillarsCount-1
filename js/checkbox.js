@@ -1,4 +1,4 @@
-      function toggleCheckbox(checkbox){
+      			function toggleCheckbox(checkbox){
 				if(checkboxIsChecked(checkbox)){
 					uncheckCheckbox(checkbox);
 				}
@@ -8,13 +8,17 @@
 			}
 			
 			function checkCheckbox(checkbox){
-				$(checkbox)[0].className = $(checkbox)[0].className + " checked";
+				if(!checkboxIsChecked(checkbox)){
+					$(checkbox).addClass("checked");
+				}
 			}
 			
 			function uncheckCheckbox(checkbox){
-				$(checkbox)[0].className = $(checkbox)[0].className.replace("checked", "").trim();
+				if(checkboxIsChecked(checkbox)){
+					$(checkbox).removeClass("checked");
+				}
 			}
 			
 			function checkboxIsChecked(checkbox){
-				return ($(checkbox)[0].className.indexOf("checked") > -1);
+				return $(checkbox).hasClass("checked");
 			}
