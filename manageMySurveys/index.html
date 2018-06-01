@@ -502,7 +502,9 @@
 			}
 			
 			var selected = [];
+			var unselected = [];
 			var GLOBALPageNumber = 1;
+			var GLOBALTotalSurveys = 0;
 			var GLOBALTotalPages = 0;
 			var GLOBALFilters = {"user":"", "arthropod":"", "site":"", "circle":"", "code":""};
 			var loadingPage = false;
@@ -517,8 +519,9 @@
 							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 							var data = JSON.parse(data.replace("true|", ""));
-							var totalPages = data[0];
-							var surveys = data[1];
+							var totalSurveys = data[0];
+							var totalPages = data[1];
+							var surveys = data[2];
 							if(surveys.length == 0){
 								if(pageNumber > 1){
 									return false;
@@ -534,6 +537,7 @@
 							if(!firstLoad){
 								scrollToElement($("#iconBar"));
 							}
+							GLOBALTotalSurveys = totalSurveys;
 							GLOBALTotalPages = totalPages;
 							updatePageNavigationBar();
 							var htmlToAdd = "";
@@ -707,33 +711,68 @@
 			
 			function toggleSelected(checkbox, surveyID){
 				if(checkboxIsChecked(checkbox)){
-					selected[selected.length] = surveyID + "";
-				}
-				else{
-					var index = selected.indexOf(surveyID + "");
-					if(index > -1) {
-						selected.splice(index, 1);
+					if(selected == "all"){
+						var index = unselected.indexOf(surveyID + "");
+						if(index > -1) {
+							unselected.splice(index, 1);
+						}
+					}
+					else{
+						selected[selected.length] = surveyID + "";
 					}
 				}
+				else{
+					if(selected == "all"){
+						unselected[unselected.length] = surveyID + "";
+					}
+					else{
+						var index = selected.indexOf(surveyID + "");
+						if(index > -1) {
+							selected.splice(index, 1);
+						}
+					}
+				}
+				
+				var amountChecked = 0;
+				if(selected == "all"){amountChecked = (GLOBALTotalSurveys - unselected.length);}
+				else{amountChecked = selected.length;}
+				
 				if(selected.length == 1){
-					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + selected.length + " Survey";
+					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + amountChecked + " Survey";
 				}
 				else{
-					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + selected.length + " Surveys";
+					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + amountChecked + " Surveys";
 				}
 			}
 			
 			function isSelected(surveyID){
+				if(selected == "all"){
+					return unselected.indexOf(surveyID + "") == -1;
+				}
 				return selected.indexOf(surveyID + "") > -1;
 			}
 			
 			function selectAll(){
 				//TODO
+				if(GLOBALTotalSurveys == 0){
+					queueNotice("alert", "There are no surveys to select.");
+				}
+				else if(GLOBALTotalSurveys == 1){
+					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + GLOBALTotalSurveys + " Survey";
+				}
+				else{
+					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + GLOBALTotalSurveys + " Surveys";
+				}
+				
+				$(".checkbox").addClass("checked");
+				selected = "all";
+				unselected = [];
 			}
 			
-			function clearSelected(){
-				$(".checked").removeClass("checked")
+			function deselectAll(){
+				$(".checked").removeClass("checked");
 				selected = [];
+				unselected = [];//used when selected == "all"
 				$("#batchDeleteButton")[0].innerHTML = "Batch Delete 0 Surveys";
 			}
 			
@@ -848,7 +887,7 @@
 			}
 			
 			function hideCheckboxes(){
-				clearSelected();
+				deselectAll();
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(1)").stop().show(300);
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(2)").stop().show(300);
 				$("#surveys .survey .siteInfo .options>div:nth-of-type(3)>.checkboxHolder").stop().hide(300);
@@ -859,6 +898,11 @@
 					//success
 					if(data.indexOf("true|") == 0){
 						var sites = JSON.parse(data.replace("true|", ""));
+						sites.sort(function(a, b){
+							if((a["name"] + " (" + a["region"] + ")").toLowerCase() < (b["name"] + " (" + b["region"] + ")").toLowerCase()){return -1;}
+							if((a["name"] + " (" + a["region"] + ")").toLowerCase() > (b["name"] + " (" + b["region"] + ")").toLowerCase()){return 1;}
+							return 0;
+						});
 						var htmlToAdd = "<div class=\"select\">";
 						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);$('#circleSearchDiv').hide(300);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
 						for(var i = 0; i < sites.length; i++){
@@ -929,7 +973,7 @@
 			function batchDelete(){
 				alert("batch deleting");
 				var IDArray = [];
-				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&surveyIDs=" + JSON.stringify(selected), function(data){
+				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&selected=" + JSON.stringify(selected) + "&unselected=" + JSON.stringify(unselected), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
 						var numberOfSurveys = Number(data.replace("true|", ""));
@@ -1185,8 +1229,9 @@
 				</div>
 				<div id="batchDeleteDropdown">
 					<div>
-						Batch delete is now active. <span onclick="selectAll();" class="pointer underline">Select all</span>, <span onclick="clearSelected();" class="pointer underline">deselect all</span>, or manually select the surveys you'd like to delete.
+						Batch delete is now active. <span onclick="selectAll();" class="pointer underline">Select all</span>, <span onclick="deselectAll();" class="pointer underline">deselect all</span>, or manually select the surveys you'd like to delete.
 						<button onclick="batchDelete();" id="batchDeleteButton">Batch Delete 0 Surveys</button>
+						<span class="underline pointer" onclick="closeHeight($('#batchDeleteDropdown'));hideCheckboxes();">Cancel</span>
 					</div>
 				</div>
 				<div id="filtersDropdown">
