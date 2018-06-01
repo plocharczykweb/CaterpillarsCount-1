@@ -4,59 +4,48 @@
 	
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
-	$surveyIDs = json_decode($_GET["surveyIDs"]);
-	
+	$selected = json_decode($_GET["selected"]);
+	$unselected = json_decode($_GET["unselected"]);
+	$filters = json_decode(rawurldecode($_GET["filters"]), true);
+
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
-    		$couldntIdentify = array();
-    		$noAuthority = array();
 		$successes = 0;
-    		for($i = 0; $i < count($surveyIDs); $i++){
-      			$survey = Survey::findByID($surveyIDs[$i]);
-      			if(is_object($survey) && get_class($survey) == "Survey"){
-        			if($survey->getObserver() == $user || in_array($survey->getPlant()->getSite(), $user->getSites())){
-          				$survey->permanentDelete();
-					$successes++;
-        			}
-        			else{
-					$noAuthority[] = $surveyIDs[$i];
+		$failures = 0;
+		
+		$userSites = $user->getSites();
+		$userSiteIDs = array();
+		for($i = 0; $i < count($userSites); $i++){
+			$userSiteIDs[] = $userSites[$i]->getID();
+		}
+	
+		if($selected == "all"){
+			$surveys = Survey::findSurveysByUser($user, $filters, 0, 9999999999999999999999);//this might cause a timeout
+			$selected = array();
+			for($i = 0; $i < count($surveys); $i++){
+				$surveyID = $surveys[$i]->getID() . "";
+				if(!in_array($surveyID, $unselected)){
+					$selected[] = $surveyID;
 				}
-      			}
-			else{
-				$couldntIdentify[] = $surveyIDs[$i];
-			}
-    		}
-		$errors = "";
-    		if(count($couldntIdentify) > 0){
-			if(count($surveyIDs) < 2){
-				$errors .= "This survey does not exist and therefore cannot be deleted. ";
-			}
-			else if(count($couldntIdentify) == 1){
-				$errors .= "The survey with the ID " . $couldntIdentify[0] . " does not exist and therefore cannot be deleted. ";
-			}
-      			else{
-				$errors .= "The surveys with the following IDs do not exist and therefore cannot be deleted: " . join(", ", $couldntIdentify) . ". ";
-			}
-    		}
-		if(count($noAuthority) > 0){
-			if(count($surveyIDs) < 2){
-				$errors .= "You do not have the authority to delete this survey. ";
-			}
-			else if(count($noAuthority) == 1){
-				$errors .= "You do not have the authority to delete the survey with the ID " . $noAuthority[0] . ". ";
-			}
-      			else{
-				$errors .= "You do not have the authority to delete the surveys with the following IDs: " . join(", ", $noAuthority) . ". ";
 			}
 		}
-		if($errors != ""){
-			if($successes == 1){
-				$errors = "Only " . $successes . " survey was successfully deleted. " . $errors;
+		
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		mysqli_query($dbconn, "DELETE ArthropodSighting FROM ArthropodSighting JOIN Survey on ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Survey.ID IN (-1, " . join(", ", $selected) . ") AND (Survey.UserFKOfObserver='" . $user->getID() . "' OR Site.ID IN (-1, " . join(", ", $userSiteIDs) . "))");
+		mysqli_query($dbconn, "DELETE Survey FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Survey.ID IN (-1, " . join(", ", $selected) . ") AND (Survey.UserFKOfObserver='" . $user->getID() . "' OR Site.ID IN (-1, " . join(", ", $userSiteIDs) . "))");
+		$successes = mysqli_affected_rows($dbconn);
+		$failures = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM Survey WHERE Survey.ID IN (-1, " . join(", ", $selected) . ")"))["Count"]);
+		
+		if(count($failures) > 0){
+			if(count($surveyIDs) < 2){
+				die("false|You do not have the authority to delete this survey.");
+			}
+			else if($successes == 1){
+				die("false|Only " . $successes . " survey was successfully deleted. You do not have the authority to delete " . $failures . " of the surveys you tried to delete.");
 			}
 			else if($successes > 1){
-				$errors = "Only " . $successes . " surveys were successfully deleted. " . $errors;
+				die("false|Only " . $successes . " surveys were successfully deleted. You do not have the authority to delete " . $failures . " of the surveys you tried to delete.");
 			}
-			die("false|" . $errors);
 		}
 		die("true|" . $successes);
 	}
