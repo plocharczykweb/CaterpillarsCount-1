@@ -15,7 +15,8 @@
 			$start = ((intval($page) - 1) * $PAGE_LENGTH);
 		}
 		$surveys = Survey::findSurveysByUser($user, $filters, $start, $PAGE_LENGTH);
-		$totalPages = ceil($surveys[0]/$PAGE_LENGTH);
+		$totalCount = $surveys[0];
+		$totalPages = ceil($totalCount/$PAGE_LENGTH);
 		$surveys = $surveys[1];
 		$surveysArray = array();
 		for($i = 0; $i < count($surveys); $i++){
@@ -64,7 +65,7 @@
 				);
 			}
 		}
-		die("true|" . json_encode(array($totalPages, $surveysArray)));
+		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray)));
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
