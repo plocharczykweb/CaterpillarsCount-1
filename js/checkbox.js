@@ -8,15 +8,11 @@
 			}
 			
 			function checkCheckbox(checkbox){
-				if(!checkboxIsChecked(checkbox)){
-					$(checkbox).addClass("checked");
-				}
+				$(checkbox).addClass("checked");
 			}
 			
 			function uncheckCheckbox(checkbox){
-				if(checkboxIsChecked(checkbox)){
-					$(checkbox).removeClass("checked");
-				}
+				$(checkbox).removeClass("checked");
 			}
 			
 			function checkboxIsChecked(checkbox){
