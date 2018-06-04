@@ -949,7 +949,6 @@
 			}
 			
 			function deleteSurvey(id){
-				alert("deleting" + id);
 				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + localStorage.getItem("salt") + "&surveyIDs=" + JSON.stringify([id]), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
@@ -974,34 +973,43 @@
 			}
 			
 			function batchDelete(){
-				alert("batch deleting");
-				var IDArray = [];
-				$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&selected=" + JSON.stringify(selected) + "&unselected=" + JSON.stringify(unselected), function(data){
-					//success
-					if(data.indexOf("true|") == 0){
-						var numberOfSurveys = Number(data.replace("true|", ""));
-						if(numberOfSurveys == 1){
-						   	queueNotice("confirmation", "Survey deleted!");
-						}
-						else{
-							queueNotice("confirmation", numberOfSurveys + " surveys deleted!");
-						}
-						reloadPage();
-					}
-					else{
-						var batchDeleteError = data.replace("false|", "");
-						queueNotice("error", batchDeleteError);
-						if(batchDeleteError.indexOf("Only") == 0){
+				var numberOfSurveys = Number($("#batchDeleteButton")[0].innerHTML.replace(/\D/g, ""));
+				var message = "Take a moment to make sure you have selected the correct surveys. Are you sure you want to delete these " + numberOfSurveys + " surveys? You will not be able to undo this action.";
+				if(numberOfSurveys < 1){
+					queueNotice("error", "Select at least one survey first. Checkboxes are located at the top right corner of each survey.");
+					return false;
+				}
+				else if(numberOfSurveys == 1){
+					message = "Take a moment to make sure you have selected the correct survey. Are you sure you want to delete this survey? You will not be able to undo this action.";
+				}
+				promptConfirm(message, 'Nevermind.', 'Yes, I am sure!', function(){}, function(){
+					$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&selected=" + JSON.stringify(selected) + "&unselected=" + JSON.stringify(unselected), function(data){
+						//success
+						if(data.indexOf("true|") == 0){
+							var numberOfSurveys = Number(data.replace("true|", ""));
+							if(numberOfSurveys == 1){
+							   	queueNotice("confirmation", "Survey deleted!");
+							}
+							else{
+								queueNotice("confirmation", numberOfSurveys + " surveys deleted!");
+							}
 							reloadPage();
 						}
-					}
-				})
-				.fail(function(){
-					//error
-					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
-				})
-				.always(function() {
-					//complete
+						else{
+							var batchDeleteError = data.replace("false|", "");
+							queueNotice("error", batchDeleteError);
+							if(batchDeleteError.indexOf("Only") == 0){
+								reloadPage();
+							}
+						}
+					})
+					.fail(function(){
+						//error
+						queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+					})
+					.always(function() {
+						//complete
+					});
 				});
 			}
 			
