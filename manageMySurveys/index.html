@@ -972,6 +972,7 @@
 				alert("editing" + id);
 			}
 			
+			var batchDeleting = false;
 			function batchDelete(){
 				var numberOfSurveys = Number($("#batchDeleteButton")[0].innerHTML.replace(/\D/g, ""));
 				var message = "Take a moment to make sure you have selected the correct surveys. Are you sure you want to delete these " + numberOfSurveys + " surveys? You will not be able to undo this action.";
@@ -982,9 +983,11 @@
 				else if(numberOfSurveys == 1){
 					message = "Take a moment to make sure you have selected the correct survey. Are you sure you want to delete this survey? You will not be able to undo this action.";
 				}
-				promptConfirm(message, 'Nevermind.', 'Yes, I am sure!', function(){}, function(){
+				batchDeleting = true;
+				promptConfirm(message, 'Nevermind.', 'Yes, I am sure!', function(){batchDeleting = false;}, function(){
 					$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&selected=" + JSON.stringify(selected) + "&unselected=" + JSON.stringify(unselected), function(data){
 						//success
+						deselectAll();
 						if(data.indexOf("true|") == 0){
 							var numberOfSurveys = Number(data.replace("true|", ""));
 							if(numberOfSurveys == 1){
@@ -1009,6 +1012,7 @@
 					})
 					.always(function() {
 						//complete
+						batchDeleting = false;
 					});
 				});
 			}
