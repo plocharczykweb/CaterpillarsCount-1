@@ -21,21 +21,19 @@
 		*/
 	
 		//if($selected == "all"){
-			$surveys = Survey::findSurveysByUser(User::findByID(25), array("user"=>"aaron", "arthropod"=>"", "site"=>"", "circle"=>"", "code"=>""), 0, 25);//9999999999999999999);//this might cause a timeout
+			$surveys = Survey::findSurveysByUser(User::findByID(25), array("user"=>"aaron", "arthropod"=>"", "site"=>"", "circle"=>"", "code"=>""), 0, 25)[1];//9999999999999999999);//this might cause a timeout
 			//die(json_encode($surveys));
-
-			var_dump(Survey::findByID(903));
-			echo "<br/><br/>";
 
 			$selected = array();
 			for($i = 0; $i < count($surveys); $i++){
 				var_dump($surveys[$i]);
-				echo "<br/>";
-				//$surveyID = $surveys[$i]->getID() . "";
-				//echo $i . ": " . $surveyID . "<br/>";
-				//if(!in_array($surveyID, $unselected)){
-				//	$selected[] = $surveyID;
-				//}
+				echo "<br/><br/>";
+				$surveyID = $surveys[$i]->getID() . "";
+				echo $i . ": " . $surveyID . "<br/>";
+				if(!in_array($surveyID, $unselected)){
+					$selected[] = $surveyID;
+				}
+				echo "<br/>-------------------------------------------------------------<br/>";
 			}
 		//}
 		die(json_encode($selected));
