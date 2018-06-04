@@ -20,7 +20,7 @@
 		}
 	
 		if($selected == "all"){
-			$surveys = Survey::findSurveysByUser($user, $filters, 0, "max");//9999999999999999999);//this might cause a timeout
+			$surveys = Survey::findSurveysByUser($user, $filters, 0, "max")[1];//9999999999999999999);//this might cause a timeout
 			$selected = array();
 			for($i = 0; $i < count($surveys); $i++){
 				$surveyID = $surveys[$i]->getID() . "";
