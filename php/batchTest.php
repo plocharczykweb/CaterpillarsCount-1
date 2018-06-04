@@ -22,6 +22,8 @@
 	
 		//if($selected == "all"){
 			$surveys = Survey::findSurveysByUser(User::findByID(25), array("user"=>"aaron", "arthropod"=>"", "site"=>"", "circle"=>"", "code"=>""), 0, "max");//9999999999999999999);//this might cause a timeout
+			die(json_encode($surveys));
+
 			$selected = array();
 			for($i = 0; $i < count($surveys); $i++){
 				$surveyID = $surveys[$i]->getID() . "";
