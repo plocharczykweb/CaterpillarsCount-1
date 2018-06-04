@@ -24,13 +24,18 @@
 			$surveys = Survey::findSurveysByUser(User::findByID(25), array("user"=>"aaron", "arthropod"=>"", "site"=>"", "circle"=>"", "code"=>""), 0, 25);//9999999999999999999);//this might cause a timeout
 			//die(json_encode($surveys));
 
+			var_dump($survey:findByID(903));
+			echo "<br/><br/>";
+
 			$selected = array();
 			for($i = 0; $i < count($surveys); $i++){
-				$surveyID = $surveys[$i]->getID();// . "";
-				echo $i . ": " . $surveyID . "<br/>";
-				if(!in_array($surveyID, $unselected)){
-					$selected[] = $surveyID;
-				}
+				var_dump($surveys[$i]);
+				echo "<br/>";
+				//$surveyID = $surveys[$i]->getID() . "";
+				//echo $i . ": " . $surveyID . "<br/>";
+				//if(!in_array($surveyID, $unselected)){
+				//	$selected[] = $surveyID;
+				//}
 			}
 		//}
 		die(json_encode($selected));
