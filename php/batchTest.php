@@ -24,7 +24,7 @@
 			$surveys = Survey::findSurveysByUser(User::findByID(25), array("user"=>"aaron", "arthropod"=>"", "site"=>"", "circle"=>"", "code"=>""), 0, 25);//9999999999999999999);//this might cause a timeout
 			//die(json_encode($surveys));
 
-			var_dump(Survey:findByID(903));
+			var_dump(Survey::findByID(903));
 			echo "<br/><br/>";
 
 			$selected = array();
