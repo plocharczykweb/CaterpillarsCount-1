@@ -178,6 +178,9 @@ class Survey
 		}
 		
 		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM (SELECT DISTINCT Survey.ID FROM " . $baseTable . " JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "')" . $additionalSQL . $groupBy . ") AS Results"))["Count"]);
+		if($limit === "max"){
+			$limit = $totalCount;
+		}
 		if($start === "last"){
 			$start = $totalCount - ($totalCount % intval($limit));
 			if($start == $totalCount && $totalCount > 0){
