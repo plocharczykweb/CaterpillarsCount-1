@@ -31,10 +31,11 @@
 		}
 		
 		$dbconn = (new Keychain)->getDatabaseConnection();
+		$total = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM Survey WHERE Survey.ID IN (-1, " . join(", ", $selected) . ")"))["Count"]);
 		mysqli_query($dbconn, "DELETE ArthropodSighting FROM ArthropodSighting JOIN Survey on ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Survey.ID IN (-1, " . join(", ", $selected) . ") AND (Survey.UserFKOfObserver='" . $user->getID() . "' OR Site.ID IN (-1, " . join(", ", $userSiteIDs) . "))");
 		mysqli_query($dbconn, "DELETE Survey FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Survey.ID IN (-1, " . join(", ", $selected) . ") AND (Survey.UserFKOfObserver='" . $user->getID() . "' OR Site.ID IN (-1, " . join(", ", $userSiteIDs) . "))");
 		$successes = mysqli_affected_rows($dbconn);
-		$failures = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM Survey WHERE Survey.ID IN (-1, " . join(", ", $selected) . ")"))["Count"]);
+		$failures = $total - $successes;
 		
 		if(count($failures) > 0){
 			if(count($surveyIDs) < 2){
