@@ -21,7 +21,7 @@
 		*/
 	
 		//if($selected == "all"){
-			$surveys = Survey::findSurveysByUser(User::findByID(25), array("user"=>"aaron", "arthropod"=>"", "site"=>"", "circle"=>"", "code"=>""), 0, "max");//9999999999999999999);//this might cause a timeout
+			$surveys = Survey::findSurveysByUser(User::findByID(25), array("user"=>"aaron", "arthropod"=>"", "site"=>"", "circle"=>"", "code"=>""), 0, 25);//9999999999999999999);//this might cause a timeout
 			die(json_encode($surveys));
 
 			$selected = array();
