@@ -799,6 +799,9 @@
 				   	//high
 					highPageNumber = GLOBALTotalPages;
 					lowPageNumber = (GLOBALTotalPages - numberOfPagesInNav) + 1;
+					if(lowPageNumber < 1){
+						lowPageNumber = 1;
+					}
 				}
 				else if(lowPageNumber < 1){
 					//low
