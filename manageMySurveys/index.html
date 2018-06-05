@@ -34,7 +34,6 @@
 				margin-bottom:20px;
 				font-family: 'Roboto Slab', serif;
 				border-radius:5px;
-				overflow:hidden;
 				background:rgba(0,0,0,0.05);
 			}
 			
@@ -42,6 +41,7 @@
 				background:#333;
 				color:#fff;
 				display:none;
+				border-radius:5px 5px 0px 0px;
 			}
 			
 			#surveys .survey .headInfo>div{
@@ -54,6 +54,7 @@
 				color:#fff;
 				padding-right:143px;
 				position:relative;
+				border-radius:5px 5px 0px 0px;
 			}
 			
 			#surveys .survey .siteInfo .options{
@@ -119,7 +120,6 @@
 				text-transform:uppercase;
 				border-right:1px solid rgba(0,0,0,0.05);
 				margin-right:-1px;
-				overflow:hidden;
 			}
 			
 			#surveys .survey .surveyInfo>div:first-of-type>div:nth-of-type(5){
@@ -428,6 +428,11 @@
 				#surveys .survey .headInfo{
 					display:block;
 				}
+				
+				#surveys .survey .siteInfo{
+					border-radius:0px;
+				}
+				
 				#surveys .survey .siteInfo .time, #surveys .survey .surveyInfo>div:first-of-type>div:first-of-type{
 					display:none;
 				}
