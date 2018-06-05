@@ -620,8 +620,8 @@
 								htmlToAdd += 					"<div class=\"smallSelect\">";
 								htmlToAdd +=						"<div class=\"selected\">" + surveys[i]["observaionMethod"] + "</div>";
 								htmlToAdd +=						"<div class=\"options\">";
-								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);\">BEAT SHEET</div>";
-								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);\">VISUAL</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find(".surveyInfoIcon").eq(0)[0].style.backgroundImage='../images/beatsheet.png';\">BEAT SHEET</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find(".surveyInfoIcon").eq(0)[0].style.backgroundImage='../images/visual.png';\">VISUAL</div>";
 								htmlToAdd +=						"</div>";
 								htmlToAdd += 					"</div>";
 								htmlToAdd += 				"</div>";
@@ -648,7 +648,18 @@
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
 								htmlToAdd += 				"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/selectIcons/herbivoryScores/" + ["none", "trace", "light", "moderate", "heavy"][surveys[i]["herbivoryScore"]] + ".png');\"></div>";
-								htmlToAdd += 				"<div>" + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
+								htmlToAdd += 				"<div>";
+								htmlToAdd += 					"<div class=\"smallSelect\">";
+								htmlToAdd +=						"<div class=\"selected\">" + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
+								htmlToAdd +=						"<div class=\"options\">";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find(".surveyInfoIcon").eq(0)[0].style.backgroundImage='../images/none.png';\">NONE</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find(".surveyInfoIcon").eq(0)[0].style.backgroundImage='../images/trace.png';\">TRACE (1-5%)</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find(".surveyInfoIcon").eq(0)[0].style.backgroundImage='../images/light.png';\">LIGHT (6-10%)</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find(".surveyInfoIcon").eq(0)[0].style.backgroundImage='../images/moderate.png';\">MODERATE (11-25%)</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find(".surveyInfoIcon").eq(0)[0].style.backgroundImage='../images/heavy.png';\">HEAVY (> 25%)</div>";
+								htmlToAdd +=						"</div>";
+								htmlToAdd += 					"</div>";
+								htmlToAdd += 				"</div>";
 								htmlToAdd +=			"</div>";
 								htmlToAdd += 		"</div>";
 								htmlToAdd += 		"<div>";
@@ -1029,7 +1040,7 @@
 				$("#" + id + " .editable").stop().animate({backgroundColor:"#ffc800"});
 				$("#" + id + " .editable").attr("contenteditable", "true");
 				
-				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"#ffc800"});
+				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"#f6e5b8"});
 				$("#" + id + " .smallSelect .selected").click(function(){
 					showSmallSelectOptions(this);
 				});
