@@ -160,6 +160,33 @@
 				display:inline-block;
 			}
 			
+			#surveys .survey .smallSelect{
+    				position:relative;
+        			display:inline-block;
+    			}
+   			#surveys .survey .smallSelect .selected{
+    				cursor:pointer;
+    			}
+    			#surveys .survey .smallSelect .options{
+    				position:absolute;
+        			top:0px;
+        			background:white;
+        			min-width:100%;
+        			border-radius:5px;
+        			overflow:hidden;
+        			border:1px solid #ddd;
+        			border-bottom:2px solid #ddd;
+        			font-size:12px;
+        			display:none;
+    			}
+    			#surveys .survey .smallSelect .options>div{
+    				padding:5px;
+        			cursor:pointer;
+    			}
+    			#surveys .survey .smallSelect .options>div:hover{
+    				background:#ebfeff;
+    			}
+			
 			#surveys .survey .surveyInfo>div:first-of-type>div>div:nth-of-type(2){
 				margin-top:5px;
 			}
@@ -506,6 +533,15 @@
 				return formattedHours + ":" + minutes + ampm;
 			}
 			
+			function showSmallSelectOptions(selectedOption){
+				$(selectedOption).parent().find('.options').eq(0).fadeIn(0);
+			}
+			
+			function smallSelectOption(option){
+				$(option).parent().fadeOut(0);
+				$(option).parent().parent()find('.selected').eq(0)[0].innerHTML = option.innerHTML;
+			}
+			
 			var selected = [];
 			var unselected = [];
 			var GLOBALPageNumber = 1;
@@ -575,7 +611,15 @@
 								htmlToAdd +=			"</div>";
 								htmlToAdd += 			"<div>";
 								htmlToAdd += 				"<div class=\"surveyInfoIcon\" style=\"background-image:url('../images/" + surveys[i]["observaionMethod"].replace(/ /g, "").replace(surveys[i]["observaionMethod"][0], surveys[i]["observaionMethod"][0].toLowerCase()) + ".png');\"></div>";
-								htmlToAdd += 				"<div>" + surveys[i]["observaionMethod"] + "</div>";
+								htmlToAdd += 				"<div>";
+								htmlToAdd += 					"<div class=\"smallSelect\">";
+								htmlToAdd +=						"<div class=\"selected\">" + surveys[i]["observaionMethod"] + "</div>";
+								htmlToAdd +=						"<div class=\"options\">";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);\">BEAT SHEET</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);\">VISUAL</div>";
+								htmlToAdd +=						"</div>";
+								htmlToAdd += 					"</div>";
+								htmlToAdd += 				"</div>";
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
 								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\">" + surveys[i]["numberOfLeaves"] + "</div></div>";
@@ -977,8 +1021,13 @@
 				//alert("editing" + id);
 				$("#" + id + " .surveyInfo>div>div").stop().animate({width:"25%"}, 300);
 				$("#" + id + " .surveyInfo>div>div:first-of-type").stop().hide(300);
-				$("#" + id + " .editable").stop().animate({backgroundColor:"#d1fdff"});
+				$("#" + id + " .editable").stop().animate({backgroundColor:"#ffc800"});
 				$("#" + id + " .editable").attr("contenteditable", "true");
+				
+				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"#ffc800"});
+				$("#" + id + " .smallSelect .selected").click(function(){
+					showSmallSelectOptions(this);
+				});
 			}
 			
 			var batchDeleting = false;
