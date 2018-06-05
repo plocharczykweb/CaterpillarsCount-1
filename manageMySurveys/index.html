@@ -574,7 +574,7 @@
 								htmlToAdd += 				"<div>" + surveys[i]["observaionMethod"] + "</div>";
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
-								htmlToAdd += 				"<div class=\"surveyInfoIcon\">" + surveys[i]["numberOfLeaves"] + "</div>";
+								htmlToAdd += 				"<div class=\"surveyInfoIcon editable\">" + surveys[i]["numberOfLeaves"] + "</div>";
 								htmlToAdd += 				"<div>";
 								if(surveys[i]["wetLeaves"]){
 									htmlToAdd += 			" wet ";
@@ -590,7 +590,7 @@
 								}
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
-								htmlToAdd += 				"<div class=\"surveyInfoIcon\">" + surveys[i]["averageLeafLength"] + "cm</div>";
+								htmlToAdd += 				"<div class=\"surveyInfoIcon editable\">" + surveys[i]["averageLeafLength"] + "cm</div>";
 								htmlToAdd += 				"<div>leaf length</div>";
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
@@ -971,8 +971,10 @@
 			
 			function editSurvey(id){
 				//alert("editing" + id);
-				$("#" + id + " .surveyInfo>div>div").stop().animate({width:"25%"});
-				$("#" + id + " .surveyInfo>div>div:first-of-type").stop().animate({width:"0%", padding:"0px"});
+				$("#" + id + " .surveyInfo>div>div").stop().animate({width:"25%"}, 300);
+				$("#" + id + " .surveyInfo>div>div:first-of-type").stop().hide(300);
+				$("#" + id + " .editable").stop().animate({backgroundColor:"#ebfeff"});
+				$("#" + id + " .editable").attr("contenteditable", "true");
 			}
 			
 			var batchDeleting = false;
