@@ -935,6 +935,7 @@
 				else{
 					arthropodSightingsInfoDiv.style.maxHeight = arthropodSightingsInfoDiv.clientHeight + "px";
 					arthropodSightingsInfoDiv.style.overflow = "hidden";
+					$(arthropodSightingsInfoDiv).find(".smallSelect .options").fadeOut(0);
 					$(arthropodSightingsInfoDiv).stop().animate({maxHeight:"0px"}, 300, function(){
 						arthropodSightingsInfoDiv.parentNode.getElementsByClassName("arthropodSightingsDropdownButtonDiv")[0].innerHTML = arthropodSightingsInfoDiv.parentNode.getElementsByClassName("arthropodSightingsDropdownButtonDiv")[0].innerHTML.replace("Hide", "Show");
 					});
@@ -1076,12 +1077,8 @@
 			
 			function editSurvey(id){
 				//alert("editing" + id);
-				$("#" + id + " .surveyInfo>div>div").stop().animate({width:"25%"}, 300);
-				$("#" + id + " .surveyInfo>div>div:first-of-type").stop().hide(300);
-				$("#" + id + " .editable").stop().animate({backgroundColor:"#ffc800"});
-				$("#" + id + " .editable").attr("contenteditable", "true");
-				
 				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"#f6e5b8"});
+				$("#" + id + " .smallSelect .editable").stop().animate({backgroundColor:"#f6e5b8"});
 				$("#" + id + " .surveyInfo .smallSelect .selected").click(function(){
 					showSmallSelectOptions(this);
 				});
@@ -1089,6 +1086,11 @@
 					showSmallSelectOptions(this);
 					$("#" + id + " .arthropodSightingsInfo").eq(0)[0].style.overflow = "visible";
 				});
+				
+				$("#" + id + " .surveyInfo>div>div").stop().animate({width:"25%"}, 300);
+				$("#" + id + " .surveyInfo>div>div:first-of-type").stop().hide(300);
+				$("#" + id + " .surveyInfoIcon .editable").stop().animate({backgroundColor:"#ffc800"});
+				$("#" + id + " .editable").attr("contenteditable", "true");
 			}
 			
 			var batchDeleting = false;
