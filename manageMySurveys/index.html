@@ -934,6 +934,7 @@
 				}
 				else{
 					arthropodSightingsInfoDiv.style.maxHeight = arthropodSightingsInfoDiv.clientHeight + "px";
+					arthropodSightingsInfoDiv.style.overflow = "hidden";
 					$(arthropodSightingsInfoDiv).stop().animate({maxHeight:"0px"}, 300, function(){
 						arthropodSightingsInfoDiv.parentNode.getElementsByClassName("arthropodSightingsDropdownButtonDiv")[0].innerHTML = arthropodSightingsInfoDiv.parentNode.getElementsByClassName("arthropodSightingsDropdownButtonDiv")[0].innerHTML.replace("Hide", "Show");
 					});
@@ -1081,8 +1082,12 @@
 				$("#" + id + " .editable").attr("contenteditable", "true");
 				
 				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"#f6e5b8"});
-				$("#" + id + " .smallSelect .selected").click(function(){
+				$("#" + id + " .smallSelect .surveyInfo .selected").click(function(){
 					showSmallSelectOptions(this);
+				});
+				$("#" + id + " .smallSelect .arthropodSightingsInfo .selected").click(function(){
+					showSmallSelectOptions(this);
+					$("#" + id + " .smallSelect .arthropodSightingsInfo")[0].style.overflow = "visible";
 				});
 			}
 			
