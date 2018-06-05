@@ -163,7 +163,6 @@
 			#surveys .survey .smallSelect{
     				position:relative;
         			display:inline-block;
-				z-index:1;
     			}
    			#surveys .survey .smallSelect .selected{
     				cursor:pointer;
@@ -180,6 +179,7 @@
         			border-bottom:2px solid #ddd;
         			font-size:12px;
         			display:none;
+				z-index:1;
     			}
     			#surveys .survey .smallSelect .options>div{
     				padding:5px;
@@ -541,7 +541,8 @@
 			}
 			
 			function showSmallSelectOptions(selectedOption){
-				$(selectedOption).parent().find('.options').eq(0).fadeIn(0);
+				$('.smallSelect .options').css({display:"none"});
+				$(selectedOption).parent().find('.options').eq(0).css({display:"block"});
 			}
 			
 			function smallSelectOption(option){
@@ -654,11 +655,11 @@
 								htmlToAdd += 					"<div class=\"smallSelect\">";
 								htmlToAdd +=						"<div class=\"selected\">" + herbivoryScores[surveys[i]["herbivoryScore"]] + "</div>";
 								htmlToAdd +=						"<div class=\"options\">";
-								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=\\\"url('../images/none.png')\\\";\">NONE</div>";
-								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=\\\"url('../images/trace.png')\\\";\">TRACE (1-5%)</div>";
-								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=\\\"url('../images/light.png')\\\";\">LIGHT (6-10%)</div>";
-								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=\\\"url('../images/moderate.png')\\\";\">MODERATE (11-25%)</div>";
-								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=\\\"url('../images/heavy.png')\\\";\">HEAVY (> 25%)</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=&quot;url('../images/none.png')&quot;;\">NONE</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=&quot;url('../images/trace.png')&quot;;\">TRACE (1-5%)</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=&quot;url('../images/light.png')&quot;;\">LIGHT (6-10%)</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=&quot;url('../images/moderate.png')&quot;;\">MODERATE (11-25%)</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().find('.surveyInfoIcon').eq(0)[0].style.backgroundImage=&quot;url('../images/heavy.png')&quot;;\">HEAVY (> 25%)</div>";
 								htmlToAdd +=						"</div>";
 								htmlToAdd += 					"</div>";
 								htmlToAdd += 				"</div>";
