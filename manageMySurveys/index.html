@@ -1082,12 +1082,12 @@
 				$("#" + id + " .editable").attr("contenteditable", "true");
 				
 				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"#f6e5b8"});
-				$("#" + id + " .smallSelect .surveyInfo .selected").click(function(){
+				$("#" + id + " .surveyInfo .smallSelect .selected").click(function(){
 					showSmallSelectOptions(this);
 				});
-				$("#" + id + " .smallSelect .arthropodSightingsInfo .selected").click(function(){
+				$("#" + id + " .arthropodSightingsInfo .smallSelect .selected").click(function(){
 					showSmallSelectOptions(this);
-					$("#" + id + " .smallSelect .arthropodSightingsInfo")[0].style.overflow = "visible";
+					$("#" + id + " .arthropodSightingsInfo .smallSelect").eq(0)[0].style.overflow = "visible";
 				});
 			}
 			
