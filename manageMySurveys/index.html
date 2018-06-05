@@ -55,6 +55,7 @@
 				padding-right:143px;
 				position:relative;
 				border-radius:5px 5px 0px 0px;
+				overflow:hidden;
 			}
 			
 			#surveys .survey .siteInfo .options{
@@ -632,17 +633,25 @@
 								htmlToAdd +=			"<div>";
 								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\">" + surveys[i]["numberOfLeaves"] + "</div></div>";
 								htmlToAdd += 				"<div>";
+								htmlToAdd += 					"<div class=\"smallSelect\">";
+								htmlToAdd +=						"<div class=\"selected\">"
 								if(surveys[i]["wetLeaves"]){
-									htmlToAdd += 			" wet ";
+									htmlToAdd +=					"wet"
 								}
 								else{
-									htmlToAdd += 			" dry ";
+									htmlToAdd += 					"dry";
 								}
+								htmlToAdd += 						"</div>";
+								htmlToAdd +=						"<div class=\"options\">";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);\">WET</div>";
+								htmlToAdd +=							"<div onclick=\"smallSelectOption(this);\">DRY</div>";
+								htmlToAdd +=						"</div>";
+								htmlToAdd += 					"</div>";
 								if(surveys[i]["numberOfLeaves"] == 1){
-									htmlToAdd += 			"leaf</div>";
+									htmlToAdd += 			" leaf</div>";
 								}
 								else{
-									htmlToAdd += 			"leaves</div>";
+									htmlToAdd += 			" leaves</div>";
 								}
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
@@ -1078,7 +1087,10 @@
 			function editSurvey(id){
 				//alert("editing" + id);
 				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"#f6e5b8"});
-				$("#" + id + " .smallSelect .editable").stop().animate({backgroundColor:"#f6e5b8"});
+				$("#" + id + " .editable").stop().animate({backgroundColor:"#f6e5b8"});
+				$("#" + id + " .editable").click(function(){
+					document.execCommand('selectAll',false,null)
+				});
 				$("#" + id + " .surveyInfo .smallSelect .selected").click(function(){
 					showSmallSelectOptions(this);
 				});
