@@ -119,6 +119,7 @@
 				text-transform:uppercase;
 				border-right:1px solid rgba(0,0,0,0.05);
 				margin-right:-1px;
+				overflow:hidden;
 			}
 			
 			#surveys .survey .surveyInfo>div:first-of-type>div:nth-of-type(5){
@@ -969,7 +970,9 @@
 			}
 			
 			function editSurvey(id){
-				alert("editing" + id);
+				//alert("editing" + id);
+				$("#" + id + " .surveyInfo>div>div").stop().animate({width:"25%"});
+				$("#" + id + " .surveyInfo>div>div:first-of-type").stop().animate({width:"0%", padding:"0px"});
 			}
 			
 			var batchDeleting = false;
