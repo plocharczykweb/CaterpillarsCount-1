@@ -1099,7 +1099,8 @@
 					$("#" + id + " .arthropodSightingsInfo").eq(0)[0].style.overflow = "visible";
 				});
 				
-				$("#" + id + " .time").eq(0)[0].innerHTML = "<div class=\"editable\">date</div> " + $("#" + id + " .time").eq(0)[0].innerHTML;
+				$("#" + id + " .time").eq(0)[0].innerHTML = "<div class=\"editable\">date</div>, " + $("#" + id + " .time").eq(0)[0].innerHTML;
+				$("#" + id + " .time").eq(0)[0].style.width = "150px";
 				
 				$("#" + id + " .surveyInfo>div>div").stop().animate({width:"25%"}, 300);
 				$("#" + id + " .surveyInfo>div>div:first-of-type").stop().hide(300);
