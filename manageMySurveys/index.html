@@ -250,6 +250,7 @@
 				background:#333;
 				border-radius:5px;
 				overflow:hidden;
+				display:none;
 			}
 			
 			#pageNav .autoPage{
@@ -590,6 +591,7 @@
 						if(data.indexOf("true|") == 0){
 							GLOBALFilters = filters;
 							closeHeight($("#editExtras"));
+							$("#pageNav").fadeIn(0);
 							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 							var data = JSON.parse(data.replace("true|", ""));
@@ -1122,7 +1124,7 @@
 				$("#" + id).stop().css({overflow:"visible", maxHeight:""});
 				
 				//hide page nav
-				$("#pageNav").stop().animate({maxHeight:"0px"});
+				$("#pageNav").fadeOut(0);
 				
 				//set date header
 				$("h3").stop().hide(300);
