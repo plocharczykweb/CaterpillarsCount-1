@@ -583,6 +583,7 @@
 						//success
 						if(data.indexOf("true|") == 0){
 							GLOBALFilters = filters;
+							closeHeight($("#editExtras"));
 							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 							var data = JSON.parse(data.replace("true|", ""));
@@ -1123,7 +1124,7 @@
 				$("h3:first-of-type").eq(0)[0].innerHTML = $("#" + id + " .date").eq(0)[0].innerHTML;
 				
 				//show edit extras
-				toggleHeight($("#editExtras"));
+				openHeight($("#editExtras"));
 				
 				//editable basics
 				$("#" + id + " .editable").css({display:"inline-block"});
@@ -1492,7 +1493,7 @@
 					<div id="surveys"></div>
 					<div id="editExtras">
 						<button>Save Changes</button>
-						<div style="text-align:center;margin-bottom:20px;" class="underline pointer"><span style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="reloadPage();">Cancel</span></div>
+						<div style="text-align:center;margin-bottom:20px;"><span class="underline pointer" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="reloadPage();">Cancel</span></div>
 					</div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
