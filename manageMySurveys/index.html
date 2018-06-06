@@ -685,7 +685,10 @@
 								htmlToAdd += 		"</div>";
 								htmlToAdd += 		"<div>";
 								if(surveys[i]["notes"].trim().length > 0){
-									htmlToAdd += 		"<div>*" + surveys[i]["notes"] + "</div>";
+									htmlToAdd += 		"<div style=\"display:none;\">*<div class=\"editable\">" + surveys[i]["notes"] + "</div></div>";
+								}
+								else{
+									htmlToAdd += 		"<div style=\"display:none;\">*<div class=\"editable\"> </div></div>";
 								}
 								htmlToAdd += 		"</div>";
 								htmlToAdd +=	"</div>";
@@ -758,24 +761,24 @@
 									}
 									htmlToAdd +=			">";
 									if(surveys[i]["arthropodSightings"][j]["hairy"]){
-								   		htmlToAdd += 			"<div class=\"true caterpillarOption\">With hairy/spiny characteristics</div>";
+								   		htmlToAdd += 			"<div class=\"toggleable true caterpillarOption\">With hairy/spiny characteristics</div>";
 									}
 									else{
-								   		htmlToAdd += 			"<div class=\"false caterpillarOption\">With hairy/spiny characteristics</div>";
+								   		htmlToAdd += 			"<div class=\"toggleable false caterpillarOption\">With hairy/spiny characteristics</div>";
 									}
 									
 									if(surveys[i]["arthropodSightings"][j]["rolled"]){
-								   		htmlToAdd += 			"<div class=\"true caterpillarOption\">In a leaf roll</div>";
+								   		htmlToAdd += 			"<div class=\"toggleable true caterpillarOption\">In a leaf roll</div>";
 									}
 									else{
-								   		htmlToAdd += 			"<div class=\"false caterpillarOption\">In a leaf roll</div>";
+								   		htmlToAdd += 			"<div class=\"toggleable false caterpillarOption\">In a leaf roll</div>";
 									}
 									
 									if(surveys[i]["arthropodSightings"][j]["tented"]){
-								   		htmlToAdd += 			"<div class=\"true caterpillarOption\">In a silk tent</div>";
+								   		htmlToAdd += 			"<div class=\"toggleable true caterpillarOption\">In a silk tent</div>";
 									}
 									else{
-								   		htmlToAdd += 			"<div class=\"false caterpillarOption\">In a silk tent</div>";
+								   		htmlToAdd += 			"<div class=\"toggleable false caterpillarOption\">In a silk tent</div>";
 									}
 									htmlToAdd +=			"</div>";
 									if(surveys[i]["arthropodSightings"][j]["notes"].trim().length > 0){
@@ -1112,12 +1115,14 @@
 					$("#" + id + " .arthropodSightingsInfo").eq(0)[0].style.overflow = "visible";
 				});
 				
+				$("#" + id + " .toggleable").stop().animate({backgroundColor:"#f6e5b8"});
+				$("#" + id + " .toggleable").css({cursor:"pointer"});
 				$("#" + id + " .caterpillarOption").click(function(){
 					this.className = this.className.replace("false", "temp").replace("true", "false").replace("temp", "true");
 				});
 				
-				$("#" + id + " .time .editable").eq(0)[0].style.display = "inline-block";
-				$("#" + id + " .time").eq(0)[0].style.width = "150px";
+				$("#" + id + " .editable").css({display:"inline-block"});
+				$("#" + id + " .time").eq(0)[0].style.width = "170px";
 				
 				$("#" + id + " .surveyInfoIcon .editable").stop().animate({backgroundColor:"#ffc800"});
 				$("#" + id + " .editable").attr("contenteditable", "true");
