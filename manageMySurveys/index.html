@@ -166,10 +166,10 @@
 			#surveys .survey .smallSelect{
     				position:relative;
         			display:inline-block;
-				border-radius:4px;
     			}
    			#surveys .survey .smallSelect .selected{
     				cursor:pointer;
+				border-radius:4px;
     			}
     			#surveys .survey .smallSelect .options{
     				position:absolute;
@@ -560,7 +560,7 @@
 			
 			function smallSelectOption(option){
 				$(option).parent().fadeOut(0);
-				$(option).parent().parent().find('.selected').eq(0)[0].innerHTML = option.innerHTML.replace("<br/>", " ");
+				$(option).parent().parent().find('.selected').eq(0)[0].innerHTML = option.innerHTML.replace("<br/>", " ").replace("<br>", " ");
 			}
 			
 			var selected = [];
@@ -1123,13 +1123,13 @@
 				//set background colors
 				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"rgba(0,0,0,0.1)"});
 				$("#" + id + " .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.1)"});
+				$("#" + id + " .toggleable").stop().animate({backgroundColor:"rgba(0,0,0,0.1)"});
 				$("#" + id + " .surveyInfoIcon .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.3)"});
 				
 				//show notes
 				$("#" + id + " .notes").css({display:"block"});
 				
 				//caterpillar options
-				$("#" + id + " .toggleable").stop().animate({backgroundColor:"rgba(0,0,0,0.2)"});
 				$("#" + id + " .toggleable").css({cursor:"pointer"});
 				$("#" + id + " .caterpillarOption").click(function(){
 					this.className = this.className.replace("false", "temp").replace("true", "false").replace("temp", "true");
