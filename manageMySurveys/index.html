@@ -1120,6 +1120,69 @@
 				});
 			}
 			
+			function addArthropodToSurvey(id){
+				var arthropodSightingID = Math.round(Math.random() * 100000000000000000);
+				htmlToAdd +=	"<div class=\"arthropodSighting\" id=\"" + arthropodSightingID + "\">";
+				htmlToAdd +=		"<div>";
+				htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/unidentified.png');\"></div>";
+				htmlToAdd +=		"</div>";
+				htmlToAdd +=		"<div>";
+				htmlToAdd +=			"<div>";
+				htmlToAdd +=				"<div class=\"editable\">0</div> <div class=\"editable\">0</div>mm ";
+				htmlToAdd += 				"<div class=\"smallSelect\">";
+				htmlToAdd +=					"<div class=\"selected\">" + plural("unidentified") + "</div>";
+				htmlToAdd +=					"<div class=\"options\">";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/ant.png')&quot;\">ants</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/aphid.png')&quot;\">aphids</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/bee.png')&quot;\">bees</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/beetle.png')&quot;\">beetles</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeIn(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/caterpillar.png')&quot;\">caterpillars</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/daddylonglegs.png')&quot;\">daddylonglegs</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/fly.png')&quot;\">flies</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/grasshopper.png')&quot;\">grasshoppers</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/leafhopper.png')&quot;\">leafhoppers</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/moths.png')&quot;\">moths</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/spider.png')&quot;\">spiders</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/truebugs.png')&quot;\">truebugs</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/other.png')&quot;\">others</div>";
+				htmlToAdd +=						"<div onclick=\"smallSelectOption(this);$(this).parent().parent().parent().parent().parent().find('.caterpillarOptions').eq(0).stop().fadeOut(0);$(this).parent().parent().parent().parent().parent().parent().find('.arthropodImage').eq(0)[0].style.backgroundImage=&quot;url('../images/selectIcons/orders/unidentified.png')&quot;\">unidentifieds</div>";
+				htmlToAdd +=					"</div>";
+				htmlToAdd += 				"</div>";
+				htmlToAdd +=			"</div>";
+				htmlToAdd +=			"<div class=\"caterpillarOptions\" style=\"display:none;\">";
+				htmlToAdd += 				"<div><div class=\"toggleable false caterpillarOption\">With hairy/spiny characteristics</div></div>";
+				htmlToAdd += 				"<div><div class=\"toggleable false caterpillarOption\">In a leaf roll</div></div>";
+				htmlToAdd += 				"<div><div class=\"toggleable false caterpillarOption\">In a silk tent</div></div>";
+				htmlToAdd +=			"</div>";
+				htmlToAdd +=			"<div class=\"italic notes\">*<div class=\"editable\">[notes]</div></div>";
+				htmlToAdd +=		"</div>";
+				htmlToAdd +=	"</div>";
+				
+				//editable basics
+				$("#" + arthropodSightingID + " .editable").css({display:"inline-block"});
+				$("#" + arthropodSightingID + " .editable").attr("contenteditable", "true");
+				$("#" + arthropodSightingID + " .editable").click(function(){
+					document.execCommand('selectAll',false,null)
+				});
+				
+				//small select click functions
+				$("#" + arthropodSightingID + " .smallSelect .selected").click(function(){
+					showSmallSelectOptions(this);
+					$("#" + id + " .arthropodSightingsInfo").eq(0)[0].style.overflow = "visible";
+				});
+				
+				//set background colors
+				$("#" + arthropodSightingID + " .smallSelect .selected").stop().animate({backgroundColor:"rgba(0,0,0,0.05)"});
+				$("#" + arthropodSightingID + " .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.05)"});
+				$("#" + arthropodSightingID + " .toggleable").stop().animate({backgroundColor:"rgba(0,0,0,0.05)"});
+				
+				//caterpillar options
+				$("#" + arthropodSightingID + " .toggleable").css({cursor:"pointer"});
+				$("#" + arthropodSightingID + " .caterpillarOption").click(function(){
+					this.className = this.className.replace("false", "temp").replace("true", "false").replace("temp", "true");
+				});
+			}
+			
 			function editSurvey(id){
 				//hide other surveys
 				$(".survey").stop().css({overflow:"hidden", maxHeight:"1000px"});
@@ -1143,8 +1206,9 @@
 				$("#" + id + " .siteInfo .time").animate({right:"0px"});
 				
 				//show arthropod sightings
+				$("#" + id + " .arthropodSightingsDropdownButtonDiv").fadeIn(200);
 				$("#" + id + " .arthropodSightingsDropdownButtonDiv").eq(0)[0].innerHTML = "Add Arthropod Sighting";
-				$("#" + id + " .arthropodSightingsDropdownButtonDiv").eq(0)[0].onclick = function(){alert("adding from editSurvey function");};
+				$("#" + id + " .arthropodSightingsDropdownButtonDiv").eq(0)[0].onclick = function(){addArthropodToSurvey(id);};
 				$("#" + id + " .arthropodSightingsInfo").eq(0).stop().animate({maxHeight:"99999999px"}, 259999);
 				
 				//editable basics
