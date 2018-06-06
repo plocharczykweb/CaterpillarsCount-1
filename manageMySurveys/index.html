@@ -376,6 +376,11 @@
 				content:"!";
 			}
 			
+			#editExtras{
+				max-height:0px;
+				overflow:hidden;
+			}
+			
 			.select{
 				width:100%;
 				-webkit-appearance: none;
@@ -1117,6 +1122,9 @@
 				$("h3:first-of-type").stop().show(0);
 				$("h3:first-of-type").eq(0)[0].innerHTML = $("#" + id + " .date").eq(0)[0].innerHTML;
 				
+				//show edit extras
+				toggleHeight($("#editExtras"));
+				
 				//editable basics
 				$("#" + id + " .editable").css({display:"inline-block"});
 				$("#" + id + " .editable").attr("contenteditable", "true");
@@ -1482,6 +1490,10 @@
 				<div class="tagline"></div>
 				<div class="content">
 					<div id="surveys"></div>
+					<div id="editExtras">
+						<button>Save Changes</button>
+						<div style="text-align:center;margin-bottom:20px;" class="underline pointer"><span style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="reloadPage();">Cancel</span></div>
+					</div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
 						<div class="autoPage" onclick="loadPreviousPage();">&lt;</div>
