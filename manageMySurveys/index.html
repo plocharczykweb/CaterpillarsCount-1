@@ -1104,8 +1104,13 @@
 			}
 			
 			function editSurvey(id){
-				toggleHeight($(".survey"));
-				$("#" + id).stop();
+				$(".survey").stop().css({overflow:"hidden"});
+				$(".survey").animate({maxHeight:"0px"});
+				$("h3").hide(300);
+				$("h3:first-of-type").stop().show(0);
+				$("#pageNav").stop().animate({maxHeight:"0px"});
+				$("#" + id).stop().css({overflow:"visible", maxHeight:""});
+				
 				
 				//editable basics
 				$("#" + id + " .editable").css({display:"inline-block"});
