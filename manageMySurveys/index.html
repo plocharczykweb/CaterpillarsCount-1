@@ -1158,6 +1158,8 @@
 				htmlToAdd +=		"</div>";
 				htmlToAdd +=	"</div>";
 				
+				$("#" + id + " .arthropodSightingsInfo").eq(0).append(htmlToAdd);
+				
 				//editable basics
 				$("#" + arthropodSightingID + " .editable").css({display:"inline-block"});
 				$("#" + arthropodSightingID + " .editable").attr("contenteditable", "true");
