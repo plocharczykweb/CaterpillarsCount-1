@@ -689,10 +689,10 @@
 								htmlToAdd += 		"</div>";
 								htmlToAdd += 		"<div>";
 								if(surveys[i]["notes"].trim().length > 0){
-									htmlToAdd += 		"<div>*<div class=\"editable\">" + surveys[i]["notes"] + "</div></div>";
+									htmlToAdd += 		"<div class=\"notes\">*<div class=\"editable\">" + surveys[i]["notes"] + "</div></div>";
 								}
 								else{
-									htmlToAdd += 		"<div style=\"display:none;\">*<div class=\"editable\"> </div></div>";
+									htmlToAdd += 		"<div class=\"notes\" style=\"display:none;\">*<div class=\"editable\"> </div></div>";
 								}
 								htmlToAdd += 		"</div>";
 								htmlToAdd +=	"</div>";
@@ -786,10 +786,10 @@
 									}
 									htmlToAdd +=			"</div>";
 									if(surveys[i]["arthropodSightings"][j]["notes"].trim().length > 0){
-										htmlToAdd +=		"<div class=\"italic\">*<div class=\"editable\">" + surveys[i]["arthropodSightings"][j]["notes"] + "</div></div>";
+										htmlToAdd +=		"<div class=\"italic notes\">*<div class=\"editable\">" + surveys[i]["arthropodSightings"][j]["notes"] + "</div></div>";
 									}
 									else{
-										htmlToAdd +=		"<div class=\"italic\" style=\"display:none;\">*<div class=\"editable\"> </div></div>";
+										htmlToAdd +=		"<div class=\"italic notes\" style=\"display:none;\">*<div class=\"editable\"> </div></div>";
 									}
 									htmlToAdd +=		"</div>";
 									htmlToAdd +=	"</div>";
@@ -1105,12 +1105,14 @@
 			}
 			
 			function editSurvey(id){
-				//alert("editing" + id);
-				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"#f6e5b8"});
-				$("#" + id + " .editable").stop().animate({backgroundColor:"#f6e5b8"});
+				//editable basics
+				$("#" + id + " .editable").css({display:"inline-block"});
+				$("#" + id + " .editable").attr("contenteditable", "true");
 				$("#" + id + " .editable").click(function(){
 					document.execCommand('selectAll',false,null)
 				});
+				
+				//small select click functions
 				$("#" + id + " .surveyInfo .smallSelect .selected").click(function(){
 					showSmallSelectOptions(this);
 				});
@@ -1119,18 +1121,23 @@
 					$("#" + id + " .arthropodSightingsInfo").eq(0)[0].style.overflow = "visible";
 				});
 				
-				$("#" + id + " .toggleable").stop().animate({backgroundColor:"#f6e5b8"});
+				//set background colors
+				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"rgba(0,0,0,0.2)"});
+				$("#" + id + " .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.2)"});
+				$("#" + id + " .surveyInfoIcon .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.4)"});
+				
+				//show notes
+				$("#" + id + " .notes").css({display:"block"});
+				
+				//caterpillar options
+				$("#" + id + " .toggleable").stop().animate({backgroundColor:"rgba(0,0,0,0.2)"});
 				$("#" + id + " .toggleable").css({cursor:"pointer"});
 				$("#" + id + " .caterpillarOption").click(function(){
 					this.className = this.className.replace("false", "temp").replace("true", "false").replace("temp", "true");
 				});
 				
-				$("#" + id + " .editable").css({display:"inline-block"});
+				//time
 				$("#" + id + " .time").eq(0)[0].style.width = "170px";
-				
-				$("#" + id + " .surveyInfoIcon .editable").stop().animate({backgroundColor:"#ffc800"});
-				$("#" + id + " .editable").attr("contenteditable", "true");
-				$("#" + id + " .editable").css({display:"inline-block"});
 			}
 			
 			var batchDeleting = false;
