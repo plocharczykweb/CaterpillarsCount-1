@@ -558,13 +558,19 @@
 				return formattedHours + ":" + minutes + ampm;
 			}
 			
+			$(document).click(function(){
+				$(".options").fadeOut(0);
+			});
+			
 			function showSmallSelectOptions(selectedOption){
-				$('.smallSelect .options').css({display:"none"});
-				$(selectedOption).parent().find('.options').eq(0).css({display:"block"});
+				setTimeout(function(){
+					//$('.smallSelect .options').css({display:"none"});
+					$(selectedOption).parent().find('.options').eq(0).css({display:"block"});
+				}, 1);
 			}
 			
 			function smallSelectOption(option){
-				$(option).parent().fadeOut(0);
+				//$(option).parent().fadeOut(0);
 				$(option).parent().parent().find('.selected').eq(0)[0].innerHTML = option.innerHTML.replace("<br/>", " ").replace("<br>", " ");
 			}
 			
