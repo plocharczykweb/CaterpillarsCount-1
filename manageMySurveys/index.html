@@ -1134,6 +1134,11 @@
 				//show edit extras
 				openHeight($("#editExtras"));
 				
+				//hide siteinfo options (edit and delete icons)
+				//and move time to the far right
+				$("#" + id + " .siteInfo .options").fadeOut(200);
+				$("#" + id + " .siteInfo .time").animate({right:"0px"});
+				
 				//editable basics
 				$("#" + id + " .editable").css({display:"inline-block"});
 				$("#" + id + " .editable").attr("contenteditable", "true");
