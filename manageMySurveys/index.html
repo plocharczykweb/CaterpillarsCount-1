@@ -613,7 +613,7 @@
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div>" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>";
-								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><div class=\"editable\" style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</div>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\"><div class=\"editable\" style=\"display:none;\">" + surveys[i]["localDate"] + "</div> <div class=\"editable\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div></div><div class=\"options\"><div";
+								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><div class=\"editable\" style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</div>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"date\" style=\"display:none;\">" + getReadableDate(surveys[i]["localDate"]) + "</div><div class=\"time\"><div class=\"editable\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div></div><div class=\"options\"><div";
 								if($("#batchDeleteDropdown")[0].style.maxHeight != "" && $("#batchDeleteDropdown")[0].style.maxHeight != "0px"){
 									htmlToAdd += " style=\"display:none;\"><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\" onclick=\"editSurvey(" + surveys[i]["id"] + ");\"/></div><div style=\"display:none;\"><img src=\"../images/deleteWhite.png\" style=\"height:13px;\" onclick=\"promptConfirm('Are you sure you want to delete " + surveys[i]["observerFullName"] + "\\'s " + surveys[i]["plantCode"] + " survey from " + getReadableDate(surveys[i]["localDate"]) + " at " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "? You will not be able to undo this action.', 'Nevermind.', 'Yes, I am sure!', function(){}, function(){deleteSurvey(" + surveys[i]["id"] + ");});\"/></div><div><div class=\"checkboxHolder\" style=\"display:block;\"><div class=\"checkbox"
 									if(isSelected(surveys[i]["id"])){
@@ -1104,13 +1104,18 @@
 			}
 			
 			function editSurvey(id){
-				$(".survey").stop().css({overflow:"hidden"});
-				$(".survey").animate({maxHeight:"0px"});
-				$("h3").hide(300);
-				$("h3:first-of-type").stop().show(0);
-				$("#pageNav").stop().animate({maxHeight:"0px"});
+				//hide other surveys
+				$(".survey").stop().css({overflow:"hidden", maxHeight:"1000px"});
+				$(".survey").animate({maxHeight:"0px", marginBottom:"0px"}, 300);
 				$("#" + id).stop().css({overflow:"visible", maxHeight:""});
 				
+				//hide page nav
+				$("#pageNav").stop().animate({maxHeight:"0px"});
+				
+				//set date header
+				$("h3").stop().hide(300);
+				$("h3:first-of-type").stop().show(0);
+				$("h3:first-of-type").eq(0)[0].innerHTML = $("#" + id + " .date").eq(0)[0].innerHTML;
 				
 				//editable basics
 				$("#" + id + " .editable").css({display:"inline-block"});
@@ -1144,9 +1149,6 @@
 				$("#" + id + " .caterpillarOption").click(function(){
 					this.className = this.className.replace("false", "temp").replace("true", "false").replace("temp", "true");
 				});
-				
-				//time
-				$("#" + id + " .time").eq(0)[0].style.width = "170px";
 			}
 			
 			var batchDeleting = false;
