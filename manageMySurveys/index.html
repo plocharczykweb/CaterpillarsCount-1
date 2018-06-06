@@ -250,6 +250,7 @@
 				background:#333;
 				border-radius:5px;
 				overflow:hidden;
+				display:none;
 			}
 			
 			#pageNav .autoPage{
@@ -374,6 +375,11 @@
 			
 			.true.caterpillarOption::after{
 				content:"!";
+			}
+			
+			#editExtras{
+				max-height:0px;
+				overflow:hidden;
 			}
 			
 			.select{
@@ -553,13 +559,19 @@
 				return formattedHours + ":" + minutes + ampm;
 			}
 			
+			$(document).click(function(){
+				$(".smallSelect .options").fadeOut(0);
+			});
+			
 			function showSmallSelectOptions(selectedOption){
-				$('.smallSelect .options').css({display:"none"});
-				$(selectedOption).parent().find('.options').eq(0).css({display:"block"});
+				setTimeout(function(){
+					//$('.smallSelect .options').css({display:"none"});
+					$(selectedOption).parent().find('.options').eq(0).css({display:"block"});
+				}, 1);
 			}
 			
 			function smallSelectOption(option){
-				$(option).parent().fadeOut(0);
+				//$(option).parent().fadeOut(0);
 				$(option).parent().parent().find('.selected').eq(0)[0].innerHTML = option.innerHTML.replace("<br/>", " ").replace("<br>", " ");
 			}
 			
@@ -578,6 +590,8 @@
 						//success
 						if(data.indexOf("true|") == 0){
 							GLOBALFilters = filters;
+							closeHeight($("#editExtras"));
+							$("#pageNav").fadeIn(0);
 							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 							var data = JSON.parse(data.replace("true|", ""));
@@ -613,7 +627,7 @@
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div>" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>";
-								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><span style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</span>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"time\"><div class=\"editable\" style=\"display:none;\">" + surveys[i]["localDate"] + "</div> <div class=\"editable\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div></div><div class=\"options\"><div";
+								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><div class=\"editable\" style=\"font-weight:bold;\">" + surveys[i]["plantCode"] + "</div>: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "<div class=\"date\" style=\"display:none;\">" + getReadableDate(surveys[i]["localDate"]) + "</div><div class=\"time\"><div class=\"editable\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div></div><div class=\"options\"><div";
 								if($("#batchDeleteDropdown")[0].style.maxHeight != "" && $("#batchDeleteDropdown")[0].style.maxHeight != "0px"){
 									htmlToAdd += " style=\"display:none;\"><img src=\"../images/editWhite.png\" style=\"height:12px;padding-top:1px;\" onclick=\"editSurvey(" + surveys[i]["id"] + ");\"/></div><div style=\"display:none;\"><img src=\"../images/deleteWhite.png\" style=\"height:13px;\" onclick=\"promptConfirm('Are you sure you want to delete " + surveys[i]["observerFullName"] + "\\'s " + surveys[i]["plantCode"] + " survey from " + getReadableDate(surveys[i]["localDate"]) + " at " + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "? You will not be able to undo this action.', 'Nevermind.', 'Yes, I am sure!', function(){}, function(){deleteSurvey(" + surveys[i]["id"] + ");});\"/></div><div><div class=\"checkboxHolder\" style=\"display:block;\"><div class=\"checkbox"
 									if(isSelected(surveys[i]["id"])){
@@ -1104,6 +1118,22 @@
 			}
 			
 			function editSurvey(id){
+				//hide other surveys
+				$(".survey").stop().css({overflow:"hidden", maxHeight:"1000px"});
+				$(".survey").animate({maxHeight:"0px", marginBottom:"0px"}, 300);
+				$("#" + id).stop().css({overflow:"visible", maxHeight:""});
+				
+				//hide page nav
+				$("#pageNav").fadeOut(0);
+				
+				//set date header
+				$("h3").stop().hide(300);
+				$("h3:first-of-type").stop().show(0);
+				$("h3:first-of-type").eq(0)[0].innerHTML = $("#" + id + " .date").eq(0)[0].innerHTML;
+				
+				//show edit extras
+				openHeight($("#editExtras"));
+				
 				//editable basics
 				$("#" + id + " .editable").css({display:"inline-block"});
 				$("#" + id + " .editable").attr("contenteditable", "true");
@@ -1123,6 +1153,8 @@
 				//set background colors
 				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"rgba(0,0,0,0.1)"});
 				$("#" + id + " .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.1)"});
+				$("#" + id + " .arthropodSightingsInfo .smallSelect .selected").stop().animate({backgroundColor:"rgba(0,0,0,0.05)"});
+				$("#" + id + " .arthropodSightingsInfo .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.05)"});
 				$("#" + id + " .toggleable").stop().animate({backgroundColor:"rgba(0,0,0,0.1)"});
 				$("#" + id + " .surveyInfoIcon .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.3)"});
 				
@@ -1134,9 +1166,6 @@
 				$("#" + id + " .caterpillarOption").click(function(){
 					this.className = this.className.replace("false", "temp").replace("true", "false").replace("temp", "true");
 				});
-				
-				//time
-				$("#" + id + " .time").eq(0)[0].style.width = "170px";
 			}
 			
 			var batchDeleting = false;
@@ -1470,6 +1499,10 @@
 				<div class="tagline"></div>
 				<div class="content">
 					<div id="surveys"></div>
+					<div id="editExtras">
+						<button>Save Changes</button>
+						<div style="text-align:center;margin-bottom:20px;"><span class="underline pointer" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="reloadPage();">Cancel</span></div>
+					</div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
 						<div class="autoPage" onclick="loadPreviousPage();">&lt;</div>
