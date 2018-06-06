@@ -157,13 +157,16 @@
 				text-transform:none;
 			}
 			
-			#surveys .survey .editable{
+			#surveys .survey .editable, #surveys .survey .toggleable{
 				display:inline-block;
+				min-width:5px;
+				border-radius:4px;
 			}
 			
 			#surveys .survey .smallSelect{
     				position:relative;
         			display:inline-block;
+				border-radius:4px;
     			}
    			#surveys .survey .smallSelect .selected{
     				cursor:pointer;
@@ -362,10 +365,6 @@
 				width:100%;
 				border-radius:0px;
 				background:rgba(0,0,0,0.09);
-			}
-			
-			.toggleable{
-				display:inline-block;
 			}
 			
 			.false.caterpillarOption{
@@ -692,7 +691,7 @@
 									htmlToAdd += 		"<div class=\"notes\">*<div class=\"editable\">" + surveys[i]["notes"] + "</div></div>";
 								}
 								else{
-									htmlToAdd += 		"<div class=\"notes\" style=\"display:none;\">*<div class=\"editable\"> </div></div>";
+									htmlToAdd += 		"<div class=\"notes\" style=\"display:none;\">*<div class=\"editable\">[notes]</div></div>";
 								}
 								htmlToAdd += 		"</div>";
 								htmlToAdd +=	"</div>";
@@ -789,7 +788,7 @@
 										htmlToAdd +=		"<div class=\"italic notes\">*<div class=\"editable\">" + surveys[i]["arthropodSightings"][j]["notes"] + "</div></div>";
 									}
 									else{
-										htmlToAdd +=		"<div class=\"italic notes\" style=\"display:none;\">*<div class=\"editable\"> </div></div>";
+										htmlToAdd +=		"<div class=\"italic notes\" style=\"display:none;\">*<div class=\"editable\">[notes]</div></div>";
 									}
 									htmlToAdd +=		"</div>";
 									htmlToAdd +=	"</div>";
@@ -1122,9 +1121,9 @@
 				});
 				
 				//set background colors
-				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"rgba(0,0,0,0.2)"});
-				$("#" + id + " .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.2)"});
-				$("#" + id + " .surveyInfoIcon .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.4)"});
+				$("#" + id + " .smallSelect .selected").stop().animate({backgroundColor:"rgba(0,0,0,0.1)"});
+				$("#" + id + " .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.1)"});
+				$("#" + id + " .surveyInfoIcon .editable").stop().animate({backgroundColor:"rgba(0,0,0,0.3)"});
 				
 				//show notes
 				$("#" + id + " .notes").css({display:"block"});
