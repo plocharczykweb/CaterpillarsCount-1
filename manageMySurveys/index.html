@@ -1387,7 +1387,9 @@
 			function setCaretPosition(d,b){for(var a=document.createRange(),e=window.getSelection(),c=null,f,g=0;g<d.childNodes.length;g++){f=c;for(c=d.childNodes[g];0<c.childNodes.length;)c=c.childNodes[0];null!=f&&(b-=f.length);if(b<=c.length)break}null!=c&&(a.setStart(c,b),a.collapse(!0),e.removeAllRanges(),e.addRange(a))};
 			
 			var plantCodeDataNumber = 0;
+			var populatingPlant = false;
 			function populatePlant(plantCodeDiv){
+				populatingPlant = true;
 				var caretPosition = getCaretCharacterOffsetWithin($(plantCodeDiv).get(0));
 				var newInnerHTML = plantCodeDiv.innerHTML.toUpperCase().replace(/ /g, '').replace(/[^A-Z]/g, '');
 				var replacementOffset = plantCodeDiv.innerHTML.length - newInnerHTML.length;
@@ -1397,13 +1399,14 @@
 				var thisPlantCodeDataNumer = ++plantCodeDataNumber;
 				setTimeout(function(){
 					if(thisPlantCodeDataNumer != plantCodeDataNumber){return false;}
-					$.get("../php/getPlantCodeInfo.php?code=" + encodeURIComponent(plantCodeDiv.innerHTML) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+					var code = plantCodeDiv.innerHTML;
+					$.get("../php/getPlantCodeInfo.php?code=" + encodeURIComponent(code) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 						if(thisPlantCodeDataNumer != plantCodeDataNumber){return false;}
 						if(data.indexOf("true|") == 0){
 							var data = JSON.parse(data.replace("true|", ""));
 							$(plantCodeDiv).parent()[0].style.background = data["color"];
 							$(plantCodeDiv).parent().find(".plantCodeData").eq(0)[0].innerHTML = ": <a href=\"https://www.google.com/maps/search/?api=1&query=" + data["latitude"] + "," + data["longitude"] + "\" target=\"_blank\">" + data["siteName"] + " (" + data["region"] + ")</a>, Circle " + data["circle"] + ", " + data["species"];
-							//data["validated"]
+							if(data["validated"]){plantCodeDiv.id = code;}
 						}
 						else{
 							var plantCodeDataError = data.replace("false|", "");
@@ -1416,8 +1419,25 @@
 								}
 							}
 						}
+					})
+					.always(function(){
+						populatingPlant = false;
 					});
 				}, 300);
+			}
+			
+			function requestSiteValidation(editablePlantCodeDiv){
+				var populatingPlantCheck = setInterval(function(){
+					if(!populatingPlant){
+						clearInterval(populatingPlantCheck);
+					}
+				}, 100);
+				if(editablePlantCodeDiv.id != editablePlantCodeDiv.innerHTML){
+				   	//check if valid
+					//if so, set id
+					//if not, ask for password and validate
+						//if cant validate, show error and requestSiteValidation(editablePlantCodeDiv);
+				}
 			}
 			
 			function forceNumber(editableDiv){
