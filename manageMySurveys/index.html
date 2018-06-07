@@ -1034,9 +1034,10 @@
 						if (filters.hasOwnProperty(property) && GLOBALFilters[property] !== filters[property]) {
 							$("#filtersDropdown button").eq(0)[0].innerHTML = "<img src=\"../images/rolling.svg\" alt=\"loading...\"/>"
 							loadPage(1, filters);
-							break;
+							return true;
 						}
 					}
+					closeHeight($('#filtersDropdown'));
 				}
 			}
 			
