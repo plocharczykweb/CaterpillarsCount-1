@@ -19,6 +19,7 @@
 			"orientation" => $plant->getOrientation(),
 			"color" => $plant->getColor(),
 			"validated" => $plant->getSite()->getValidationStatus($user),
+			"species" => $plant->getSpecies(),
 			"siteName" => $plant->getSite()->getName(),
 			"region" => $plant->getSite()->getRegion(),
 			"latitude" => $plant->getSite()->getLatitude(),
