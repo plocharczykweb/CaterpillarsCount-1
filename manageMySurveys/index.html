@@ -1278,7 +1278,7 @@
 				//disable photo links
 				var photoLinks = $("#" + id + " .arthropodSighting a");
 				for(var i = 0; i < photoLinks.length; i++){
-					var hrefParts = photoLinks.eq(i)[0].href.replace(\/\g, " ").trim().split(" ");
+					var hrefParts = photoLinks.eq(i)[0].href.replace(/\//g, " ").trim().split(" ");
 					photoLinks.eq(i)[0].id = hrefParts[hrefParts.length - 1];
 				}
 				$("#" + id + " .arthropodSighting a").attr("href", "javascript:;");
