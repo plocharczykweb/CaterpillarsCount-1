@@ -1133,7 +1133,7 @@
 				htmlToAdd +=		"</div>";
 				htmlToAdd +=		"<div>";
 				htmlToAdd +=			"<div>";
-				htmlToAdd +=				"<div class=\"editable\">0</div> <div class=\"editable\">0</div>mm ";
+				htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\">0</div> <div class=\"editable\" oninput=\"forceNumber(this);\">0</div>mm ";
 				htmlToAdd += 				"<div class=\"smallSelect\">";
 				htmlToAdd +=					"<div class=\"selected\">" + plural("unidentified") + "</div>";
 				htmlToAdd +=					"<div class=\"options\">";
@@ -1329,7 +1329,7 @@
 							var data = JSON.parse(data.replace("true|", ""));
 							$(plantCodeDiv).parent()[0].style.background = data["color"];
 							$(plantCodeDiv).parent().find(".plantCodeData").eq(0)[0].innerHTML = ": <a href=\"https://www.google.com/maps/search/?api=1&query=" + data["latitude"] + "," + data["longitude"] + "\" target=\"_blank\">" + data["siteName"] + " (" + data["region"] + ")</a>, Circle " + data["circle"] + ", " + data["species"];
-							//data["validated"]
+							//data["validated"] is available with the other API
 						}
 						else{
 							var plantCodeDataError = data.replace("false|", "");
@@ -1348,7 +1348,7 @@
 			
 			function forceNumber(editableDiv){
 				var caretPosition = getCaretCharacterOffsetWithin($(editableDiv).get(0));
-				var newInnerHTML = editableDiv.innerHTML.replace(/\D/g, '');
+				var newInnerHTML = Number(editableDiv.innerHTML.replace(/\D/g, ''));
 				var replacementOffset = editableDiv.innerHTML.length - newInnerHTML.length;
 				editableDiv.innerHTML = newInnerHTML;
 				setCaretPosition($(editableDiv).get(0), (caretPosition - replacementOffset));
