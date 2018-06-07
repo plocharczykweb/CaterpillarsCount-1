@@ -625,6 +625,7 @@
 						if(data.indexOf("true|") == 0){
 							GLOBALFilters = filters;
 							$("#filtersDropdown button").eq(0)[0].innerHTML = "Apply Filters";
+							closeHeight($('#filtersDropdown'));
 							closeHeight($("#editExtras"));
 							$("#pageNav").fadeIn(0);
 							$("#iconBar>img").fadeIn(300);
