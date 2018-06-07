@@ -1309,9 +1309,14 @@
 				});
 			}
 			
+			function getCaretCharacterOffsetWithin(d){var b=0,a=d.ownerDocument||d.document,e=a.defaultView||a.parentWindow;if("undefined"!=typeof e.getSelection){var c=e.getSelection();0<c.rangeCount&&(a=e.getSelection().getRangeAt(0),b=a.cloneRange(),b.selectNodeContents(d),b.setEnd(a.endContainer,a.endOffset),b=b.toString().length)}else(c=a.selection)&&"Control"!=c.type&&(b=c.createRange(),a=a.body.createTextRange(),a.moveToElementText(d),a.setEndPoint("EndToEnd",b),b=a.text.length);return b}
+			function setCaretPosition(d,b){for(var a=document.createRange(),e=window.getSelection(),c=null,f,g=0;g<d.childNodes.length;g++){f=c;for(c=d.childNodes[g];0<c.childNodes.length;)c=c.childNodes[0];null!=f&&(b-=f.length);if(b<=c.length)break}null!=c&&(a.setStart(c,b),a.collapse(!0),e.removeAllRanges(),e.addRange(a))};
+			
 			var plantCodeDataNumber = 0;
 			function populatePlant(plantCodeDiv){
-				//plantCodeDiv.innerHTML = plantCodeDiv.innerHTML.toUpperCase().replace(/ /g, '').replace(/[^A-Z]/g, '');
+				var caretPosition = getCaretCharacterOffsetWithin($(plantCodeDiv).get(0));
+				plantCodeDiv.innerHTML = plantCodeDiv.innerHTML.toUpperCase().replace(/ /g, '').replace(/[^A-Z]/g, '');
+				setCaretPosition($(plantCodeDiv).get(0), caretPosition);
 				$(plantCodeDiv).parent().find(".plantCodeData").innerHTML = "";
 				var thisPlantCodeDataNumer = ++plantCodeDataNumber;
 				setTimeout(function(){
