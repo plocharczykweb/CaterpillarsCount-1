@@ -1315,8 +1315,10 @@
 			var plantCodeDataNumber = 0;
 			function populatePlant(plantCodeDiv){
 				var caretPosition = getCaretCharacterOffsetWithin($(plantCodeDiv).get(0));
-				plantCodeDiv.innerHTML = plantCodeDiv.innerHTML.toUpperCase().replace(/ /g, '').replace(/[^A-Z]/g, '');
-				setCaretPosition($(plantCodeDiv).get(0), caretPosition);
+				var newInnerHTML = plantCodeDiv.innerHTML.toUpperCase().replace(/ /g, '').replace(/[^A-Z]/g, '');
+				var replacementOffset = plantCodeDiv.innerHTML.length - newInnerHTML.length;
+				plantCodeDiv.innerHTML = newInnerHTML;
+				setCaretPosition($(plantCodeDiv).get(0), (caretPosition - replacementOffset));
 				$(plantCodeDiv).parent().find(".plantCodeData").innerHTML = "";
 				var thisPlantCodeDataNumer = ++plantCodeDataNumber;
 				setTimeout(function(){
