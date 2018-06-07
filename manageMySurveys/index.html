@@ -624,6 +624,7 @@
 						//success
 						if(data.indexOf("true|") == 0){
 							GLOBALFilters = filters;
+							$("#filtersDropdown button").eq(0)[0].innerHTML = "Apply Filters";
 							closeHeight($("#editExtras"));
 							$("#pageNav").fadeIn(0);
 							$("#iconBar>img").fadeIn(300);
@@ -1028,6 +1029,7 @@
 					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": getSelectValue($('#arthropodSearch')), "site": getSelectValue($('#siteSearch .select').eq(0)), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim()};
 					for (var property in filters) {
 						if (filters.hasOwnProperty(property) && GLOBALFilters[property] !== filters[property]) {
+							$("#filtersDropdown button").eq(0)[0].innerHTML = "<img src=\"../images/rolling.svg\" alt=\"loading...\"/>"
 							loadPage(1, filters);
 							break;
 						}
