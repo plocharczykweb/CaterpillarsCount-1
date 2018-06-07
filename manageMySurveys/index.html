@@ -1216,6 +1216,9 @@
 				$("h3:first-of-type").click(function(){
 					document.execCommand('selectAll',false,null)
 				});
+				$("h3:first-of-type").blur(function(){
+					forceDate(this);
+				});
 				
 				//disable photo links
 				$("#" + id + " .arthropodSighting a").attr("href", "javascript:;");
