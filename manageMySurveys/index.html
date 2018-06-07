@@ -1191,9 +1191,11 @@
 			}
 			
 			var backupSurveyTime = "";
+			var backupSurveyDate = "";
 			function editSurvey(id){
 				//back up info
 				backupSurveyTime = $("#" + id + " .time .editable").eq(0)[0].innerHTML;
+				backupSurveyDate = $("#" + id + " .date").eq(0)[0].innerHTML;
 				
 				//hide other surveys
 				$(".survey").stop().css({overflow:"hidden", maxHeight:"1000px"});
@@ -1390,6 +1392,35 @@
 					}
 					editableDiv.innerHTML = backupSurveyTime;
 				}
+			}
+			
+			function forceDate(editableDiv){
+				var date = editableDiv.innerHTML.trim().replace(/\s\s+/g, ' ');
+				var dateParts = date.split(" ");
+				if(dateParts.length == 3){
+					var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+					if(dateParts[0].length >= 3){
+						for(var i = 0; i < months.length; i++){
+							if(dateParts[0].toLowerCase().substring(0, 3) == months[i].toLowerCase().substring(0, 3)){
+								dateParts[0] = months[i];
+								break;
+							}
+						}
+					}
+					dateParts[1] = Number(dateParts[1].replace(/\D/g, ""));
+					dateParts[2] = Number(dateParts[2].replace(/\D/g, ""));
+					var msDate = Date.parse(dateParts.join(" "));
+					if(!isNaN(msDate)){
+						date = new Date();
+						date.setTime(msDate);
+						if(dateParts[0] == months[date.getMonth()] && dateParts[1] == date.getDate() && dateParts[2] == date.getFullYear()){
+							var fullOrdinal = getOrdinal(dateParts[1]);
+							editableDiv.innerHTML = dateParts[0] + " " + dateParts[1] + fullOrdinal.substring(fullOrdinal.length - 2) + ", " + dateParts[2];
+							return true;
+						}
+					}
+				}
+				editableDiv.innerHTML = backupSurveyDate;
 			}
 			
 			
