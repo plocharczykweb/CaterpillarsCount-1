@@ -662,7 +662,7 @@
 								htmlToAdd += 				"</div>";
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
-								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\">" + surveys[i]["numberOfLeaves"] + "</div></div>";
+								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\" oninput=\"forceNumber(this);\">" + surveys[i]["numberOfLeaves"] + "</div></div>";
 								htmlToAdd += 				"<div>";
 								htmlToAdd += 					"<div class=\"smallSelect\">";
 								htmlToAdd +=						"<div class=\"selected\">"
@@ -686,7 +686,7 @@
 								}
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
-								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\">" + surveys[i]["averageLeafLength"] + "</div>cm</div>";
+								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\" oninput=\"forceNumber(this);\">" + surveys[i]["averageLeafLength"] + "</div>cm</div>";
 								htmlToAdd += 				"<div>leaf length</div>";
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
@@ -730,7 +730,7 @@
 									if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
 										htmlToAdd +=			"<a href=\"../images/arthropods/" + surveys[i]["arthropodSightings"][j]["photoURL"] + "\" target=\"_blank\">";
 									}
-									htmlToAdd +=				"<div class=\"editable\">" + surveys[i]["arthropodSightings"][j]["quantity"] + "</div> <div class=\"editable\">" + surveys[i]["arthropodSightings"][j]["length"] + "</div>mm ";
+									htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\">" + surveys[i]["arthropodSightings"][j]["quantity"] + "</div> <div class=\"editable\" oninput=\"forceNumber(this);\">" + surveys[i]["arthropodSightings"][j]["length"] + "</div>mm ";
 									if(surveys[i]["arthropodSightings"][j]["quantity"] == 1){
 										htmlToAdd += 			"<div class=\"smallSelect\">";
 										htmlToAdd +=				"<div class=\"selected\">" + singular(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
@@ -1323,7 +1323,7 @@
 				var thisPlantCodeDataNumer = ++plantCodeDataNumber;
 				setTimeout(function(){
 					if(thisPlantCodeDataNumer != plantCodeDataNumber){return false;}
-					$.get("../php/getPlantByCode.php?code=" + encodeURIComponent(plantCodeDiv.innerHTML) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+					$.get("../php/getPlantCodeInfo.php?code=" + encodeURIComponent(plantCodeDiv.innerHTML) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 						if(thisPlantCodeDataNumer != plantCodeDataNumber){return false;}
 						if(data.indexOf("true|") == 0){
 							var data = JSON.parse(data.replace("true|", ""));
@@ -1344,6 +1344,14 @@
 						}
 					});
 				}, 300);
+			}
+			
+			function forceNumber(editableDiv){
+				var caretPosition = getCaretCharacterOffsetWithin($(editableDiv).get(0));
+				var newInnerHTML = editableDiv.innerHTML.replace(/\D/g, '');
+				var replacementOffset = editableDiv.innerHTML.length - newInnerHTML.length;
+				editableDiv.innerHTML = newInnerHTML;
+				setCaretPosition($(editableDiv).get(0), (caretPosition - replacementOffset));
 			}
 			
 			
