@@ -6,7 +6,8 @@
 	$email = $_POST["email"];
 	$salt = $_POST["salt"];
 	$plantCode = $_POST["plantCode"];
-$sitePassword = $_POST["sitePassword"];
+	$sitePassword = $_POST["sitePassword"];
+	$surveyID = $_POST["surveyID"];
 	$date = $_POST["date"];
 	$time = $_POST["time"];
 	$observationMethod = $_POST["observationMethod"];
@@ -17,7 +18,7 @@ $sitePassword = $_POST["sitePassword"];
 	$numberOfLeaves = $_POST["numberOfLeaves"];		//number
 	$averageLeafLength = $_POST["averageLeafLength"];	//number
 	$herbivoryScore = $_POST["herbivoryScore"];		//String
-	/*
+	
   	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
 		$plant = Plant::findByCode($plantCode);
@@ -27,39 +28,46 @@ $sitePassword = $_POST["sitePassword"];
 		
 		$site = $plant->getSite();
 		if($site->validateUser($user, $sitePassword)){
-			$user->setObservationMethodPreset($site, $observationMethod);
-			//submit data to database
-			$survey = Survey::create($user, $plant, $date, $time, $observationMethod, $siteNotes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
-			
+			$survey = Survey::findByID($surveyID);
 			if(is_object($survey) && get_class($survey) == "Survey"){
-				//$arthropodData = orderType, orderLength, orderQuantity, orderNotes, hairy, leafRoll, silkTent, fileInput
-				$arthropodSightingFailures = "";
+				//edit survey
+				$survey->setPlant($plant);
+				$survey->setLocalDate($date);
+				$survey->setLocalTime($time);
+				$survey->setObservationMethod($observationMethod);
+				$survey->setNotes($notes);
+				$survey->setWetLeaves($wetLeaves);
+				//$survey->setPlantSpecies($plantSpecies);
+				$survey->setNumberOfLeaves($numberOfLeaves);
+				$survey->setAverageLeafLength($averageLeafLength);
+				$survey->setHerbivoryScore($herbivoryScore);
+				$arthropodData = json_decode($_POST["arthropodData"]);		//JSON
+				
+				//delete old arthropod sightings
+				$arthropodSightings = $survey->getArthropodSightings();
+				for($i = 0; $i < count($arthropodSightings); $i++){
+					$arthropodSightings[$i]->permanentDelete();
+				}
+				
+				//add new arthropod sightings
 				for($i = 0; $i < count($arthropodData); $i++){
-					if($arthropodData[$i][0] != "caterpillar"){
-						$arthropodData[$i][4] = false;
-						$arthropodData[$i][5] = false;
-						$arthropodData[$i][6] = false;
-					}
+					$arthropodSightingFailures = "";
 					$arthropodSighting = $survey->addArthropodSighting($arthropodData[$i][0], $arthropodData[$i][1], $arthropodData[$i][2], $arthropodData[$i][3], $arthropodData[$i][4], $arthropodData[$i][5], $arthropodData[$i][6]);
 					if(is_object($arthropodSighting) && get_class($arthropodSighting) == "ArthropodSighting"){
-						$attachResult = attachPhotoToArthropodSighting($_FILES['file' . $i], $arthropodSighting);
-						if($attachResult != "File not uploaded." && !($attachResult === true)){
-							$arthropodSightingFailures .= strval($attachResult);
-						}
+						$arthropodSighting->setPhotoURL($arthropodData[$i][7]);
 					}
 					else{
 						$arthropodSightingFailures .= $arthropodSighting;
 					}
+					if($arthropodSightingFailures != ""){
+						die("false|" . $arthropodSightingFailures);
+					}
+					die("true|");
 				}
-				if($arthropodSightingFailures != ""){
-					die("false|" . $arthropodSightingFailures);
-				}
-				die("true|");
 			}
 			die("false|" . $survey);
 		}
-		die("false|Enter a valid password.");
+		die("false|Enter a valid site password.");
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
-	*/
 ?>
