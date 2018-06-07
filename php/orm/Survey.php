@@ -282,6 +282,152 @@ class Survey
 	}
 	
 //SETTERS
+	public function setPlant($plant){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$plant = self::validPlant($dbconn, $plant);
+			if($plant !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET PlantFK='" . $plant->getID() . "' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->plant = $plant;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setLocalDate($localDate){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$localDate = self::validLocalDate($dbconn, $localDate);
+			if($localDate !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET LocalDate='$localDate' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->localDate = $localDate;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setLocalTime($localTime){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$localTime = self::validLocalTime($dbconn, $localTime);
+			if($localTime !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET LocalTime='$localTime' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->localTime = $localTime;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setObservationMethod($observationMethod){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$observationMethod = self::validObservationMethod($dbconn, $observationMethod);
+			if($observationMethod !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET ObservationMethod='$observationMethod' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->observationMethod = $observationMethod;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setNotes($notes){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$notes = self::validNotes($dbconn, $notes);
+			if($notes !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET Notes='$notes' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->notes = $notes;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setWetLeaves($wetLeaves){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$wetLeaves = filter_var($wetLeaves, FILTER_VALIDATE_BOOLEAN);
+			mysqli_query($dbconn, "UPDATE Survey SET WetLeaves='$wetLeaves' WHERE ID='" . $this->id . "'");
+			mysqli_close($dbconn);
+			$this->wetLeaves = $wetLeaves;
+			return true;
+		}
+		return false;
+	}
+	
+	public function setPlantSpecies($plantSpecies){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$plantSpecies = self::validPlantSpecies($dbconn, $plantSpecies);
+			if($plantSpecies !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET PlantSpecies='$plantSpecies' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->plantSpecies = $plantSpecies;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setNumberOfLeaves($numberOfLeaves){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$numberOfLeaves = self::validNumberOfLeaves($dbconn, $numberOfLeaves);
+			if($numberOfLeaves !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET NumberOfLeaves='$numberOfLeaves' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->numberOfLeaves = $numberOfLeaves;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setAverageLeafLength($averageLeafLength){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$averageLeafLength = self::validAverageLeafLength($dbconn, $averageLeafLength);
+			if($averageLeafLength !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET AverageLeafLength='$averageLeafLength' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->averageLeafLength = $averageLeafLength;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
+	public function setHerbivoryScore($herbivoryScore){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$herbivoryScore = self::validHerbivoryScore($dbconn, $herbivoryScore);
+			if($herbivoryScore !== false){
+				mysqli_query($dbconn, "UPDATE Survey SET HerbivoryScore='$herbivoryScore' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->herbivoryScore = $herbivoryScore;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
 	
 	
 //REMOVER
