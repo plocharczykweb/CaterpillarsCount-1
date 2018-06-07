@@ -826,6 +826,7 @@
 									}
 									htmlToAdd +=		"</div>";
 									htmlToAdd +=	"</div>";
+									htmlToAdd += 	"<div class=\"deleteArthropodSighting\"></div>";
 								}
 								htmlToAdd += 	"</div>";
 								if(surveys[i]["arthropodSightings"].length > 1){
@@ -837,7 +838,6 @@
 								else{
 									htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" style=\"display:none;\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">Show 0 Arthropod Sightings</div>";
 								}
-								htmlToAdd += 		"<div class=\"deleteArthropodSighting\"></div>";
 								htmlToAdd += "</div>";
 							}
 							$("#surveys")[0].innerHTML = htmlToAdd;
@@ -1204,6 +1204,13 @@
 				$("#" + arthropodSightingID + " .toggleable").css({cursor:"pointer"});
 				$("#" + arthropodSightingID + " .caterpillarOption").click(function(){
 					this.className = this.className.replace("false", "temp").replace("true", "false").replace("temp", "true");
+				});
+				
+				//allow arthropod delete
+				$("#" + arthropodSightingID).css({padding:"3px 30px 3px 5px"});
+				$("#" + arthropodSightingID + " .deleteArthropodSighting").stop().fadeIn(0);
+				$("#" + arthropodSightingID + " .deleteArthropodSighting").click(function(){
+					this.parentNode.outerHTML = "";
 				});
 			}
 			
