@@ -1387,6 +1387,7 @@
 							return false;
 						}
 					}
+					backupSurveyTime = time;
 					editableDiv.innerHTML = time;
 				}
 				else{
@@ -1417,8 +1418,15 @@
 						date = new Date();
 						date.setTime(msDate);
 						if(dateParts[0] == months[date.getMonth()] && dateParts[1] == date.getDate() && dateParts[2] == date.getFullYear()){
+							var now = new Date();
+							if(date > now){
+								queueNotice("alert", "Dates cannot be in the future.");
+								return false;
+							}
 							var fullOrdinal = getOrdinal(dateParts[1]);
-							editableDiv.innerHTML = dateParts[0] + " " + dateParts[1] + fullOrdinal.substring(fullOrdinal.length - 2) + ", " + dateParts[2];
+							var newDateString = dateParts[0] + " " + dateParts[1] + fullOrdinal.substring(fullOrdinal.length - 2) + ", " + dateParts[2];
+							editableDiv.innerHTML = newDateString;
+							backupSurveyDate = newDateString;
 							return true;
 						}
 					}
