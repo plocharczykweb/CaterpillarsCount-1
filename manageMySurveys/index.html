@@ -1030,6 +1030,12 @@
 			function filter(){
 				if(!loadingPage){
 					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": getSelectValue($('#arthropodSearch')), "site": getSelectValue($('#siteSearch .select').eq(0)), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim()};
+					loadPage(1, filters);
+					/*
+					if(GLOBALPageNumber != 1){
+						loadPage(1, filters);
+						return true;
+					}
 					for (var property in filters) {
 						if (filters.hasOwnProperty(property) && GLOBALFilters[property] !== filters[property]) {
 							$("#filtersDropdown button").eq(0)[0].innerHTML = "<img src=\"../images/rolling.svg\" alt=\"loading...\"/>"
@@ -1038,6 +1044,7 @@
 						}
 					}
 					closeHeight($('#filtersDropdown'));
+					*/
 				}
 			}
 			
@@ -1751,7 +1758,8 @@
 				</div>
 				<div id="batchDeleteDropdown">
 					<div>
-						Batch delete is now active. <span onclick="selectAll();" class="pointer underline">Select all</span>, <span onclick="deselectAll();" class="pointer underline">deselect all</span>, or manually select the surveys you'd like to delete.
+						<!--Batch delete is now active. <span onclick="selectAll();" class="pointer underline">Select all</span>, <span onclick="deselectAll();" class="pointer underline">deselect all</span>, or manually select the surveys you'd like to delete.-->
+						Select the surveys you'd like to delete before clicking the button below. Checkboxes are located on the top right corner of each survey on this page.
 						<button onclick="batchDelete();" id="batchDeleteButton">Batch Delete 0 Surveys</button>
 						<span class="underline pointer" onclick="closeHeight($('#batchDeleteDropdown'));hideCheckboxes();">Cancel</span>
 					</div>
