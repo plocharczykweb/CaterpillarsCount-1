@@ -183,7 +183,6 @@
 				text-decoration:inherit;
     			}
    			#surveys .survey .smallSelect .selected{
-    				cursor:pointer;
 				border-radius:4px;
 				text-decoration:inherit;
     			}
@@ -1307,6 +1306,9 @@
 				$("#" + id + " .arthropodSightingsDropdownButtonDiv").eq(0)[0].innerHTML = "ADD ARTHROPOD SIGHTING";
 				$("#" + id + " .arthropodSightingsDropdownButtonDiv").eq(0)[0].onclick = function(){addArthropodToSurvey(id);};
 				$("#" + id + " .arthropodSightingsInfo").eq(0).stop().animate({maxHeight:"99999999px"}, 259999);
+				
+				//smallselect basics
+				$(".selected").css({cursor:"pointer"});
 				
 				//editable basics
 				$("#" + id + " .editable").css({display:"inline-block"});
