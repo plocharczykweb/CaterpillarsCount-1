@@ -223,7 +223,7 @@
 				position:absolute;
 				width:10px;
 				height:10px;
-				right:5px;
+				right:10px;
 				top:50%;
 				margin-top:-5px;
 				background-image:url("../images/close.png");
@@ -392,7 +392,7 @@
 			}
 			
 			.false.caterpillarOption{
-				color:#999999;
+				color:#c5c5c5;
 				text-decoration:line-through;
 			}
 			
@@ -615,6 +615,7 @@
 							GLOBALFilters = filters;
 							closeHeight($("#editExtras"));
 							$("#pageNav").fadeIn(0);
+							$("#iconBar>img").fadeIn(300);
 							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 							var data = JSON.parse(data.replace("true|", ""));
@@ -1210,7 +1211,7 @@
 				});
 				
 				//allow arthropod delete
-				$("#" + arthropodSightingID).css({padding:"3px 20px 3px 5px"});
+				$("#" + arthropodSightingID).css({padding:"3px 30px 3px 5px"});
 				$("#" + arthropodSightingID + " .deleteArthropodSighting").stop().fadeIn(0);
 				$("#" + arthropodSightingID + " .deleteArthropodSighting").click(function(){
 					this.parentNode.outerHTML = "";
@@ -1223,6 +1224,9 @@
 				//back up info
 				backupSurveyTime = $("#" + id + " .time .editable").eq(0)[0].innerHTML;
 				backupSurveyDate = $("#" + id + " .date").eq(0)[0].innerHTML;
+				
+				//hide iconBar icons
+				$("#iconBar>img").fadeOut(200);
 				
 				//hide other surveys
 				$(".survey").stop().css({overflow:"hidden", maxHeight:"1000px"});
@@ -1252,7 +1256,7 @@
 				$("#" + id + " .arthropodSighting a").css({cursor:"auto"});
 				
 				//allow arthropod delete
-				$("#" + id + " .arthropodSighting").css({padding:"3px 20px 3px 5px"});
+				$("#" + id + " .arthropodSighting").css({padding:"3px 30px 3px 5px"});
 				$("#" + id + " .arthropodSighting .deleteArthropodSighting").stop().fadeIn(0);
 				$("#" + id + " .arthropodSighting .deleteArthropodSighting").click(function(){
 					this.parentNode.outerHTML = "";
@@ -1473,6 +1477,32 @@
 			function forceRange(editableDiv, min, max){
 				var currentVal = Number(editableDiv.innerHTML);
 				editableDiv.innerHTML = Math.min(max, Math.max(min, currentVal));
+			}
+			
+			function saveSurvey(id){
+				var code = $("#" + id + " .siteInfo .editable").eq(0)[0].innerHTML;
+				var date = $("h3:first-of-type").eq(0)[0].innerHTML;
+				var time = $("#" + id + " .time .editable").eq(0)[0].innerHTML;
+				var observationMethod = $("#" + id + " .surveyInfo .selected").eq(0)[0].innerHTML;
+				var numberOfLeaves = $("#" + id + " .surveyInfoIcon .editable").eq(0)[0].innerHTML;
+				var wetLeaves = $("#" + id + " .surveyInfo .selected").eq(1)[0].innerHTML;
+				var averageLeafLength = $("#" + id + " .surveyInfoIcon .editable").eq(1)[0].innerHTML;
+				var herbivoryScore = $("#" + id + " .surveyInfo .selected").eq(2)[0].innerHTML;
+				var siteNotes = $("#" + id + " .siteInfo .editable").eq(2)[0].innerHTML;
+				
+				var arthropodData = [];
+				var arthropodSightings = $("#" + id + " .arthropodSighting");
+				for(var i = 0; i < arthropodSightings.length; i++){
+					var quantity = arthropodSightings.eq(i).find(".editable").eq(0)[0].innerHTML;
+					var length = arthropodSightings.eq(i).find(".editable").eq(1)[0].innerHTML;
+					var group = arthropodSightings.eq(i).find(".selected").eq(0)[0].innerHTML;
+					var hairy = arthropodSightings.eq(i).find(".toggleable").eq(0).hasClass("true");
+					var leafRoll = arthropodSightings.eq(i).find(".toggleable").eq(1).hasClass("true");
+					var silkTent = arthropodSightings.eq(i).find(".toggleable").eq(2).hasClass("true");
+					var notes = arthropodSightings.eq(i).find(".editable").eq(2)[0].innerHTML;
+					arthropodData[arthropodData.length] = [quantity, length, group, hairy, leafRoll, silkTent, notes];
+				}
+				console.log([code, date, time, observationMethod, numberOfLeaves, wetLeaves, averageLeafLength, herbivoryScore, siteNotes, arthropodData]);
 			}
 			
 			
