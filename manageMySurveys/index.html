@@ -216,7 +216,22 @@
 				width:100%;
 				box-sizing:border-box;
 				font-size:13px;
+				position:relative;
 			}
+			
+			#surveys .survey .arthropodSightingsInfo .arthropodSighting .deleteArthropodSighting{
+				position:absolute;
+				width:20px;
+				height:20px;
+				right:5px;
+				top:50%;
+				margin-top:-10px;
+				background-image:url("../images/close.png");
+				opacity:.5;
+				cursor:pointer;
+				display:none;
+			}
+			
 			#surveys .survey .arthropodSightingsInfo .arthropodSighting>div{
 				display:table-cell;
 				vertical-align:middle;
@@ -722,6 +737,7 @@
 								});
 								for(var j = 0; j < surveys[i]["arthropodSightings"].length; j++){
 									htmlToAdd +=	"<div class=\"arthropodSighting\" id=\"" + surveys[i]["arthropodSightings"][j]["id"] + "\">";
+									htmlToAdd += 		"<div class=\"deleteArthropodSighting\"></div>";
 									htmlToAdd +=		"<div>";
 									htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/" + surveys[i]["arthropodSightings"][j]["group"] + ".png');\"></div>";
 									htmlToAdd +=		"</div>";
@@ -730,7 +746,7 @@
 									if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
 										htmlToAdd +=			"<a href=\"../images/arthropods/" + surveys[i]["arthropodSightings"][j]["photoURL"] + "\" target=\"_blank\">";
 									}
-									htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 300);\">" + surveys[i]["arthropodSightings"][j]["quantity"] + "</div> <div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 1000);\">" + surveys[i]["arthropodSightings"][j]["length"] + "</div>mm ";
+									htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 1000);\">" + surveys[i]["arthropodSightings"][j]["quantity"] + "</div> <div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 300);\">" + surveys[i]["arthropodSightings"][j]["length"] + "</div>mm ";
 									if(surveys[i]["arthropodSightings"][j]["quantity"] == 1){
 										htmlToAdd += 			"<div class=\"smallSelect\">";
 										htmlToAdd +=				"<div class=\"selected\">" + singular(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
@@ -1128,12 +1144,13 @@
 			function addArthropodToSurvey(id){
 				var arthropodSightingID = Math.round(Math.random() * 100000000000000000);
 				var htmlToAdd =	"<div class=\"arthropodSighting\" id=\"" + arthropodSightingID + "\">";
+				htmlToAdd += 		"<div class=\"deleteArthropodSighting\"></div>";
 				htmlToAdd +=		"<div>";
 				htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/unidentified.png');\"></div>";
 				htmlToAdd +=		"</div>";
 				htmlToAdd +=		"<div>";
 				htmlToAdd +=			"<div>";
-				htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 300);\">0</div> <div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 1000);\">0</div>mm ";
+				htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 1000);\">0</div> <div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 300);\">0</div>mm ";
 				htmlToAdd += 				"<div class=\"smallSelect\">";
 				htmlToAdd +=					"<div class=\"selected\">" + plural("unidentified") + "</div>";
 				htmlToAdd +=					"<div class=\"options\">";
@@ -1223,6 +1240,14 @@
 				//disable photo links
 				$("#" + id + " .arthropodSighting a").attr("href", "javascript:;");
 				$("#" + id + " .arthropodSighting a").css({cursor:"auto"});
+				
+				//allow arthropod delete
+				$("#" + id + " .arthropodSighting").css({padding:"3px 30px 3px 5px"});
+				$("#" + id + " .arthropodSighting .deleteArthropodSighting").stop().fadeIn(0);
+				$("#" + id + " .arthropodSighting .deleteArthropodSighting").click(function(){
+					this.parentNode.outerHTML = "";
+				});
+				
 				
 				//show edit extras
 				openHeight($("#editExtras"));
@@ -1338,7 +1363,7 @@
 							var data = JSON.parse(data.replace("true|", ""));
 							$(plantCodeDiv).parent()[0].style.background = data["color"];
 							$(plantCodeDiv).parent().find(".plantCodeData").eq(0)[0].innerHTML = ": <a href=\"https://www.google.com/maps/search/?api=1&query=" + data["latitude"] + "," + data["longitude"] + "\" target=\"_blank\">" + data["siteName"] + " (" + data["region"] + ")</a>, Circle " + data["circle"] + ", " + data["species"];
-							//data["validated"] is available with the other API
+							//data["validated"]
 						}
 						else{
 							var plantCodeDataError = data.replace("false|", "");
