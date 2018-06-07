@@ -1262,9 +1262,11 @@
 					this.parentNode.outerHTML = "";
 				});
 				
-				
 				//show edit extras
 				openHeight($("#editExtras"));
+				$("#editExtras button").eq(0).click(function(){
+					saveSurvey(id);
+				});
 				
 				//hide siteinfo options (edit and delete icons)
 				//and move time to the far right
