@@ -1276,6 +1276,11 @@
 				});
 				
 				//disable photo links
+				var photoLinks = $("#" + id + " .arthropodSighting a");
+				for(var i = 0; i < photoLinks.length; i++){
+					var hrefParts = photoLinks.eq(i)[0].href.replace(\/\g, " ").trim().split(" ");
+					photoLinks.eq(i)[0].id = hrefParts[hrefParts.length - 1];
+				}
 				$("#" + id + " .arthropodSighting a").attr("href", "javascript:;");
 				$("#" + id + " .arthropodSighting a").css({cursor:"auto"});
 				
@@ -1611,9 +1616,13 @@
 						silkTent = arthropodSightings.eq(i).find(".toggleable").eq(2).hasClass("true");
 					}
 					var notes = arthropodSightings.eq(i).find(".editable").eq(2)[0].innerHTML;
+					var photoURL = "";
+					if(arthropodSightings.eq(i).find("a").length > 0){
+						photoURL = arthropodSightings.eq(i).find("a").eq(0)[0].id;
+					}
 					//qualifiers
 					if(quantity > 0 && length > 0){
-						arthropodData[arthropodData.length] = [group, length, quantity, notes, hairy, leafRoll, silkTent];
+						arthropodData[arthropodData.length] = [group, length, quantity, notes, hairy, leafRoll, silkTent, photoURL];
 					}
 				}
 				console.log([code, date, time, observationMethod, numberOfLeaves, wetLeaves, averageLeafLength, herbivoryScore, siteNotes, arthropodData]);
