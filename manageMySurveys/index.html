@@ -219,7 +219,7 @@
 				position:relative;
 			}
 			
-			#surveys .survey .arthropodSightingsInfo .arthropodSighting .deleteArthropodSighting{
+			#surveys .survey .arthropodSightingsInfo .arthropodSighting>div.deleteArthropodSighting{
 				position:absolute;
 				width:20px;
 				height:20px;
@@ -737,7 +737,6 @@
 								});
 								for(var j = 0; j < surveys[i]["arthropodSightings"].length; j++){
 									htmlToAdd +=	"<div class=\"arthropodSighting\" id=\"" + surveys[i]["arthropodSightings"][j]["id"] + "\">";
-									htmlToAdd += 		"<div class=\"deleteArthropodSighting\"></div>";
 									htmlToAdd +=		"<div>";
 									htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/" + surveys[i]["arthropodSightings"][j]["group"] + ".png');\"></div>";
 									htmlToAdd +=		"</div>";
@@ -838,6 +837,7 @@
 								else{
 									htmlToAdd += 	"<div class=\"arthropodSightingsDropdownButtonDiv\" style=\"display:none;\" onclick=\"toggleArthropodSightings(this.parentNode.getElementsByClassName('arthropodSightingsInfo')[0]);\">Show 0 Arthropod Sightings</div>";
 								}
+								htmlToAdd += 		"<div class=\"deleteArthropodSighting\"></div>";
 								htmlToAdd += "</div>";
 							}
 							$("#surveys")[0].innerHTML = htmlToAdd;
@@ -1144,7 +1144,6 @@
 			function addArthropodToSurvey(id){
 				var arthropodSightingID = Math.round(Math.random() * 100000000000000000);
 				var htmlToAdd =	"<div class=\"arthropodSighting\" id=\"" + arthropodSightingID + "\">";
-				htmlToAdd += 		"<div class=\"deleteArthropodSighting\"></div>";
 				htmlToAdd +=		"<div>";
 				htmlToAdd +=			"<div class=\"arthropodImage\" style=\"background-image:url('../images/selectIcons/orders/unidentified.png');\"></div>";
 				htmlToAdd +=		"</div>";
@@ -1178,6 +1177,7 @@
 				htmlToAdd +=			"</div>";
 				htmlToAdd +=			"<div class=\"italic notes\">*<div class=\"editable\">[notes]</div></div>";
 				htmlToAdd +=		"</div>";
+				htmlToAdd += 		"<div class=\"deleteArthropodSighting\"></div>";
 				htmlToAdd +=	"</div>";
 				
 				$("#" + id + " .arthropodSightingsInfo").eq(0).append(htmlToAdd);
