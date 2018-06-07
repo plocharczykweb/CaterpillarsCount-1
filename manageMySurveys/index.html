@@ -662,7 +662,7 @@
 								htmlToAdd += 				"</div>";
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
-								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\" oninput=\"forceNumber(this);\">" + surveys[i]["numberOfLeaves"] + "</div></div>";
+								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 500);\">" + surveys[i]["numberOfLeaves"] + "</div></div>";
 								htmlToAdd += 				"<div>";
 								htmlToAdd += 					"<div class=\"smallSelect\">";
 								htmlToAdd +=						"<div class=\"selected\">"
@@ -686,7 +686,7 @@
 								}
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
-								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\" oninput=\"forceNumber(this);\">" + surveys[i]["averageLeafLength"] + "</div>cm</div>";
+								htmlToAdd += 				"<div class=\"surveyInfoIcon\"><div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 60);\">" + surveys[i]["averageLeafLength"] + "</div>cm</div>";
 								htmlToAdd += 				"<div>leaf length</div>";
 								htmlToAdd +=			"</div>";
 								htmlToAdd +=			"<div>";
@@ -730,7 +730,7 @@
 									if(surveys[i]["arthropodSightings"][j]["photoURL"].length > 0){
 										htmlToAdd +=			"<a href=\"../images/arthropods/" + surveys[i]["arthropodSightings"][j]["photoURL"] + "\" target=\"_blank\">";
 									}
-									htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\">" + surveys[i]["arthropodSightings"][j]["quantity"] + "</div> <div class=\"editable\" oninput=\"forceNumber(this);\">" + surveys[i]["arthropodSightings"][j]["length"] + "</div>mm ";
+									htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 300);\">" + surveys[i]["arthropodSightings"][j]["quantity"] + "</div> <div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 1000);\">" + surveys[i]["arthropodSightings"][j]["length"] + "</div>mm ";
 									if(surveys[i]["arthropodSightings"][j]["quantity"] == 1){
 										htmlToAdd += 			"<div class=\"smallSelect\">";
 										htmlToAdd +=				"<div class=\"selected\">" + singular(surveys[i]["arthropodSightings"][j]["group"]) + "</div>";
@@ -1133,7 +1133,7 @@
 				htmlToAdd +=		"</div>";
 				htmlToAdd +=		"<div>";
 				htmlToAdd +=			"<div>";
-				htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\">0</div> <div class=\"editable\" oninput=\"forceNumber(this);\">0</div>mm ";
+				htmlToAdd +=				"<div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 300);\">0</div> <div class=\"editable\" oninput=\"forceNumber(this);\" onblur=\"forceRange(this, 1, 1000);\">0</div>mm ";
 				htmlToAdd += 				"<div class=\"smallSelect\">";
 				htmlToAdd +=					"<div class=\"selected\">" + plural("unidentified") + "</div>";
 				htmlToAdd +=					"<div class=\"options\">";
@@ -1421,6 +1421,7 @@
 							var now = new Date();
 							if(date > now){
 								queueNotice("alert", "Dates cannot be in the future.");
+								editableDiv.innerHTML = backupSurveyDate;
 								return false;
 							}
 							var fullOrdinal = getOrdinal(dateParts[1]);
@@ -1432,6 +1433,11 @@
 					}
 				}
 				editableDiv.innerHTML = backupSurveyDate;
+			}
+			
+			function forceRange(editableDiv, min, max){
+				var currentVal = Number(editableDiv.innerHTML);
+				editableDiv.innerHTML = Math.min(max, Math.max(min, currentVal));
 			}
 			
 			
