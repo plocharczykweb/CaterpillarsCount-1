@@ -1812,7 +1812,7 @@
 					<div class="loading"><img src="../images/rolling.svg"/></div>
 					<div id="editExtras">
 						<button>Save Changes</button>
-						<div style="text-align:center;margin-bottom:20px;"><span class="underline pointer" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="$(\".loading\").fadeIn(0);$(\".surveys\").fadeOut(0);$(\"#editExtras\").fadeOut(0);reloadPage();">Cancel</span></div>
+						<div style="text-align:center;margin-bottom:20px;"><span class="underline pointer" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="$(\".loading\").fadeIn(0);$(\"#surveys\").fadeOut(0);toggleHeight($(\"#editExtras\"));reloadPage();">Cancel</span></div>
 					</div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
