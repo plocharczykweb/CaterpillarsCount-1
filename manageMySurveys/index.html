@@ -221,16 +221,16 @@
 			
 			#surveys .survey .arthropodSightingsInfo .arthropodSighting>div.deleteArthropodSighting{
 				position:absolute;
-				width:20px;
-				height:20px;
+				width:10px;
+				height:10px;
 				right:5px;
 				top:50%;
-				margin-top:-10px;
+				margin-top:-5px;
 				background-image:url("../images/close.png");
 				background-size:contain;
 				background-position:center;
 				background-repeat:no-repeat;
-				opacity:.5;
+				opacity:.2;
 				cursor:pointer;
 				display:none;
 			}
@@ -1210,7 +1210,7 @@
 				});
 				
 				//allow arthropod delete
-				$("#" + arthropodSightingID).css({padding:"3px 30px 3px 5px"});
+				$("#" + arthropodSightingID).css({padding:"3px 20px 3px 5px"});
 				$("#" + arthropodSightingID + " .deleteArthropodSighting").stop().fadeIn(0);
 				$("#" + arthropodSightingID + " .deleteArthropodSighting").click(function(){
 					this.parentNode.outerHTML = "";
@@ -1252,7 +1252,7 @@
 				$("#" + id + " .arthropodSighting a").css({cursor:"auto"});
 				
 				//allow arthropod delete
-				$("#" + id + " .arthropodSighting").css({padding:"3px 30px 3px 5px"});
+				$("#" + id + " .arthropodSighting").css({padding:"3px 20px 3px 5px"});
 				$("#" + id + " .arthropodSighting .deleteArthropodSighting").stop().fadeIn(0);
 				$("#" + id + " .arthropodSighting .deleteArthropodSighting").click(function(){
 					this.parentNode.outerHTML = "";
