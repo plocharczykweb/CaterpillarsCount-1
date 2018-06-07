@@ -23,6 +23,17 @@
 		<link href="../css/checkbox.css?v=1" rel="stylesheet">
 		<script src="../js/checkbox.js?v=1"></script>
 		<style>
+			.loading{
+				background:rgba(0,0,0,0.1);
+				padding:20px;
+				text-align:center;
+				border-radius:5px;
+			}
+			
+			.loading>img{
+				height:30px;
+			}
+			
 			h3:nth-of-type(1) ~ h3{
 				margin-top:10px;
 				padding-top:1em;
@@ -1792,7 +1803,9 @@
 				<h2>Manage My Surveys</h2>
 				<div class="tagline"></div>
 				<div class="content">
-					<div id="surveys"></div>
+					<div id="surveys">
+						<div class="loading"><img src="../images/rolling.svg"/></div>
+					</div>
 					<div id="editExtras">
 						<button>Save Changes</button>
 						<div style="text-align:center;margin-bottom:20px;"><span class="underline pointer" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="reloadPage();">Cancel</span></div>
