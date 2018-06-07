@@ -6,7 +6,7 @@
 	$email = $_POST["email"];
 	$salt = $_POST["salt"];
 	$plantCode = $_POST["plantCode"];
-	$sitePassword = $_POST["sitePassword"];
+$sitePassword = $_POST["sitePassword"];
 	$date = $_POST["date"];
 	$time = $_POST["time"];
 	$observationMethod = $_POST["observationMethod"];
@@ -17,8 +17,8 @@
 	$numberOfLeaves = $_POST["numberOfLeaves"];		//number
 	$averageLeafLength = $_POST["averageLeafLength"];	//number
 	$herbivoryScore = $_POST["herbivoryScore"];		//String
-	
-  $user = User::findBySignInKey($email, $salt);
+	/*
+  	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
 		$plant = Plant::findByCode($plantCode);
 		if(!is_object($plant)){
@@ -61,4 +61,5 @@
 		die("false|Enter a valid password.");
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
+	*/
 ?>
