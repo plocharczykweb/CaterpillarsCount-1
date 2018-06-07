@@ -629,6 +629,8 @@
 							closeHeight($("#editExtras"));
 							$("#pageNav").fadeIn(0);
 							$("#iconBar>img").fadeIn(300);
+							$(".loading").fadeOut(0);
+							$(".surveys").fadeIn(0);
 							
 							var herbivoryScores = ["None", "Trace (1-5%)", "Light (6-10%)", "Moderate (11-25%)", "Heavy (> 25%)"]
 							var data = JSON.parse(data.replace("true|", ""));
@@ -1806,12 +1808,11 @@
 				<h2>Manage My Surveys</h2>
 				<div class="tagline"></div>
 				<div class="content">
-					<div id="surveys">
-						<div class="loading"><img src="../images/rolling.svg"/></div>
-					</div>
+					<div id="surveys"></div>
+					<div class="loading"><img src="../images/rolling.svg"/></div>
 					<div id="editExtras">
 						<button>Save Changes</button>
-						<div style="text-align:center;margin-bottom:20px;"><span class="underline pointer" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="reloadPage();">Cancel</span></div>
+						<div style="text-align:center;margin-bottom:20px;"><span class="underline pointer" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="$(\".loading\").fadeIn(0);$(\".surveys\").fadeOut(0);$(\"#editExtras\").fadeOut(0);reloadPage();">Cancel</span></div>
 					</div>
 					<div id="pageNav">
 						<div class="autoPage" onclick="loadFirstPage();">&lt;&lt;</div>
