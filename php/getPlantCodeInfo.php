@@ -17,6 +17,8 @@
 		$infoArray = array(
 			"circle" => $plant->getCircle(),
 			"orientation" => $plant->getOrientation(),
+			"color" => $plant->getColor(),
+			"validated" => $plant->getSite()->getValidationStatus($user),
 			"siteName" => $plant->getSite()->getName(),
 			"region" => $plant->getSite()->getRegion(),
 			"latitude" => $plant->getSite()->getLatitude(),
