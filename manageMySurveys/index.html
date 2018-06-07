@@ -1321,7 +1321,7 @@
 						if(data.indexOf("true|") == 0){
 							var data = JSON.parse(data.replace("true|", ""));
 							$(plantCodeDiv).parent()[0].style.background = data["color"];
-							$(plantCodeDiv).parent().find(".plantCodeData").eq(0)[0].innerHTML = ": " + data["siteName"] + ", Circle " + data["circle"] + ", " + data["species"];
+							$(plantCodeDiv).parent().find(".plantCodeData").eq(0)[0].innerHTML = ": <a href=\"https://www.google.com/maps/search/?api=1&query=" + data["latitude"] + "," + data["longitude"] + "\" target=\"_blank\">" + data["siteName"] + " (" + data["region"] + ")</a>, Circle " + data["circle"] + ", " + data["species"];
 							//data["validated"]
 						}
 						else{
