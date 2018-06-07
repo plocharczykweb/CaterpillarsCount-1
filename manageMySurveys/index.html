@@ -1299,7 +1299,7 @@
 				
 				//show arthropod sightings
 				$("#" + id + " .arthropodSightingsDropdownButtonDiv").fadeIn(200);
-				$("#" + id + " .arthropodSightingsDropdownButtonDiv").eq(0)[0].innerHTML = "Add Arthropod Sighting";
+				$("#" + id + " .arthropodSightingsDropdownButtonDiv").eq(0)[0].innerHTML = "ADD ARTHROPOD SIGHTING";
 				$("#" + id + " .arthropodSightingsDropdownButtonDiv").eq(0)[0].onclick = function(){addArthropodToSurvey(id);};
 				$("#" + id + " .arthropodSightingsInfo").eq(0).stop().animate({maxHeight:"99999999px"}, 259999);
 				
@@ -1505,30 +1505,111 @@
 				editableDiv.innerHTML = Math.min(max, Math.max(min, currentVal));
 			}
 			
+			function forceLeadingZero(number){
+				//for any number less than 100, return the number with a leading 0 if necessary
+				var decimal = (Number(number)/100).toFixed(2).toString();
+				return decimal.substring(decimal.length - 2, decimal.length);
+			}
+			
+			function databaseDate(readableDate){
+				var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+				var date = readableDate.trim().replace(/\s\s+/g, ' ');
+				var dateParts = date.split(" ");
+				var month = months.indexOf(dateParts[0]) + 1;
+				return dateParts[2] + "-" + forceLeadingZero(month) + "-" + forceLeadingZero(Number(dateParts[1].replace(/\D/g, "")));
+			}
+			
+			function databaseTime(twelveHourTime){
+				var time = twelveHourTime.replace(/ /g, "").toLowerCase();
+				var colonIndex = time.indexOf(":");
+				var hours = Number(time.substring(0, colonIndex));
+				var minutes = time.substring(colonIndex + 1, colonIndex + 3);
+				var ampm = time.substring(colonIndex + 3, colonIndex + 5);
+				if(ampm == "pm" && hours < 12){hours += 12;}
+				else if(ampm == "am" && hours == 12){hours = 0;}
+				return forceLeadingZero(hours) + ":" + minutes + ":00";
+			}
+			
+			var savingSurvey = false;
 			function saveSurvey(id){
+				savingSurvey = true;
+				
 				var code = $("#" + id + " .siteInfo .editable").eq(0)[0].innerHTML;
-				var date = $("h3:first-of-type").eq(0)[0].innerHTML;
-				var time = $("#" + id + " .time .editable").eq(0)[0].innerHTML;
-				var observationMethod = $("#" + id + " .surveyInfo .selected").eq(0)[0].innerHTML;
-				var numberOfLeaves = $("#" + id + " .surveyInfoIcon .editable").eq(0)[0].innerHTML;
-				var wetLeaves = $("#" + id + " .surveyInfo .selected").eq(1)[0].innerHTML;
-				var averageLeafLength = $("#" + id + " .surveyInfoIcon .editable").eq(1)[0].innerHTML;
-				var herbivoryScore = $("#" + id + " .surveyInfo .selected").eq(2)[0].innerHTML;
+				var date = databaseDate($("h3:first-of-type").eq(0)[0].innerHTML);
+				var time = databaseTime($("#" + id + " .time .editable").eq(0)[0].innerHTML);
+				var observationMethod = $("#" + id + " .surveyInfo .selected").eq(0)[0].innerHTML.substring(0, 1).toUpperCase() + $("#" + id + " .surveyInfo .selected").eq(0)[0].innerHTML.substring(1).toLowerCase();
+				var numberOfLeaves = Number($("#" + id + " .surveyInfoIcon .editable").eq(0)[0].innerHTML);
+				var wetLeaves = $("#" + id + " .surveyInfo .selected").eq(1)[0].innerHTML.toLowerCase().indexOf("wet") > -1;
+				var averageLeafLength = Number($("#" + id + " .surveyInfoIcon .editable").eq(1)[0].innerHTML);
+				var herbivoryScore = $("#" + id + " .surveyInfo .selected").eq(2)[0].innerHTML.replace(/\D/g, "").replace("1125", "333").replace("25", "4444").replace("610", "22").replace("15", "1").length;
 				var siteNotes = $("#" + id + " .surveyInfo .editable").eq(2)[0].innerHTML;
 				
 				var arthropodData = [];
 				var arthropodSightings = $("#" + id + " .arthropodSighting");
 				for(var i = 0; i < arthropodSightings.length; i++){
-					var quantity = arthropodSightings.eq(i).find(".editable").eq(0)[0].innerHTML;
-					var length = arthropodSightings.eq(i).find(".editable").eq(1)[0].innerHTML;
-					var group = arthropodSightings.eq(i).find(".selected").eq(0)[0].innerHTML;
-					var hairy = arthropodSightings.eq(i).find(".toggleable").eq(0).hasClass("true");
-					var leafRoll = arthropodSightings.eq(i).find(".toggleable").eq(1).hasClass("true");
-					var silkTent = arthropodSightings.eq(i).find(".toggleable").eq(2).hasClass("true");
+					var quantity = Number(arthropodSightings.eq(i).find(".editable").eq(0)[0].innerHTML);
+					var length = Number(arthropodSightings.eq(i).find(".editable").eq(1)[0].innerHTML);
+					var group = singular(arthropodSightings.eq(i).find(".selected").eq(0)[0].innerHTML.replace("flies", "fly")).replace("daddylongleg", "daddylonglegs").replace("moth", "moths").replace("truebug", "truebugs");
+					var hairy = false;
+					var leafRoll = false;
+					var silkTent = false;
+					if(group == "caterpillar"){
+						hairy = arthropodSightings.eq(i).find(".toggleable").eq(0).hasClass("true");
+						leafRoll = arthropodSightings.eq(i).find(".toggleable").eq(1).hasClass("true");
+						silkTent = arthropodSightings.eq(i).find(".toggleable").eq(2).hasClass("true");
+					}
 					var notes = arthropodSightings.eq(i).find(".editable").eq(2)[0].innerHTML;
-					arthropodData[arthropodData.length] = [quantity, length, group, hairy, leafRoll, silkTent, notes];
+					//qualifiers
+					if(quantity > 0 && length > 0){
+						arthropodData[arthropodData.length] = [group, length, quantity, notes, hairy, leafRoll, silkTent];
+					}
 				}
 				console.log([code, date, time, observationMethod, numberOfLeaves, wetLeaves, averageLeafLength, herbivoryScore, siteNotes, arthropodData]);
+				
+				formData.append("plantCode", code);
+			formData.append("sitePassword", sitePassword);
+				formData.append("date", date);
+				formData.append("time", time);
+				formData.append("siteNotes", siteNotes);
+				formData.append("wetLeaves", wetLeaves);
+				formData.append("arthropodData", JSON.stringify(arthropodData));
+				formData.append("numberOfLeaves", numberOfLeaves);
+				formData.append("averageLeafLength", averageLeafLength);
+				formData.append("herbivoryScore", herbivoryScore);
+				formData.append("observationMethod", observationMethod);
+				//formData.append("plantSpecies", plantSpecies);
+				formData.append("email", window.localStorage.getItem("email"));
+				formData.append("salt", window.localStorage.getItem("salt"));
+				
+				
+				setLoadingButton($("#saveSurveyButton"), "Save changes", true);
+				$.ajax({
+					url : "../php/editSurvey.php",
+					type : 'POST',
+					data : formData,
+					processData: false,  // tell jQuery not to process the data
+					contentType: false,  // tell jQuery not to set contentType
+					success : function(data) {
+						if(data.indexOf("true|") == 0){
+							queueNotice("confirmation", "Changes saved!");
+							closeHeight($('#editExtras'));
+							$('.loading').fadeIn(0);
+							$('#surveys').fadeOut(0);
+							reloadPage();
+						}
+						else{
+							var saveSurveyError = data.replace("false|", "");
+							queueNotice("error", saveSurveyError);
+							if(saveSurveyError == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
+						}
+					},
+					complete: function() {
+						setLoadingButton($("#saveSurveyButton"), "Save changes", false);
+						savingSurvey = false;
+					}
+				});
 			}
 			
 			
@@ -1820,7 +1901,7 @@
 					<div id="surveys"></div>
 					<div class="loading"><img src="../images/rolling.svg"/></div>
 					<div id="editExtras">
-						<button>Save Changes</button>
+						<button id="saveSurveyButton">Save Changes</button>
 						<div style="text-align:center;margin-bottom:20px;"><span class="underline pointer" style="color:#ccc;font-size:16px;font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;" onclick="$('.loading').fadeIn(0);$('#surveys').fadeOut(0);closeHeight($('#editExtras'));reloadPage();">Cancel</span></div>
 					</div>
 					<div id="pageNav">
