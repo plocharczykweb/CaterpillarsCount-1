@@ -1426,20 +1426,6 @@
 				}, 300);
 			}
 			
-			function requestSiteValidation(editablePlantCodeDiv){
-				var populatingPlantCheck = setInterval(function(){
-					if(!populatingPlant){
-						clearInterval(populatingPlantCheck);
-					}
-				}, 100);
-				if(editablePlantCodeDiv.id != editablePlantCodeDiv.innerHTML){
-				   	//check if valid
-					//if so, set id
-					//if not, ask for password and validate
-						//if cant validate, show error and requestSiteValidation(editablePlantCodeDiv);
-				}
-			}
-			
 			function forceNumber(editableDiv){
 				var caretPosition = getCaretCharacterOffsetWithin($(editableDiv).get(0));
 				var newInnerHTML = Number(editableDiv.innerHTML.replace(/\D/g, '')).toString();
@@ -1551,9 +1537,55 @@
 			}
 			
 			var savingSurvey = false;
-			function saveSurvey(id){
+			function requestSiteValidation(editablePlantCodeDiv){
+				setLoadingButton($("#saveSurveyButton")[0], "Save changes", true);
 				savingSurvey = true;
-				
+				var populatingPlantCheck = setInterval(function(){
+					if(!populatingPlant){
+						clearInterval(populatingPlantCheck);
+						if(editablePlantCodeDiv.id == editablePlantCodeDiv.innerHTML){
+							//submit
+							saveSurvey(editablePlantCodeDiv.parentNode.parentNode.id);
+						}
+						else if(plantCodeData.innerHTML.length == 0){
+							//survey location doesnt exist
+							queueNotice("error", "Enter a valid survey location code.");
+							savingSurvey = false;
+							setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
+						}
+						else{
+							//ask for site password
+							promptConfirm("Enter site password to save:<div><input type=\"password\" style=\"width:100%;border:1px solid #ccc;border-bottom:2px solid #ccc;border-radius:5px;padding:10px;font-size:17px;margin-top:10px;\" id=\"sitePassword\"/></div>", "Nevermind.", "CONTINUE!", function(){savingSurvey = false;}, function(){
+								var sitePassword = $("#sitePassword")[0].value;
+								$.get("../php/validateUserPlant.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&code=" + editablePlantCodeDiv.innerHTML, function(data){
+									//success
+									if(data.indexOf("true|") == 0){
+										//submit
+										saveSurvey(editablePlantCodeDiv.parentNode.parentNode.id);
+									}
+									else{
+										setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
+										savingSurvey = false;
+										var requestSiteValidationError = data.replace("false|", "");
+										queueNotice("error", requestSiteValidationError);
+										if(requestSiteValidationError == "Your log in dissolved. Maybe you logged in on another device."){
+											logOut();
+										}
+									}
+								})
+								.fail(function(){
+									//error
+									queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+									setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
+									savingSurvey = false;
+								});
+							});
+						}
+					}
+				}, 100);
+			}
+			
+			function saveSurvey(id){
 				var code = $("#" + id + " .siteInfo .editable").eq(0)[0].innerHTML;
 				var date = databaseDate($("h3:first-of-type").eq(0)[0].innerHTML);
 				var time = databaseTime($("#" + id + " .time .editable").eq(0)[0].innerHTML);
@@ -1587,7 +1619,12 @@
 				console.log([code, date, time, observationMethod, numberOfLeaves, wetLeaves, averageLeafLength, herbivoryScore, siteNotes, arthropodData]);
 				
 				formData.append("plantCode", code);
-			formData.append("sitePassword", sitePassword);
+				if($("#sitePassword").length > 0){
+					formData.append("sitePassword", $("#sitePassword").value);
+				}
+				else{
+					formData.append("sitePassword", "");
+				}
 				formData.append("date", date);
 				formData.append("time", time);
 				formData.append("siteNotes", siteNotes);
