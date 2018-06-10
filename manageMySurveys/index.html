@@ -625,7 +625,7 @@
 			var GLOBALPageNumber = 1;
 			var GLOBALTotalSurveys = 0;
 			var GLOBALTotalPages = 0;
-			var GLOBALFilters = {"user":"", "arthropod":"", "site":"", "circle":"", "code":""};
+			var GLOBALFilters = {"user":"", "arthropod":"", "site":"", "circle":"", "code":"", date:"____:__:__"};
 			var loadingPage = false;
 			function loadPage(pageNumber, filters, firstLoad){
 				firstLoad = firstLoad || false;
@@ -1040,7 +1040,7 @@
 			
 			function filter(){
 				if(!loadingPage){
-					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": getSelectValue($('#arthropodSearch')), "site": getSelectValue($('#siteSearch .select').eq(0)), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim()};
+					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": getSelectValue($('#arthropodSearch')), "site": getSelectValue($('#siteSearch .select').eq(0)), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim(), "date": getSelectValue($("#yearFilter")) + "-" + getSelectValue($("#monthFilter")) + "-" + getSelectValue($("#dayFilter"))};
 					loadPage(1, filters);
 					/*
 					if(GLOBALPageNumber != 1){
@@ -1972,7 +1972,7 @@
 						</div>
 						<div class="filter">
 							<div class="inputTitle">Date:</div>
-							<div class="select" id="">
+							<div class="select" id="monthFilter">
 								<div class="option selected" onclick="selectOption(this);">	<div class="value">__</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Month</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">January</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">02</div>		<div class="shown"><div class="image"></div>			<div class="text">February</div></div></div>
@@ -1987,7 +1987,7 @@
 								<div class="option" onclick="selectOption(this);">		<div class="value">11</div>		<div class="shown"><div class="image"></div>			<div class="text">November</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">12</div>		<div class="shown"><div class="image"></div>			<div class="text">December</div></div></div>
 							</div>
-							<div class="select" id="">
+							<div class="select" id="dayFilter">
 								<div class="option selected" onclick="selectOption(this);">	<div class="value">__</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Day</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">1st</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">02</div>		<div class="shown"><div class="image"></div>			<div class="text">2nd</div></div></div>
