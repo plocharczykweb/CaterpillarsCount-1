@@ -357,7 +357,7 @@
 				display:table-cell;
 				vertical-align:top;
 				box-sizing:border-box;
-				width:33.33%;
+				width:25%;
 			}
 			#filters>.filter:last-of-type{
 				border-right:0px none transparent;
@@ -542,10 +542,22 @@
 				
 				populateSurveySites();
 				
+				showYears();
+				
 				$(window).resize(function(){
 					updatePageNavigationBar();
 				});
 			});
+			
+			function showYears(){
+				var htmlToAdd = "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\">____</div>		<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Year</div></div></div>";
+				var date = new Date();
+				var year = date.getFullYear();
+				for(var i = year; i >= 1980; i--){
+					htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);\">		<div class=\"value\">" + i + "</div>		<div class=\"shown\"><div class=\"image\"></div>			<div class=\"text\">" + i + "</div></div></div>";
+				}
+				$("#yearFilter")[0].innerHTML = htmlToAdd;
+			}
 			
 			function singular(word){
 				if(word[word.length - 1] == "s"){
@@ -1957,6 +1969,59 @@
 									<div class="toggleLink underline pointer" onclick="showSiteCircleFilter();">Filter by site/circle instead</div>
 								</div>
 							</div>
+						</div>
+						<div class="filter">
+							<div class="inputTitle">Date:</div>
+							<div class="select" id="">
+								<div class="option selected" onclick="selectOption(this);">	<div class="value">__</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Month</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">January</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">02</div>		<div class="shown"><div class="image"></div>			<div class="text">February</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">03</div>		<div class="shown"><div class="image"></div>			<div class="text">March</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">04</div>		<div class="shown"><div class="image"></div>			<div class="text">April</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">05</div>		<div class="shown"><div class="image"></div>			<div class="text">May</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">06</div>		<div class="shown"><div class="image"></div>			<div class="text">June</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">07</div>		<div class="shown"><div class="image"></div>			<div class="text">July</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">08</div>		<div class="shown"><div class="image"></div>			<div class="text">August</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">09</div>		<div class="shown"><div class="image"></div>			<div class="text">September</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">10</div>		<div class="shown"><div class="image"></div>			<div class="text">October</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">11</div>		<div class="shown"><div class="image"></div>			<div class="text">November</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">12</div>		<div class="shown"><div class="image"></div>			<div class="text">December</div></div></div>
+							</div>
+							<div class="select" id="">
+								<div class="option selected" onclick="selectOption(this);">	<div class="value">__</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Day</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">1st</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">02</div>		<div class="shown"><div class="image"></div>			<div class="text">2nd</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">03</div>		<div class="shown"><div class="image"></div>			<div class="text">3rd</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">04</div>		<div class="shown"><div class="image"></div>			<div class="text">4th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">05</div>		<div class="shown"><div class="image"></div>			<div class="text">5th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">06</div>		<div class="shown"><div class="image"></div>			<div class="text">6th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">07</div>		<div class="shown"><div class="image"></div>			<div class="text">7th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">08</div>		<div class="shown"><div class="image"></div>			<div class="text">8th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">09</div>		<div class="shown"><div class="image"></div>			<div class="text">9th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">10</div>		<div class="shown"><div class="image"></div>			<div class="text">10th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">11</div>		<div class="shown"><div class="image"></div>			<div class="text">11th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">12</div>		<div class="shown"><div class="image"></div>			<div class="text">12th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">13</div>		<div class="shown"><div class="image"></div>			<div class="text">13th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">14</div>		<div class="shown"><div class="image"></div>			<div class="text">14th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">15</div>		<div class="shown"><div class="image"></div>			<div class="text">15th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">16</div>		<div class="shown"><div class="image"></div>			<div class="text">16th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">17</div>		<div class="shown"><div class="image"></div>			<div class="text">17th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">18</div>		<div class="shown"><div class="image"></div>			<div class="text">18th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">19</div>		<div class="shown"><div class="image"></div>			<div class="text">19th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">20</div>		<div class="shown"><div class="image"></div>			<div class="text">20th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">21</div>		<div class="shown"><div class="image"></div>			<div class="text">21st</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">22</div>		<div class="shown"><div class="image"></div>			<div class="text">22nd</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">23</div>		<div class="shown"><div class="image"></div>			<div class="text">23rd</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">24</div>		<div class="shown"><div class="image"></div>			<div class="text">24th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">25</div>		<div class="shown"><div class="image"></div>			<div class="text">25th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">26</div>		<div class="shown"><div class="image"></div>			<div class="text">26th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">27</div>		<div class="shown"><div class="image"></div>			<div class="text">27th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">28</div>		<div class="shown"><div class="image"></div>			<div class="text">28th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">29</div>		<div class="shown"><div class="image"></div>			<div class="text">29th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">30</div>		<div class="shown"><div class="image"></div>			<div class="text">30th</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">31</div>		<div class="shown"><div class="image"></div>			<div class="text">31st</div></div></div>
+							</div>
+							<div class="select" id="yearFilter"></div>
 						</div>
 					</div>
 					<button onclick="filter();">Apply Filters</button>
