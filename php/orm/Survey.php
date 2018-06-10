@@ -177,7 +177,7 @@ class Survey
 			}
 		}
 		
-		$dateSearch = mysqli_real_escape_string($dbconn, trim(strval($filters["site"])));
+		$dateSearch = mysqli_real_escape_string($dbconn, trim(strval($filters["date"])));
 		
 		$totalCount = intval(mysqli_fetch_assoc(mysqli_query($dbconn, "SELECT COUNT(*) AS `Count` FROM (SELECT DISTINCT Survey.ID FROM " . $baseTable . " JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "') AND Survey.LocalDate LIKE '" . $dateSearch . "'" . $additionalSQL . $groupBy . ") AS Results"))["Count"]);
 		if($limit === "max"){
