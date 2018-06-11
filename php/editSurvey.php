@@ -41,6 +41,7 @@
 				$survey->setNumberOfLeaves($numberOfLeaves);
 				$survey->setAverageLeafLength($averageLeafLength);
 				$survey->setHerbivoryScore($herbivoryScore);
+				$survey->setNotes($siteNotes);
 				$arthropodData = json_decode($_POST["arthropodData"]);		//JSON
 				
 				//delete old arthropod sightings
