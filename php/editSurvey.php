@@ -54,7 +54,9 @@
 					$arthropodSightingFailures = "";
 					$arthropodSighting = $survey->addArthropodSighting($arthropodData[$i][0], $arthropodData[$i][1], $arthropodData[$i][2], $arthropodData[$i][3], $arthropodData[$i][4], $arthropodData[$i][5], $arthropodData[$i][6]);
 					if(is_object($arthropodSighting) && get_class($arthropodSighting) == "ArthropodSighting"){
-						$arthropodSighting->setPhotoURL($arthropodData[$i][7]);
+						if($arthropodData[$i][7] != ""){
+							$arthropodSighting->setPhotoURL($arthropodData[$i][7]);
+						}
 					}
 					else{
 						$arthropodSightingFailures .= $arthropodSighting;
