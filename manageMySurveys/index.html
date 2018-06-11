@@ -1574,7 +1574,7 @@
 							//submit
 							saveSurvey(surveyID);
 						}
-						else if(plantCodeData.innerHTML.length == 0){
+						else if($("#" + surveyID + " .plantCodeData").eq(0)[0].innerHTML.length == 0){
 							//survey location doesnt exist
 							queueNotice("error", "Enter a valid survey location code.");
 							savingSurvey = false;
