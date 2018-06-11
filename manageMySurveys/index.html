@@ -1279,6 +1279,7 @@
 				//make date editable
 				$("h3:first-of-type").css({display:"inline-block"});
 				$("h3:first-of-type").attr("contenteditable", "true");
+				$("h3:first-of-type").off("click");
 				$("h3:first-of-type").click(function(){
 					document.execCommand('selectAll',false,null)
 				});
@@ -1298,12 +1299,14 @@
 				//allow arthropod delete
 				$("#" + id + " .arthropodSighting").css({padding:"3px 30px 3px 5px"});
 				$("#" + id + " .arthropodSighting .deleteArthropodSighting").stop().fadeIn(0);
+				$("#" + id + " .arthropodSighting .deleteArthropodSighting").off("click");
 				$("#" + id + " .arthropodSighting .deleteArthropodSighting").click(function(){
 					this.parentNode.outerHTML = "";
 				});
 				
 				//show edit extras
 				openHeight($("#editExtras"));
+				$("#editExtras button").off("click");
 				$("#editExtras button").eq(0).click(function(){
 					saveSurvey(id);
 				});
@@ -1325,14 +1328,17 @@
 				//editable basics
 				$("#" + id + " .editable").css({display:"inline-block"});
 				$("#" + id + " .editable").attr("contenteditable", "true");
+				$("#" + id + " .editable").off("click");
 				$("#" + id + " .editable").click(function(){
 					document.execCommand('selectAll',false,null)
 				});
 				
 				//small select click functions
+				$("#" + id + " .surveyInfo .smallSelect .selected").off("click");
 				$("#" + id + " .surveyInfo .smallSelect .selected").click(function(){
 					showSmallSelectOptions(this);
 				});
+				$("#" + id + " .arthropodSightingsInfo .smallSelect .selected").off("click");
 				$("#" + id + " .arthropodSightingsInfo .smallSelect .selected").click(function(){
 					showSmallSelectOptions(this);
 					$("#" + id + " .arthropodSightingsInfo").eq(0)[0].style.overflow = "visible";
@@ -1352,6 +1358,7 @@
 				
 				//caterpillar options
 				$("#" + id + " .toggleable").css({cursor:"pointer"});
+				$("#" + id + " .caterpillarOption").off("click");
 				$("#" + id + " .caterpillarOption").click(function(){
 					this.className = this.className.replace("false", "temp").replace("true", "false").replace("temp", "true");
 				});
