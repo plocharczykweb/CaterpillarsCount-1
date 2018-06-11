@@ -59,11 +59,11 @@
 					else{
 						$arthropodSightingFailures .= $arthropodSighting;
 					}
-					if($arthropodSightingFailures != ""){
-						die("false|" . $arthropodSightingFailures);
-					}
-					die("true|");
 				}
+				if($arthropodSightingFailures != ""){
+					die("false|" . $arthropodSightingFailures);
+				}
+				die("true|");
 			}
 			die("false|" . $survey);
 		}
