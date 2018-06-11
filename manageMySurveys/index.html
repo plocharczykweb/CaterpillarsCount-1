@@ -1641,6 +1641,7 @@
 				}
 				console.log([code, date, time, observationMethod, numberOfLeaves, wetLeaves, averageLeafLength, herbivoryScore, siteNotes, arthropodData]);
 				
+				var formData = new FormData();
 				formData.append("plantCode", code);
 				if($("#sitePassword").length > 0){
 					formData.append("sitePassword", $("#sitePassword").value);
