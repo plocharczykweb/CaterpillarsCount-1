@@ -1308,7 +1308,7 @@
 				openHeight($("#editExtras"));
 				$("#editExtras button").off("click");
 				$("#editExtras button").eq(0).click(function(){
-					saveSurvey(id);
+					requestSiteValidation(id);
 				});
 				
 				//hide siteinfo options (edit and delete icons)
@@ -1563,7 +1563,8 @@
 			}
 			
 			var savingSurvey = false;
-			function requestSiteValidation(editablePlantCodeDiv){
+			function requestSiteValidation(surveyID){
+				var editablePlantCodeDiv = $("#" + surveyID + " .siteInfo .editable").eq(0)[0];
 				setLoadingButton($("#saveSurveyButton")[0], "Save changes", true);
 				savingSurvey = true;
 				var populatingPlantCheck = setInterval(function(){
@@ -1571,7 +1572,7 @@
 						clearInterval(populatingPlantCheck);
 						if(editablePlantCodeDiv.id == editablePlantCodeDiv.innerHTML){
 							//submit
-							saveSurvey(editablePlantCodeDiv.parentNode.parentNode.id);
+							saveSurvey(surveyID);
 						}
 						else if(plantCodeData.innerHTML.length == 0){
 							//survey location doesnt exist
@@ -1587,7 +1588,7 @@
 									//success
 									if(data.indexOf("true|") == 0){
 										//submit
-										saveSurvey(editablePlantCodeDiv.parentNode.parentNode.id);
+										saveSurvey(surveyID);
 									}
 									else{
 										setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
