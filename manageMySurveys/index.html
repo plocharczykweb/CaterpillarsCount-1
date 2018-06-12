@@ -589,6 +589,8 @@
 				$(window).resize(function(){
 					updatePageNavigationBar();
 				});
+				
+				requireLogIn();
 			});
 			
 			function showYears(){
@@ -917,6 +919,9 @@
 						}
 						else{
 							queueNotice("error", data.replace("false|", ""));
+							if(data.replace("false|", "")  == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
 						}
 					})
 					.fail(function(){
@@ -2009,6 +2014,7 @@
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../createNewSite">Create New Site</a></li>
 							<li><a href="../manageMySites">Manage My Sites</a></li>
+							<li><a href="../manageMySites">Manage My Surveys</a></li>
 							<li><a href="../settings">Settings</a></li>
 							<li><a href="" onclick="logOut();">Sign Out</a></li>
 						</ul>
