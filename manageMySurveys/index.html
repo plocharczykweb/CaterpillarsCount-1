@@ -1778,7 +1778,7 @@
 				setTimeout(function(){
 					var options = $("#" + dateCategory + "Filter .option");
 					for(var i = 0; i < options.length; i++){
-						if(options.eq(i).text() == $("#" + dateCategory + "Label").text()){
+						if(options.eq(i).text() == $("#" + dateCategory + "Label").text().replace("Jan.", "January").replace("Feb.", "February").replace("Aug.", "August").replace("Sept.", "September").replace("Oct.", "October").replace("Nov.", "November").replace("Dec.", "December")){
 							options.eq(i).click();
 							break;
 						}
@@ -1787,7 +1787,7 @@
 			}
 			
 			function showDateLabel(dateCategory, option){
-				$("#" + dateCategory + "Label").text($(option).find(".text").eq(0).text())
+				$("#" + dateCategory + "Label").text($(option).find(".text").eq(0).text().replace("January", "Jan.").replace("February", "Feb.").replace("August", "Aug.").replace("September", "Sept.").replace("October", "Oct.").replace("November", "Nov.").replace("December", "Dec."));
 			}
 			
 			
