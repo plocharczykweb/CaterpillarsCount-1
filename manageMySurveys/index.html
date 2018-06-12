@@ -695,6 +695,7 @@
 									return false;
 								}
 								$("#surveys")[0].innerHTML = "<div id='noSurveys'>No surveys found.</div>";
+								$("#pageNav").fadeOut(0);
 							}
 							if(pageNumber == "last"){
 								GLOBALPageNumber = totalPages;
@@ -1777,7 +1778,6 @@
 			}
 			
 			function clearDateFilter(){
-				alert("TODO: clearing date filter...");
 				$("#monthFilter .selected")[0].className = $("#monthFilter .selected")[0].className.replace("selected", "").trim();
 				$("#dayFilter .selected")[0].className = $("#dayFilter .selected")[0].className.replace("selected", "").trim();
 				$("#yearFilter .selected")[0].className = $("#yearFilter .selected")[0].className.replace("selected", "").trim();
@@ -2145,7 +2145,7 @@
 			<div class="panel" style="display:none;"></div>
 			<div class="panel">
 				<h2>Manage My Surveys</h2>
-				<div class="tagline"></div>
+				<div class="tagline">...all the surveys you've personally submitted, plus all surveys submitted at any sites you may manage</div>
 				<div class="content">
 					<div id="surveys"></div>
 					<div class="loading"><img src="../images/rolling.svg"/></div>
