@@ -1757,10 +1757,11 @@
 			}
 			
 			function dateDrop(dateCategory){
-				$("#monthFilter .option").stop().animate({maxHeight:"0px"});
-				$("#dayFilter .option").stop().animate({maxHeight:"0px"});
-				$("#yearFilter .option").stop().animate({maxHeight:"0px"});
-				$("#" + dateCategory + "Filter .option").stop().animate({maxHeight:"250px"});
+				var wantToShow = $("#" + dateCategory + "Filter")[0].clientHeight == 0;
+				$("#dateFilter .option").stop().animate({maxHeight:"0px"});
+				if(wantToShow){
+					$("#" + dateCategory + "Filter .option").stop().animate({maxHeight:"250px"});
+				}
 			}
 			
 			function showDateLabel(dateCategory, option){
@@ -1845,8 +1846,9 @@
 					var selectedElement = $(optionElement.parentNode).find(".selected").eq(0)[0];
 					selectedElement.className = selectedElement.className.replace("selected", "").trim();
 					optionElement.className = optionElement.className + " selected";
-					if(!letSelectedCollapse){
-						$(optionElement).stop().animate({maxHeight:"250px"}, "swing", function(){selectToggling = false});
+					if(letSelectedCollapse){selectToggling = false;}
+					else{
+						$(optionElement).stop().animate({maxHeight:"250px"}, "swing", function(){selectToggling = false;});
 					}
 				}
 			}
