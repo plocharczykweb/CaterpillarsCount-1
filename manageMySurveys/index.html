@@ -588,7 +588,7 @@
 				var date = new Date();
 				var year = date.getFullYear();
 				for(var i = year; i >= 1980; i--){
-					htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('year', this);\">		<div class=\"value\">" + i + "</div>		<div class=\"shown\"><div class=\"image\"></div>			<div class=\"text\">" + i + "</div></div></div>";
+					htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this, true);showDateLabel('year', this);\">		<div class=\"value\">" + i + "</div>		<div class=\"shown\"><div class=\"image\"></div>			<div class=\"text\">" + i + "</div></div></div>";
 				}
 				$("#yearFilter")[0].innerHTML = htmlToAdd;
 			}
@@ -1760,15 +1760,15 @@
 				var closing = false;
 				if(dateCategory != "month" && $("#monthFilter")[0].clientHeight > 0){
 					closing = true;
-				   	$("#monthFilter .option").eq(0).click();
+					$("#monthFilter .option").stop().animate({maxHeight:"0px"});
 				}
 				if(dateCategory != "day" && $("#dayFilter")[0].clientHeight > 0){
 					closing = true;
-				   	$("#dayFilter .option").eq(0).click();
+					$("#dayFilter .option").stop().animate({maxHeight:"0px"});
 				}
 				if(dateCategory != "year" && $("#yearFilter")[0].clientHeight > 0){
 					closing = true;
-				   	$("#yearFilter .option").eq(0).click();
+					$("#yearFilter .option").stop().animate({maxHeight:"0px"});
 				}
 				
 				var delay = 0;
@@ -1776,7 +1776,13 @@
 					delay = 400;
 				}
 				setTimeout(function(){
-					$("#" + dateCategory + "Filter .option").eq(0).click();
+					var options = $("#" + dateCategory + "Filter .option");
+					for(var i = 0; i < options.length; i++){
+						if(options.eq(i).text() == $("#" + dateCategory + "Label").text()){
+							options.eq(i).click();
+							break;
+						}
+					}
 				}, delay);
 			}
 			
@@ -1831,7 +1837,8 @@
 				}
 			}
 			
-			function selectOption(optionElement){
+			function selectOption(optionElement, letSelectedCollapse){
+				letSelectedCollapse = letSelectedCollapse || false;
 				if(!selectToggling){
 					selectToggling = true;
 					//select an option in a custiom .select or open the custom .select
@@ -1848,7 +1855,9 @@
 					var selectedElement = $(optionElement.parentNode).find(".selected").eq(0)[0];
 					selectedElement.className = selectedElement.className.replace("selected", "").trim();
 					optionElement.className = optionElement.className + " selected";
-					$(optionElement).stop().animate({maxHeight:"250px"}, "swing", function(){selectToggling = false});
+					if(!letSelectedCollapse){
+						$(optionElement).stop().animate({maxHeight:"250px"}, "swing", function(){selectToggling = false});
+					}
 				}
 			}
 			
@@ -2072,52 +2081,52 @@
 								<div class="clearBoth"></div>
 								<div class="select" id="monthFilter">
 									<div class="option selected" onclick="selectOption(this);">	<div class="value">__</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Month</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">January</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">02</div>		<div class="shown"><div class="image"></div>			<div class="text">February</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">03</div>		<div class="shown"><div class="image"></div>			<div class="text">March</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">04</div>		<div class="shown"><div class="image"></div>			<div class="text">April</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">05</div>		<div class="shown"><div class="image"></div>			<div class="text">May</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">06</div>		<div class="shown"><div class="image"></div>			<div class="text">June</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">07</div>		<div class="shown"><div class="image"></div>			<div class="text">July</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">08</div>		<div class="shown"><div class="image"></div>			<div class="text">August</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">09</div>		<div class="shown"><div class="image"></div>			<div class="text">September</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">10</div>		<div class="shown"><div class="image"></div>			<div class="text">October</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">11</div>		<div class="shown"><div class="image"></div>			<div class="text">November</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('month', this);">		<div class="value">12</div>		<div class="shown"><div class="image"></div>			<div class="text">December</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">January</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">02</div>		<div class="shown"><div class="image"></div>			<div class="text">February</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">03</div>		<div class="shown"><div class="image"></div>			<div class="text">March</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">04</div>		<div class="shown"><div class="image"></div>			<div class="text">April</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">05</div>		<div class="shown"><div class="image"></div>			<div class="text">May</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">06</div>		<div class="shown"><div class="image"></div>			<div class="text">June</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">07</div>		<div class="shown"><div class="image"></div>			<div class="text">July</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">08</div>		<div class="shown"><div class="image"></div>			<div class="text">August</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">09</div>		<div class="shown"><div class="image"></div>			<div class="text">September</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">10</div>		<div class="shown"><div class="image"></div>			<div class="text">October</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">11</div>		<div class="shown"><div class="image"></div>			<div class="text">November</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('month', this);">		<div class="value">12</div>		<div class="shown"><div class="image"></div>			<div class="text">December</div></div></div>
 								</div>
 								<div class="select" id="dayFilter">
 									<div class="option selected" onclick="selectOption(this);">	<div class="value">__</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Day</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">1st</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">02</div>		<div class="shown"><div class="image"></div>			<div class="text">2nd</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">03</div>		<div class="shown"><div class="image"></div>			<div class="text">3rd</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">04</div>		<div class="shown"><div class="image"></div>			<div class="text">4th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">05</div>		<div class="shown"><div class="image"></div>			<div class="text">5th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">06</div>		<div class="shown"><div class="image"></div>			<div class="text">6th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">07</div>		<div class="shown"><div class="image"></div>			<div class="text">7th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">08</div>		<div class="shown"><div class="image"></div>			<div class="text">8th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">09</div>		<div class="shown"><div class="image"></div>			<div class="text">9th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">10</div>		<div class="shown"><div class="image"></div>			<div class="text">10th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">11</div>		<div class="shown"><div class="image"></div>			<div class="text">11th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">12</div>		<div class="shown"><div class="image"></div>			<div class="text">12th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">13</div>		<div class="shown"><div class="image"></div>			<div class="text">13th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">14</div>		<div class="shown"><div class="image"></div>			<div class="text">14th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">15</div>		<div class="shown"><div class="image"></div>			<div class="text">15th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">16</div>		<div class="shown"><div class="image"></div>			<div class="text">16th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">17</div>		<div class="shown"><div class="image"></div>			<div class="text">17th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">18</div>		<div class="shown"><div class="image"></div>			<div class="text">18th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">19</div>		<div class="shown"><div class="image"></div>			<div class="text">19th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">20</div>		<div class="shown"><div class="image"></div>			<div class="text">20th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">21</div>		<div class="shown"><div class="image"></div>			<div class="text">21st</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">22</div>		<div class="shown"><div class="image"></div>			<div class="text">22nd</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">23</div>		<div class="shown"><div class="image"></div>			<div class="text">23rd</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">24</div>		<div class="shown"><div class="image"></div>			<div class="text">24th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">25</div>		<div class="shown"><div class="image"></div>			<div class="text">25th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">26</div>		<div class="shown"><div class="image"></div>			<div class="text">26th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">27</div>		<div class="shown"><div class="image"></div>			<div class="text">27th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">28</div>		<div class="shown"><div class="image"></div>			<div class="text">28th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">29</div>		<div class="shown"><div class="image"></div>			<div class="text">29th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">30</div>		<div class="shown"><div class="image"></div>			<div class="text">30th</div></div></div>
-									<div class="option" onclick="selectOption(this);$(this).animate({maxHeight:'0px'}, 150);showDateLabel('day', this);">		<div class="value">31</div>		<div class="shown"><div class="image"></div>			<div class="text">31st</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">1st</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">02</div>		<div class="shown"><div class="image"></div>			<div class="text">2nd</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">03</div>		<div class="shown"><div class="image"></div>			<div class="text">3rd</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">04</div>		<div class="shown"><div class="image"></div>			<div class="text">4th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">05</div>		<div class="shown"><div class="image"></div>			<div class="text">5th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">06</div>		<div class="shown"><div class="image"></div>			<div class="text">6th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">07</div>		<div class="shown"><div class="image"></div>			<div class="text">7th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">08</div>		<div class="shown"><div class="image"></div>			<div class="text">8th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">09</div>		<div class="shown"><div class="image"></div>			<div class="text">9th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">10</div>		<div class="shown"><div class="image"></div>			<div class="text">10th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">11</div>		<div class="shown"><div class="image"></div>			<div class="text">11th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">12</div>		<div class="shown"><div class="image"></div>			<div class="text">12th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">13</div>		<div class="shown"><div class="image"></div>			<div class="text">13th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">14</div>		<div class="shown"><div class="image"></div>			<div class="text">14th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">15</div>		<div class="shown"><div class="image"></div>			<div class="text">15th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">16</div>		<div class="shown"><div class="image"></div>			<div class="text">16th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">17</div>		<div class="shown"><div class="image"></div>			<div class="text">17th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">18</div>		<div class="shown"><div class="image"></div>			<div class="text">18th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">19</div>		<div class="shown"><div class="image"></div>			<div class="text">19th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">20</div>		<div class="shown"><div class="image"></div>			<div class="text">20th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">21</div>		<div class="shown"><div class="image"></div>			<div class="text">21st</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">22</div>		<div class="shown"><div class="image"></div>			<div class="text">22nd</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">23</div>		<div class="shown"><div class="image"></div>			<div class="text">23rd</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">24</div>		<div class="shown"><div class="image"></div>			<div class="text">24th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">25</div>		<div class="shown"><div class="image"></div>			<div class="text">25th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">26</div>		<div class="shown"><div class="image"></div>			<div class="text">26th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">27</div>		<div class="shown"><div class="image"></div>			<div class="text">27th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">28</div>		<div class="shown"><div class="image"></div>			<div class="text">28th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">29</div>		<div class="shown"><div class="image"></div>			<div class="text">29th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">30</div>		<div class="shown"><div class="image"></div>			<div class="text">30th</div></div></div>
+									<div class="option" onclick="selectOption(this, true);showDateLabel('day', this);">		<div class="value">31</div>		<div class="shown"><div class="image"></div>			<div class="text">31st</div></div></div>
 								</div>
 								<div class="select" id="yearFilter"></div>
 							</div>
