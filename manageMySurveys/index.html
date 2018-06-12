@@ -1635,7 +1635,10 @@
 				var wetLeaves = $("#" + id + " .surveyInfo .selected").eq(1)[0].innerHTML.toLowerCase().indexOf("wet") > -1;
 				var averageLeafLength = Number($("#" + id + " .surveyInfoIcon .editable").eq(1)[0].innerHTML);
 				var herbivoryScore = $("#" + id + " .surveyInfo .selected").eq(2)[0].innerHTML.replace(/\D/g, "").replace("1125", "333").replace("25", "4444").replace("610", "22").replace("15", "1").length;
-				var siteNotes = $("#" + id + " .surveyInfo .editable").eq(2)[0].innerHTML;
+				var siteNotes = $("#" + id + " .surveyInfo .editable").eq(2)[0].innerHTML.trim();
+				if(siteNotes == "[notes]"){
+					siteNotes = "";
+				}
 				
 				var arthropodData = [];
 				var arthropodSightings = $("#" + id + " .arthropodSighting");
