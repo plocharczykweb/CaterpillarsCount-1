@@ -1582,30 +1582,44 @@
 						}
 						else{
 							//ask for site password
-							promptConfirm("Enter site password to save:<div><input type=\"password\" style=\"width:100%;border:1px solid #ccc;border-bottom:2px solid #ccc;border-radius:5px;padding:10px;font-size:17px;margin-top:10px;\" id=\"sitePassword\"/></div>", "Nevermind.", "CONTINUE!", function(){setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);savingSurvey = false;}, function(){
-								var sitePassword = $("#sitePassword")[0].value;
-								$.get("../php/validateUserPlant.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&code=" + editablePlantCodeDiv.innerHTML, function(data){
-									//success
-									if(data.indexOf("true|") == 0){
-										//submit
-										saveSurvey(surveyID);
-									}
-									else{
-										setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
-										savingSurvey = false;
-										var requestSiteValidationError = data.replace("false|", "");
-										queueNotice("error", requestSiteValidationError);
-										if(requestSiteValidationError == "Your log in dissolved. Maybe you logged in on another device."){
-											logOut();
-										}
-									}
-								})
-								.fail(function(){
-									//error
-									queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
-									setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
-									savingSurvey = false;
-								});
+							$.get("../php/validateUserPlant.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&code=" + editablePlantCodeDiv.innerHTML + "&password=", function(data){
+								if(data.indexOf("true|") == 0){
+									//submit
+									saveSurvey(surveyID);
+								}
+								else{
+									promptConfirm("Enter site password to save:<div><input type=\"password\" style=\"width:100%;border:1px solid #ccc;border-bottom:2px solid #ccc;border-radius:5px;padding:10px;font-size:17px;margin-top:10px;\" id=\"sitePassword\"/></div>", "Nevermind.", "CONTINUE!", function(){setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);savingSurvey = false;}, function(){
+										var sitePassword = $("#sitePassword")[0].value;
+										$.get("../php/validateUserPlant.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&code=" + editablePlantCodeDiv.innerHTML + "&password=" + sitePassword, function(data){
+											//success
+											if(data.indexOf("true|") == 0){
+												//submit
+												saveSurvey(surveyID);
+											}
+											else{
+												setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
+												savingSurvey = false;
+												var requestSiteValidationError = data.replace("false|", "");
+												queueNotice("error", requestSiteValidationError);
+												if(requestSiteValidationError == "Your log in dissolved. Maybe you logged in on another device."){
+													logOut();
+												}
+											}
+										})
+										.fail(function(){
+											//error
+											queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+											setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
+											savingSurvey = false;
+										});
+									});
+								}
+							})
+							.fail(function(){
+								//error
+								queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+								setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);
+								savingSurvey = false;
 							});
 						}
 					}
