@@ -1778,6 +1778,12 @@
 				$("#dayFilter .option").eq(0)[0].className = $("#dayFilter .option").eq(0)[0].className + " selected";
 				$("#yearFilter .option").eq(0)[0].className = $("#yearFilter .option").eq(0)[0].className + " selected";
 				
+				$("#monthLabel").text("Month");
+				$("#dayLabel").text("Day");
+				$("#yearLabel").text("Year");
+				
+				scrollToElement($("#iconBar"));
+				
 				$("#dateFilter .option").stop().animate({maxHeight:"0px"});
 			}
 			
