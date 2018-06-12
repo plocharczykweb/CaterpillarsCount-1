@@ -915,7 +915,9 @@
 								}
 								htmlToAdd += "</div>";
 							}
-							$("#surveys")[0].innerHTML = htmlToAdd;
+							if(surveys.length > 0){
+								$("#surveys")[0].innerHTML = htmlToAdd;
+							}
 						}
 						else{
 							queueNotice("error", data.replace("false|", ""));
