@@ -1003,22 +1003,7 @@
 				return selected.indexOf(surveyID + "") > -1;
 			}
 			
-			function selectAll(){
-				//TODO
-				if(GLOBALTotalSurveys == 0){
-					queueNotice("alert", "There are no surveys to select.");
-				}
-				else if(GLOBALTotalSurveys == 1){
-					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + GLOBALTotalSurveys + " Survey";
-				}
-				else{
-					$("#batchDeleteButton")[0].innerHTML = "Batch Delete " + GLOBALTotalSurveys + " Surveys";
-				}
-				
-				$(".checkbox").addClass("checked");
-				selected = "all";
-				unselected = [];
-			}
+			//selectall function
 			
 			function deselectAll(){
 				$(".checked").removeClass("checked");
