@@ -1769,6 +1769,15 @@
 			
 			function clearDateFilter(){
 				alert("TODO: clearing date filter...");
+				$("#monthFilter .selected")[0].className = $("#monthFilter .selected")[0].className.replace("selected", "").trim();
+				$("#dayFilter .selected")[0].className = $("#dayFilter .selected")[0].className.replace("selected", "").trim();
+				$("#yearFilter .selected")[0].className = $("#yearFilter .selected")[0].className.replace("selected", "").trim();
+				
+				$("#monthFilter .option").eq(0)[0].className = $("#monthFilter .option").eq(0)[0].className + " selected";
+				$("#dayFilter .option").eq(0)[0].className = $("#dayFilter .option").eq(0)[0].className + " selected";
+				$("#yearFilter .option").eq(0)[0].className = $("#yearFilter .option").eq(0)[0].className + " selected";
+				
+				$("#dateFilter .option").stop().animate({maxHeight:"0px"});
 			}
 			
 			
