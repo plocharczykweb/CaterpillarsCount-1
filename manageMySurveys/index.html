@@ -487,7 +487,7 @@
 					border-radius:0px;
 				}
 				
-				#surveys .survey .siteInfo .time, #surveys .survey .surveyInfo>div:first-of-type>div:first-of-type{
+				#surveys .survey .surveyInfo>div:first-of-type>div:first-of-type{
 					display:none;
 				}
 				
@@ -675,7 +675,7 @@
 								}
 								htmlToAdd += "<div class=\"survey\" id=\"" + surveys[i]["id"] + "\">";
 								htmlToAdd += 	"<div class=\"headInfo\">";
-								htmlToAdd +=		"<div>" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + " | <a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
+								htmlToAdd +=		"<div><a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>";
 								htmlToAdd += 	"<div class=\"siteInfo\" style=\"background:" + surveys[i]["color"] + ";\"><div class=\"editable\" style=\"font-weight:bold;text-transform:uppercase;\" oninput=\"populatePlant(this);\">" + surveys[i]["plantCode"] + "</div><span class=\"plantCodeData\">: <a href=\"https://www.google.com/maps/search/?api=1&query=" + surveys[i]["siteCoordinates"] + "\" target=\"_blank\">" + surveys[i]["siteName"] + " (" + surveys[i]["siteRegion"] + ")</a>, Circle " + surveys[i]["circle"] + ", " + surveys[i]["plantSpecies"] + "</span><div class=\"date\" style=\"display:none;\">" + getReadableDate(surveys[i]["localDate"]) + "</div><div class=\"time\"><div class=\"editable\" onblur=\"forceTime(this);\">" + getTwelveHourTime(surveys[i]["localTime"].substring(0, (surveys[i]["localTime"].length - 3))) + "</div></div><div class=\"options\"><div";
 								if($("#batchDeleteDropdown")[0].style.maxHeight != "" && $("#batchDeleteDropdown")[0].style.maxHeight != "0px"){
