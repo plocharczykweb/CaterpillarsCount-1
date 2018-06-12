@@ -415,6 +415,27 @@
 				overflow:hidden;
 			}
 			
+			#dateFilter{
+				background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+			}
+			
+			#dateFilter>div:first-of-type>div{
+				padding:20px;
+				float:left;
+				width:33.33%;
+				box-sizing:border-box;
+				color:#aaa;
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				border-right:1px solid #f3f3f3;
+				cursor:pointer;
+			}
+			
+			#dateFilter>div:first-of-type>div:last-of-type{
+				border-right:0px none transparent;
+			}
+			
 			#dateFilter .option:first-of-type{
 				display:none;
 			}
@@ -2010,9 +2031,12 @@
 						<div class="filter">
 							<div class="inputTitle">Date:</div>
 							<div id="dateFilter">
-								<button onclick="dateDrop('month');">Month</button>
-								<button onclick="dateDrop('day');">Day</button>
-								<button onclick="dateDrop('year');">Year</button>
+								<div>
+									<div onclick="dateDrop('month');">Month</div>
+									<div onclick="dateDrop('day');">Day</div>
+									<div onclick="dateDrop('year');">Year</div>
+								</div>
+								<div class="clearBoth"></div>
 								<div class="select" id="monthFilter">
 									<div class="option selected" onclick="selectOption(this);">	<div class="value">__</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Month</div></div></div>
 									<div class="option" onclick="selectOption(this);">		<div class="value">01</div>		<div class="shown"><div class="image"></div>			<div class="text">January</div></div></div>
