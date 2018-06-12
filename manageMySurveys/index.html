@@ -1582,7 +1582,7 @@
 						}
 						else{
 							//ask for site password
-							promptConfirm("Enter site password to save:<div><input type=\"password\" style=\"width:100%;border:1px solid #ccc;border-bottom:2px solid #ccc;border-radius:5px;padding:10px;font-size:17px;margin-top:10px;\" id=\"sitePassword\"/></div>", "Nevermind.", "CONTINUE!", function(){savingSurvey = false;}, function(){
+							promptConfirm("Enter site password to save:<div><input type=\"password\" style=\"width:100%;border:1px solid #ccc;border-bottom:2px solid #ccc;border-radius:5px;padding:10px;font-size:17px;margin-top:10px;\" id=\"sitePassword\"/></div>", "Nevermind.", "CONTINUE!", function(){setLoadingButton($("#saveSurveyButton")[0], "Save changes", false);savingSurvey = false;}, function(){
 								var sitePassword = $("#sitePassword")[0].value;
 								$.get("../php/validateUserPlant.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&code=" + editablePlantCodeDiv.innerHTML, function(data){
 									//success
