@@ -3,6 +3,7 @@
 require_once('resources/mailing.php');
 require_once('resources/Keychain.php');
 require_once('User.php');
+require_once('ManagerRequest.php');
 require_once('Plant.php');
 
 class Site
@@ -226,6 +227,19 @@ class Site
 	public function getCreator() {
 		if($this->deleted){return null;}
 		return $this->creator;
+	}
+	
+	public function isAuthority($user){
+		if(is_object($user) && get_class($user) == "User"){
+			if($user == $this->getCreator()){
+				return true;
+			}
+			$managerRequest = ManagerRequest::findByManagerAndSite($user, $this);
+			if(is_object($managerRequest) && get_class($managerRequest) == "ManagerRequest"){
+				return ($managerRequest->getStatus() == "Approved");
+			}
+		}
+		return false;
 	}
 	
 	public function getName() {
