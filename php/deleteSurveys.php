@@ -19,6 +19,7 @@
 			$userSiteIDs[] = $userSites[$i]->getID();
 		}
 	
+		/*
 		if($selected == "all"){
 			$surveys = Survey::findSurveysByUser($user, $filters, 0, "max")[1];//9999999999999999999);//this might cause a timeout
 			$selected = array();
@@ -29,6 +30,7 @@
 				}
 			}
 		}
+		*/
 		
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		mysqli_query($dbconn, "DELETE ArthropodSighting FROM ArthropodSighting JOIN Survey on ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Survey.ID IN (-1, " . join(", ", $selected) . ") AND (Survey.UserFKOfObserver='" . $user->getID() . "' OR Site.ID IN (-1, " . join(", ", $userSiteIDs) . "))");
