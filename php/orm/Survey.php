@@ -9,9 +9,10 @@ class Survey
 {
 //PRIVATE VARS
 	private $id;							//INT
+	private $submissionTimestamp;					//INT: seconds since the Unix Epoch (January 1 1970 00:00:00 GMT) marking time that survey was submitted to our database. NOT the time entered by the user into the survey.
 	private $observer;
 	private $plant;
-	private $localDate;
+	private $localDate;						//the time entered by the user into the survey
 	private $localTime;
 	private $observationMethod;
 	private $notes;
@@ -32,6 +33,7 @@ class Survey
 		}
 		
 		
+		$submissionTimestamp = time();
 		$observer = self::validObserver($dbconn, $observer, $plant);
 		$plant = self::validPlant($dbconn, $plant);
 		$localDate = self::validLocalDate($dbconn, $localDate);
@@ -83,14 +85,15 @@ class Survey
 			return $failures;
 		}
 		
-		mysqli_query($dbconn, "INSERT INTO Survey (`SubmissionTimestamp`, `UserFKOfObserver`, `PlantFK`, `LocalDate`, `LocalTime`, `ObservationMethod`, `Notes`, `WetLeaves`, `PlantSpecies`, `NumberOfLeaves`, `AverageLeafLength`, `HerbivoryScore`, `SubmittedThroughApp`) VALUES ('" . time() . "', '" . $observer->getID() . "', '" . $plant->getID() . "', '$localDate', '$localTime', '$observationMethod', '$notes', '$wetLeaves', '$plantSpecies', '$numberOfLeaves', '$averageLeafLength', '$herbivoryScore', '$submittedThroughApp')");
+		mysqli_query($dbconn, "INSERT INTO Survey (`SubmissionTimestamp`, `UserFKOfObserver`, `PlantFK`, `LocalDate`, `LocalTime`, `ObservationMethod`, `Notes`, `WetLeaves`, `PlantSpecies`, `NumberOfLeaves`, `AverageLeafLength`, `HerbivoryScore`, `SubmittedThroughApp`) VALUES ('" . $submissionTimestamp . "', '" . $observer->getID() . "', '" . $plant->getID() . "', '$localDate', '$localTime', '$observationMethod', '$notes', '$wetLeaves', '$plantSpecies', '$numberOfLeaves', '$averageLeafLength', '$herbivoryScore', '$submittedThroughApp')");
 		$id = intval(mysqli_insert_id($dbconn));
 		mysqli_close($dbconn);
 		
-		return new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+		return new Survey($id, $submissionTimestamp, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
-	private function __construct($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
+	private function __construct($id, $submissionTimestamp, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp) {
 		$this->id = intval($id);
+		$this->submissionTimestamp = intval($submissionTimestamp);
 		$this->observer = $observer;
 		$this->plant = $plant;
 		$this->localDate = $localDate;
@@ -120,6 +123,7 @@ class Survey
 		
 		$surveyRow = mysqli_fetch_assoc($query);
 		
+		$submissionTimestamp = intval($surveyRow["SubmissionTimestamp"]);
 		$observer = User::findByID($surveyRow["UserFKOfObserver"]);
 		$plant = Plant::findByID($surveyRow["PlantFK"]);
 		$localDate = $surveyRow["LocalDate"];
@@ -133,7 +137,7 @@ class Survey
 		$herbivoryScore = $surveyRow["HerbivoryScore"];
 		$submittedThroughApp = $surveyRow["SubmittedThroughApp"];
 		
-		return new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+		return new Survey($id, $submissionTimestamp, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 	}
 	
 	public static function findSurveysByUser($user, $filters, $start, $limit) {
@@ -192,6 +196,7 @@ class Survey
 		$query = mysqli_query($dbconn, "SELECT Survey.* FROM " . $baseTable . " JOIN `Plant` ON Survey.PlantFK = Plant.ID JOIN `User` ON Survey.UserFKOfObserver=User.ID WHERE (Plant.SiteFK IN (" . join(",", $siteIDs) . ") OR Survey.UserFKOfObserver='" . $user->getID() . "') AND Survey.LocalDate LIKE '" . $dateSearch . "'" . $additionalSQL . $groupBy . " ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC, Plant.Code DESC LIMIT " . $start . ", " . $limit);
 		while($surveyRow = mysqli_fetch_assoc($query)){
 			$id = $surveyRow["ID"];
+			$submissionTimestamp = intval($surveyRow["SubmissionTimestamp"]);
 			$observer = User::findByID($surveyRow["UserFKOfObserver"]);
 			$plant = Plant::findByID($surveyRow["PlantFK"]);
 			$localDate = $surveyRow["LocalDate"];
@@ -205,7 +210,7 @@ class Survey
 			$herbivoryScore = $surveyRow["HerbivoryScore"];
 			$submittedThroughApp = $surveyRow["SubmittedThroughApp"];
 			
-			$survey = new Survey($id, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
+			$survey = new Survey($id, $submissionTimestamp, $observer, $plant, $localDate, $localTime, $observationMethod, $notes, $wetLeaves, $plantSpecies, $numberOfLeaves, $averageLeafLength, $herbivoryScore, $submittedThroughApp);
 			
 			array_push($surveysArray, $survey);
 		}
@@ -216,6 +221,11 @@ class Survey
 	public function getID() {
 		if($this->deleted){return null;}
 		return intval($this->id);
+	}
+	
+	public function getSubmissionTimestamp() {
+		if($this->deleted){return null;}
+		return intval($this->submissionTimestamp);
 	}
 	
 	public function getObserver() {
