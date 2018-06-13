@@ -30,6 +30,9 @@
 		if($site->validateUser($user, $sitePassword)){
 			$survey = Survey::findByID($surveyID);
 			if(is_object($survey) && get_class($survey) == "Survey"){
+				if(!($surveys[$i]->getPlant()->getSite()->isAuthority($user) || $surveys[$i]->getSubmissionTimestamp() >= (time() - (2 * 7 * 24 * 60 * 60)))){
+					die("false|For sites that you do not own or manage, you only have 2 weeks after submitting a survey to come back and edit it. You can no longer edit this survey. If you really must edit this survey, ask your site director to do so for you.");
+				}
 				//edit survey
 				$survey->setPlant($plant);
 				$survey->setLocalDate($date);
