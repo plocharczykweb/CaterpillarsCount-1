@@ -718,7 +718,11 @@
 									lastDate = surveys[i]["localDate"];
 									htmlToAdd += "<h3>" + getReadableDate(surveys[i]["localDate"]) + "</h3>";
 								}
-								htmlToAdd += "<div class=\"survey\" id=\"" + surveys[i]["id"] + "\">";
+								htmlToAdd += "<div class=\"survey";
+								if(surveys[i]["editable"]){
+								   	htmlToAdd += " hasAuthorityToEdit";
+								}
+								htmlToAdd += "\" id=\"" + surveys[i]["id"] + "\">";
 								htmlToAdd += 	"<div class=\"headInfo\">";
 								htmlToAdd +=		"<div><a href=\"mailto:" + surveys[i]["observerEmail"] + "\">" + surveys[i]["observerFullName"] + "</a></div>";
 								htmlToAdd +=	"</div>";
@@ -1291,6 +1295,11 @@
 			var backupSurveyTime = "";
 			var backupSurveyDate = "";
 			function editSurvey(id){
+				if(!$("#" + id).hasClass("hasAuthorityToEdit")){
+					queueNotice("error", "For sites that you do not own or manage, you only have 2 weeks after submitting a survey to come back and edit it. You can no longer edit this survey. If you really must edit this survey, ask your site director to do so for you.");
+					return false;
+				}
+				
 				//back up info
 				backupSurveyTime = $("#" + id + " .time .editable").eq(0)[0].innerHTML;
 				backupSurveyDate = $("#" + id + " .date").eq(0)[0].innerHTML;
