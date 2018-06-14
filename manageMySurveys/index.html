@@ -1448,6 +1448,8 @@
 					$.get("../php/deleteSurveys.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&selected=" + JSON.stringify(selected) + "&unselected=" + JSON.stringify(unselected), function(data){
 						//success
 						deselectAll();
+						closeHeight($('#batchDeleteDropdown'));
+						hideCheckboxes();
 						if(data.indexOf("true|") == 0){
 							var numberOfSurveys = Number(data.replace("true|", ""));
 							if(numberOfSurveys == 1){
