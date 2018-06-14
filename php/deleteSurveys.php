@@ -32,10 +32,6 @@
 		}
 		*/
 		
-		if(!($surveys[$i]->getPlant()->getSite()->isAuthority($user) || $surveys[$i]->getSubmissionTimestamp() >= (time() - (2 * 7 * 24 * 60 * 60)) || $user->getEmail() == "plocharczykweb@gmail.com" || $user->getEmail() == "hurlbert@bio.unc.edu")){
-			die("false|For sites that you do not own or manage, you only have 2 weeks after submitting a survey to come back and edit it. You can no longer edit this survey. If you really must edit this survey, ask your site director to do so for you.");
-		}
-		
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		mysqli_query($dbconn, "DELETE ArthropodSighting FROM ArthropodSighting JOIN Survey on ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Survey.ID IN (-1, " . join(", ", $selected) . ") AND (Site.ID IN (-1, " . join(", ", $userSiteIDs) . ") OR (Survey.UserFKOfObserver='" . $user->getID() . "' AND Survey.SubmissionTimestamp>='" . (time() - (2 * 7 * 24 * 60 * 60)) . "'))");
 		mysqli_query($dbconn, "DELETE Survey FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Survey.ID IN (-1, " . join(", ", $selected) . ") AND (Site.ID IN (-1, " . join(", ", $userSiteIDs) . ") OR (Survey.UserFKOfObserver='" . $user->getID() . "' AND Survey.SubmissionTimestamp>='" . (time() - (2 * 7 * 24 * 60 * 60)) . "'))");
