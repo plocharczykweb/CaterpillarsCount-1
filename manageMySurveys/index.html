@@ -375,6 +375,7 @@
 			
 			#filters.full>.filter{
 				width:25%;
+				border-right:2px solid rgba(0,0,0,0.05);
 			}
 			
 			#filters>.filter:first-of-type{
@@ -385,7 +386,7 @@
 				display:table-cell;
 			}
 			
-			#filters>.filter:last-of-type{
+			#filters>.filter:last-of-type, #filters.full>.filter:last-of-type{
 				border-right:0px none transparent;
 				border-bottom:0px none transparent;
 			}
@@ -589,7 +590,7 @@
 					padding:20px 10px;
 				}
 				
-				#filters>.filter, #filters.full>.filter{
+				#filters>.filter, #filters.full>.filter, #filters.full>.filter:first-of-type{
 					width:100%;
 					display:block;
 					border-right:0px none transparent;
