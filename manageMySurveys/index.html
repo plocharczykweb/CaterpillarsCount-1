@@ -714,6 +714,10 @@
 							if(isASiteAuthority){
 								$("#filters>.filter").css({width:"25%"});
 								$("#filters>.filter").eq(0).stop().fadeIn(0);
+								$(".tagline").eq(0)[0].innerHTML = "...all the surveys you've personally submitted, plus all the surveys submitted at the sites you manage";
+							}
+							else{
+								$(".tagline").eq(0)[0].innerHTML = "...all the surveys you've personally submitted";
 							}
 							
 							if(surveys.length == 0){
@@ -2184,7 +2188,7 @@
 			<div class="panel" style="display:none;"></div>
 			<div class="panel">
 				<h2>Manage My Surveys</h2>
-				<div class="tagline">...all the surveys you've personally submitted, plus all surveys submitted at any sites you may manage</div>
+				<div class="tagline">...all the surveys you've personally submitted, plus all the surveys submitted at any sites you may manage</div>
 				<div class="content">
 					<div id="surveys"></div>
 					<div class="loading"><img src="../images/rolling.svg"/></div>
