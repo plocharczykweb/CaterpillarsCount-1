@@ -373,8 +373,16 @@
 				width:33.33%;
 			}
 			
+			#filters.full>.filter{
+				width:25%;
+			}
+			
 			#filters>.filter:first-of-type{
 				display:none;
+			}
+			
+			#filters.full>.filter:first-of-type{
+				display:table-cell;
 			}
 			
 			#filters>.filter:last-of-type{
@@ -581,7 +589,7 @@
 					padding:20px 10px;
 				}
 				
-				#filters>.filter{
+				#filters>.filter, #filters.full>.filter{
 					width:100%;
 					display:block;
 					border-right:0px none transparent;
@@ -712,11 +720,7 @@
 							var surveys = data[2];
 							var isASiteAuthority = data[3];
 							if(isASiteAuthority){
-								$("#filters>.filter").css({width:"25%", display:"table-cell"});
-								
-								//work around weird jquery glitch that causes borders to show up in wrong positions
-								$("#filters>.filter").css({borderRight:"2px solid rgba(0,0,0,0.05)"});
-								
+								$("#filters").addClass("full");
 								$(".tagline").eq(0)[0].innerHTML = "...all the surveys you've personally submitted, plus all the surveys submitted at the sites you manage";
 							}
 							else{
