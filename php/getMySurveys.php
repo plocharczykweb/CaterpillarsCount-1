@@ -66,7 +66,7 @@
 				);
 			}
 		}
-		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray)));
+		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, (count($user->getSites()) > 0))));
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
