@@ -370,8 +370,13 @@
 				display:table-cell;
 				vertical-align:top;
 				box-sizing:border-box;
-				width:25%;
+				width:33.33%;
 			}
+			
+			#filters>.filter:first-of-type{
+				display:none;
+			}
+			
 			#filters>.filter:last-of-type{
 				border-right:0px none transparent;
 				border-bottom:0px none transparent;
@@ -705,6 +710,12 @@
 							var totalSurveys = data[0];
 							var totalPages = data[1];
 							var surveys = data[2];
+							var isASiteAuthority = data[3];
+							if(isASiteAuthority){
+								$("#filters>.filter").css({width:"25%"});
+								$("#filters>.filter").eq(0).stop().fadeIn(0);
+							}
+							
 							if(surveys.length == 0){
 								if(pageNumber > 1){
 									return false;
