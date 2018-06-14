@@ -712,8 +712,7 @@
 							var surveys = data[2];
 							var isASiteAuthority = data[3];
 							if(isASiteAuthority){
-								$("#filters>.filter").css({width:"25%"});
-								$("#filters>.filter").eq(0).stop().fadeIn(0);
+								$("#filters>.filter").css({width:"25%", display:"table-cell"});
 								$(".tagline").eq(0)[0].innerHTML = "...all the surveys you've personally submitted, plus all the surveys submitted at the sites you manage";
 							}
 							else{
