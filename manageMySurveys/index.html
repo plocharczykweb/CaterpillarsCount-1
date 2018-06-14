@@ -1113,6 +1113,7 @@
 			function filter(){
 				if(!loadingPage){
 					var filters = {"user": $('#userSearch')[0].value.trim(), "arthropod": getSelectValue($('#arthropodSearch')), "site": getSelectValue($('#siteSearch .select').eq(0)), "circle": $('#circleSearch')[0].value.trim(), "code": $('#codeSearch')[0].value.trim(), "date": getSelectValue($("#yearFilter")) + "-" + getSelectValue($("#monthFilter")) + "-" + getSelectValue($("#dayFilter"))};
+					$("#filtersDropdown button").eq(0)[0].innerHTML = "<img src=\"../images/rolling.svg\" alt=\"loading...\"/>";
 					loadPage(1, filters);
 					/*
 					if(GLOBALPageNumber != 1){
