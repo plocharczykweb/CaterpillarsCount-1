@@ -21,7 +21,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Fanwood+Text:400i" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
-		<link href="../css/submitObservations.css?v=1" rel="stylesheet">
+		<link href="../css/submitObservations.css?v=2" rel="stylesheet">
 		<link href="../css/checkbox.css" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
@@ -139,10 +139,11 @@
 		</header>
 		<main>
 			<div id="iconBar">
-				<img src="images/3.png" class="panelIcon" id="plantIcon" onclick="accessPanel('plant');"/>
-				<img src="images/2.png" class="panelIcon" id="arthropodIcon" onclick="accessPanel('arthropod');"/>
-				<img src="images/1.png" class="active panelIcon" id="siteIcon" onclick="accessPanel('site');"/>
+				<img src="../images/3.png" class="panelIcon" id="plantIcon" onclick="accessPanel('plant');"/>
+				<img src="../images/2.png" class="panelIcon" id="arthropodIcon" onclick="accessPanel('arthropod');"/>
+				<img src="../images/1.png" class="active panelIcon" id="siteIcon" onclick="accessPanel('site');"/>
 			</div>
+			<div style="display:none;"></div>
 			<div class="panel">
 				<h2>Submit Observations</h2>
 				<div class="tagline">...will be coming soon</div>
@@ -205,7 +206,7 @@
 										<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
 											<td><div class="checkbox" id="wetLeavesCheckbox"></div></td>
 											<td>wet leaves</td>
-											<td onclick="event.stopPropagation();queueNotice('alert', 'Are the leaves on the plant you\'re surveying wet from dew or rain?');"><img src="images/question.png"/></td>
+											<td onclick="event.stopPropagation();queueNotice('alert', 'Are the leaves on the plant you\'re surveying wet from dew or rain?');"><img src="../images/question.png"/></td>
 										<tr>
 									</table>
 								</div>
@@ -240,21 +241,21 @@
 										<div class="observationFieldTitle">Arthropod group:</div>
 
 										<div class="select" id="orderType">
-											<div class="option selected" onclick="selectOption(this);$('#caterpillarOptionsTable').parent().hide(300);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').show(300);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
-											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
+											<div class="option selected" onclick="selectOption(this);$('#caterpillarOptionsTable').parent().hide(300);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').show(300);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
 										</div>
 									</div>
 
@@ -264,17 +265,17 @@
 											<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
 												<td><div class="checkbox" id="hairyCheckbox"></div></td>
 												<td>hairy/spiny</td>
-												<td onclick="event.stopPropagation();queueNotice('alert', 'hairy/spiny caterpillars look something like this:<br/><br/><img src=\'images/hairy.jpg\'/>');"><img src="images/question.png"/></td>
+												<td onclick="event.stopPropagation();queueNotice('alert', 'hairy/spiny caterpillars look something like this:<br/><br/><img src=\'../images/hairy.jpg\'/>');"><img src="../images/question.png"/></td>
 											<tr>
 											<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
 												<td><div class="checkbox" id="leafRollCheckbox"></div></td>
 												<td>in a leaf roll</td>
-												<td onclick="event.stopPropagation();queueNotice('alert', 'leaf rolls look something like this:<br/><br/><img src=\'images/leafroll.png\'/>');"><img src="images/question.png"/></td>
+												<td onclick="event.stopPropagation();queueNotice('alert', 'leaf rolls look something like this:<br/><br/><img src=\'../images/leafroll.png\'/>');"><img src="../images/question.png"/></td>
 											<tr>
 											<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
 												<td><div class="checkbox" id="silkTentCheckbox"></div></td>
 												<td>in a silk tent</td>
-												<td onclick="event.stopPropagation();queueNotice('alert', 'silk tents look something like this:<br/><br/><img src=\'images/silktent.png\'/>');"><img src="images/question.png"/></td>
+												<td onclick="event.stopPropagation();queueNotice('alert', 'silk tents look something like this:<br/><br/><img src=\'../images/silktent.png\'/>');"><img src="../images/question.png"/></td>
 											<tr>
 										</table>
 									</div>
@@ -305,7 +306,7 @@
 											</div>
 											<div id="uploadAPicture">
 												Upload a picture?
-												<img class="snapIcon" src="images/camera.png"/>
+												<img class="snapIcon" src="../images/camera.png"/>
 												<div id="pictureUploadMethod">
 													<div onclick="event.stopPropagation();uploadImageFromCamera();closePictureUploadMethod();">Camera</div>
 													<div onclick="event.stopPropagation();uploadImageFromLibrary();closePictureUploadMethod();">Library</div>
@@ -369,12 +370,12 @@
 								<div class="group">
 									<div class="observationFieldTitle">Herbivory score:</div>
 									<div class="select" id="herbivoryScore">
-										<div class="option selected" onclick="if(autocompleteIsActive){return false;}selectOption(this);">	<div class="value"></div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
-										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">0</div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/none.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>			<div class="text">None</div></div></div>
-										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">1</div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/trace.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Trace (1-5%)</div></div></div>
+										<div class="option selected" onclick="if(autocompleteIsActive){return false;}selectOption(this);">	<div class="value"></div>			<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">0</div>			<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/herbivoryScore/none.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>			<div class="text">None</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">1</div>			<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/herbivoryScore/trace.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Trace (1-5%)</div></div></div>
 										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">2</div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/light.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>			<div class="text">Light (6-10%)</div></div></div>
-										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">3</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/moderate.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Moderate (11-25%)</div></div></div>
-										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">4</div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/heavy.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Heavy (> 25%)</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">3</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/herbivoryScore/moderate.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Moderate (11-25%)</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">4</div>			<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/herbivoryScore/heavy.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Heavy (> 25%)</div></div></div>
 									</div>
 								</div>
 
