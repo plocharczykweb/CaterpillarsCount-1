@@ -246,6 +246,7 @@
 				box-sizing:border-box;
 				margin-top:5px;
 				background:#fff;
+				cursor:pointer;
 			}
 			
 			.select{
@@ -370,6 +371,7 @@
 				right:1px;
 				bottom:6px;
 				width:40px;
+				cursor:pointer;
 			}
 			
 			.countAttachment>div{
