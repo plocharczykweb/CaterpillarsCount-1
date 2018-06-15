@@ -21,7 +21,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Fanwood+Text:400i" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
-		<link href="../css/submitObservations.css?v=2" rel="stylesheet">
+		<link href="../css/submitObservations.css?v=3" rel="stylesheet">
 		<link href="../css/checkbox.css" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
@@ -51,12 +51,12 @@
 					<div class="inputTitle">Survey location code:</div>
 					<div>
 						<div style="text-align:left;"></div>
-						<input type="text" id="retrySurveyLocationCode" oninput="getPlant(this, $('#retrySitePasswordGroup'));" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly class="noautocomplete"/>
+						<input type="text" id="retrySurveyLocationCode" oninput="getPlant(this, $('#retrySitePasswordGroup'));" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" readonly class="noautocomplete"/>
 					</div>
 				</div>
 				<div class="group" id="retrySitePasswordGroup">
 					<div class="inputTitle">Site password:</div>
-					<input type="password" id="retrySitePassword" onclick="this.setSelectionRange(0, 9999);" autocomplete="off" readonly class="noautocomplete"/>
+					<input type="password" id="retrySitePassword" onclick="this.setSelectionRange(0, 9999);" autocomplete="new-password" readonly class="noautocomplete"/>
 				</div>
 				<button id="retryPlantCredentialsButton" onclick="if(tap()){retryPlantCredentials();}">Fix it!</button>
 				<div class="discard" onclick="discardPlantCredentials();">Just discard this survey.</div>
@@ -157,7 +157,7 @@
 									<div class="observationFieldTitle">Survey location code:</div>
 									<div>
 										<div></div>
-										<input type="text" id="plantCode" oninput="getPlant(this, $('#sitePasswordGroup'));if($('#time')[0].value == '' && $('#date')[0].value == ''){autosetDateAndTimeInputs();}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+										<input type="text" id="plantCode" oninput="getPlant(this, $('#sitePasswordGroup'));if($('#time')[0].value == '' && $('#date')[0].value == ''){autosetDateAndTimeInputs();}" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false"/>
 									</div>
 								</div>
 
