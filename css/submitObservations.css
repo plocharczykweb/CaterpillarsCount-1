@@ -212,7 +212,7 @@
 			}
     
 			ul>li{
-				background:#888;/*#a1c3ff;*/
+				background:#888;
 				color:#fff;
 				font-size:18px;
 				padding:5px 25px;
@@ -315,8 +315,7 @@
 			
 			
 			
-			.dualOptionButton{
-				border:0px none transparent;
+			main .panel button.dualOptionButton{
 				width:49%;
 				margin:0px;
 				box-sizing:border-box;
@@ -328,16 +327,16 @@
 				padding:16px;
 			}
 			
-			.activeDualOptionButton{
+			main .panel button.activeDualOptionButton{
 				background:#333;
 				color:#fff;
 			}
 			
-			.dualOptionButtons .dualOptionButton:first-of-type{
+			main .panel .dualOptionButtons button.dualOptionButton:first-of-type{
 				float:left;
 			}
 			
-			.dualOptionButtons .dualOptionButton:nth-of-type(2){
+			main .panel .dualOptionButtons button.dualOptionButton:nth-of-type(2){
 				float:right;
 			}
 			
