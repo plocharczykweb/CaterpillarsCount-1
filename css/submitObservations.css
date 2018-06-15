@@ -1,0 +1,1191 @@
+			@media only screen and (min-width: 750px) {
+				body {
+					-moz-transform: scale(1.4);
+					zoom:140%;
+				}
+				.ui-autocomplete {
+					position: absolute!important;
+				}
+			}
+			
+			*{
+				font-family: 'Open Sans', sans-serif;
+			}
+			
+			#error, #confirmation, #alert, #retryPlantCredentials, #managerRequest{
+				text-align:center;
+				position:fixed;
+				top:0px;
+				left:0px;
+				z-index:1000;
+				width:100%;
+				padding:20px;
+				box-sizing:border-box;
+				color:#fff;
+				font-size:16px;
+				display:none;
+			}
+			
+			#retryPlantCredentials .message{
+				margin-bottom:20px;
+			}
+			
+			#retryPlantCredentials .form{
+				margin:0px -20px -20px -20px;
+				padding:20px;
+				background:rgba(0,0,0, .1);
+			}
+			
+			#retryPlantCredentials .inputTitle{
+				font-size:12px;
+				text-align:left;
+			}
+			
+			#retryPlantCredentials input{
+				width:100%;
+				background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				font-size:16px;
+				padding:16px;
+				box-sizing:border-box;
+				border-radius:4px;
+				margin:5px 0px;
+				color:#aaa;
+				-webkit-appearance: none;
+    				-moz-appearance: none;
+    				appearance: none;
+			}
+			
+			#retryPlantCredentials button{
+				-webkit-appearance: none;
+    				-moz-appearance: none;
+    				appearance: none;
+				width:100%;
+				border:0px none transparent;
+				padding:20px;
+				font-size:20px;
+				margin:10px 0px;
+				border-radius:4px;
+				color:#fff;
+				background: rgb(0,255,213);
+				background: -moz-linear-gradient(-45deg, rgba(0,255,213,1) 0%, rgba(0,255,38,1) 100%);
+				background: -webkit-linear-gradient(-45deg, rgba(0,255,213,1) 0%,rgba(0,255,38,1) 100%);
+				background: linear-gradient(135deg, rgba(0,255,213,1) 0%,rgba(0,255,38,1) 100%);
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffd5', endColorstr='#00ff26',GradientType=1 );
+				border-bottom:4px solid rgba(0,0,0,.2);
+			}
+			
+			#retryPlantCredentials .discard{
+				font-size:14px;
+				text-decoration:underline;
+				padding:10px 0px;
+			}
+			
+			#clearInteractionBlock{
+				position:fixed;
+				top:0px;
+				left:0px;
+				z-index:9999;
+				width:100%;
+				height:100%;
+				display:none;
+			}
+			
+			#promptInteractionBlock{
+				background:rgba(0,0,0,.4);
+				position:fixed;
+				top:0px;
+				left:0px;
+				z-index:999;
+				width:100%;
+				height:100%;
+				display:none;
+			}
+			
+			#noticeInteractionBlock{
+				background:rgba(255, 255, 255, .7);
+				position:fixed;
+				top:0px;
+				left:0px;
+				z-index:999;
+				width:100%;
+				height:100%;
+				display:none;
+			}
+			
+			#confirm{
+				text-align:left;
+				position:fixed;
+				top:0px;
+				left:50%;
+				width:90%;
+				margin-left:-45%;
+				margin-top:100px;
+				z-index:1000;
+				padding:20px 30px;
+				box-sizing:border-box;
+				color:#444;
+				font-size:16px;
+				display:none;
+				background:#fff;
+				border-radius:10px;
+				overflow:hidden;
+				-webkit-box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.6);
+				-moz-box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.6);
+				box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.6);
+			}
+			#confirm div:nth-of-type(2){
+				margin:20px -30px -20px -30px;
+				border-top:1px solid #eee;
+				padding:0px 15px;
+			}
+			#confirm button{
+				border:0px none transparent;
+				color:#0072c9;
+				padding:10px;
+				float:right;
+				font-size:16px;
+				background:#fff;
+			}
+			
+			#error img, #confirmation img, #alert img{
+				max-width:100%;
+				max-height:150px;
+				border-radius:4px;
+				display:block;
+				margin:auto;
+			}
+			
+			#error, #retryPlantCredentials{
+				background:#eb3d68;
+			}
+			
+			#confirmation{
+				background:#37e666;
+			}
+			
+			#alert{
+				background:#333;
+			}
+			
+			#managerRequest{
+				background:#00aeff;
+			}
+
+			#managerRequestMessage{
+				padding-bottom:55px;
+			}
+
+			#managerRequestButtons{
+				position:absolute;
+				bottom:0px;
+				left:0px;
+				width:100%;
+			}
+
+			.managerRequestButton{
+				width:50%;
+				float:left;
+				background:rgba(0,0,0,0.1);
+				padding:15px 0px;
+				cursor:pointer;
+			}
+			.managerRequestButton:first-of-type{
+				border-right:1px solid rgba(0,0,0,.1);
+			}
+			.managerRequestButton:last-of-type{
+				margin-left:-1px;
+			}
+			
+			body{
+				-webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    			-webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+				margin:20px 20px 0px 20px;
+				background:#333;
+			}
+			
+			#map-canvas {
+              			height: 260px;
+              			margin:10px 0px;
+              			border-radius:4px;
+              			overflow:hidden;
+              			color:#ff4545;
+              			background:#fff;
+              			padding:20px;
+              			font-family: 'Open Sans', sans-serif;
+            		}
+            		#map-canvas .centerMarker {
+              			position: absolute;
+              			background: url("../images/marker.png") no-repeat;
+              			top: 50%;
+              			left: 50%;
+              			z-index: 1;
+              			margin-left: -10px;
+              			margin-top: -34px;
+              			height: 34px;
+              			width: 20px;
+              			pointer-events: none;
+            		}
+			
+			header #loggedOutHeader #logo{
+				height:80px;
+				display:block;
+				margin:80px auto;
+			}
+			
+			header #loggedInHeader{
+				text-align:left;
+				border-bottom:0px none transparent;
+				margin:-20px -20px 0px -20px;
+				padding:10px;
+				background:#333;
+				display:none;
+			}
+			
+			header #loggedInHeader #settingsIcon{
+				float:right;
+				height:24px;
+				margin:8px;
+			}
+			
+			header #pipeline{
+				float:right;
+				font-size:40px;
+				color:rgba(255,255,255,.1);
+				margin-top:-12.5px;
+			}
+			
+			header #loggedInHeader .panelIcon{
+				float:right;
+				height:30px;
+				margin:2px 4px 0px 0px;
+				opacity:.2;
+				border:3px solid transparent;
+			}
+			
+			header #loggedInHeader .panelIcon.accessible{
+				opacity:1;
+			}
+			
+			header #loggedInHeader .panelIcon.active{
+				opacity:1;
+				background-color:#00a800;
+				border-radius:50%;
+			}
+			
+			header #loggedInHeader .panelIcon:nth-of-type(2){
+				margin-right:5px;
+			}
+			
+			header #loggedInHeader #logo{
+				height:40px;
+			}
+			
+			main input[type="text"], main input[type="password"], main input[type="number"], textarea{
+				width:100%;
+				background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				font-size:16px;
+				padding:16px;
+				box-sizing:border-box;
+				border-radius:4px;
+				margin:5px 0px;
+				color:#aaa;
+				-webkit-appearance: none;
+    				-moz-appearance: none;
+    				appearance: none;
+			}
+			
+			textarea{
+				height:54px;
+				overflow:hidden;
+			}
+			
+			.textareaHolder{
+				position:relative;
+			}
+			
+			.textareaOtherLinesCover{
+				background:#fff;
+				position:absolute;
+				bottom:7px;
+				left:16px;
+				right:16px;
+				height:16px;
+				pointer-events: none;
+			}
+			
+			::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+				color: #ccc;
+			}
+			::-moz-placeholder { /* Firefox 19+ */
+				color:#ccc;
+			}
+			:-ms-input-placeholder { /* IE 10+ */
+				color:#ccc;
+			}
+			:-moz-placeholder { /* Firefox 18- */
+				color:#ccc;
+			}
+			
+			ul.ui-autocomplete{
+				z-index:998;
+			}
+			
+			ul{
+				width:50px;
+				padding:0px;
+			}
+			
+			ul>li:first-of-type{
+				-webkit-box-shadow: 0px -4px 0px 0px #888;
+				-moz-box-shadow: 0px -4px 0px 0px #888;
+				box-shadow: 0px -4px 0px 0px #888;
+				padding:1px 25px 5px 25px;
+			}
+    
+			ul>li{
+				background:#888;/*#a1c3ff;*/
+				color:#fff;
+				font-size:18px;
+				padding:5px 25px;
+				box-sizing:border-box;
+				list-style-type:none;
+			}
+			
+			ul>li:last-of-type{
+				border-radius:0px 0px 4px 4px;
+				overflow:hidden;
+				border-bottom:2px solid rgba(0,0,0,.2);
+			}
+			
+			.ui-helper-hidden-accessible{
+				display:none;
+			}
+			
+			main button{
+				-webkit-appearance: none;
+    				-moz-appearance: none;
+    				appearance: none;
+				width:100%;
+				border:0px none transparent;
+				padding:20px;
+				font-size:20px;
+				margin:10px 0px;
+				border-radius:4px;
+				color:#fff;
+				background: rgb(0,255,213);
+				background: -moz-linear-gradient(-45deg, rgba(0,255,213,1) 0%, rgba(0,255,38,1) 100%);
+				background: -webkit-linear-gradient(-45deg, rgba(0,255,213,1) 0%,rgba(0,255,38,1) 100%);
+				background: linear-gradient(135deg, rgba(0,255,213,1) 0%,rgba(0,255,38,1) 100%);
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffd5', endColorstr='#00ff26',GradientType=1 );
+				border-bottom:4px solid rgba(0,0,0,.2);
+			}
+			
+			main button img{
+				height:28px;
+			}
+			
+			#retryPlantCredentialsButton img{
+				height:27px;
+			}
+			
+			.links{
+				text-align:center;
+				margin:5px 0px;
+			}
+			
+			#login .links div{
+				margin:20px 0px;
+				display:block;
+			}
+			
+			.links div{
+				display:inline-block;
+				margin:0px 10px;
+			}
+			
+			.links .link{
+				color:#ccc;
+				font-size:16px;
+			}
+			
+			#logIn, #signUp, #recover, #loggedIn{
+				display:none;
+			}
+			
+			.firstReminder{
+				text-align:center;
+				color:#ccc;
+				margin-bottom:70px;
+			}
+			
+			.firstReminder a{
+				color:inherit;
+				text-decoration:underline;
+			}
+			
+			select, .select{
+				width:100%;
+				-webkit-appearance: none;
+    			-moz-appearance: none;
+    			appearance: none;
+    			border-radius:4px;
+    			padding:20px;
+    			font-size:20px;
+    			background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				color:#aaa;
+				box-sizing:border-box;
+				margin-top:5px;
+			}
+			
+			.select{
+				padding:0px;
+			}
+			
+			.select .option{
+				max-height:0px;
+				overflow:hidden;
+			}
+			
+			.select .option.selected{
+				max-height:250px;
+				overflow:hidden;
+			}
+			
+			.select .option .value{
+				display:none;
+			}
+			
+			.select .option .shown{
+				padding:16px;
+				position:relative;
+				font-size:16px;
+			}
+			
+			.select .option .shown .image{
+				width:34px;
+				background-size:contain;
+				background-repeat:no-repeat;
+				background-position:center;
+				display:inline-block;
+				opacity:.4;
+				position:absolute;
+				right:20px;
+				top:10px;
+				bottom:10px;
+			}
+			
+			.select .option .shown .text{
+				display:inline-block;
+			}
+			
+			.group{
+				margin:10px 0px;
+			}
+			
+			.half{
+				width:49%;
+			}
+			.half:first-of-type{
+				float:left;
+			}
+			.half:last-of-type{
+				float:right;
+			}
+			
+			.topDropDown .explanation{
+				color:#fff;
+				margin:10px 0px 20px 0px;
+			}
+			
+			.topDropDown .group{
+				margin:10px 0px;
+			}
+			
+			.topDropDown .group:first-of-type{
+				margin:0px 0px 10px 0px;
+			}
+			
+			.observationFieldTitle{
+				color:#777;
+				font-size:12px;
+			}
+			
+			.half{
+				width:49%;
+				float:left;
+			}
+			.half:nth-of-type(2){
+				float:right;
+			}
+			
+			.dualOptionButton{
+				border:0px none transparent;
+				width:49%;
+				margin:0px;
+				box-sizing:border-box;
+				background:#fff;
+				color:#aaa;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				font-size:16px;
+				padding:16px;
+			}
+			
+			.activeDualOptionButton{
+				background:#333;
+				color:#fff;
+			}
+			
+			.dualOptionButtons .dualOptionButton:first-of-type{
+				float:left;
+			}
+			
+			.dualOptionButtons .dualOptionButton:nth-of-type(2){
+				float:right;
+			}
+			
+			.topDropDown{
+				margin:0px -20px;
+				background:#333;
+				-webkit-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.75);
+				-moz-box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.75);
+				box-shadow: inset 0px 0px 10px 0px rgba(0,0,0,0.75);
+				box-sizing:border-box;
+				max-height:0px;
+				overflow:hidden;
+			}
+			
+			.topDropDown>div{
+				padding:0px 20px;
+			}
+			
+			.topDropDownOption{
+				padding:20px;
+				border-top:1px solid #222;
+			}
+			
+			.topDropDownOption:first-of-type{
+				border-top:0px none transparent;
+			}
+			
+			.topDropDown .form{
+				padding:40px;
+			}
+			
+			.spacer{
+				height:20px;
+				width:100%;
+			}
+			
+			.panelTitle{
+				padding:15px 20px 15px 20px;
+				margin:0px -20px;
+				font-size:26px;
+				color:#444;
+			}
+			
+			#arthropod, #plant{
+				display:none;
+			}
+			
+			#arthropodFormDiv{
+				display:none;
+			}
+			
+			.countInput{
+				position:relative;
+			}
+			
+			.countAttachment{
+				position:absolute;
+				top:6px;
+				right:1px;
+				bottom:6px;
+				width:40px;
+			}
+			
+			.countAttachment>div{
+				position:absolute;
+				height:50%;
+				width:100%;
+				right:0px;
+				background-color:#eee;
+				background-position:center;
+				background-repeat:no-repeat;
+				background-size:auto 7px;
+			}
+			
+			.countAttachment>div:first-of-type{
+				top:0px;
+				border-radius:0px 4px 0px 0px;
+				background-image:url("../images/upCountArrow.png");
+			}
+			
+			.countAttachment>div:last-of-type{
+				top:50%;
+				border-radius:0px 0px 4px 0px;
+				background-image:url("../images/downCountArrow.png");
+			}
+			
+			.dropDownInputTitle{
+				color:#fff;
+			}
+			
+			.characterCount{
+				text-align:right;
+				font-size:13px;
+				margin-top:-8px;
+				color:#fff;
+			}
+			
+			#samePass{
+				text-align:right;
+				display:none;
+			}
+			
+			#samePass table{
+				float:right;
+			}
+			
+			#samePass td{
+				color:#bbb;
+			}
+			
+			.checkbox{
+				border:1px solid #bbb;
+				border-bottom:2px solid #bbb;
+				background-color:#fff;
+				width:20px;
+				height:20px;
+				border-radius:4px;
+				display:inline-block;
+			}
+			
+			.checkbox.checked{
+				background-image:url('../images/checkGrey.png');
+				background-size:80% auto;
+				background-position:center;
+				background-repeat:no-repeat;
+			}
+			
+			#samePass .checkbox{
+				margin-right:5px;
+			}
+			
+			.checkboxTable{
+				color:#bbb;
+				width:100%;
+			}
+			
+			.checkboxTable td{
+				padding:5px 2.5px;
+				text-align:left;
+			}
+			
+			.checkboxTable td img{
+				height:20px;
+				opacity:.2;
+			}
+			
+			.checkboxTable  td:nth-of-type(1){
+				width:25px;
+			}
+			
+			.checkboxTable  td:nth-of-type(3){
+				text-align:right;
+			}
+			
+			#caterpillarOptionsGroup{
+				display:none;
+			}
+			
+			.fileInputHolder{
+				width:100%;
+				background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				font-size:16px;
+				padding:16px;
+				box-sizing:border-box;
+				border-radius:4px;
+				margin:5px 0px;
+				color:#aaa;
+				overflow:hidden;
+				position:relative;
+			}
+			
+            		.fileInputHolder input[type="file"]{
+				position:absolute;
+				top:0px;
+				left:0px;
+				width:100%;
+				height:100%;
+				opacity:0;
+			}
+			
+			#fileInputs input{
+				display:none;
+			}
+			
+			#fileInputs #tempFileInput{
+				display:block;
+				background:red;
+			}
+			
+			.snapIcon{
+				float:right;
+				height:30px;
+				margin:-4px 0px;
+				opacity:.95;
+			}
+			
+			.uploadedImage{
+				width:100%;
+				height:0px;
+				background-repeat:no-repeat;
+				background-size:cover;
+				background-position:center;
+				position:relative;
+			}
+			
+			#uploadedImageGrayOutCover{
+				position:absolute;
+				top:0px;
+				left:0px;
+				width:100%;
+				height:100%;
+				background:rgba(0,0,0,.5);
+			}
+			
+			#fileInputRemoveLink{
+				text-align:right;
+				margin-top:-5px;
+				display:none;
+			}
+			#fileInputRemoveLink>div{
+				font-size:14px;
+				color:#0072c9;
+				padding:5px 10px;
+				display:inline-block;
+			}
+			
+			#arthropodCards .orderTable{
+				border:1px solid #ddd;
+				border-top:0px none transparent;
+				border-bottom:0px none transparent;
+				border-collapse:collapse;
+				width:100%;
+				margin-bottom:-1px;
+			}
+			
+			#arthropodCards .orderTableHolder{
+				position:relative;
+			}
+			
+			#arthropodCards .orderTableHolder:first-of-type{
+				border-top:1px solid #ddd;
+				margin-top:40px;
+			}
+			
+			#arthropodCards .orderTableHolder:last-of-type{
+				border-bottom:1px solid #ddd;
+				margin-bottom:20px;
+			}
+			
+			#arthropodCards .orderTableHolder .deleteButtonOverlay{
+				position:absolute;
+				top:0px;
+				right:0px;
+				width:100%;
+				height:100%;
+				z-index:2;
+				max-width:0px;
+				overflow:hidden;
+			}
+			
+			#arthropodCards .orderTableHolder .deleteButtonOverlay>div{
+				height:100%;
+				float:right;
+				background-repeat:no-repeat;
+				background-position:center;
+				background-size:auto 18px;
+			}
+			
+			#arthropodCards .orderTableHolder .deleteButtonOverlay>div:nth-of-type(1){
+				width:25%;
+				background-color:#555;
+				background-image:url("../images/close.png");
+			}
+			
+			#arthropodCards .orderTableHolder .deleteButtonOverlay>div:nth-of-type(2){
+				width:75%;
+				background-color:#ff7d7d;
+				background-image:url("../images/confirmDelete.png");
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(1), #arthropodCards .orderTable td:nth-of-type(4){
+				width:45px;
+				text-align:center;
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(1)>div{
+				background-repeat:no-repeat;
+				background-size:contain;
+				background-position:center;
+				width:30px;
+				height:30px;
+				display:inline-block;
+				opacity:.4;
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(4)>div{
+				background-repeat:no-repeat;
+				background-size:contain;
+				background-position:center;
+				width:26px;
+				height:18px;
+				display:inline-block;
+				opacity:.8;
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(2){
+				color:blue;
+				text-decoration:underline;
+				padding:20px 5px;
+				text-align:left;
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(3), #arthropodCards .orderTable td:nth-of-type(4){
+				color:#777;
+				height:100%;
+				background:#fff;
+				text-align:center;
+				border-bottom:2px solid transparent;
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(3){
+				position:relative;
+				background-repeat:no-repeat;
+				background-size:10px auto;
+				background-position:center;
+				width:50px;
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(3)>div{
+				position:absolute;
+				left:0px;
+				width:100%;
+				height:50%;
+				display:inline-block;
+				background-repeat:no-repeat;
+				background-size:9px auto;
+				background-position:center;
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(3)>div:nth-of-type(1){
+				background-image:url("../images/cardUpCountArrow.png");
+				background-position:center bottom;
+				top:0px;
+			}
+			
+			#arthropodCards .orderTable td:nth-of-type(3)>div:nth-of-type(2){
+				bottom:0px;
+				background-position:center top;
+				background-image:url("../images/cardDownCountArrow.png");
+			}
+			
+			#addAnotherArthropodButton{
+				display:none;
+				background:#e7e7e7;
+				color:#999;
+				padding:10px;
+				margin-top:-21px;
+				margin-bottom:40px;
+				border-radius:0px;
+				border-left:1px solid #ddd;
+				border-right:1px solid #ddd;
+			}
+			
+			#panels{
+				position:relative;
+			}
+			
+			#mainInteractionBlock{
+				position:absolute;
+				top:0px;
+				left:-20px;
+				right:-20px;
+				height:105%;
+				background:red;
+				z-index:997;
+				background:rgba(255,255,255,.7);
+				display:none;
+			}
+			
+			#sitesLoading{
+				background:#e6e6e6;
+				text-align:center;
+				padding:16px;
+				border-radius:4px;
+    				overflow:hidden;
+			}
+			
+			#sitesLoading img{
+				height:22px;
+			}
+			
+			#saveAllButton, #addNewCircle{
+				display:none;
+			}
+			
+			#editSurveyPlants .circle{
+				margin:20px 0px;
+				border-radius:4px;
+				overflow:hidden;
+				border-bottom:2px solid #eee;
+			}
+			
+			#editSurveyPlants .circleTitle{
+				font-size:20px;
+				background:#f7f7f7;
+				color:#aaa;
+				padding:20px;
+				cursor:pointer;
+				
+			}
+			#editSurveyPlants .plants{
+				font-size:14px;
+				background:#f7f7f7;
+				max-height:0px;
+				overflow:hidden;
+				/*border-right:2px solid #eee;
+				border-bottom:2px solid #eee;*/
+			}
+			#editSurveyPlants .circleTitle, #editSurveyPlants .plants{
+				font-family: 'Open Sans', sans-serif;
+			}
+			
+			#editSurveyPlants .noticeImage{
+				margin:4px 8px 4px 0px;
+				height:18px;
+				float:right;
+			}
+			
+			#editSurveyPlants .plant{
+				border-left:5px solid transparent;
+				padding:20px;
+			}
+				
+			#editSurveyPlants .plant:nth-of-type(1){
+				border-color:#ff7575;
+			}
+			#editSurveyPlants .plant:nth-of-type(1) .code{
+				color:#ff7575;
+			}
+			
+			#editSurveyPlants .plant:nth-of-type(2){
+				border-color:#75b3ff;
+			}
+			#editSurveyPlants .plant:nth-of-type(2) .code{
+				color:#75b3ff;
+			}
+			
+			#editSurveyPlants .plant:nth-of-type(3){
+				border-color:#5abd61;
+			}
+			#editSurveyPlants .plant:nth-of-type(3) .code{
+				color:#5abd61;
+			}
+			
+			#editSurveyPlants .plant:nth-of-type(4){
+				border-color:#ffc875;
+			}
+			#editSurveyPlants .plant:nth-of-type(4) .code{
+				color:#ffc875;
+			}
+			
+			#editSurveyPlants .plant:nth-of-type(5){
+				border-color:#9175ff;
+			}
+			#editSurveyPlants .plant:nth-of-type(5) .code{
+				color:#9175ff;
+			}
+			#editSurveyPlants .code{
+				font-weight:bold;
+				font-size:120%;
+			}
+			
+			#editSurveyPlants .code img{
+				height:20px;
+				margin-right:7px;
+				margin-bottom:-3px;
+			}
+			
+			#editSurveyPlants .editableFieldTitle{
+				color:#aaa;
+				margin-top:10px;
+			}
+			
+			#addNewCircle{
+				margin:20px 0px;
+				border-radius:4px;
+				overflow:hidden;
+				/*border:2px solid #eee;*/
+				border-bottom:2px solid #eee;
+				font-size:20px;
+				background:#f7f7f7;
+				color:#aaa;
+				padding:20px;
+				cursor:pointer;
+				font-family: 'Open Sans', sans-serif;
+				position:relative;
+			}
+			
+			#addNewCircle .plusImage {
+			    height: 25px;
+			    width: 34px;
+			    background-size: contain;
+			    background-repeat: no-repeat;
+			    background-position: center;
+			    display: inline-block;
+			    opacity: .4;
+			    position: absolute;
+			    right: 20px;
+			    top: 21px;
+			}
+			
+			#editSurveyPlantsLoading, #editSiteLoading{
+				color:#fff;
+				text-align:center;
+				font-size:22px;
+			}
+			
+			#editSurveyPlantsLoading img, #editSiteLoading img{
+				height:26px;
+			}
+			
+			#confirmEditSitePasswordGroup, #editSiteForm{
+				display:none;
+			}
+			
+			.explanation div{
+				margin-bottom:15px;
+			}
+			
+			.explanation div:last-of-type{
+				margin-bottom:0px;
+			}
+			
+			#uploadAPicture{
+				position:relative;
+			}
+			#uploadAPicture #pictureUploadMethod{
+				position:absolute;
+				left:100%;
+				margin-left:16px;
+				top:-16px;
+				right:-16px;
+				bottom:-16px;
+				background:#fff;
+			}
+			
+			#uploadAPicture #pictureUploadMethod>div{
+				display:table-cell;
+				vertical-align:middle;
+				height:100%;
+				float:left;
+				text-align:center;
+				overflow:hidden;
+			}
+			
+			#uploadAPicture #pictureUploadMethod>div:nth-of-type(1), #uploadAPicture #pictureUploadMethod>div:nth-of-type(2){
+				border-right:1px solid #eee;
+				margin-right:-1px;
+				width:50%;
+				padding-top:16px;
+			}
+			#uploadAPicture #pictureUploadMethod>div:nth-of-type(3){
+				position:absolute;
+				right:0px;
+				width:0px;
+				font-size:25px;
+				background:#eee;
+				padding-top:10px;
+			}
+			
+			#topSection{
+				background-color:transparent;
+				padding:0px;
+				border-radius:4px 4px 0px 0px;
+				display:none;
+			}
+			
+			#newManagerEmailDiv{
+				position:relative;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				margin:5px 0px;
+				border-radius:4px;
+				overflow:hidden;
+			}
+			
+			#newManagerEmailDiv input{
+				border:0px none transparent;
+				margin:0px;
+				border-radius:0px;
+			}
+			
+			#newManagerEmailDiv button{
+				position:absolute;
+				top:0px;
+				right:0px;
+				margin:0px;
+				border-radius:0px;
+				padding:14px 30px;
+				width:auto;
+			}
+			
+			#managers{
+				border-radius:0px 0px 4px 4px;
+				overflow:hidden;
+				font-family: 'Roboto Slab', serif;
+				color:#777;
+				font-size:18px;
+				word-break:break-word;
+			}
+			
+			#managers>div{
+				border-top:1px solid rgba(0,0,0,0.24);
+				padding:20px 60px 20px 20px;
+				background:rgba(0,0,0,0.24);
+				position:relative;
+			}
+			
+			#managers>div>div{
+				position:absolute;
+				top:50%;
+				right:20px;
+				width:30px;
+				font-size:29px;
+				margin-top:-19px;
+				height:38px;
+				text-align:center;
+				cursor:pointer;
+				background-position:center;
+				background-size:contain;
+				background-repeat:no-repeat;
+			}
+			
+			.italic{
+				font-style:italic;
+			}
+			
+			.clearBoth{
+				clear:both;
+			}
