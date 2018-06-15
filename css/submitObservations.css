@@ -3,6 +3,72 @@
 					position: absolute!important;
 				}
 			}
+
+			#panels{
+				font-family: 'Roboto Slab', serif;
+			}
+			
+			main button{
+				-webkit-appearance: none;
+    				-moz-appearance: none;
+    				appearance: none;
+				width:100%;
+				border:0px none transparent;
+				padding:20px;
+				font-size:20px;
+				margin:10px 0px;
+				border-radius:4px;
+				color:#fff;
+				background: rgb(0,255,213);
+				background: -moz-linear-gradient(-45deg, rgba(0,255,213,1) 0%, rgba(0,255,38,1) 100%);
+				background: -webkit-linear-gradient(-45deg, rgba(0,255,213,1) 0%,rgba(0,255,38,1) 100%);
+				background: linear-gradient(135deg, rgba(0,255,213,1) 0%,rgba(0,255,38,1) 100%);
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffd5', endColorstr='#00ff26',GradientType=1 );
+				border-bottom:4px solid rgba(0,0,0,.2);
+			}
+			
+			main button img{
+				height:28px;
+			}
+			
+			#retryPlantCredentialsButton img{
+				height:27px;
+			}
+			
+			textarea{
+				width:100%;
+				background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				font-size:16px;
+				padding:16px;
+				box-sizing:border-box;
+				border-radius:4px;
+				margin:5px 0px;
+				color:#aaa;
+				-webkit-appearance: none;
+    				-moz-appearance: none;
+    				appearance: none;
+			}
+			
+			textarea{
+				height:54px;
+				overflow:hidden;
+			}
+			
+			.textareaHolder{
+				position:relative;
+			}
+			
+			.textareaOtherLinesCover{
+				background:#fff;
+				position:absolute;
+				bottom:7px;
+				left:16px;
+				right:16px;
+				height:16px;
+				pointer-events: none;
+			}
 			
 			#retryPlantCredentials{
 				text-align:center;
@@ -179,6 +245,7 @@
 				color:#aaa;
 				box-sizing:border-box;
 				margin-top:5px;
+				background:#fff;
 			}
 			
 			.select{
