@@ -11,6 +11,9 @@
 		<!-- End of Google Analytics -->
 
 		<title>Submit Observations | Caterpillars Count!</title>
+		<meta charset="utf-8" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="msapplication-tap-highlight" content="no" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -34,9 +37,28 @@
 				<div class="managerRequestButton" onclick="hideNotice();respondToManagerRequest('approve');">Accept</div>
 			</div>
 		</div>
+		<div id="clearInteractionBlock"></div>
 		<div id="error" onclick="hideNotice();"></div>
 		<div id="confirmation" onclick="hideNotice();"></div>
 		<div id="alert" onclick="hideNotice();"></div>
+		<div id="retryPlantCredentials">
+			<div class="message"></div>
+			<div class="form">
+				<div class="group">
+					<div class="inputTitle">Survey location code:</div>
+					<div>
+						<div style="text-align:left;"></div>
+						<input type="text" id="retrySurveyLocationCode" oninput="getPlant(this, $('#retrySitePasswordGroup'));" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly class="noautocomplete"/>
+					</div>
+				</div>
+				<div class="group" id="retrySitePasswordGroup">
+					<div class="inputTitle">Site password:</div>
+					<input type="password" id="retrySitePassword" onclick="this.setSelectionRange(0, 9999);" autocomplete="off" readonly class="noautocomplete"/>
+				</div>
+				<button id="retryPlantCredentialsButton" onclick="if(tap()){retryPlantCredentials();}">Fix it!</button>
+				<div class="discard" onclick="discardPlantCredentials();">Just discard this survey.</div>
+			</div>
+		</div>
 		<div id="promptInteractionBlock"></div>
 		<div id="noticeInteractionBlock" onclick="hideNotice();"></div>
 		<div id="confirm">
@@ -116,7 +138,246 @@
 			<div class="panel">
 				<h2>Submit Observations</h2>
 				<div class="tagline">...will be coming soon</div>
-				
+				<div class="content">
+					<div id="loggedIn">
+						<div id="panels">
+							<div id="site">
+								<div class="panelTitle">Site information</div>
+
+								<div class="group">
+									<div class="observationFieldTitle">Survey location code:</div>
+									<div>
+										<div></div>
+										<input type="text" id="plantCode" oninput="getPlant(this, $('#sitePasswordGroup'));if($('#time')[0].value == '' && $('#date')[0].value == ''){autosetDateAndTimeInputs();}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+									</div>
+								</div>
+
+								<div class="group" id="sitePasswordGroup">
+									<div class="observationFieldTitle">Site password:</div>
+									<input type="password" id="sitePassword" onclick="this.setSelectionRange(0, 9999);" oninput="uncheckCheckbox($('#samePass .checkbox').eq(0));"/>
+									<div id="samePass" onclick="toggleSamePass();">
+										<table>
+											<tr>
+												<td>Same as last submission</td>
+												<td><div class="checkbox"></div></td>
+											<tr>
+										</table>
+										<div class="clearBoth"></div>
+									</div>
+								</div>
+
+								<div class="group">
+									<div class="half">
+										<div class="observationFieldTitle">Date of survey:</div>
+										<input type="text" id="date" onclick="this.setSelectionRange(0, 9999);" onblur="if(pastDate(this.value) !== false){promptConfirm('You have entered a date from the past. Are you sure this survey is from ' + pastDate(this.value) + ' and not from today?', 'Oops.', 'Yes, I am sure!', function(){$('#date')[0].value = '';}, function(){$('#date')[0].value = getFormattedDate($('#date')[0].value);});}else{this.value = getFormattedDate(this.value);}" placeholder="M/D/Y"/>
+									</div>
+									<div class="half">
+										<div class="observationFieldTitle">Time of survey:</div>
+										<input type="text" id="time" onclick="this.setSelectionRange(0, 9999);" onblur="this.value = getFormattedTime(this.value, true);" placeholder="H:M am/pm"/>
+									</div>
+									<div class="clearBoth"></div>
+								</div>
+
+								<div class="group">
+									<div class="observationFieldTitle">Observation method:</div>
+									<div class="dualOptionButtons">
+										<button class="dualOptionButton" id="visualDualOptionButton" onclick="if(tap()){selectDualOptionButton(this);forceFiftyLeaves();observationMethod = 'Visual';}">Visual</button>
+										<button class="dualOptionButton" id="beatSheetDualOptionButton" onclick="if(tap()){selectDualOptionButton(this);relaxFiftyLeaves();observationMethod = 'Beat sheet';}">Beat sheet</button>
+										<div class="clearBoth"></div>
+									</div>
+								</div>
+
+								<div class="group">
+									<div class="observationFieldTitle">Notes:</div>
+									<div class="textareaHolder">
+										<textarea id="siteNotes" onfocus="expandTextarea(this);adjustForKeyboard(this);" onblur="adjustForNoKeyboard();compressTextarea(this);"></textarea>
+										<div class="textareaOtherLinesCover"></div>
+									</div>
+									<table class="checkboxTable">
+										<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
+											<td><div class="checkbox" id="wetLeavesCheckbox"></div></td>
+											<td>wet leaves</td>
+											<td onclick="event.stopPropagation();queueNotice('alert', 'Are the leaves on the plant you\'re surveying wet from dew or rain?');"><img src="images/question.png"/></td>
+										<tr>
+									</table>
+								</div>
+
+								<button id="continueToArthropodButton" onclick="if(tap()){continueToPanel('arthropod');}">Continue</button>
+								<div class="spacer"></div>
+								<div class="spacer"></div>
+							</div>
+
+
+
+							<div id="arthropod">
+								<div class="panelTitle">Arthropod information</div>
+
+								<div id="arthropodCards"></div>
+
+								<div id="moreArthropods">
+									<div class="group" id="addAnArthropodButtonGroup">
+										<div class="observationFieldTitle" id="moreArthropodsQuestion">Did you find any arthropods?</div>
+										<div class="dualOptionButtons">
+											<button class="dualOptionButton" onclick="if(tap()){selectDualOptionButton(this);signalNewData();showArthropodFormDiv();}">Yes</button>
+											<button class="dualOptionButton activeDualOptionButton" onclick="if(tap()){selectDualOptionButton(this);}">No</button>
+											<div class="clearBoth"></div>
+										</div>
+									</div>
+									<button onclick="if(tap()){signalNewData();showArthropodFormDiv();}" id="addAnotherArthropodButton">Add more arthropods</button>
+									<button onclick="if(tap()){continueToPanel('plant');}" id="continueToPlantButton">Continue</button>
+								</div>
+
+								<div id="arthropodFormDiv">
+									<div class="group">
+										<div class="observationFieldTitle">Arthropod group:</div>
+
+										<div class="select" id="orderType">
+											<div class="option selected" onclick="selectOption(this);$('#caterpillarOptionsTable').parent().hide(300);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').show(300);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
+											<div class="option" onclick="selectOption(this);$('#caterpillarOptionsGroup').hide(300);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
+										</div>
+									</div>
+
+									<div class="group" id="caterpillarOptionsGroup">
+										<div class="observationFieldTitle">The caterpillars are:</div>
+										<table id="caterpillarOptionsTable" class="checkboxTable">
+											<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
+												<td><div class="checkbox" id="hairyCheckbox"></div></td>
+												<td>hairy/spiny</td>
+												<td onclick="event.stopPropagation();queueNotice('alert', 'hairy/spiny caterpillars look something like this:<br/><br/><img src=\'images/hairy.jpg\'/>');"><img src="images/question.png"/></td>
+											<tr>
+											<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
+												<td><div class="checkbox" id="leafRollCheckbox"></div></td>
+												<td>in a leaf roll</td>
+												<td onclick="event.stopPropagation();queueNotice('alert', 'leaf rolls look something like this:<br/><br/><img src=\'images/leafroll.png\'/>');"><img src="images/question.png"/></td>
+											<tr>
+											<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
+												<td><div class="checkbox" id="silkTentCheckbox"></div></td>
+												<td>in a silk tent</td>
+												<td onclick="event.stopPropagation();queueNotice('alert', 'silk tents look something like this:<br/><br/><img src=\'images/silktent.png\'/>');"><img src="images/question.png"/></td>
+											<tr>
+										</table>
+									</div>
+
+									<div>
+									<div class="half group">
+										<div class="observationFieldTitle">Length:</div>
+										<input type="number" id="orderLength" placeholder="1mm - 300mm" onclick="this.setSelectionRange(0, 9999);"  pattern="\d*" onblur="enforceRange(this, 1, 300, 1)"/>
+									</div>
+
+									<div class="half group">
+										<div class="observationFieldTitle">Quantity:</div>
+										<div class="countInput">
+											<input type="number" id="orderQuantity" placeholder="1 - 1000" pattern="\d*" onclick="this.setSelectionRange(0, 9999);" onblur="enforceRange(this, 1, 1000, 1);" value="1"/>
+											<div class="countAttachment">
+												<div onclick="incrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 1000, 1);"></div>
+												<div onclick="decrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 1000, 1);"></div>
+											</div>
+										</div>
+									</div>
+									</div>
+
+									<div class="group" id="arthropodPhotoGroup">
+										<div class="observationFieldTitle">Optional photo:</div>
+										<div class="fileInputHolder" id="arthropodFileInputHolder" onclick="openPictureUploadMethod();">
+											<div class="uploadedImage" style="background-image:url('#');">
+												<div id="uploadedImageGrayOutCover" onclick="event.stopPropagation();closePictureUploadMethod();"></div>
+											</div>
+											<div id="uploadAPicture">
+												Upload a picture?
+												<img class="snapIcon" src="images/camera.png"/>
+												<div id="pictureUploadMethod">
+													<div onclick="event.stopPropagation();uploadImageFromCamera();closePictureUploadMethod();">Camera</div>
+													<div onclick="event.stopPropagation();uploadImageFromLibrary();closePictureUploadMethod();">Library</div>
+													<div onclick="event.stopPropagation();closePictureUploadMethod();">&times;</div>
+												</div>
+											</div>
+
+										</div>
+										<div id="fileInputRemoveLink">
+											<div onclick="removeUploadedFile();">Remove</div>
+										</div>
+									</div>
+
+									<div class="group">
+										<div class="observationFieldTitle">Notes:</div>
+										<div class="textareaHolder">
+											<textarea id="orderNotes" onfocus="expandTextarea(this);adjustForKeyboard(this);" onblur="adjustForNoKeyboard();compressTextarea(this);"></textarea>
+											<div class="textareaOtherLinesCover"></div>
+										</div>
+									</div>
+
+									<div>
+									<button class="half" style="background:#ff7d7d;" onclick="if(tap()){hideArthropodFormDiv();}">Cancel</button>
+									<button class="half" style="background:#7dcbff;" onclick="if(tap() && saveArthropodData()){hideArthropodFormDiv();}">Save</button>
+									</div>
+								</div>
+
+								<div class="spacer"></div>
+								<div class="spacer"></div>
+
+							</div>
+
+
+
+							<div id="plant">
+								<div class="panelTitle">Plant information</div>
+
+								<div class="group">
+									<div class="observationFieldTitle">Plant species:</div>
+									<input type="text" id="plantSpecies" placeholder="" oninput="setCustomPlantSpeciesConfirmed(false);" onclick="if(this.readOnly){this.blur();queueNotice('alert', 'The creator of this site has locked in this plant\'s species, so there\'s no need for you to worry about it.');}" onblur="if($('.ui-autocomplete').has(currentElement).length > 0){this.value = $(currentElement).text();this.focus();}else if(!this.readOnly && this.value.replace(/ /g, '') != '' && !inArrayIgnoreCaseAndWhitespace(this.value, plantSpeciesList) && !customPlantSpeciesConfirmed){promptConfirm('&quot;' + this.value + '&quot; is not a species name in our database. Are you sure this is the correct name and spelling of your tree species?', 'Try again.', 'Continue. I am sure!', function(){document.getElementById('plantSpecies').focus();document.getElementById('plantSpecies').setSelectionRange(0, 9999);}, function(){setCustomPlantSpeciesConfirmed(true);});setTimeout(function(){for(var i = 1; i < $('#plant input').length; i++){$('#plant input').eq(i).blur();}},1);}"/>
+								</div>
+
+								<div>
+								<div class="half group">
+									<div class="observationFieldTitle">Number of leaves:</div>
+									<div class="countInput" onclick="if(autocompleteIsActive){return false;}if($('#numberOfLeaves')[0].readOnly){$('#numberOfLeaves')[0].blur();queueNotice('alert', 'Visual observation method requires a count of exactly 50 leaves.');}">
+										<input type="number" id="numberOfLeaves" placeholder="1 - 500" pattern="\d*"  onclick="if(!this.readOnly){this.setSelectionRange(0, 9999);}" onblur="enforceRange(this, 1, 500, 1);"/>
+										<div class="countAttachment">
+											<div onclick="if(autocompleteIsActive){return false;}if(!$(this.parentNode.parentNode).find('input').eq(0)[0].readOnly){incrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 500, 1);}"></div>
+											<div onclick="if(autocompleteIsActive){return false;}if(!$(this.parentNode.parentNode).find('input').eq(0)[0].readOnly){decrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 500, 1);}"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="half group">
+									<div class="observationFieldTitle">Average leaf length:</div>
+									<input type="number" id="averageLeafLength" placeholder="1cm - 60cm" onclick="this.setSelectionRange(0, 9999);"  pattern="\d*" onblur="enforceRange(this, 1, 60, 1); if(Number(this.value) >= 30){promptConfirm('That\'s a big leaf! Leaf lengths are measured in centimeters. Are you sure the average leaf length for this survey is ' + this.value + ' cm?', 'Whoops!', 'Yes, I am sure!', function(){$('#averageLeafLength')[0].focus();$('#averageLeafLength')[0].setSelectionRange(0, 9999);}, function(){});}"/>
+								</div>
+								</div>
+
+								<div class="group">
+									<div class="observationFieldTitle">Herbivory score:</div>
+									<div class="select" id="herbivoryScore">
+										<div class="option selected" onclick="if(autocompleteIsActive){return false;}selectOption(this);">	<div class="value"></div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">0</div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/none.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>			<div class="text">None</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">1</div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/trace.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Trace (1-5%)</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">2</div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/light.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>			<div class="text">Light (6-10%)</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">3</div>		<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/moderate.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Moderate (11-25%)</div></div></div>
+										<div class="option" onclick="if(autocompleteIsActive){return false;}selectOption(this);">		<div class="value">4</div>			<div class="shown"><div class="image" style="background-image:url('images/selectIcons/herbivoryScore/heavy.png');width:60px;height:60px;margin-top:-13px;right:10px;"></div>		<div class="text">Heavy (> 25%)</div></div></div>
+									</div>
+								</div>
+
+								<button id="finishButton" onclick="if(autocompleteIsActive){return false;}if(tap()){finish();}">Finish</button>
+								<div class="spacer"></div>
+								<div class="spacer"></div>
+
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</main>
 		<footer>
@@ -130,5 +391,9 @@
 		
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
+		<script type="text/javascript" src="../submitObservations.js"></script>
+		<script>
+			setTimeout(makeSureGoogleMapsIsLoaded, 500);
+		</script>
 	</body>
 </html>
