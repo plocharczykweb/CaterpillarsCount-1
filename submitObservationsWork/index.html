@@ -21,7 +21,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Fanwood+Text:400i" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
-		<link href="../css/submitObservations.css?v=5" rel="stylesheet">
+		<link href="../css/submitObservations.css?v=6" rel="stylesheet">
 		<link href="../css/checkbox.css" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
@@ -287,13 +287,13 @@
 									<div>
 									<div class="half group">
 										<div class="observationFieldTitle">Length:</div>
-										<input type="number" id="orderLength" placeholder="1mm - 300mm" onclick="this.setSelectionRange(0, 9999);"  pattern="\d*" onblur="enforceRange(this, 1, 300, 1)"/>
+										<input type="number" id="orderLength" placeholder="1mm - 300mm" onclick="this.setSelectionRange(0, 9999);"  pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 300, 1)"/>
 									</div>
 
 									<div class="half group">
 										<div class="observationFieldTitle">Quantity:</div>
 										<div class="countInput">
-											<input type="number" id="orderQuantity" placeholder="1 - 1000" pattern="\d*" onclick="this.setSelectionRange(0, 9999);" onblur="enforceRange(this, 1, 1000, 1);" value="1"/>
+											<input type="number" id="orderQuantity" placeholder="1 - 1000" pattern="\d*" onclick="this.setSelectionRange(0, 9999);" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 1000, 1);" value="1"/>
 											<div class="countAttachment">
 												<div onclick="incrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 1000, 1);"></div>
 												<div onclick="decrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 1000, 1);"></div>
@@ -358,7 +358,7 @@
 								<div class="half group">
 									<div class="observationFieldTitle">Number of leaves:</div>
 									<div class="countInput" onclick="if(autocompleteIsActive){return false;}if($('#numberOfLeaves')[0].readOnly){$('#numberOfLeaves')[0].blur();queueNotice('alert', 'Visual observation method requires a count of exactly 50 leaves.');}">
-										<input type="number" id="numberOfLeaves" placeholder="1 - 500" pattern="\d*"  onclick="if(!this.readOnly){this.setSelectionRange(0, 9999);}" onblur="enforceRange(this, 1, 500, 1);"/>
+										<input type="number" id="numberOfLeaves" placeholder="1 - 500" pattern="\d*"  onclick="if(!this.readOnly){this.setSelectionRange(0, 9999);}" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 500, 1);"/>
 										<div class="countAttachment">
 											<div onclick="if(autocompleteIsActive){return false;}if(!$(this.parentNode.parentNode).find('input').eq(0)[0].readOnly){incrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 500, 1);}"></div>
 											<div onclick="if(autocompleteIsActive){return false;}if(!$(this.parentNode.parentNode).find('input').eq(0)[0].readOnly){decrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 500, 1);}"></div>
@@ -368,7 +368,7 @@
 
 								<div class="half group">
 									<div class="observationFieldTitle">Average leaf length:</div>
-									<input type="number" id="averageLeafLength" placeholder="1cm - 60cm" onclick="this.setSelectionRange(0, 9999);"  pattern="\d*" onblur="enforceRange(this, 1, 60, 1); if(Number(this.value) >= 30){promptConfirm('That\'s a big leaf! Leaf lengths are measured in centimeters. Are you sure the average leaf length for this survey is ' + this.value + ' cm?', 'Whoops!', 'Yes, I am sure!', function(){$('#averageLeafLength')[0].focus();$('#averageLeafLength')[0].setSelectionRange(0, 9999);}, function(){});}"/>
+									<input type="number" id="averageLeafLength" placeholder="1cm - 60cm" onclick="this.setSelectionRange(0, 9999);"  pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 60, 1); if(Number(this.value) >= 30){promptConfirm('That\'s a big leaf! Leaf lengths are measured in centimeters. Are you sure the average leaf length for this survey is ' + this.value + ' cm?', 'Whoops!', 'Yes, I am sure!', function(){$('#averageLeafLength')[0].focus();$('#averageLeafLength')[0].setSelectionRange(0, 9999);}, function(){});}"/>
 								</div>
 								</div>
 
