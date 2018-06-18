@@ -693,7 +693,7 @@
 				clear:both;
 			}
 			@media only screen and (max-width: 780px) {
-				h2{
+				main h2{
 					font-size:34px;
 				}
 			}
