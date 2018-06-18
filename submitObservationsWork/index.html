@@ -29,6 +29,10 @@
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				
+				for(var i = 0; i < $(".noautocomplete").length; i++){
+					$(".noautocomplete").eq(i)[0].removeAttribute('readOnly');
+				}
 			});
 		</script>
 	</head>
@@ -51,12 +55,12 @@
 					<div class="inputTitle">Survey location code:</div>
 					<div>
 						<div style="text-align:left;"></div>
-						<input type="text" id="retrySurveyLocationCode" oninput="getPlant(this, $('#retrySitePasswordGroup'));" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" readonly class="noautocomplete"/>
+						<input type="text" id="retrySurveyLocationCode" oninput="getPlant(this, $('#retrySitePasswordGroup'));" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly class="noautocomplete"/>
 					</div>
 				</div>
 				<div class="group" id="retrySitePasswordGroup">
 					<div class="inputTitle">Site password:</div>
-					<input type="password" id="retrySitePassword" onclick="this.setSelectionRange(0, 9999);" autocomplete="new-password" readonly class="noautocomplete"/>
+					<input type="password" id="retrySitePassword" onclick="this.setSelectionRange(0, 9999);" autocomplete="off" readonly class="noautocomplete"/>
 				</div>
 				<button id="retryPlantCredentialsButton" onclick="if(tap()){retryPlantCredentials();}">Fix it!</button>
 				<div class="discard" onclick="discardPlantCredentials();">Just discard this survey.</div>
@@ -157,13 +161,13 @@
 									<div class="observationFieldTitle">Survey location code:</div>
 									<div>
 										<div></div>
-										<input type="text" id="plantCode" oninput="getPlant(this, $('#sitePasswordGroup'));if($('#time')[0].value == '' && $('#date')[0].value == ''){autosetDateAndTimeInputs();}" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+										<input type="text" id="plantCode" class="noautocomplete" oninput="getPlant(this, $('#sitePasswordGroup'));if($('#time')[0].value == '' && $('#date')[0].value == ''){autosetDateAndTimeInputs();}" readonly autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
 									</div>
 								</div>
 
 								<div class="group" id="sitePasswordGroup">
 									<div class="observationFieldTitle">Site password:</div>
-									<input type="password" id="sitePassword" onclick="this.setSelectionRange(0, 9999);" oninput="uncheckCheckbox($('#samePass .checkbox').eq(0));"/>
+									<input type="password" id="sitePassword" autocomplete="off" readonly class="noautocomplete" onclick="this.setSelectionRange(0, 9999);" oninput="uncheckCheckbox($('#samePass .checkbox').eq(0));"/>
 									<div id="samePass" onclick="toggleSamePass();">
 										<table>
 											<tr>
