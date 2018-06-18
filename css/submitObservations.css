@@ -438,6 +438,7 @@
 				color:#aaa;
 				overflow:hidden;
 				position:relative;
+				cursor:pointer;
 			}
 			
             		.fileInputHolder input[type="file"]{
