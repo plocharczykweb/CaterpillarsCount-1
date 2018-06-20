@@ -26,6 +26,53 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
 		<script src="../js/checkbox.js"></script>
+		<style>
+			ul.ui-autocomplete{
+				width:753px;
+				box-sizing:border-box;
+				padding:0px;
+			}
+			
+			ul.ui-autocomplete>li{
+				background:#888;/*#a1c3ff;*/
+				color:#fff;
+				font-size:18px;
+				padding:5px 25px;
+				box-sizing:border-box;
+				list-style-type:none;
+			}
+			
+			ul.ui-autocomplete>li:last-of-type{
+				border-radius:0px 0px 4px 4px;
+				overflow:hidden;
+				border-bottom:2px solid rgba(0,0,0,.2);
+			}
+			
+			.ui-helper-hidden-accessible{
+				display:none;
+			}
+			
+			.ui-menu-item{
+				font-size:14px;
+				font-family: 'Roboto Slab', serif;
+			}
+			@media screen and (max-width: 999px) {
+				ul.ui-autocomplete{
+					width:100%;
+					padding:0px 122px 0px 125px;
+				}
+			}
+			@media screen and (max-width: 770px) {
+				ul.ui-autocomplete{
+					padding:0px 42px 0px 45px;
+				}
+			}
+			@media only screen and (max-width: 780px) {
+				main h2{
+					font-size:34px;
+				}
+			}
+		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
