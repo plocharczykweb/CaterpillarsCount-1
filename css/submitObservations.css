@@ -180,6 +180,7 @@
 				margin:2px 4px 0px 0px;
 				opacity:.2;
 				border:3px solid transparent;
+				cursor:pointer;
 			}
 			
 			#iconBar .panelIcon.accessible{
