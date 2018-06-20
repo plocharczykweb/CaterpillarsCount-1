@@ -1018,13 +1018,13 @@
 						
             					var left = $('#ui-id-' + idNumber).position().left;
 						var leftOffset = 0;
-						if($(window).width() < 771){
+						/*if($(window).width() < 771){
 							//leftOffset = 45;
 						}
 						else if($(window).width() < 1000){
 							//leftOffset = 125;
-						}
-        					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
+						}*/
+        					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px", width: this.clientWidth + "px"});
 					}
 				});
 			}
