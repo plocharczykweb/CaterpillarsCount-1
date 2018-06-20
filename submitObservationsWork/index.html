@@ -196,7 +196,7 @@
 					<div id="loggedIn">
 						<div id="panels">
 							<div id="site">
-								<div class="tagline">Step 1: site information</div>
+								<div class="tagline">Step 1: Site Information</div>
 
 								<div class="group">
 									<div class="observationFieldTitle">Survey location code:</div>
@@ -264,7 +264,7 @@
 
 
 							<div id="arthropod">
-								<div class="tagline">Step 2: arthropod information</div>
+								<div class="tagline">Step 2: Arthropod Information</div>
 
 								<div id="arthropodCards"></div>
 
@@ -345,18 +345,14 @@
 
 									<div class="group" id="arthropodPhotoGroup">
 										<div class="observationFieldTitle">Optional photo:</div>
-										<div class="fileInputHolder" id="arthropodFileInputHolder" onclick="openPictureUploadMethod();">
+										<div class="fileInputHolder" id="arthropodFileInputHolder" onclick="uploadPicture();$('#uploadedImageFile')[0].click();">
+											<input type="file" style="display:none;" id="uploadedImageFile" onchange="alert(this.files.length);"/>
 											<div class="uploadedImage" style="background-image:url('#');">
-												<div id="uploadedImageGrayOutCover" onclick="event.stopPropagation();closePictureUploadMethod();"></div>
+												<div id="uploadedImageGrayOutCover" onclick="event.stopPropagation();"></div>
 											</div>
 											<div id="uploadAPicture">
 												Upload a picture?
 												<img class="snapIcon" src="../images/camera.png"/>
-												<div id="pictureUploadMethod">
-													<div onclick="event.stopPropagation();uploadImageFromCamera();closePictureUploadMethod();">Camera</div>
-													<div onclick="event.stopPropagation();uploadImageFromLibrary();closePictureUploadMethod();">Library</div>
-													<div onclick="event.stopPropagation();closePictureUploadMethod();">&times;</div>
-												</div>
 											</div>
 
 										</div>
@@ -388,7 +384,7 @@
 
 
 							<div id="plant">
-								<div class="tagline">Step 3: plant information</div>
+								<div class="tagline">Step 3: Plant Information</div>
 
 								<div class="group">
 									<div class="observationFieldTitle">Plant species:</div>
