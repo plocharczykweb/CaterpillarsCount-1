@@ -628,7 +628,7 @@
 										$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 										$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 							
-										scrollToPanel(1);
+										scrollToElement($('#iconBar'));
 									
 										var firstPanel = $("#" + currentPanelID)[0];
 										var secondPanel = $("#" + secondPanelID)[0];
@@ -666,7 +666,7 @@
 								$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 								$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 									
-								scrollToPanel(1);
+								scrollToElement($('#iconBar'));
 										
 								var firstPanel = $("#" + currentPanelID)[0];
 								var secondPanel = $("#" + secondPanelID)[0];
@@ -687,7 +687,7 @@
 							$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 							$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 							
-							scrollToPanel(1);
+							scrollToElement($('#iconBar'));
 								
 							var firstPanel = $("#" + currentPanelID)[0];
 							var secondPanel = $("#" + secondPanelID)[0];
@@ -757,7 +757,7 @@
 										$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 										$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 							
-										scrollToPanel(1);
+										scrollToElement($('#iconBar'));
 										
 										var firstPanel = $("#" + currentPanelID)[0];
 										var secondPanel = $("#" + secondPanelID)[0];
@@ -791,7 +791,7 @@
 								$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 								$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 									
-								scrollToPanel(1);
+								scrollToElement($('#iconBar'));
 										
 								var firstPanel = $("#" + currentPanelID)[0];
 								var secondPanel = $("#" + secondPanelID)[0];
@@ -809,7 +809,7 @@
 							$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 							$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 				
-							scrollToPanel(1);
+							scrollToElement($('#iconBar'));
 						
 							var firstPanel = $("#" + currentPanelID)[0];
 							var secondPanel = $("#" + secondPanelID)[0];
@@ -829,7 +829,7 @@
 				if(!switchingToPanel){
 					if(secondPanelID != currentPanelID){
 						switchingToPanel = true;
-						scrollToPanel(1);
+						scrollToElement($('#iconBar'));
 						
 						var firstPanel = $("#" + currentPanelID)[0];
 						var secondPanel = $("#" + secondPanelID)[0];
