@@ -1015,12 +1015,18 @@
 						//response(results.slice(0, 10));
 					},
 					open: function(event, ui) {
-						$(".ui-autocomplete").position({
-							my: "left top",
-							at: "left bottom",
-							of: $(document.activeElement),
-							collision: "none none"
-						});
+						var idNumber = ($("input").index(this) + 1);
+						$('#ui-id-' + idNumber).off('menufocus hover mouseover mouseenter');
+						
+            					var left = $('#ui-id-' + idNumber).position().left;
+						var leftOffset = 0;
+						if($(window).width() < 771){
+							leftOffset = 45;
+						}
+						else if($(window).width() < 1000){
+							leftOffset = 125;
+						}
+        					$('#ui-id-' + idNumber).css({left: (left - leftOffset) + "px"});
 					}
 				});
 			}
