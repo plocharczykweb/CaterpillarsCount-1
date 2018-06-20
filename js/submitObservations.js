@@ -1015,7 +1015,7 @@
 						//response(results.slice(0, 10));
 					},
 					open: function(event, ui) {
-						var idNumber = ($("input").index(this) + 1);
+						var idNumber = 1;//1; instead of: ($("input").index(this) + 1); because theres only 1 autocomplete on the page, so we're always referring to the 1st one.
 						$('#ui-id-' + idNumber).off('menufocus hover mouseover mouseenter');
 						
             					var left = $('#ui-id-' + idNumber).position().left;
