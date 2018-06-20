@@ -711,6 +711,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 				margin-bottom:-4px;
 			}
 			
+			.ui-autocomplete{
+				cursor:pointer;
+			}
+			
 			.fadeInOnScroll{
 				opacity:1;
 			}
@@ -742,7 +746,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', e
 			main .panel .centeredText{
 				text-align:center;
 			}
-			
 			.clearBoth{
 				clear:both;
 			}
