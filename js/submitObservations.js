@@ -629,7 +629,7 @@
 										$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 										$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 							
-										$('html, body').animate({ scrollTop: 0 }, 300);
+										scrollToPanel(1);
 									
 										var firstPanel = $("#" + currentPanelID)[0];
 										var secondPanel = $("#" + secondPanelID)[0];
@@ -647,7 +647,6 @@
 										var siteInformationError = data.replace("false|", "");
 										queueNotice("error", siteInformationError);
 										if(siteInformationError == "Your log in dissolved. Maybe you logged in on another device."){
-											$('html, body').animate({ scrollTop: 0 }, 'slow');
 											logOut();
 										}
 									}
@@ -668,7 +667,7 @@
 								$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 								$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 									
-								$('html, body').animate({ scrollTop: 0 }, 300);
+								scrollToPanel(1);
 										
 								var firstPanel = $("#" + currentPanelID)[0];
 								var secondPanel = $("#" + secondPanelID)[0];
@@ -689,7 +688,7 @@
 							$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 							$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 							
-							$('html, body').animate({ scrollTop: 0 }, 300);
+							scrollToPanel(1);
 								
 							var firstPanel = $("#" + currentPanelID)[0];
 							var secondPanel = $("#" + secondPanelID)[0];
@@ -759,7 +758,7 @@
 										$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 										$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 							
-										$('html, body').animate({ scrollTop: 0 }, 300);
+										scrollToPanel(1);
 										
 										var firstPanel = $("#" + currentPanelID)[0];
 										var secondPanel = $("#" + secondPanelID)[0];
@@ -777,7 +776,6 @@
 										var siteInformationError = data.replace("false|", "");
 										queueNotice("error", siteInformationError);
 										if(siteInformationError == "Your log in dissolved. Maybe you logged in on another device."){
-											$('html, body').animate({ scrollTop: 0 }, 'slow');
 											logOut();
 										}
 									}
@@ -794,7 +792,7 @@
 								$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 								$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 									
-								$('html, body').animate({ scrollTop: 0 }, 300);
+								scrollToPanel(1);
 										
 								var firstPanel = $("#" + currentPanelID)[0];
 								var secondPanel = $("#" + secondPanelID)[0];
@@ -812,7 +810,7 @@
 							$("#" + currentPanelID + "Icon")[0].className = "accessible panelIcon";
 							$("#" + secondPanelID + "Icon")[0].className = "active panelIcon";
 				
-							$('html, body').animate({ scrollTop: 0 }, 300);
+							scrollToPanel(1);
 						
 							var firstPanel = $("#" + currentPanelID)[0];
 							var secondPanel = $("#" + secondPanelID)[0];
@@ -832,7 +830,7 @@
 				if(!switchingToPanel){
 					if(secondPanelID != currentPanelID){
 						switchingToPanel = true;
-						$('html, body').animate({ scrollTop: 0 }, 300);
+						scrollToPanel(1);
 						
 						var firstPanel = $("#" + currentPanelID)[0];
 						var secondPanel = $("#" + secondPanelID)[0];
@@ -1161,7 +1159,6 @@
 										if(plantError == "Your log in dissolved. Maybe you logged in on another device."){
 											$("input").blur();
 											$("textarea").blur();
-											$('html, body').animate({ scrollTop: 0 }, 'slow');
 											logOut();
 										}
 									}
@@ -1418,7 +1415,6 @@
 										if(submissionError == "Your log in dissolved. Maybe you logged in on another device."){
 											$("input").blur();
 											$("textarea").blur();
-											$('html, body').animate({ scrollTop: 0 }, 'slow');
 											logOut();
 										}
 									}
