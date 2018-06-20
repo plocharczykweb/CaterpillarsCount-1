@@ -1728,7 +1728,7 @@
 			}
 			
 			function showUploadedImage(base64OrURI){
-				if(base64OrURI.indexOf("data:") == 0){
+				if((typeof myVar === 'string' || myVar instanceof String) && base64OrURI.indexOf("data:") == 0){
 					//base64 provided
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.backgroundImage = "url('" + base64OrURI + "')";
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.height = "80px";
