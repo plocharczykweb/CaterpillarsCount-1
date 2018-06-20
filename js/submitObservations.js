@@ -19,7 +19,6 @@
 				$(document).bind("touchstart", function(event){
 					currentElement = $(event.target)[0];
 					hasMoved = false;
-					makeSureGoogleMapsIsLoaded();
 				});
 				$(document).bind( "touchmove", function(event){
 					hasMoved = true;
