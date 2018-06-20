@@ -345,7 +345,7 @@
 
 									<div class="group" id="arthropodPhotoGroup">
 										<div class="observationFieldTitle">Optional photo:</div>
-										<div class="fileInputHolder" id="arthropodFileInputHolder" onclick="uploadPicture();$('#uploadedImageFile')[0].click();">
+										<div class="fileInputHolder" id="arthropodFileInputHolder" onclick="$('#uploadedImageFile')[0].click();">
 											<input type="file" style="display:none;" id="uploadedImageFile" onchange="alert(this.files.length);"/>
 											<div class="uploadedImage" style="background-image:url('#');">
 												<div id="uploadedImageGrayOutCover" onclick="event.stopPropagation();"></div>
