@@ -1727,8 +1727,9 @@
 				$(deleteButtonOverlayElement).stop().animate({maxWidth:"0%"}, 100);
 			}
 			
-			function showUploadedImage(base64OrURI){
-				if((typeof base64OrURI === 'string' || base64OrURI instanceof String) && base64OrURI.indexOf("data:") == 0){
+			function showUploadedImage(base64OrURI, forceCompression){
+				forceCompression = forceCompression || false;
+				if(!forceCompression && (typeof base64OrURI === 'string' || base64OrURI instanceof String) && base64OrURI.indexOf("data:") == 0){
 					//base64 provided
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.backgroundImage = "url('" + base64OrURI + "')";
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.height = "80px";
