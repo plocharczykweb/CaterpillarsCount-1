@@ -7,42 +7,13 @@
 			var currentElement = null;
 			var autocompleteIsActive = false;
 			$(document).ready(function(){
-				var lastUsedEmail = window.localStorage.getItem("lastUsedEmail");
-				if(lastUsedEmail !== null && lastUsedEmail.length > 0){
-					$("#logInEmail")[0].value = lastUsedEmail;
-				}
-				
 				for(var i = 0; i < $(".noautocomplete").length; i++){
 					$(".noautocomplete").eq(i)[0].removeAttribute('readOnly');
 				}
-				
-				$(document).bind("touchstart", function(event){
-					currentElement = $(event.target)[0];
-					hasMoved = false;
-				});
-				$(document).bind( "touchmove", function(event){
-					hasMoved = true;
-					
-					if($(".ui-autocomplete:visible").length < 1){
-						blurAllNonActive();
-					}
-				});
-				$(document).bind( "touchend", function(event){
-					if($(".ui-autocomplete:visible").length > 0){
-						autocompleteIsActive = true;
-						setTimeout(function(){
-							autocompleteIsActive = false;
-						},1);
-					}
-					
-					
-					
-					if(tap()){
-						blurAllNonActive();
-					}
-				});
-				
 				queueManagerRequests();
+				
+				//clear file upload
+				$("#uploadedImageFile")[0].outerHTML = $("#uploadedImageFile")[0].outerHTML;
 			});
 			function tap(){
 				return !hasMoved;
