@@ -101,7 +101,7 @@
 				</div>
 				<div class="group" id="retrySitePasswordGroup">
 					<div class="inputTitle">Site password:</div>
-					<input type="password" id="retrySitePassword" onclick="this.setSelectionRange(0, 9999);" autocomplete="off" readonly class="noautocomplete"/>
+					<input type="password" id="retrySitePassword" onclick="this.select();" autocomplete="off" readonly class="noautocomplete"/>
 				</div>
 				<button id="retryPlantCredentialsButton" onclick="if(tap()){retryPlantCredentials();}">Fix it!</button>
 				<div class="discard" onclick="discardPlantCredentials();">Just discard this survey.</div>
@@ -208,7 +208,7 @@
 
 								<div class="group" id="sitePasswordGroup">
 									<div class="observationFieldTitle">Site password:</div>
-									<input type="password" id="sitePassword" autocomplete="off" readonly class="noautocomplete" onclick="this.setSelectionRange(0, 9999);" oninput="uncheckCheckbox($('#samePass .checkbox').eq(0));"/>
+									<input type="password" id="sitePassword" autocomplete="off" readonly class="noautocomplete" onclick="this.select();" oninput="uncheckCheckbox($('#samePass .checkbox').eq(0));"/>
 									<div id="samePass" onclick="toggleSamePass();">
 										<table>
 											<tr>
@@ -223,11 +223,11 @@
 								<div class="group">
 									<div class="half">
 										<div class="observationFieldTitle">Date of survey:</div>
-										<input type="text" id="date" onclick="this.setSelectionRange(0, 9999);" onblur="if(pastDate(this.value) !== false){promptConfirm('You have entered a date from the past. Are you sure this survey is from ' + pastDate(this.value) + ' and not from today?', 'Oops.', 'Yes, I am sure!', function(){$('#date')[0].value = '';}, function(){$('#date')[0].value = getFormattedDate($('#date')[0].value);});}else{this.value = getFormattedDate(this.value);}" placeholder="M/D/Y"/>
+										<input type="text" id="date" onclick="this.select();" onblur="if(pastDate(this.value) !== false){promptConfirm('You have entered a date from the past. Are you sure this survey is from ' + pastDate(this.value) + ' and not from today?', 'Oops.', 'Yes, I am sure!', function(){$('#date')[0].value = '';}, function(){$('#date')[0].value = getFormattedDate($('#date')[0].value);});}else{this.value = getFormattedDate(this.value);}" placeholder="M/D/Y"/>
 									</div>
 									<div class="half">
 										<div class="observationFieldTitle">Time of survey:</div>
-										<input type="text" id="time" onclick="this.setSelectionRange(0, 9999);" onblur="this.value = getFormattedTime(this.value, true);" placeholder="H:M am/pm"/>
+										<input type="text" id="time" onclick="this.select();" onblur="this.value = getFormattedTime(this.value, true);" placeholder="H:M am/pm"/>
 									</div>
 									<div class="clearBoth"></div>
 								</div>
@@ -328,13 +328,13 @@
 									<div>
 									<div class="half group">
 										<div class="observationFieldTitle">Length:</div>
-										<input type="number" id="orderLength" placeholder="1mm - 300mm" onclick="this.setSelectionRange(0, 9999);"  pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 300, 1)"/>
+										<input type="number" id="orderLength" placeholder="1mm - 300mm" onclick="this.select();"  pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 300, 1)"/>
 									</div>
 
 									<div class="half group">
 										<div class="observationFieldTitle">Quantity:</div>
 										<div class="countInput">
-											<input type="number" id="orderQuantity" placeholder="1 - 1000" pattern="\d*" onclick="this.setSelectionRange(0, 9999);" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 1000, 1);" value="1"/>
+											<input type="number" id="orderQuantity" placeholder="1 - 1000" pattern="\d*" onclick="this.select();" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 1000, 1);" value="1"/>
 											<div class="countAttachment">
 												<div onclick="incrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 1000, 1);"></div>
 												<div onclick="decrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 1000, 1);"></div>
@@ -388,14 +388,14 @@
 
 								<div class="group">
 									<div class="observationFieldTitle">Plant species:</div>
-									<input type="text" id="plantSpecies" placeholder="" oninput="setCustomPlantSpeciesConfirmed(false);" onclick="if(this.readOnly){this.blur();queueNotice('alert', 'The creator of this site has locked in this plant\'s species, so there\'s no need for you to worry about it.');}" onblur="if($('.ui-autocomplete').has(currentElement).length > 0){this.value = $(currentElement).text();this.focus();}else if(!this.readOnly && this.value.replace(/ /g, '') != '' && !inArrayIgnoreCaseAndWhitespace(this.value, plantSpeciesList) && !customPlantSpeciesConfirmed){promptConfirm('&quot;' + this.value + '&quot; is not a species name in our database. Are you sure this is the correct name and spelling of your tree species?', 'Try again.', 'Continue. I am sure!', function(){document.getElementById('plantSpecies').focus();document.getElementById('plantSpecies').setSelectionRange(0, 9999);}, function(){setCustomPlantSpeciesConfirmed(true);});setTimeout(function(){for(var i = 1; i < $('#plant input').length; i++){$('#plant input').eq(i).blur();}},1);}"/>
+									<input type="text" id="plantSpecies" placeholder="" oninput="setCustomPlantSpeciesConfirmed(false);" onclick="if(this.readOnly){this.blur();queueNotice('alert', 'The creator of this site has locked in this plant\'s species, so there\'s no need for you to worry about it.');}" onblur="if($('.ui-autocomplete').has(currentElement).length > 0){this.value = $(currentElement).text();this.focus();}else if(!this.readOnly && this.value.replace(/ /g, '') != '' && !inArrayIgnoreCaseAndWhitespace(this.value, plantSpeciesList) && !customPlantSpeciesConfirmed){promptConfirm('&quot;' + this.value + '&quot; is not a species name in our database. Are you sure this is the correct name and spelling of your tree species?', 'Try again.', 'Continue. I am sure!', function(){document.getElementById('plantSpecies').focus();document.getElementById('plantSpecies').select();}, function(){setCustomPlantSpeciesConfirmed(true);});setTimeout(function(){for(var i = 1; i < $('#plant input').length; i++){$('#plant input').eq(i).blur();}},1);}"/>
 								</div>
 
 								<div>
 								<div class="half group">
 									<div class="observationFieldTitle">Number of leaves:</div>
 									<div class="countInput" onclick="if(autocompleteIsActive){return false;}if($('#numberOfLeaves')[0].readOnly){$('#numberOfLeaves')[0].blur();queueNotice('alert', 'Visual observation method requires a count of exactly 50 leaves.');}">
-										<input type="number" id="numberOfLeaves" placeholder="1 - 500" pattern="\d*"  onclick="if(!this.readOnly){this.setSelectionRange(0, 9999);}" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 500, 1);"/>
+										<input type="number" id="numberOfLeaves" placeholder="1 - 500" pattern="\d*"  onclick="if(!this.readOnly){this.select();}" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 500, 1);"/>
 										<div class="countAttachment">
 											<div onclick="if(autocompleteIsActive){return false;}if(!$(this.parentNode.parentNode).find('input').eq(0)[0].readOnly){incrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 500, 1);}"></div>
 											<div onclick="if(autocompleteIsActive){return false;}if(!$(this.parentNode.parentNode).find('input').eq(0)[0].readOnly){decrementCountInput($(this.parentNode.parentNode).find('input').eq(0), 1, 500, 1);}"></div>
@@ -405,7 +405,7 @@
 
 								<div class="half group">
 									<div class="observationFieldTitle">Average leaf length:</div>
-									<input type="number" id="averageLeafLength" placeholder="1cm - 60cm" onclick="this.setSelectionRange(0, 9999);"  pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 60, 1); if(Number(this.value) >= 30){promptConfirm('That\'s a big leaf! Leaf lengths are measured in centimeters. Are you sure the average leaf length for this survey is ' + this.value + ' cm?', 'Whoops!', 'Yes, I am sure!', function(){$('#averageLeafLength')[0].focus();$('#averageLeafLength')[0].setSelectionRange(0, 9999);}, function(){});}"/>
+									<input type="number" id="averageLeafLength" placeholder="1cm - 60cm" onclick="this.select();"  pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 60, 1); if(Number(this.value) >= 30){promptConfirm('That\'s a big leaf! Leaf lengths are measured in centimeters. Are you sure the average leaf length for this survey is ' + this.value + ' cm?', 'Whoops!', 'Yes, I am sure!', function(){$('#averageLeafLength')[0].focus();$('#averageLeafLength')[0].select();}, function(){});}"/>
 								</div>
 								</div>
 
