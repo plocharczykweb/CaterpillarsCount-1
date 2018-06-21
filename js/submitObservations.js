@@ -1726,6 +1726,19 @@
 			function hideDeleteArthropodData(deleteButtonOverlayElement){
 				$(deleteButtonOverlayElement).stop().animate({maxWidth:"0%"}, 100);
 			}
+
+			function showUploadedImageFromFile(file){
+				$("#clearInteractionBlock")[0].style.display = "block";
+			   	var reader = new FileReader();
+			   	reader.readAsDataURL(file);
+			   	reader.onload = function(){
+					showUploadedImage(reader.result, true);
+			   	};
+			   	reader.onerror = function(error){
+					$("#clearInteractionBlock")[0].style.display = "none";
+			   		queueNotice("error", error);
+			   	};
+			}
 			
 			function showUploadedImage(base64OrURI, forceCompression){
 				forceCompression = forceCompression || false;
