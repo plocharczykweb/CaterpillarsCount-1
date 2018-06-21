@@ -1644,7 +1644,7 @@
 					htmlToAdd +=				"<div onclick=\"retroIncrementCount(" + i + ");\"></div>";//increment
 					htmlToAdd +=				"<div onclick=\"retroDecrementCount(" + i + ");\"></div>";//decrement
 					htmlToAdd +=			"</td>";
-					htmlToAdd +=			"<td onclick=\"showDeleteArthropodData('#deleteButtonOverlay" + i + "');\"><div style=\"background-image:url('../images/delete.png');\"></div></td>";
+					htmlToAdd +=			"<td onclick=\"showDeleteArthropodData('#deleteButtonOverlay" + i + "');\"><div style=\"opacity:0.26;background-image:url('../images/delete.png');\"></div></td>";
 					htmlToAdd +=		"</tr>";
 					htmlToAdd += 	"</table>";
 					htmlToAdd += "</div>";
