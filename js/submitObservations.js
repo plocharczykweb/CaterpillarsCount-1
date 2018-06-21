@@ -1529,7 +1529,7 @@
 				$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.height = "0px";
 				$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.margin = "";
 				$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.padding = "";
-				$("#arthropodFileInputHolder .snapIcon").eq(0)[0].src = "images/camera.png";
+				$("#arthropodFileInputHolder .snapIcon").eq(0)[0].src = "../images/camera.png";
 				
 				
 				selectDualOptionButton($("#moreArthropods .dualOptionButton").eq(1));
@@ -1597,14 +1597,14 @@
 				$("#orderQuantity")[0].value = arthropodData[i][2];
 				
 				if(arthropodData[i][7] != ""){
-					$("#arthropodFileInputHolder .snapIcon").eq(0)[0].src = "images/inputCheckIcon.png";
+					$("#arthropodFileInputHolder .snapIcon").eq(0)[0].src = "../images/inputCheckIcon.png";
 					showUploadedImage(arthropodData[i][7]);
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.height = "80px";
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.margin = "-20px -20px 16px -20px";
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.padding = "0px 20px";
 				}
 				else{
-					$("#arthropodFileInputHolder .snapIcon").eq(0)[0].src = "images/camera.png";
+					$("#arthropodFileInputHolder .snapIcon").eq(0)[0].src = "../images/camera.png";
 					$("#fileInputRemoveLink")[0].style.display = "none";
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.backgroundImage = "url('#')";
 					$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.height = "0px";
@@ -1673,7 +1673,7 @@
 					htmlToAdd +=				"<div onclick=\"retroIncrementCount(" + i + ");\"></div>";//increment
 					htmlToAdd +=				"<div onclick=\"retroDecrementCount(" + i + ");\"></div>";//decrement
 					htmlToAdd +=			"</td>";
-					htmlToAdd +=			"<td onclick=\"showDeleteArthropodData('#deleteButtonOverlay" + i + "');\"><div style=\"background-image:url('images/delete.png');\"></div></td>";
+					htmlToAdd +=			"<td onclick=\"showDeleteArthropodData('#deleteButtonOverlay" + i + "');\"><div style=\"background-image:url('../images/delete.png');\"></div></td>";
 					htmlToAdd +=		"</tr>";
 					htmlToAdd += 	"</table>";
 					htmlToAdd += "</div>";
@@ -1785,7 +1785,7 @@
 			}
 			
 			function removeUploadedFile(){
-				$("#arthropodFileInputHolder .snapIcon").eq(0)[0].src = "images/camera.png";
+				$("#arthropodFileInputHolder .snapIcon").eq(0)[0].src = "../images/camera.png";
 				$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.backgroundImage = "url('#')";
 				$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.height = "0px";
 				$("#arthropodFileInputHolder .uploadedImage").eq(0)[0].style.margin = "";
@@ -1858,12 +1858,12 @@
 						var ownedSites = JSON.parse(data.replace("true|", ""));
 							
 						var htmlToAdd = "<div class=\"select\">";
-						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
+						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
 						for(var i = 0; i < ownedSites.length; i++){
 							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);\">	<div class=\"value\">" + ownedSites[i]["id"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + ownedSites[i]["name"] + " (" + ownedSites[i]["region"] + ")</div></div></div>";
 							//htmlToAdd += "<option value=\"" + ownedSites[i]["id"] + "\">" + ownedSites[i]["name"] + " (" + ownedSites[i]["region"] + ")</option>";
 						}
-						htmlToAdd += "<div class=\"option\" onclick=\"showRestrictedDropDown('create a new site', $('#createSiteIntro'), false);\"><div class=\"shown\"><div class=\"image\" style=\"background-image:url('images/plus.png');background-size:50% auto;background-position:right center;\"></div>		<div class=\"text italic\">CREATE NEW SITE</div></div></div>";
+						htmlToAdd += "<div class=\"option\" onclick=\"showRestrictedDropDown('create a new site', $('#createSiteIntro'), false);\"><div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/plus.png');background-size:50% auto;background-position:right center;\"></div>		<div class=\"text italic\">CREATE NEW SITE</div></div></div>";
 						htmlToAdd += "</div>";
 						$("#sites")[0].innerHTML = htmlToAdd;
 					}
