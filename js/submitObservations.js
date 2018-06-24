@@ -115,7 +115,7 @@
 					formData.append("herbivoryScore", herbivoryScore);
 					formData.append("observationMethod", observationMethod);
 					formData.append("plantSpecies", plantSpecies);
-					formData.append("submittedThroughApp", true);
+					formData.append("submittedThroughApp", false);
 					formData.append("email", window.localStorage.getItem("email"));
 					formData.append("salt", window.localStorage.getItem("salt"));
 	//alert("attached form data");
@@ -1357,7 +1357,7 @@
 							formData.append("herbivoryScore", herbivoryScore);
 							formData.append("observationMethod", observationMethod);
 							formData.append("plantSpecies", plantSpecies);
-							formData.append("submittedThroughApp", true);
+							formData.append("submittedThroughApp", false);
 							formData.append("email", window.localStorage.getItem("email"));
 							formData.append("salt", window.localStorage.getItem("salt"));
 												
