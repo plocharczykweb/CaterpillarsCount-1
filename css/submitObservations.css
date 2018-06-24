@@ -285,7 +285,7 @@
 			
 			main .panel button.dualOptionButton{
 				width:49%;
-				margin:0px;
+				margin:5px 0px;
 				box-sizing:border-box;
 				background:#fff;
 				color:#aaa;
