@@ -1923,7 +1923,7 @@ function findOldSiteAndSubmitOldSurvey(plantCode, siteNotes, plantSpecies, herbi
 			
 			//get all old sites
 			$.ajax({
- 		    	url: "http://master-caterpillars.vipapps.unc.edu/api/sites.php",
+ 		    	url: "https://master-caterpillars.vipapps.unc.edu/api/sites.php",
  		    	type: "post",
   		   		dataType: "json",
       			data: JSON.stringify({action: "getAll"}),
@@ -1955,7 +1955,7 @@ function findOldSiteAndSubmitOldSurvey(plantCode, siteNotes, plantSpecies, herbi
 				
 						//create site
 						$.ajax({
-							url: 'http://master-caterpillars.vipapps.unc.edu/api/sites.php',
+							url: 'https://master-caterpillars.vipapps.unc.edu/api/sites.php',
 							type: 'POST',
 							dataType: "json",
 							data: JSON.stringify(data),
@@ -1991,7 +1991,7 @@ function submitOldSurvey(oldSiteID, circle, orientation, siteNotes, plantSpecies
 	
 	//submit old survey
 	$.ajax({
-		url: "http://master-caterpillars.vipapps.unc.edu/api/submission_full.php",
+		url: "https://master-caterpillars.vipapps.unc.edu/api/submission_full.php",
 		type : "POST",
 		crossDomain: true,
 		dataType: 'json',
@@ -2021,7 +2021,7 @@ function submitOldSurvey(oldSiteID, circle, orientation, siteNotes, plantSpecies
 				var oldGroups = ["NONE", "Ants (Formicidae)", "Aphids and Psyllids (Sternorrhyncha)", "Bees and Wasps (Hymenoptera, excluding ants)", "Beetles (Coleoptera)", "Caterpillars (Lepidoptera larvae)", "Daddy longlegs (Opiliones)", "Flies (Diptera)", "Grasshoppers, Crickets (Orthoptera)", "Leaf hoppers and Cicadas (Auchenorrhyncha)", "Butterflies and Moths (Lepidoptera adult)", "Spiders (Araneae; NOT daddy longlegs!)", "True Bugs (Heteroptera)", "OTHER (describe in Notes)", "Unidentified"];
 				var orderArthropod = oldGroups[Math.max(0, newGroups.indexOf(arthropodData[i][0]))];
 				$.ajax({
-					url: "http://master-caterpillars.vipapps.unc.edu/api/submission_full.php",
+					url: "https://master-caterpillars.vipapps.unc.edu/api/submission_full.php",
 					type: "POST",
 					crossDomain: true,
 					dataType: 'json',
