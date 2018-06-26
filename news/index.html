@@ -18,11 +18,17 @@
 			//	USE \" INSTEAD OF JUST "			//
 			//							//
 			//////////////////////////////////////////////////////////
-			
+
+			[
+				"../images/datasheet_thumbnail.jpg",
+				"Web-based Data Entry",
+				"Enter your paper data sheets using our new Submit Observations page!",
+				"https://caterpillarscount.unc.edu/submitObservations/"
+			],
 			[
 				"../images/news/june2018NewsletterThumbnail.png",
 				"June 2018 Newsletter",
-				"We are releasing a Manage My Surveys page!",
+				"Check out the new Manage My Surveys page!",
 				"https://mailchi.mp/c52cb1879002/caterpillars-count-june-2018-news"
 			],
 			[
@@ -38,32 +44,32 @@
 				"https://www.nytimes.com/2018/04/11/climate/thoreau-climate-change.html"
 			],
     		];
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		</script>
 		<!-- Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113319025-1"></script>
@@ -94,11 +100,11 @@
 				margin-bottom:30px;
         			word-break:break-word;
     			}
-    
+
     			.newsSection .head{
     				position:relative;
     			}
-    
+
     			.newsSection .head .image{
         			position:absolute;
         			top:0px;
@@ -111,7 +117,7 @@
         			background-position:center;
         			background-repeat:no-repeat;
     			}
-    
+
     			.newsSection .head .textTable{
         			display:table;
         			width:100%;
@@ -119,24 +125,24 @@
         			padding-left:120px;
         			min-height:120px;
     			}
-    
+
     			.newsSection .head .text{
     				padding:20px;
         			display:table-cell;
         			vertical-align:middle;
     			}
-    
+
     			.newsSection .head .text .title{
         			font-size:28px;
         			color:#555;
     			}
-    
+
     			.newsSection .head .text .preview{
         			font-size:16px;
         			color:#999;
         			margin-top:7px;
     			}
-    
+
     			.newsSection .head .dropdownArrow{
         			display:table-cell;
         			vertical-align:middle;
@@ -146,19 +152,19 @@
     			.newsSection .head .dropdownArrow img{
     				width:15px;
     			}
-    
+
     			.newsSection .body{
         			background:rgba(255, 255, 255,.3);
         			color:#999;
         			max-height:0px;
         			overflow:hidden;
     			}
-    
+
     			.newsSection .body>div{
         			padding:20px;
     				border-top:1px solid rgba(0,0,0,.085);
     			}
-    
+
     			.newsSection .readMore{
         			padding:5px;
         			text-align:center;
@@ -172,12 +178,12 @@
         			color:#fff;
         			cursor:pointer;
     			}
-    
+
     			@media screen and (max-width: 900px) {
         			.newsSection .head{
         				padding-left:0px;
         			}
-        
+
         			.newsSection .head .image{
         				position:static;
             				top:auto;
@@ -185,21 +191,21 @@
             				width:100%;
             				height:110px;
         			}
-        
+
         			.newsSection .head .textTable{
             				padding-left:0px;
             				min-height:0px;
 					text-align:center;
         			}
-				
+
 				.newsSection .head .textTable .title{
 					font-size:20px;
 				}
-				
+
 				.newsSection .head .textTable .preview{
 					margin-top:15px;
 				}
-        
+
         			.newsSection .readMore{
             				font-size:15px;
         				padding:8px;
@@ -211,7 +217,7 @@
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
-        
+
         			var htmlToAdd = "";
         			for(var i = 0; i < news.length; i++){
         				htmlToAdd += "<div class=\"newsSection\">";
@@ -263,19 +269,19 @@
             				}
     					htmlToAdd += "</div>";
         			}
-        
+
         			$("#news")[0].innerHTML = htmlToAdd;
-        
+
     				$(".newsSection .readMore").click(function(){
 					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
 						$(this).parent().find(".body").stop().animate({maxHeight:"99999999px"}, 259999);
-                				$(this).parent().find(".preview").stop().hide(300); 
+                				$(this).parent().find(".preview").stop().hide(300);
 						this.innerHTML = "Close";
 					}
 					else{
 						$(this).parent().find(".body").eq(0).stop();
 						$(this).parent().find(".body").eq(0)[0].style.maxHeight = $(this).parent().find(".body").eq(0)[0].clientHeight + "px";
-						
+
                 				$(this).parent().find(".preview").stop().show(300);
 						$(this).parent().find(".body").animate({maxHeight:"0px"}, 200, function(){
 							$(this).parent().find(".readMore").eq(0)[0].innerHTML = "Read more";
@@ -306,7 +312,7 @@
 				<div class="clearBoth"></div>
 			</div>
 		</div>
-		
+
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -382,13 +388,13 @@
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
-			
+
 			<div><img src="../images/unc.png"/></div><div>
 				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
 			</div>
-			
+
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
-			
+
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
 	</body>
