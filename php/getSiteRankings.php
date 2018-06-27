@@ -6,26 +6,26 @@
 	mysqli_close($dbconn);
 		
 	$rankingsArray = array();
-  $i = 1;
+  	$i = 1;
 	while($row = mysqli_fetch_assoc($query)){
-    $openToPublic = $row["OpenToPublic"]
-    $coordinates = "NONE";
-    if($openToPublic){
-      $coordinates = $row["Latitude"] . "," . $row["Longitude"];
-    }
+    		$openToPublic = $row["OpenToPublic"];
+    		$coordinates = "NONE";
+    		if($openToPublic){
+      			$coordinates = $row["Latitude"] . "," . $row["Longitude"];
+    		}
 		$rankingsArray[] = array(
-      "Rank" => $i++,
-      "Points" => $row["Points"],
-      "Name" => $row["Name"] . "(" . $row["Region"] . ")",
-      "Coordinates" => $coordinates,
-      "Week" => $row["Week"],
-      "WeekIncrease" => $row["WeekIncrease"],
-      "Month" => $row["Month"],
-      "MonthIncrease" => $row["MonthIncrease"],
-      "Year" => $row["Year"],
-      "YearIncrease" => $row["YearIncrease"],
-      "Total" => $row["Total"],
-    );
+      			"Rank" => $i++,
+      			"Points" => $row["Points"],
+      			"Name" => $row["Name"] . "(" . $row["Region"] . ")",
+      			"Coordinates" => $coordinates,
+      			"Week" => $row["Week"],
+      			"WeekIncrease" => $row["WeekIncrease"],
+      			"Month" => $row["Month"],
+      			"MonthIncrease" => $row["MonthIncrease"],
+      			"Year" => $row["Year"],
+      			"YearIncrease" => $row["YearIncrease"],
+      			"Total" => $row["Total"],
+    		);
 	}
 	die(json_encode($rankingsArray));
 	
