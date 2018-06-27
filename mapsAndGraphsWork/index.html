@@ -43,25 +43,34 @@
 							htmlToAdd += 		"<td><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></td>";
 						}
 						
-						if(rankings[i]["WeekIncrease"] >= 0){
-							htmlToAdd += 		"<td title='" + rankings[i]["WeekIncrease"] + "% increase over last week\'s " + rankings[i]["LastWeek"] + " survey(s)' style='background:rgba(0, 255, 153, " + (Math.min(rankings[i]["WeekIncrease"], 100) / 100) + ");'>" + rankings[i]["Week"] + "</td>";
+						if(Math.round(rankings[i]["WeekIncrease"]) == 0){
+							htmlToAdd += 		"<td title=\"No significant increase over last week's " + rankings[i]["LastWeek"] + " survey(s)\">" + rankings[i]["Week"] + "</td>";
+						}
+						else if(rankings[i]["WeekIncrease"] >= 0){
+							htmlToAdd += 		"<td title=\"" + Math.round(rankings[i]["WeekIncrease"]) + "% increase over last week's " + rankings[i]["LastWeek"] + " survey(s)\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["WeekIncrease"], 100) / 100) + ");\">" + rankings[i]["Week"] + "</td>";
 						}
 						else{
-							htmlToAdd += 		"<td title='" + Math.abs(Math.round(rankings[i]["WeekIncrease"])) + "% decrease compared to last week\'s " + rankings[i]["LastWeek"] + " survey(s)' style='background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["WeekIncrease"]), 100) / 100) + ");'>" + rankings[i]["Week"] + "</td>";
+							htmlToAdd += 		"<td title=\"" + Math.abs(Math.round(rankings[i]["WeekIncrease"])) + "% decrease compared to last week's " + rankings[i]["LastWeek"] + " survey(s)\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["WeekIncrease"]), 100) / 100) + ");\">" + rankings[i]["Week"] + "</td>";
 						}
 						
-						if(rankings[i]["MonthIncrease"] >= 0){
-							htmlToAdd += 		"<td title='" + rankings[i]["MonthIncrease"] + "% increase over last month\'s " + rankings[i]["LastMonth"] + " survey(s)' style='background:rgba(0, 255, 153, " + (Math.min(rankings[i]["MonthIncrease"], 100) / 100) + ");'>" + rankings[i]["Month"] + "</td>";
+						if(Math.round(rankings[i]["MonthIncrease"]) == 0){
+							htmlToAdd += 		"<td title=\"No significant increase over last month's " + rankings[i]["LastMonth"] + " survey(s)\">" + rankings[i]["Month"] + "</td>";
+						}
+						else if(rankings[i]["MonthIncrease"] >= 0){
+							htmlToAdd += 		"<td title=\"" + Math.round(rankings[i]["MonthIncrease"]) + "% increase over last month's " + rankings[i]["LastMonth"] + " survey(s)\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["MonthIncrease"], 100) / 100) + ");\">" + rankings[i]["Month"] + "</td>";
 						}
 						else{
-							htmlToAdd += 		"<td title='" + Math.abs(Math.round(rankings[i]["MonthIncrease"])) + "% decrease compared to last month\'s " + rankings[i]["LastMonth"] + " survey(s)' style='background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["MonthIncrease"]), 100) / 100) + ");'>" + rankings[i]["Month"] + "</td>";
+							htmlToAdd += 		"<td title=\"" + Math.abs(Math.round(rankings[i]["MonthIncrease"])) + "% decrease compared to last month's " + rankings[i]["LastMonth"] + " survey(s)\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["MonthIncrease"]), 100) / 100) + ");\">" + rankings[i]["Month"] + "</td>";
 						}
 						
-						if(rankings[i]["YearIncrease"] >= 0){
-							htmlToAdd += 		"<td title='" + rankings[i]["YearIncrease"] + "% increase over last year\'s " + rankings[i]["LastYear"] + " survey(s)' style='background:rgba(0, 255, 153, " + (Math.min(rankings[i]["YearIncrease"], 100) / 100) + ");'>" + rankings[i]["Year"] + "</td>";
+						if(Math.round(rankings[i]["YearIncrease"]) == 0){
+							htmlToAdd += 		"<td title=\"No significant increase over last year's " + rankings[i]["LastYear"] + " survey(s)\">" + rankings[i]["Year"] + "</td>";
+						}
+						else if(rankings[i]["YearIncrease"] >= 0){
+							htmlToAdd += 		"<td title=\"" + Math.round(rankings[i]["YearIncrease"]) + "% increase over last year's " + rankings[i]["LastYear"] + " survey(s)\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["YearIncrease"], 100) / 100) + ");\">" + rankings[i]["Year"] + "</td>";
 						}
 						else{
-							htmlToAdd += 		"<td title='" + Math.abs(Math.round(rankings[i]["YearIncrease"])) + "% decrease compared to last year\'s " + rankings[i]["LastYear"] + " survey(s)' style='background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["YearIncrease"]), 100) / 100) + ");'>" + rankings[i]["Year"] + "</td>";
+							htmlToAdd += 		"<td title=\"" + Math.abs(Math.round(rankings[i]["YearIncrease"])) + "% decrease compared to last year's " + rankings[i]["LastYear"] + " survey(s)\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["YearIncrease"]), 100) / 100) + ");\">" + rankings[i]["Year"] + "</td>";
 						}
 						
 						htmlToAdd += 			"<td>" + rankings[i]["Total"] + "</td>";
