@@ -23,7 +23,42 @@
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				
+				populateLeaderboard();
 			});
+			
+			function populateLeaderboard(){
+				$.get("../php/getSiteRankings.php", function(data){
+					//success
+					var rankings = JSON.parse(data);
+					var htmlToAdd = 	"<table>";
+					for(var i = 0; i < rankings.length; i++){
+						htmlToAdd += 		"<tr>";
+						htmlToAdd += 			"<td>" + rankings[i]["Rank"] + "</td>";
+						if(rankings["Coordinates"] == "NONE"){
+							htmlToAdd += 		"<td>" + rankings[i]["Name"] + "</td>";
+						}
+						else{
+							htmlToAdd += 		"<td><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></td>";
+						}
+						htmlToAdd += 			"<td>" + rankings[i]["Week"] + "</td>";
+						htmlToAdd += 			"<td>" + rankings[i]["Month"] + "</td>";
+						htmlToAdd += 			"<td>" + rankings[i]["Year"] + "</td>";
+						htmlToAdd += 			"<td>" + rankings[i]["Total"] + "</td>";
+						htmlToAdd += 		"</tr>";
+					}
+					htmlToAdd += 		"</table>";
+					
+					$("#rankings")[0].innerHTML = htmlToAdd;
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+			}
 		</script>
 	</head>
 	<body>
@@ -116,9 +151,9 @@
 			<div class="panel">
 				<h2>Maps & Graphs</h2>
 				<div class="tagline">...will be coming soon</div>
-				<div class="underConstructionImage"></div>
-				<button onclick="window.open('https://caterpillars-count-dept-caterpillars-count.cloudapps.unc.edu/data/', '_blank');">Check out our old Maps & Graphs!</button>
-				<p style="max-width: 425;margin: auto;">Can't wait to see your see your surveys? You don't have to wait for our new Maps & Graphs feature to come out! Surveys submitted through the latest version of our new <a href="../mobileAppITunes">Apple</a>/<a href="../mobileAppGooglePlay">Android</a> app will show up just fine on our old Maps & Graphs!</p>
+				<div class="content">
+					<div id="rankings"></div>
+				</div>
 			</div>
 		</main>
 		<footer>
