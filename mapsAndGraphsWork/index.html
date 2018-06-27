@@ -35,13 +35,21 @@
 					for(var i = 0; i < rankings.length; i++){
 						htmlToAdd += 		"<tr>";
 						htmlToAdd += 			"<td>" + rankings[i]["Rank"] + "</td>";
-						if(rankings["Coordinates"] == "NONE"){
+						
+						if(rankings[i]["Coordinates"] == "NONE"){
 							htmlToAdd += 		"<td>" + rankings[i]["Name"] + "</td>";
 						}
 						else{
 							htmlToAdd += 		"<td><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></td>";
 						}
-						htmlToAdd += 			"<td>" + rankings[i]["Week"] + "</td>";
+						
+						if(rankings[i]["WeekIncrease"] >= 0){
+							htmlToAdd += 		"<td title='" + rankings[i]["WeekIncrease"] + "%' style='background:rgba(0, 255, 153, " + (Math.min(rankings[i]["WeekIncrease"], 100) / 100) + ");'>" + rankings[i]["Week"] + "</td>";
+						}
+						else{
+							htmlToAdd += 		"<td title='" + rankings[i]["WeekIncrease"] + "%' style='background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["WeekIncrease"]), 100) / 100) + ");'>" + rankings[i]["Week"] + "</td>";
+						}
+						
 						htmlToAdd += 			"<td>" + rankings[i]["Month"] + "</td>";
 						htmlToAdd += 			"<td>" + rankings[i]["Year"] + "</td>";
 						htmlToAdd += 			"<td>" + rankings[i]["Total"] + "</td>";
