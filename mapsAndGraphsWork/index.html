@@ -76,7 +76,7 @@
 			}
 			
 			#showMoreRankings{
-				background:rgba(0,0,0,0.04);
+				background:rgba(0,0,0,0.065);
 				color:#666;
 				font-family: 'Roboto Slab', serif;
 				text-align:center;
@@ -160,7 +160,6 @@
 			var numberOfShownRankings = 10;
 			function showMoreRankings(){
 				numberOfShownRankings += 5;
-				numberOfShownRankings = Math.min(numberOfShownRankings, $('#rankings tr').length);
 				$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().animate({maxHeight:'500px'}, 500);
 				$('#rankings tr td').slice(0,numberOfShownRankings * 6).stop().animate({padding:'5px 7px'}, 300);
 				
