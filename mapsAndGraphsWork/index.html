@@ -34,7 +34,7 @@
 					var htmlToAdd = 	"<table>";
 					for(var i = 0; i < rankings.length; i++){
 						htmlToAdd += 		"<tr>";
-						htmlToAdd += 			"<td>" + rankings[i]["Rank"] + "</td>";
+						htmlToAdd += 			"<td title=\"" + rankings[i]["Name"] + " has earned " + Number(rankings[i]["Points"]) + " activity points based on total surveys combined with activity over the last 30 days.\">" + rankings[i]["Rank"] + "</td>";
 						
 						if(rankings[i]["Coordinates"] == "NONE"){
 							htmlToAdd += 		"<td>" + rankings[i]["Name"] + "</td>";
@@ -178,8 +178,8 @@
 		</header>
 		<main>
 			<div class="panel">
-				<h2>Maps & Graphs</h2>
-				<div class="tagline">...will be coming soon</div>
+				<h2>Leaderboard</h2>
+				<div class="tagline">We rank sites based on activity. Your total number of surveys helps you get to the top, but how active you have been compared to other sites over the last 30 days is a large factor as well.</div>
 				<div class="content">
 					<div id="rankings"></div>
 				</div>
