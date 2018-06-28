@@ -67,6 +67,7 @@
 			#rankings table tr:nth-of-type(10) ~ tr td>div{
 				max-height:0px;
 				overflow:hidden;
+				padding:0px;
 			}
 		</style>
 		<script>
@@ -231,6 +232,7 @@
 				<div class="tagline">We rank sites based on activity. Your total number of surveys helps you get to the top, but how active you have been compared to other sites over the last 30 days is a large factor as well.</div>
 				<div class="content">
 					<div id="rankings"></div>
+					<button onclick="$('#rankings td>div').stop().animate({maxHeight:'500px', padding: '5px 7px'});">Show more</button>
 				</div>
 			</div>
 		</main>
