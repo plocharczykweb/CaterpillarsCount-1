@@ -30,7 +30,7 @@
 				overflow:hidden;
 			}
 			
-			#rankings table thead td{
+			#rankings table thead{
 				background:#555;
 				color:#fff;
 			}
@@ -39,30 +39,30 @@
 				background:rgba(0,0,0,0.025);
 			}
 			
-			#rankings table td{
+			#rankings table td, #rankings table th{
 				width:16%;
 				padding:5px 7px;
 				box-sizing:border-box;
 			}
 			
-			#rankings table td:first-of-type{
+			#rankings table td:first-of-type, #rankings table th:first-of-type{
 				width:6%;
 			}
 			
-			#rankings table td:nth-of-type(2){
+			#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2){
 				width:30%;
 				min-width:250px;
 			}
 			
-			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5){
+			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5){
 				text-align:right;
 			}
 			
-			#rankings table td:last-of-type{
+			#rankings table td:last-of-type, #rankings table th:last-of-type{
 				text-align:right;
 			}
 			
-			#rankings table td>div{
+			#rankings table td>div, #rankings table th>div{
 				display:inline-block;
 			}
 			
@@ -76,11 +76,14 @@
 			}
 			
 			#showMoreRankings{
-				background:rgba(0,0,0,0.4);
+				background:rgba(0,0,0,0.04);
 				color:#666;
 				font-family: 'Roboto Slab', serif;
 				text-align:center;
 				padding:5px 7px;
+				border-radius:0px 0px 4px 4px;
+				overflow:hidden;
+				cursor:pointer;
 			}
 		</style>
 		<script>
@@ -96,12 +99,14 @@
 					var rankings = JSON.parse(data);
 					var htmlToAdd = 	"<table>";
 					htmlToAdd += 			"<thead>";
-					htmlToAdd += 				"<td>Rank</td>";
-					htmlToAdd += 				"<td>Site Name</td>";
-					htmlToAdd += 				"<td>This week</td>";
-					htmlToAdd += 				"<td>This month</td>";
-					htmlToAdd += 				"<td>This year</td>";
-					htmlToAdd += 				"<td>Total surveys</td>";
+					htmlToAdd += 				"<tr>";
+					htmlToAdd += 					"<th>Rank</th>";
+					htmlToAdd += 					"<th>Site Name</th>";
+					htmlToAdd += 					"<th>This week</th>";
+					htmlToAdd += 					"<th>This month</th>";
+					htmlToAdd += 					"<th>This year</th>";
+					htmlToAdd += 					"<th>Total surveys</th>";
+					htmlToAdd += 				"</tr>";
 					htmlToAdd += 			"</thead>";
 					for(var i = 0; i < rankings.length; i++){
 						htmlToAdd += 		"<tr>";
@@ -150,6 +155,19 @@
 				.always(function() {
 					//complete
 				});
+			}
+			
+			var numberOfShownRankings = 10;
+			function showMoreRankings(){
+				numberOfShownRankings += 5;
+				numberOfShownRankings = Math.min(numberOfShownRankings, $('#rankings tr').length);
+				$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().animate({maxHeight:'500px'}, 500);
+				$('#rankings tr td').slice(0,numberOfShownRankings * 6).stop().animate({padding:'5px 7px'}, 300);
+				
+				if(numberOfShownRankings > $('#rankings tr').length){
+					$("#showMoreRankings").fadeOut(200);
+					$("#rankings table").css({borderRadius:"4px"});
+				}
 			}
 		</script>
 	</head>
@@ -245,7 +263,7 @@
 				<div class="tagline">We rank sites based on activity. Your total number of surveys helps you get to the top, but how active you have been compared to other sites over the last 30 days is a large factor as well.</div>
 				<div class="content">
 					<div id="rankings"></div>
-					<div id="showMoreRankings" onclick="$('#rankings td>div').stop().animate({maxHeight:'500px'}, 500);$('#rankings td').stop().animate({padding:'5px 7px'}, 300);">Show more</div>
+					<div id="showMoreRankings" onclick="showMoreRankings();">Show more</div>
 				</div>
 			</div>
 		</main>
