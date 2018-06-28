@@ -28,6 +28,12 @@
 				color:#666;
 			}
 			
+			#rankings table thead td{
+				background:#555;
+				color:#fff;
+				font-size:115%;
+			}
+			
 			#rankings table td{
 				width:11%;
 				padding:5px;
@@ -47,7 +53,7 @@
 				text-align:center;
 			}
 			
-			#rankings table td:last-of-type(3){
+			#rankings table td:last-of-type{
 				text-align:right;
 			}
 		</style>
@@ -63,6 +69,14 @@
 					//success
 					var rankings = JSON.parse(data);
 					var htmlToAdd = 	"<table>";
+					htmlToAdd += 			"<thead>";
+					htmlToAdd += 				"<td>Rank</td>";
+					htmlToAdd += 				"<td>Site</td>";
+					htmlToAdd += 				"<td>Surveys this week</td>";
+					htmlToAdd += 				"<td>Surveys this month</td>";
+					htmlToAdd += 				"<td>Surveys this year</td>";
+					htmlToAdd += 				"<td>Total surveys</td>";
+					htmlToAdd += 			"</thead>";
 					for(var i = 0; i < rankings.length; i++){
 						htmlToAdd += 		"<tr>";
 						htmlToAdd += 			"<td title=\"" + rankings[i]["Name"] + " has earned " + Math.round(Number(rankings[i]["Points"])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " activity points based on its total surveys combined with its activity over the last 30 days.\">" + rankings[i]["Rank"] + "</td>";
