@@ -36,7 +36,7 @@
 
 	$allSites = Site::findAll();
 	for($j = 0; $j < count($allSites); $j++){
-		if(is_object($allSites[$j]) && get_class($allSites[$j]) == "Site" && !in_array($allSites[$j]->getID(), $siteIDs)){
+		if(is_object($allSites[$j]) && get_class($allSites[$j]) == "Site" && $allSites[$j]->getID() != 2 && !in_array($allSites[$j]->getID(), $siteIDs)){
 			$coordinates = "NONE";
 			if($allSites[$j]->getOpenToPublic()){
 				$coordinates = $allSites[$j]->getLatitude() . "," . $allSites[$j]->getLongitude();
