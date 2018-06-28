@@ -11,15 +11,11 @@
 	$siteIDs = array();
 	while($row = mysqli_fetch_assoc($query)){
     		$openToPublic = $row["OpenToPublic"];
-    		$coordinates = "NONE";
-    		if($openToPublic){
-      			$coordinates = $row["Latitude"] . "," . $row["Longitude"];
-    		}
 		$rankingsArray[] = array(
       			"Rank" => $i++,
       			"Points" => $row["Points"],
       			"Name" => $row["Name"] . " (" . $row["Region"] . ")",
-      			"Coordinates" => $coordinates,
+      			"Coordinates" => $row["Latitude"] . "," . $row["Longitude"],
       			"Week" => $row["Week"],
       			"LastWeek" => $row["LastWeek"],
       			"WeekIncrease" => $row["WeekIncrease"],
