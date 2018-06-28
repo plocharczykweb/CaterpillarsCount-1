@@ -24,19 +24,31 @@
 			#rankings table{
 				width:100%;
 				border-collapse:collapse;
+				font-family: 'Roboto Slab', serif;
+				color:#666;
 			}
 			
 			#rankings table td{
-				width:12%;
+				width:11%;
+				padding:5px;
+				box-sizing:border-box;
 			}
 			
 			#rankings table td:first-of-type{
-				width:2%;
+				width:6%;
 			}
 			
 			#rankings table td:nth-of-type(2){
 				width:50%;
 				min-width:250px;
+			}
+			
+			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5){
+				text-align:center;
+			}
+			
+			#rankings table td:last-of-type(3){
+				text-align:right;
 			}
 		</style>
 		<script>
