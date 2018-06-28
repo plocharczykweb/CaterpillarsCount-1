@@ -26,7 +26,7 @@
 				border-collapse:collapse;
 				font-family: 'Roboto Slab', serif;
 				color:#666;
-				border-radius:4px 4px 0px 0px;
+				border-radius:4px;
 				overflow:hidden;
 			}
 			
@@ -80,14 +80,19 @@
 			}
 			
 			#showMoreRankings{
-				background:rgba(0,0,0,0.065);
-				color:#666;
 				font-family: 'Roboto Slab', serif;
 				text-align:center;
-				padding:5px 7px;
-				border-radius:0px 0px 4px 4px;
-				overflow:hidden;
+				margin-top:20px;
+				color:#777;
+				text-transform:uppercase;
+				font-size:12px;
+				text-decoration:underline;
+			}
+			
+			#showMoreRankings>div{
+				display:inline-block;
 				cursor:pointer;
+				padding:5px;
 			}
 		</style>
 		<script>
@@ -169,7 +174,6 @@
 				
 				if(numberOfShownRankings > $('#rankings tr').length){
 					$("#showMoreRankings").fadeOut(200);
-					$("#rankings table").css({borderRadius:"4px"});
 				}
 			}
 		</script>
@@ -266,7 +270,7 @@
 				<div class="tagline">We rank sites based on activity. Your total number of surveys helps you get to the top, but how active you have been compared to other sites over the last 30 days is a large factor as well.</div>
 				<div class="content">
 					<div id="rankings"></div>
-					<div id="showMoreRankings" onclick="showMoreRankings();">Show more</div>
+					<div id="showMoreRankings"><div onclick="showMoreRankings();">Show more</div></div>
 				</div>
 			</div>
 		</main>
