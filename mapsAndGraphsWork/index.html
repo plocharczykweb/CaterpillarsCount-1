@@ -142,22 +142,33 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				
-				populateLeaderboard();
+				populateLeaderboard("Rank");
 			});
 			
-			function populateLeaderboard(){
+			function populateLeaderboard(sortingMetric){
 				$.get("../php/getSiteRankings.php", function(data){
 					//success
 					var rankings = JSON.parse(data);
+					
+					rankings = rankings.sort(function(a, b){
+						var a = a[sortingMetric];
+						var b = b[sortingMetric];
+						if(typeof a === 'string'){a = a.toLowerCase();}
+						if(typeof b === 'string'){b = b.toLowerCase();}
+					    	if(a < b) return -1;
+					    	if(a > b) return 1;
+					   	return 0;
+					});
+					
 					var htmlToAdd = 	"<table>";
 					htmlToAdd += 			"<thead>";
 					htmlToAdd += 				"<tr>";
-					htmlToAdd += 					"<th>Rank</th>";
-					htmlToAdd += 					"<th>Site Name</th>";
-					htmlToAdd += 					"<th>This week</th>";
-					htmlToAdd += 					"<th>This month</th>";
-					htmlToAdd += 					"<th>This year</th>";
-					htmlToAdd += 					"<th>Total surveys</th>";
+					htmlToAdd += 					"<th onclick=\"populateLeaderboard('Rank');\">Rank</th>";
+					htmlToAdd += 					"<th onclick=\"populateLeaderboard('Name');\">Site Name</th>";
+					htmlToAdd += 					"<th onclick=\"populateLeaderboard('Week');\">This week</th>";
+					htmlToAdd += 					"<th onclick=\"populateLeaderboard('Month');\">This month</th>";
+					htmlToAdd += 					"<th onclick=\"populateLeaderboard('Year');\">This year</th>";
+					htmlToAdd += 					"<th onclick=\"populateLeaderboard('Total');\">Total surveys</th>";
 					htmlToAdd += 				"</tr>";
 					htmlToAdd += 			"</thead>";
 					for(var i = 0; i < rankings.length; i++){
