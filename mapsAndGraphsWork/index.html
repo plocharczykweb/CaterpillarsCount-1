@@ -47,6 +47,7 @@
 				width:16%;
 				padding:5px 7px;
 				box-sizing:border-box;
+				text-align:left;
 			}
 			
 			#rankings table td:first-of-type, #rankings table th:first-of-type{
@@ -60,6 +61,7 @@
 			
 			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5){
 				text-align:right;
+				position: relative;
 			}
 			
 			#rankings table td:last-of-type, #rankings table th:last-of-type{
@@ -94,6 +96,20 @@
 				padding:5px;
 				text-decoration:underline;
 			}
+			
+			.bottomTooltip{
+				display:none;
+				position:absolute;
+				top:100%;
+				left:50%;
+				margin-left:-60px;
+				width:120px;
+				background:5px;
+				border-radius:4px;
+				background:#444;
+				color:#fff;
+				box-sizing:border-box;
+			}
 		</style>
 		<script>
 			$(document).ready(function(){
@@ -119,7 +135,7 @@
 					htmlToAdd += 			"</thead>";
 					for(var i = 0; i < rankings.length; i++){
 						htmlToAdd += 		"<tr>";
-						htmlToAdd += 			"<td title=\"" + rankings[i]["Name"] + " has earned " + Math.round(Number(rankings[i]["Points"])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " activity points based on its total surveys combined with its activity over the last 30 days.\"><div>" + rankings[i]["Rank"] + "</div></td>";
+						htmlToAdd += 			"<td><div onmouseover=\"$(this).find('.bottomTooltip').stop().fadeIn();\">" + rankings[i]["Rank"] + "<div class=\"bottomTooltip\">" + rankings[i]["Name"] + " has earned " + Math.round(Number(rankings[i]["Points"])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " activity points based on its total surveys combined with its activity over the last 30 days.</div></div></td>";
 						htmlToAdd += 			"<td><div><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></div></td>";
 						
 						if(Math.round(rankings[i]["WeekIncrease"]) == 0){
