@@ -26,13 +26,16 @@
 				border-collapse:collapse;
 				font-family: 'Roboto Slab', serif;
 				color:#666;
-				border-radius:4px;
-				overflow:hidden;
 			}
 			
 			#rankings table thead{
 				background:#555;
 				color:#fff;
+				border-radius:4px 4px 0px 0px;
+			}
+			
+			#rankings table tr:last-of-type{
+				border-radius:0px 0px 4px 4px;
 			}
 			
 			#rankings table tr td>div{
@@ -105,7 +108,7 @@
 			.bottomTooltip{
 				display:none;
 				position:absolute;
-				top:100%;
+				top:101%;
 				left:50%;
 				margin-left:-90px;
 				width:180px;
