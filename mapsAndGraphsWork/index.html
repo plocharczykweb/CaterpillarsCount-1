@@ -34,10 +34,6 @@
 				border-radius:4px 4px 0px 0px;
 			}
 			
-			#rankings table thead th{
-				padding:5px 7px;
-			}
-			
 			#rankings table tr:last-of-type{
 				border-radius:0px 0px 4px 4px;
 			}
@@ -46,7 +42,6 @@
 				max-height:500px;
 				position:relative;
 				min-width:100%;
-				padding:5px 7px;
 			}
 			
 			#rankings table tr:nth-of-type(even){
@@ -57,6 +52,7 @@
 				width:16%;
 				box-sizing:border-box;
 				text-align:left;
+				padding:5px 7px;
 			}
 			
 			#rankings table td:first-of-type, #rankings table th:first-of-type{
@@ -150,7 +146,7 @@
 					htmlToAdd += 			"</thead>";
 					for(var i = 0; i < rankings.length; i++){
 						htmlToAdd += 		"<tr>";
-						htmlToAdd += 			"<td><div onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\">" + rankings[i]["Rank"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">" + rankings[i]["Name"] + " has earned " + Math.round(Number(rankings[i]["Points"])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " activity points based on its total surveys combined with its activity over the last 30 days.</div></div></td>";
+						htmlToAdd += 			"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\"><div>" + rankings[i]["Rank"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">" + rankings[i]["Name"] + " has earned " + Math.round(Number(rankings[i]["Points"])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " activity points based on its total surveys combined with its activity over the last 30 days.</div></div></td>";
 						htmlToAdd += 			"<td><div><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></div></td>";
 						
 						if(Math.round(rankings[i]["WeekIncrease"]) == 0){
