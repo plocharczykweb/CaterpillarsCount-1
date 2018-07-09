@@ -34,6 +34,10 @@
 				border-radius:4px 4px 0px 0px;
 			}
 			
+			#rankings table thead th{
+				padding:5px 7px;
+			}
+			
 			#rankings table tr:last-of-type{
 				border-radius:0px 0px 4px 4px;
 			}
@@ -41,6 +45,8 @@
 			#rankings table tr td>div{
 				max-height:500px;
 				position:relative;
+				min-width:100%;
+				padding:5px 7px;
 			}
 			
 			#rankings table tr:nth-of-type(even){
@@ -49,7 +55,6 @@
 			
 			#rankings table td, #rankings table th{
 				width:16%;
-				padding:5px 7px;
 				box-sizing:border-box;
 				text-align:left;
 			}
@@ -149,33 +154,33 @@
 						htmlToAdd += 			"<td><div><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></div></td>";
 						
 						if(Math.round(rankings[i]["WeekIncrease"]) == 0){
-							htmlToAdd += 		"<td title=\"No significant increase over last week's " + rankings[i]["LastWeek"] + " survey(s)\"><div>" + rankings[i]["Week"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\"><div>" + rankings[i]["Week"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">No significant increase over last week's " + rankings[i]["LastWeek"] + " survey(s)</div></div></td>";
 						}
 						else if(rankings[i]["WeekIncrease"] >= 0){
-							htmlToAdd += 		"<td title=\"" + Math.round(rankings[i]["WeekIncrease"]) + "% increase over last week's " + rankings[i]["LastWeek"] + " survey(s)\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["WeekIncrease"], 100) / 100) + ");\"><div>" + rankings[i]["Week"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["WeekIncrease"], 100) / 100) + ");\"><div>" + rankings[i]["Week"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">" + Math.round(rankings[i]["WeekIncrease"]) + "% increase over last week's " + rankings[i]["LastWeek"] + " survey(s)</div></div></td>";
 						}
 						else{
-							htmlToAdd += 		"<td title=\"" + Math.abs(Math.round(rankings[i]["WeekIncrease"])) + "% decrease compared to last week's " + rankings[i]["LastWeek"] + " survey(s)\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["WeekIncrease"]), 100) / 100) + ");\"><div>" + rankings[i]["Week"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["WeekIncrease"]), 100) / 100) + ");\"><div>" + rankings[i]["Week"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">" + Math.abs(Math.round(rankings[i]["WeekIncrease"])) + "% decrease compared to last week's " + rankings[i]["LastWeek"] + " survey(s)</div></div></td>";
 						}
 						
 						if(Math.round(rankings[i]["MonthIncrease"]) == 0){
-							htmlToAdd += 		"<td title=\"No significant increase over last month's " + rankings[i]["LastMonth"] + " survey(s)\"><div>" + rankings[i]["Month"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\"><div>" + rankings[i]["Month"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">No significant increase over last month's " + rankings[i]["LastMonth"] + " survey(s)</div></div></td>";
 						}
 						else if(rankings[i]["MonthIncrease"] >= 0){
-							htmlToAdd += 		"<td title=\"" + Math.round(rankings[i]["MonthIncrease"]) + "% increase over last month's " + rankings[i]["LastMonth"] + " survey(s)\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["MonthIncrease"], 100) / 100) + ");\"><div>" + rankings[i]["Month"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["MonthIncrease"], 100) / 100) + ");\"><div>" + rankings[i]["Month"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">" + Math.round(rankings[i]["MonthIncrease"]) + "% increase over last month's " + rankings[i]["LastMonth"] + " survey(s)</div></div></td>";
 						}
 						else{
-							htmlToAdd += 		"<td title=\"" + Math.abs(Math.round(rankings[i]["MonthIncrease"])) + "% decrease compared to last month's " + rankings[i]["LastMonth"] + " survey(s)\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["MonthIncrease"]), 100) / 100) + ");\"><div>" + rankings[i]["Month"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["MonthIncrease"]), 100) / 100) + ");\"><div>" + rankings[i]["Month"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">" + Math.abs(Math.round(rankings[i]["MonthIncrease"])) + "% decrease compared to last month's " + rankings[i]["LastMonth"] + " survey(s)</div></div></td>";
 						}
 						
 						if(Math.round(rankings[i]["YearIncrease"]) == 0){
-							htmlToAdd += 		"<td title=\"No significant increase over last year's " + rankings[i]["LastYear"] + " survey(s)\"><div>" + rankings[i]["Year"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\"><div>" + rankings[i]["Year"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">No significant increase over last year's " + rankings[i]["LastYear"] + " survey(s)</div></div></td>";
 						}
 						else if(rankings[i]["YearIncrease"] >= 0){
-							htmlToAdd += 		"<td title=\"" + Math.round(rankings[i]["YearIncrease"]) + "% increase over last year's " + rankings[i]["LastYear"] + " survey(s)\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["YearIncrease"], 100) / 100) + ");\"><div>" + rankings[i]["Year"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\" style=\"background:rgba(0, 255, 153, " + (Math.min(rankings[i]["YearIncrease"], 100) / 100) + ");\"><div>" + rankings[i]["Year"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">" + Math.round(rankings[i]["YearIncrease"]) + "% increase over last year's " + rankings[i]["LastYear"] + " survey(s)</div></div></td>";
 						}
 						else{
-							htmlToAdd += 		"<td title=\"" + Math.abs(Math.round(rankings[i]["YearIncrease"])) + "% decrease compared to last year's " + rankings[i]["LastYear"] + " survey(s)\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["YearIncrease"]), 100) / 100) + ");\"><div>" + rankings[i]["Year"] + "</div></td>";
+							htmlToAdd += 		"<td onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\" style=\"background:rgba(245, 79, 79, " + (Math.min(Math.abs(rankings[i]["YearIncrease"]), 100) / 100) + ");\"><div>" + rankings[i]["Year"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\">" + Math.abs(Math.round(rankings[i]["YearIncrease"])) + "% decrease compared to last year's " + rankings[i]["LastYear"] + " survey(s)</div></div></td>";
 						}
 						
 						htmlToAdd += 			"<td><div>" + rankings[i]["Total"] + "</div></td>";
