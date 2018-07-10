@@ -86,6 +86,7 @@
 			
 			#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2){
 				width:30%;
+				min-width:250px;
 			}
 			
 			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5){
@@ -183,6 +184,11 @@
 			@media screen and (max-width: 539px){
 				#rankings table tr td:nth-of-type(6), #rankings table thead th:nth-of-type(6){
 					display:none;
+				}
+				
+				#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2){
+					width:auto;
+					min-width:0px;
 				}
 			}
 			
