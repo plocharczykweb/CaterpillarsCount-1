@@ -150,7 +150,7 @@
 			function showLeaderboard(){
 				$.get("../php/getSiteRankings.php", function(data){
 					//success
-					var rankings = JSON.parse(data);
+					rankings = JSON.parse(data);
 					populateLeaderboard("Rank");
 				})
 				.fail(function(){
