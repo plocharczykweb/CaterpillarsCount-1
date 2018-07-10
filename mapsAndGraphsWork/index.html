@@ -296,7 +296,9 @@
 			function showCurrentNumberOfRankings(showAnimation){
 				showAnimation = showAnimation || false;
 				if(showAnimation){
-					$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().animate({maxHeight:'500px', overflow:'visible'}, 500);
+					$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().animate({maxHeight:'500px'}, 500, function(){
+						$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).css({overflow:'visible'});
+					});
 					$('#rankings tr td').slice(0,numberOfShownRankings * 6).stop().animate({padding:'5px 7px'}, 300);
 
 					if(numberOfShownRankings > $('#rankings tr').length){
