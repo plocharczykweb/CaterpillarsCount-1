@@ -21,6 +21,17 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
 		<style>
+			.loading{
+				background:rgba(0,0,0,0.1);
+				padding:20px;
+				text-align:center;
+				border-radius:5px;
+			}
+			
+			.loading>img{
+				height:30px;
+			}
+			
 			#rankings table{
 				width:100%;
 				border-collapse:collapse;
@@ -359,7 +370,9 @@
 				<div class="tagline">We rank sites based on activity. Your total number of surveys helps you get to the top, but how active you have been compared to other sites over the last 30 days is a large factor as well.</div>
 				<div class="content">
 					<div style="background:#555;border-radius:4px;height:4px;"></div>
-					<div id="rankings"></div>
+					<div id="rankings">
+						<div class="loading"><img src="../images/rolling.svg"/></div>
+					</div>
 					<div id="showMoreRankings"><div onclick="showMoreRankings();">Show more</div></div>
 				</div>
 			</div>
