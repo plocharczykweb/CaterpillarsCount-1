@@ -73,7 +73,7 @@
 			}
 			
 			#rankings table th:hover{
-				color:yellow;
+				text-decoration:underline;
 			}
 			
 			#rankings table td{
@@ -211,12 +211,36 @@
 				var htmlToAdd = 	"<table>";
 				htmlToAdd += 			"<thead>";
 				htmlToAdd += 				"<tr>";
-				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Rank');\">Rank</th>";
-				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Name');\">Site Name</th>";
-				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Week');\">This week</th>";
-				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Month');\">This month</th>";
-				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Year');\">This year</th>";
-				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Total');\">Total surveys</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Rank');\"";
+				if(sortingMetric == "Rank"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Rank</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Name');\"";
+				if(sortingMetric == "Name"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Site Name</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Week');\"";
+				if(sortingMetric == "Week"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">This week</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Month');\"";
+				if(sortingMetric == "Month"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">This month</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Year');\"";
+				if(sortingMetric == "Year"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">This year</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Total');\"";
+				if(sortingMetric == "Total"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Total surveys</th>";
 				htmlToAdd += 				"</tr>";
 				htmlToAdd += 			"</thead>";
 				for(var i = 0; i < rankings.length; i++){
