@@ -31,12 +31,7 @@
 			#rankings table thead{
 				background:#555;
 				color:#fff;
-				border-radius:4px 4px 0px 0px;
 				cursor:pointer;
-			}
-			
-			#rankings table tr:last-of-type{
-				border-radius:0px 0px 4px 4px;
 			}
 			
 			#rankings table tr td>div{
@@ -53,6 +48,13 @@
 				width:16%;
 				box-sizing:border-box;
 				text-align:left;
+			}
+			
+			#rankings table th{
+				padding:1px 7px 5px 7px;
+			}
+			
+			#rankings table td{
 				padding:5px 7px;
 			}
 			
@@ -356,6 +358,7 @@
 				<h2>Survey Submission Leaderboard</h2>
 				<div class="tagline">We rank sites based on activity. Your total number of surveys helps you get to the top, but how active you have been compared to other sites over the last 30 days is a large factor as well.</div>
 				<div class="content">
+					<div style="background:#555;border-radius:4px;height:4px;"></div>
 					<div id="rankings"></div>
 					<div id="showMoreRankings"><div onclick="showMoreRankings();">Show more</div></div>
 				</div>
