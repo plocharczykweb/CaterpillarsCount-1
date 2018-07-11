@@ -3,57 +3,63 @@
 	require_once('orm/Site.php');
 	
 	$dbconn = (new Keychain)->getDatabaseConnection();
-	$query = mysqli_query($dbconn, "SELECT Site.ID, Site.Name, Site.Region, Site.Latitude, Site.Longitude, Site.OpenToPublic, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 7) THEN 1 ELSE 0 END) AS Week, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 14) AND Survey.SubmissionTimestamp < (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 7) THEN 1 ELSE 0 END) AS LastWeek, ROUND(IFNULL((SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 7) THEN 1 ELSE 0 END) / SUM(CASE WHEN Survey.SubmissionTimestamp < (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 7) AND Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 14) THEN 1 ELSE 0 END) - 1) * 100, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 7) THEN 1 ELSE 0 END) * 100), 2) AS WeekIncrease, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 30) THEN 1 ELSE 0 END) AS Month, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 60) AND Survey.SubmissionTimestamp < (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 30) THEN 1 ELSE 0 END) AS LastMonth, ROUND(IFNULL((SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 30) THEN 1 ELSE 0 END) / SUM(CASE WHEN Survey.SubmissionTimestamp < (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 30) AND Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 60) THEN 1 ELSE 0 END) - 1) * 100, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 30) THEN 1 ELSE 0 END) * 100), 2) AS MonthIncrease, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 365) THEN 1 ELSE 0 END) AS Year, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 730) AND Survey.SubmissionTimestamp < (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 365) THEN 1 ELSE 0 END) AS LastYear, ROUND(IFNULL((SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 365) THEN 1 ELSE 0 END) / SUM(CASE WHEN Survey.SubmissionTimestamp < (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 365) AND Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 730) THEN 1 ELSE 0 END) - 1) * 100, SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 365) THEN 1 ELSE 0 END) * 100), 2) AS YearIncrease, Count(*) AS Total, ((SUM(CASE WHEN Survey.SubmissionTimestamp >= (UNIX_TIMESTAMP(NOW()) - 60 * 60 * 24 * 30) THEN 1 ELSE 0 END) + 1) / 30 * Count(*)) AS Points FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Site.ID<>2 GROUP BY Site.ID ORDER BY Points DESC");
-	mysqli_close($dbconn);
+	$query = mysqli_query($dbconn, "SELECT Site.ID, Site.Name, Site.Region, Site.Latitude, Site.Longitude, Site.OpenToPublic, SUM(CASE WHEN Survey.SubmissionTimestamp >= UNIX_TIMESTAMP(DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)) THEN 1 ELSE 0 END) AS Week, SUM(CASE WHEN Survey.SubmissionTimestamp >= UNIX_TIMESTAMP(STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(),'%Y-%m'), '-01 00:00:00'), '%Y-%m-%d %T')) THEN 1 ELSE 0 END) AS Month, SUM(CASE WHEN Survey.SubmissionTimestamp >= UNIX_TIMESTAMP(STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-01-01 00:00:00'), '%Y-%m-%d %T')) THEN 1 ELSE 0 END) AS Year, Count(*) AS Total, COUNT(DISTINCT Survey.LocalDate) AS TotalUniqueDates FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Site.ID<>2 GROUP BY Site.ID ORDER BY Year DESC");
 		
 	$rankingsArray = array();
   	$i = 1;
-	$siteIDs = array();
 	while($row = mysqli_fetch_assoc($query)){
     		$openToPublic = $row["OpenToPublic"];
-		$rankingsArray[] = array(
+		$rankingsArray[strval($row["ID"])] = array(
       			"Rank" => $i++,
-      			"Points" => $row["Points"],
       			"Name" => $row["Name"] . " (" . $row["Region"] . ")",
       			"Coordinates" => $row["Latitude"] . "," . $row["Longitude"],
       			"Week" => $row["Week"],
-      			"LastWeek" => $row["LastWeek"],
-      			"WeekIncrease" => $row["WeekIncrease"],
+			"UniqueDatesThisWeek" => 0,
       			"Month" => $row["Month"],
-      			"LastMonth" => $row["LastMonth"],
-      			"MonthIncrease" => $row["MonthIncrease"],
+			"UniqueDatesThisMonth" => 0,
       			"LastYear" => $row["LastYear"],
-      			"Year" => $row["Year"],
-      			"YearIncrease" => $row["YearIncrease"],
+			"UniqueDatesThisYear" => 0,
       			"Total" => $row["Total"],
+      			"TotalUniqueDates" => $row["TotalUniqueDates"],
     		);
-		$siteIDs[] = $row["ID"];
+	}
+	
+	$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, COUNT(DISTINCT LocalDate) AS UniqueDatesThisWeek FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Survey.LocalDate >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY) GROUP BY Plant.SiteFK");
+	while($row = mysqli_fetch_assoc($query)){
+		$rankingsArray[strval($row["SiteFK"])]["UniqueDatesThisWeek"] = $row["UniqueDatesThisWeek"];
 	}
 
+	$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, COUNT(DISTINCT LocalDate) AS UniqueDatesThisMonth FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Survey.LocalDate >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(),'%Y-%m'), '-01 00:00:00'), '%Y-%m-%d %T') GROUP BY Plant.SiteFK");
+	while($row = mysqli_fetch_assoc($query)){
+		$rankingsArray[strval($row["SiteFK"])]["UniqueDatesThisMonth"] = $row["UniqueDatesThisMonth"];
+	}
+
+	$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, COUNT(DISTINCT LocalDate) AS UniqueDatesThisYear FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Survey.LocalDate >= STR_TO_DATE(CONCAT(YEAR(CURDATE()), "-01-01 00:00:00"), '%Y-%m-%d %T') GROUP BY Plant.SiteFK");
+	while($row = mysqli_fetch_assoc($query)){
+		$rankingsArray[strval($row["SiteFK"])]["UniqueDatesThisYear"] = $row["UniqueDatesThisYear"];
+	}
+	mysqli_close($dbconn);
+	
 	$allSites = Site::findAll();
 	for($j = 0; $j < count($allSites); $j++){
-		if(is_object($allSites[$j]) && get_class($allSites[$j]) == "Site" && $allSites[$j]->getID() != 2 && !in_array($allSites[$j]->getID(), $siteIDs)){
+		if(is_object($allSites[$j]) && get_class($allSites[$j]) == "Site" && $allSites[$j]->getID() != 2 && !array_key_exists(strval($allSites[$j]->getID()), $rankingsArray)){
 			$coordinates = "NONE";
 			if($allSites[$j]->getOpenToPublic()){
 				$coordinates = $allSites[$j]->getLatitude() . "," . $allSites[$j]->getLongitude();
 			}
-			$rankingsArray[] = array(
+			$rankingsArray[strval($allSites[$j]->getID())] = array(
 				"Rank" => $i++,
-				"Points" => 0,
 				"Name" => $allSites[$j]->getName() . " (" . $allSites[$j]->getRegion() . ")",
 				"Coordinates" => $coordinates,
 				"Week" => 0,
-				"LastWeek" => 0,
-				"WeekIncrease" => 0,
+				"UniqueDatesThisWeek" => 0,
 				"Month" => 0,
-				"LastMonth" => 0,
-				"MonthIncrease" => 0,
-				"LastYear" => 0,
+				"UniqueDatesThisMonth" => 0,
 				"Year" => 0,
-				"YearIncrease" => 0,
+				"UniqueDatesThisYear" => 0,
 				"Total" => 0,
+      				"TotalUniqueDates" => 0,
 			);
-			$siteIDs[] = $allSites[$j]->getID();
 		}
 	}
 
