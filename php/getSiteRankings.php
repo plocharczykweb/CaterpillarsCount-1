@@ -34,7 +34,7 @@
 		$rankingsArray[strval($row["SiteFK"])]["UniqueDatesThisMonth"] = $row["UniqueDatesThisMonth"];
 	}
 
-	$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, COUNT(DISTINCT LocalDate) AS UniqueDatesThisYear FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Survey.LocalDate >= STR_TO_DATE(CONCAT(YEAR(CURDATE()), "-01-01 00:00:00"), '%Y-%m-%d %T') GROUP BY Plant.SiteFK");
+	$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, COUNT(DISTINCT LocalDate) AS UniqueDatesThisYear FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Survey.LocalDate >= STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-01-01 00:00:00'), '%Y-%m-%d %T') GROUP BY Plant.SiteFK");
 	while($row = mysqli_fetch_assoc($query)){
 		$rankingsArray[strval($row["SiteFK"])]["UniqueDatesThisYear"] = $row["UniqueDatesThisYear"];
 	}
