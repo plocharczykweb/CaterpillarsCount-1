@@ -279,7 +279,7 @@
 				htmlToAdd += 					">Total surveys</th>";
 				htmlToAdd += 				"</tr>";
 				htmlToAdd += 			"</thead>";
-				for(var i = 0; i < rankings.length; i++){
+				for(var i = 0; i < 0; i++){//rankings.length
 					htmlToAdd += 		"<tr>";
 					htmlToAdd += 			"<td onclick=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseenter=\"$(this).find('.bottomTooltip').stop().fadeIn();\" onmouseleave=\"$(this).find('.bottomTooltip').stop().fadeOut();\"><div>" + rankings[i]["Rank"] + "<div class=\"bottomTooltip\" onmouseenter=\"$(this).stop().fadeOut();\"><div class=\"arrow\"></div>" + rankings[i]["Name"] + " has earned " + Math.round(Number(rankings[i]["Points"])).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " activity points based on its total surveys combined with its activity over the last 30 days.</div></div></td>";
 					htmlToAdd += 			"<td><div><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></div></td>";
