@@ -63,6 +63,6 @@
 		}
 	}
 
-	die(json_encode($rankingsArray));
+	die(json_encode(array_values($rankingsArray)));
 	
 ?>
