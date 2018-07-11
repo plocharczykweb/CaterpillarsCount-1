@@ -20,7 +20,7 @@
       			"Year" => intval($row["Year"]),
 			"UniqueDatesThisYear" => 0,
       			"Total" => $row["Total"],
-      			"TotalUniqueDates" => $row["TotalUniqueDates"],
+      			"TotalUniqueDates" => intval($row["TotalUniqueDates"]),
     		);
 	}
 	
