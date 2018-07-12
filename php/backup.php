@@ -3,20 +3,18 @@
 
   require_once('orm/resources/Keychain.php');
 
-  $dbconn = (new Keychain)->getDatabaseConnection();
-  //mysql_connect(HOST, USERNAME, PASSWORD);
-  //mysql_select_db(DATABASE);
-  
-  $query = mysqli_query($dbconn, "SELECT * FROM `User`");
-  //$data = mysql_query('SELECT id, company, name, company_account_number, email, phone_number, invoice FROM carlofontanos_table');
-
   // Open temp file pointer
   if (!$fp = fopen('php://temp', 'w+')) die("1");
 
+  $dbconn = (new Keychain)->getDatabaseConnection();
   //HEADERS
-  //fputcsv($fp, array('ID', 'Company', 'Name', 'Company Account Number', 'Email', 'Phone Number', 'Invoice'));
+  $query = mysqli_query($dbconn, "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='CaterpillarsCount' AND `TABLE_NAME`='User'");
+  $colHeaders = array();
+  while ($row = mysqli_fetch_assoc($query)) $colHeaders[] = $row["COLUMN_NAME"];
+  fputcsv($fp, $colHeaders);
 
   // Loop data and write to file pointer
+  $query = mysqli_query($dbconn, "SELECT * FROM `User`");
   while ($line = mysqli_fetch_assoc($query)) fputcsv($fp, $line);
 
   // Place stream pointer at beginning
