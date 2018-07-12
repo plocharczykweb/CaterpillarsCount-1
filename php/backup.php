@@ -29,14 +29,14 @@
     return $tableArray;
   }
 
-  function createCSV($array) {
+  function createCSV($tableName, $tableArray) {
     if(!$fp = fopen("../databaseBackups/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
-    foreach ($array as $line) fputcsv($fp, $line);
+    foreach ($tableArray as $line) fputcsv($fp, $line);
   }
 
   function backup($tableName){
     $tableArray = getArrayFromTable($tableName);
-    createCSV($tableArray);
+    createCSV($tableName, $tableArray);
   }
 
   $dbconn = (new Keychain)->getDatabaseConnection();
