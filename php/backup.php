@@ -3,7 +3,7 @@
 
   require_once('orm/resources/Keychain.php');
   require_once('orm/resources/mailing.php');
-  
+
   function getArrayFromTable($tableName){
     $tableArray = array();
 
@@ -29,11 +29,11 @@
 
   function create_csv_string($array) {
     // Open temp file pointer
-    if (!$fp = fopen('../databaseBackups/backup_' . date("m-d-Y") . '.csv', 'w+')) return false;
+    if (!$fp = fopen('php://temp', 'w+')) return false;
 
     // Loop data and write to file pointer
     foreach ($array as $line) fputcsv($fp, $line);
-    email("plocharczykweb@gmail.com", "backup", "here:", array($fp));
+    
     // Place stream pointer at beginning
     rewind($fp);
 
@@ -42,8 +42,10 @@
   }
 
   function emailTable($tableName){
-    $csvData = getArrayFromTable($tableName);
-    die(create_csv_string($csvData));
+    $tableArray = getArrayFromTable($tableName);
+    $csvString = create_csv_string($tableArray);
+    file_put_contents("../databaseBackups/backup_" . date("Y-m-d") . "_" . $tableName . ".csv", $csvString, LOCK_EX);
+    email("plocharczykweb@gmail.com", "backup", "here:", array("https://caterpillarscount.unc.edu/databaseBackups/backup_" . date("Y-m-d") . "_" . $tableName . ".csv"));
     /*
     // This will provide plenty adequate entropy
     $multipartSep = '-----'.md5(time()).'-----';
