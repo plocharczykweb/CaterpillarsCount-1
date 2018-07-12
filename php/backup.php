@@ -17,6 +17,8 @@
     
     //ROWS
     $query = mysqli_query($dbconn, "SELECT * FROM `" . $tableName . "`");
+    mysqli_close($dbconn);
+    
     while ($row = mysqli_fetch_assoc($query)){
       $rowArray = array();
       for($i = 0; $i < count($colHeaders); $i++){
@@ -27,57 +29,20 @@
     return $tableArray;
   }
 
-  function create_csv_string($array) {
-    // Open temp file pointer
-    if (!$fp = fopen('php://temp', 'w+')) return false;
-
-    // Loop data and write to file pointer
+  function createCSV($array) {
+    if(!$fp = fopen("../databaseBackups/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
     foreach ($array as $line) fputcsv($fp, $line);
-    
-    // Place stream pointer at beginning
-    rewind($fp);
-
-    // Return the data
-    return stream_get_contents($fp);
   }
 
-  function emailTable($tableName){
+  function backup($tableName){
     $tableArray = getArrayFromTable($tableName);
-    $csvString = create_csv_string($tableArray);
-    file_put_contents("../databaseBackups/backup_" . date("Y-m-d") . "_" . $tableName . ".csv", $csvString, LOCK_EX);
-    email("plocharczykweb@gmail.com", "backup", "here:", array("https://caterpillarscount.unc.edu/databaseBackups/backup_" . date("Y-m-d") . "_" . $tableName . ".csv"));
-    /*
-    // This will provide plenty adequate entropy
-    $multipartSep = '-----'.md5(time()).'-----';
-
-    // Arrays are much more readable
-    $headers = array(
-      "From: $from",
-      "Reply-To: $from",
-      "Content-Type: multipart/mixed; boundary=\"$multipartSep\""
-    );
-
-    // Make the attachment
-    $attachment = chunk_split(base64_encode(create_csv_string($csvData))); 
-
-    // Make the body of the message
-    $body = "--$multipartSep\r\n"
-          . "Content-Type: text/plain; charset=ISO-8859-1; format=flowed\r\n"
-          . "Content-Transfer-Encoding: 7bit\r\n"
-          . "\r\n"
-          . "$body\r\n"
-          . "--$multipartSep\r\n"
-          . "Content-Type: text/csv\r\n"
-          . "Content-Transfer-Encoding: base64\r\n"
-          . "Content-Disposition: attachment; filename=\"file.csv\"\r\n"
-          . "\r\n"
-          . "$attachment\r\n"
-          . "--$multipartSep--";
-
-     // Send the email, return the result
-     return @mail($to, $subject, $body, implode("\r\n", $headers)); 
-     */
+    createCSV($tableArray);
   }
 
-  emailTable("User");
+  $dbconn = (new Keychain)->getDatabaseConnection();
+  $query = mysqli_query($dbconn, "SELECT table_name FROM information_schema.tables where table_schema='CaterpillarsCount'");
+  mysqli_close($dbconn);  
+  while($row = mysqli_fetch_assoc($query)){
+    backup($row["table_name"]);
+  }
 ?>
