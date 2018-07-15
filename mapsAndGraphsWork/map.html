@@ -40,8 +40,7 @@
               zoom: 6,
               styles: [{featureType: "poi", elementType: "labels", stylers: [{visibility: "off" }]}]
           };
-          map = new google.maps.Map($('#map-canvas'),
-              mapOptions);
+          map = new google.maps.Map($('#map-canvas')[0], mapOptions);
       }
       // Adds the map to the dom when the page has loaded
       google.maps.event.addDomListener(window, 'load', initialize);
