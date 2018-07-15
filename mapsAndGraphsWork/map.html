@@ -40,7 +40,7 @@
               zoom: 6,
               styles: [{featureType: "poi", elementType: "labels", stylers: [{visibility: "off" }]}]
           };
-          map = new google.maps.Map(d3.select('#map-canvas').node(),
+          map = new google.maps.Map($('#map-canvas'),
               mapOptions);
       }
       // Adds the map to the dom when the page has loaded
