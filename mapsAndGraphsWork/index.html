@@ -229,11 +229,29 @@
 			});
 			var map;
 			function initializeMap() {
-			  map = new google.maps.Map($('#map')[0], {
-				  center: new google.maps.LatLng(37.068427, -80.089019),
-				  zoom: 6,
-				  styles: [{featureType: "poi", elementType: "labels", stylers: [{visibility: "off" }]}]
-			  });
+				map = new google.maps.Map($('#map')[0], {
+					center: new google.maps.LatLng(37.068427, -80.089019),
+					zoom: 6
+				});
+				
+				$.get("../php/getSiteRankings.php", function(data){
+					//success
+					var sites = JSON.parse(data);
+					for(var i = 0; i < sites.length; i++){
+						var marker = new google.maps.Marker({
+							position: sites[i]["Coordinates"],
+							title:sites[i]["Name"]
+						});
+						marker.setMap(map);
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
 			}
 			//google.maps.event.addDomListener(window, 'load', initialize);
 			
