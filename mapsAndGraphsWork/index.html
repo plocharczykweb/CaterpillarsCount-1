@@ -240,7 +240,7 @@
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var marker = new google.maps.Marker({
-							position: sites[i]["Coordinates"],
+							position: latlng,
 							title:sites[i]["Name"]
 						});
 						marker.setMap(map);
