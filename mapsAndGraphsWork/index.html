@@ -230,7 +230,7 @@
 			var map;
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
-					center: new google.maps.LatLng(37.068427, -80.089019),
+					center: {lat: 37.068427, lng: -80.089019},
 					zoom: 6
 				});
 				
@@ -238,6 +238,7 @@
 					//success
 					var sites = JSON.parse(data);
 					for(var i = 0; i < sites.length; i++){
+						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var marker = new google.maps.Marker({
 							position: sites[i]["Coordinates"],
 							title:sites[i]["Name"]
