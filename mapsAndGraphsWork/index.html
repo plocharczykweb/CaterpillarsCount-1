@@ -256,7 +256,12 @@
 							map: map,
 							position: latlng,
 							title: sites[i]["Name"],
-							icon: "../images/mapIcons/redMarker.png",
+							icon: {
+								url: "../images/mapIcons/redMarker.png",
+								scaledSize: new google.maps.Size(28, 43), // scaled size
+								origin: new google.maps.Point(0,0), // origin
+								anchor: new google.maps.Point(14, 43) // anchor
+							},
 							animation: google.maps.Animation.DROP,
 							siteID: sites[i]["ID"]
 						});
