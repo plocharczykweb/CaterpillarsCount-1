@@ -229,8 +229,9 @@
 			});
 			var map;
 			function bounce(){
-				var marker = this.
+				marker = this;
 				if(marker.icon.defaultFillColor == marker.icon.fillColor){
+					marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 					//not selected, so select it
 					marker.setIcon({
 						path: google.maps.SymbolPath.CIRCLE,
