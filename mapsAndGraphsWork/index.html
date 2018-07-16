@@ -231,7 +231,14 @@
 			function bounce(){
 				if (this.icon.defaultFillColor == this.icon.fillColor){
 					//not selected, so select it
-					this.icon.fillColor = "#fed136";
+					this.setIcon({
+						path: google.maps.SymbolPath.CIRCLE,
+						scale: this.icon.scale,
+						strokeWeight: this.icon.strokeWeight,
+						defaultFillColor: this.icon.defaultFillColor,
+						fillColor: "#fed136",
+						fillOpacity: this.icon.fillOpacity
+					}
 					this.setAnimation(google.maps.Animation.BOUNCE);
 					setTimeout(function(){ marker.setAnimation(null); }, 750);
 				}
