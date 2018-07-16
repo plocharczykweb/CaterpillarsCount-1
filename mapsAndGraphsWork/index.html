@@ -228,22 +228,36 @@
 				initializeMap();
 			});
 			var map;
+			function toggleBounce(){
+				if (marker.getAnimation() !== null) {
+					marker.setAnimation(null);
+				}
+				else {
+					marker.setAnimation(google.maps.Animation.BOUNCE);
+				}
+			}
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
 					center: {lat: 37.068427, lng: -80.089019},
 					zoom: 6
 				});
 				
-				$.get("../php/getSiteRankings.php", function(data){
+				$.get("../php/getSites.php", function(data){
 					//success
 					var sites = JSON.parse(data);
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var marker = new google.maps.Marker({
+							map: map,
 							position: latlng,
-							title:sites[i]["Name"]
+							title:sites[i]["Name"],
+							animation: google.maps.Animation.DROP
 						});
-						marker.setMap(map);
+						marker.addListener('click', function(){
+							toggleBounce();
+							alert("Site ID:" + sites[i]["ID"]);
+						});
+						//marker.setMap(map);
 					}
 				})
 				.fail(function(){
