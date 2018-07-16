@@ -229,27 +229,28 @@
 			});
 			var map;
 			function bounce(){
-				if (this.icon.defaultFillColor == this.icon.fillColor){
+				var marker = this.
+				if(marker.icon.defaultFillColor == marker.icon.fillColor){
 					//not selected, so select it
-					this.setIcon({
+					marker.setIcon({
 						path: google.maps.SymbolPath.CIRCLE,
-						scale: this.icon.scale,
-						strokeWeight: this.icon.strokeWeight,
-						defaultFillColor: this.icon.defaultFillColor,
+						scale: marker.icon.scale,
+						strokeWeight: marker.icon.strokeWeight,
+						defaultFillColor: marker.icon.defaultFillColor,
 						fillColor: "#fed136",
-						fillOpacity: this.icon.fillOpacity
+						fillOpacity: marker.icon.fillOpacity
 					});
-					this.setAnimation(google.maps.Animation.BOUNCE);
-					setTimeout(function(){this.setAnimation(null);}, 750);
+					marker.setAnimation(google.maps.Animation.BOUNCE);
+					setTimeout(function(){marker.setAnimation(null);}, 750);
 				}
-				else {
-					this.setIcon({
+				else{
+					marker.setIcon({
 						path: google.maps.SymbolPath.CIRCLE,
-						scale: this.icon.scale,
-						strokeWeight: this.icon.strokeWeight,
-						defaultFillColor: this.icon.defaultFillColor,
-						fillColor: this.icon.defaultFillColor,
-						fillOpacity: this.icon.fillOpacity
+						scale: marker.icon.scale,
+						strokeWeight: marker.icon.strokeWeight,
+						defaultFillColor: marker.icon.defaultFillColor,
+						fillColor: marker.icon.defaultFillColor,
+						fillOpacity: marker.icon.fillOpacity
 					});
 				}
 			}
