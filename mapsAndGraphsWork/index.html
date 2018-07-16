@@ -228,7 +228,7 @@
 				initializeMap();
 			});
 			var map;
-			function toggleBounce(){
+			function toggleBounce(marker){
 				if (marker.getAnimation() !== null) {
 					marker.setAnimation(null);
 				}
@@ -254,7 +254,7 @@
 							animation: google.maps.Animation.DROP
 						});
 						marker.addListener('click', function(){
-							toggleBounce();
+							toggleBounce(marker);
 							alert("Site ID:" + sites[i]["ID"]);
 						});
 						//marker.setMap(map);
