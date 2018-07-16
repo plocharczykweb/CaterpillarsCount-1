@@ -261,10 +261,11 @@
 							position: latlng,
 							title: sites[i]["Name"],
 							icon: {
-								url: "../images/mapIcons/" + color + "Marker.png",
-								scaledSize: new google.maps.Size(28, 45), // scaled size
-								origin: new google.maps.Point(0,0), // origin
-								anchor: new google.maps.Point(14, 43) // anchor
+								path: google.maps.SymbolPath.CIRCLE,
+								scale: 8.5,
+								strokeWeight: 1,
+								fillColor: color,
+								fillOpacity: .9
 							},
 							animation: google.maps.Animation.DROP,
 							siteID: sites[i]["ID"]
