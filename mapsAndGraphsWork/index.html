@@ -252,9 +252,9 @@
 					var sites = JSON.parse(data);
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
-						var color = "lightGray";
+						var color = "#faa7a0";
 						if(sites[i]["SurveyCount"] > 0){
-							color = "red";
+							color = "#EA4335";
 						}
 						var marker = new google.maps.Marker({
 							map: map,
