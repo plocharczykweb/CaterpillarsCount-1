@@ -252,12 +252,16 @@
 					var sites = JSON.parse(data);
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
+						var color = "lightGray";
+						if(sites[i]["SurveyCount"] > 0){
+							color = "red";
+						}
 						var marker = new google.maps.Marker({
 							map: map,
 							position: latlng,
 							title: sites[i]["Name"],
 							icon: {
-								url: "../images/mapIcons/redMarker.png",
+								url: "../images/mapIcons/" + color + "Marker.png",
 								scaledSize: new google.maps.Size(28, 45), // scaled size
 								origin: new google.maps.Point(0,0), // origin
 								anchor: new google.maps.Point(14, 43) // anchor
