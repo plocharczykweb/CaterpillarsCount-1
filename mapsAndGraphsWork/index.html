@@ -228,10 +228,15 @@
 				initializeMap();
 			});
 			var map;
+			var lastMarker = null;
 			function bounce(){
-				marker = this;
+				var marker = this;
+				if(lastMarker !== null){
+					lastMarker.setZIndex();
+				}
+				lastMarker = marker;
+				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 				if(marker.icon.defaultFillColor == marker.icon.fillColor){
-					marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 					//not selected, so select it
 					marker.setIcon({
 						path: google.maps.SymbolPath.CIRCLE,
@@ -279,7 +284,7 @@
 							title: sites[i]["Name"],
 							icon: {
 								path: google.maps.SymbolPath.CIRCLE,
-								scale: 8.5,
+								scale: 10,
 								strokeWeight: 1,
 								defaultFillColor: color,
 								fillColor: color,
