@@ -236,6 +236,9 @@
 					marker.setAnimation(google.maps.Animation.BOUNCE);
 				}
 			}
+			function alertSiteID(){
+				alert("Site ID: " + this.siteID);
+			}
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
 					center: {lat: 37.068427, lng: -80.089019},
@@ -251,12 +254,11 @@
 							map: map,
 							position: latlng,
 							title:sites[i]["Name"],
-							animation: google.maps.Animation.DROP
+							animation: google.maps.Animation.DROP,
+							siteID: sites[i]["ID"]
 						});
-						marker.addListener('click', function(){
-							toggleBounce(marker);
-							alert("Site ID:" + sites[i]["ID"]);
-						});
+						marker.addListener('click', toggleBounce);
+						marker.addListener('click', alertSiteID);
 						//marker.setMap(map);
 					}
 				})
