@@ -231,9 +231,11 @@
 			function toggleBounce(){
 				if (this.getAnimation() !== null) {
 					this.setAnimation(null);
+					this.icon = "../images/mapIcons/blueMarker.png";
 				}
 				else {
 					this.setAnimation(google.maps.Animation.BOUNCE);
+					this.icon = "../images/mapIcons/redMarker.png";
 				}
 			}
 			function alertSiteID(){
@@ -253,7 +255,8 @@
 						var marker = new google.maps.Marker({
 							map: map,
 							position: latlng,
-							title:sites[i]["Name"],
+							title: sites[i]["Name"],
+							icon: "../images/mapIcons/redMarker.png",
 							animation: google.maps.Animation.DROP,
 							siteID: sites[i]["ID"]
 						});
