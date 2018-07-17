@@ -38,5 +38,10 @@
 	while($row = mysqli_fetch_assoc($query)){
 		$sitesArray[strval($row["SiteFK"])]["CaterpillarCount"] = intval($row["CaterpillarCount"]);
 	}
+
+	$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, MAX(STR_TO_DATE(CONCAT(Survey.LocalDate, ' ', Survey.LocalTime), '%Y-%m-%d %T')) AS MostRecentDateTime FROM `Survey` JOIN Plant ON Survey.PlantFK=Plant.ID GROUP BY Plant.SiteFK");
+	while($row = mysqli_fetch_assoc($query)){
+		$sitesArray[strval($row["SiteFK"])]["MostRecentDateTime"] = intval($row["MostRecentDateTime"]);
+	}
 	die(json_encode(array_values($sitesArray)));
 ?>
