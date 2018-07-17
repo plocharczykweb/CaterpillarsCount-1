@@ -366,7 +366,7 @@
 				});
 			}
 			function lockInMapHeight(){
-				var mapHeight = (window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight) - $("header").eq(0)[0].clientHeight + $("header").eq(0)[0].style.paddingTop + $("header").eq(0)[0].style.paddingBottom;
+				var mapHeight = (window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight) - $("header").eq(0)[0].clientHeight;
 				$("#map")[0].style.height = mapHeight + "px";
 				$("#mapSpace")[0].style.height = mapHeight + "px";
 			}
