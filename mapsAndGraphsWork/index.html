@@ -267,15 +267,28 @@
 			}
 			function markerClick(){
 				toggleMarker(this);
-				$("#siteStats")[0].innerHTML = "Site ID: " + this.siteInformation["ID"] + "<br/>" + 
-				     "Site Name: " + this.siteInformation["Name"] + "<br/>" + 
-				      "Site Description: " + this.siteInformation["Description"] + "<br/>" + 
-				      "Site UserCount: " + this.siteInformation["UserCount"] + "<br/>" + 
-				      "Site ArthropodGroupCount: " + this.siteInformation["ArthropodGroupCount"] + "<br/>" + 
-				      "Site ArthropodCount: " + this.siteInformation["ArthropodCount"] + "<br/>" + 
-				      "Site CaterpillarCount: " + this.siteInformation["CaterpillarCount"] + "<br/>" + 
-				      "Site SurveyCount: " + this.siteInformation["SurveyCount"] + "<br/>" + 
-				      "Site MostRecentDateTime: " + this.siteInformation["MostRecentDateTime"];
+				$("#siteStats")[0].innerHTML = "<h3>" + this.siteInformation["Name"] + "</h3>" + 
+					"<div class=\"tagline\">" + this.siteInformation["Description"] + "</div>" + 
+					"<table>" + 
+						"<thead>" + 
+							"<tr>" + 
+								"<th>Users</th>" + 
+								"<th>Arthropod Groups</th>" + 
+								"<th>Arthropods</th>" + 
+								"<th>Caterpillars</th>" + 
+								"<th>Surveys</th>" + 
+								"<th>Most Recent Survey</th>" + 
+							"</tr>" + 
+						"</thead>" + 
+						"<tr>" + 
+							"<td>" + this.siteInformation["UserCount"] + "</td>" + 
+							"<td>" + this.siteInformation["ArthropodGroupCount"] + "</td>" + 
+							"<td>" + this.siteInformation["ArthropodCount"] + "</td>" + 
+							"<td>" + this.siteInformation["CaterpillarCount"] + "</td>" + 
+							"<td>" + this.siteInformation["SurveyCount"] + "</td>" + 
+							"<td>" + this.siteInformation["MostRecentDateTime"] + "</td>" + 
+						"</tr>" + 
+					"</table>";
 				scrollToElement($("#siteStats"));
 			}
 			function initializeMap() {
@@ -332,7 +345,7 @@
 				});
 			}
 			function lockInMapHeight(){
-				var mapHeight = (window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight) - 51;
+				var mapHeight = (window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight) - $("header").eq(0)[0].clientHeight + $("header").eq(0)[0].style.paddingTop + $("header").eq(0)[0].style.paddingBottom;
 				$("#map")[0].style.height = mapHeight + "px";
 				$("#mapSpace")[0].style.height = mapHeight + "px";
 			}
@@ -556,8 +569,8 @@
 				</div>
 			</div>
 			<div class="panel">
-				<h2>Site Map</h2>
-				<div class="tagline">Click sites on the map to show explore statistics and graphs about them.</div>
+				<h2>Explore Sites</h2>
+				<div class="tagline">Click sites to explore their statistics and graphs.</div>
 				<div id="map"></div>
 				<div id="mapSpace"></div>
 				<div id="siteStats"></div>
