@@ -175,18 +175,11 @@
 			
 			#map{
 				width:100%;
-				height:100%;
+				height:92%;
 				position:absolute;
 				left:0px;
 				right:0px;
-				padding-bottom:51px;
-				box-sizing:border-box;
-			}/*
-			@media screen and (max-width: 770px){
-				#map{
-					margin:0px -20px;
-				}
-			}*/
+			}
 			
 			@media screen and (max-width: 957px){
 				#rankings table tr td:nth-of-type(5), #rankings table thead th:nth-of-type(5){
@@ -228,38 +221,47 @@
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				showLeaderboard();
 				initializeMap();
+				lockInMapHeight();
+				$(window).resize(lockInMapHeight);
 			});
+			
 			var map;
 			var lastMarker = null;
+			function activate(marker){
+				marker.setIcon({
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: marker.icon.scale,
+					strokeWeight: marker.icon.strokeWeight,
+					defaultFillColor: marker.icon.defaultFillColor,
+					fillColor: "#fed136",
+					fillOpacity: marker.icon.fillOpacity
+				});
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+				setTimeout(function(){marker.setAnimation(null);}, 750);
+			}
+			function deactivate(marker){
+				marker.setIcon({
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: marker.icon.scale,
+					strokeWeight: marker.icon.strokeWeight,
+					defaultFillColor: marker.icon.defaultFillColor,
+					fillColor: marker.icon.defaultFillColor,
+					fillOpacity: marker.icon.fillOpacity
+				});
+			}
 			function toggleMarker(marker){
 				if(lastMarker !== null){
 					lastMarker.setZIndex();
 				}
-				lastMarker = marker;
-				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 				if(marker.icon.defaultFillColor == marker.icon.fillColor){
-					//not selected, so select it
-					marker.setIcon({
-						path: google.maps.SymbolPath.CIRCLE,
-						scale: marker.icon.scale,
-						strokeWeight: marker.icon.strokeWeight,
-						defaultFillColor: marker.icon.defaultFillColor,
-						fillColor: "#fed136",
-						fillOpacity: marker.icon.fillOpacity
-					});
-					marker.setAnimation(google.maps.Animation.BOUNCE);
-					setTimeout(function(){marker.setAnimation(null);}, 750);
+					deactivate(lastMarker);
+					activate(marker);
 				}
 				else{
-					marker.setIcon({
-						path: google.maps.SymbolPath.CIRCLE,
-						scale: marker.icon.scale,
-						strokeWeight: marker.icon.strokeWeight,
-						defaultFillColor: marker.icon.defaultFillColor,
-						fillColor: marker.icon.defaultFillColor,
-						fillOpacity: marker.icon.fillOpacity
-					});
+					deactivate(marker);
 				}
+				lastMarker = marker;
+				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 			}
 			function markerClick(){
 				toggleMarker(this);
@@ -326,7 +328,9 @@
 					//complete
 				});
 			}
-			//google.maps.event.addDomListener(window, 'load', initialize);
+			function lockInMapHeight(){
+				$("#mapSpace")[0].style.height = $("#map")[0].clientHeight;
+			}
 			
 			var numberOfShownRankings = 10;
 			var rankings = [];
@@ -547,9 +551,11 @@
 				</div>
 			</div>
 			<div class="panel">
-				<h2>Site Map ksjdnfkjsndf</h2>
-				<div class="tagline">...will go here. Clicking sites on the map will show basic site stats and graphs.</div>
+				<h2>Site Map</h2>
+				<div class="tagline">Click sites on the map to show explore statistics and graphs about them.</div>
 				<div id="map"></div>
+				<div id="mapSpace"></div>
+				<div>wjdkjfsnkf</div>
 			</div>
 		</main>
 		<footer>
