@@ -45,22 +45,22 @@
 	}
 
 	for($i = 0; $i < count($sites); $i++){
-		if(!array_key_exists("SurveyCount", $sitesArray)){
+		if(!array_key_exists("SurveyCount", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["SurveyCount"] = 0;
 		}
-		if(!array_key_exists("UserCount", $sitesArray)){
+		if(!array_key_exists("UserCount", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["UserCount"] = 0;
 		}
-		if(!array_key_exists("ArthropodGroupCount", $sitesArray)){
+		if(!array_key_exists("ArthropodGroupCount", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["ArthropodGroupCount"] = 0;
 		}
-		if(!array_key_exists("ArthropodCount", $sitesArray)){
+		if(!array_key_exists("ArthropodCount", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["ArthropodCount"] = 0;
 		}
-		if(!array_key_exists("CaterpillarCount", $sitesArray)){
+		if(!array_key_exists("CaterpillarCount", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["CaterpillarCount"] = 0;
 		}
-		if(!array_key_exists("MostRecentDateTime", $sitesArray)){
+		if(!array_key_exists("MostRecentDateTime", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["MostRecentDateTime"] = 0;
 		}
 	}
