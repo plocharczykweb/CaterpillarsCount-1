@@ -43,5 +43,26 @@
 	while($row = mysqli_fetch_assoc($query)){
 		$sitesArray[strval($row["SiteFK"])]["MostRecentDateTime"] = intval($row["MostRecentDateTime"]);
 	}
+
+	for($i = 0; $i < count($sites); $i++){
+		if(!array_key_exists("SurveyCount", $sitesArray)){
+			$sitesArray[strval($sites[$i]->getID())]["SurveyCount"] = 0;
+		}
+		if(!array_key_exists("UserCount", $sitesArray)){
+			$sitesArray[strval($sites[$i]->getID())]["UserCount"] = 0;
+		}
+		if(!array_key_exists("ArthropodGroupCount", $sitesArray)){
+			$sitesArray[strval($sites[$i]->getID())]["ArthropodGroupCount"] = 0;
+		}
+		if(!array_key_exists("ArthropodCount", $sitesArray)){
+			$sitesArray[strval($sites[$i]->getID())]["ArthropodCount"] = 0;
+		}
+		if(!array_key_exists("CaterpillarCount", $sitesArray)){
+			$sitesArray[strval($sites[$i]->getID())]["CaterpillarCount"] = 0;
+		}
+		if(!array_key_exists("MostRecentDateTime", $sitesArray)){
+			$sitesArray[strval($sites[$i]->getID())]["MostRecentDateTime"] = 0;
+		}
+	}
 	die(json_encode(array_values($sitesArray)));
 ?>
