@@ -40,14 +40,14 @@
 				display:none;
 			}
 			
-			#rankings table{
+			#rankings table, #siteStats table{
 				width:100%;
 				border-collapse:collapse;
 				font-family: 'Roboto Slab', serif;
 				color:#666;
 			}
 			
-			#rankings table thead{
+			#rankings table thead, #siteStats table thead{
 				background:#555;
 				color:#fff;
 				cursor:pointer;
@@ -77,7 +77,7 @@
 				text-decoration:underline;
 			}
 			
-			#rankings table td{
+			#rankings table td, #siteStats table td, #siteStats table th{
 				padding:5px 7px;
 			}
 			
@@ -267,7 +267,7 @@
 			}
 			function markerClick(){
 				toggleMarker(this);
-				$("#siteStats")[0].innerHTML = "<h3>" + this.siteInformation["Name"] + "</h3>" + 
+				$("#siteStats")[0].innerHTML = "<h2>" + this.siteInformation["Name"] + "</h2>" + 
 					"<div class=\"tagline\">" + this.siteInformation["Description"] + "</div>" + 
 					"<table>" + 
 						"<thead>" + 
