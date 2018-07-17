@@ -179,6 +179,8 @@
 				position:absolute;
 				left:0px;
 				right:0px;
+				padding-bottom:51px;
+				box-sizing:border-box;
 			}/*
 			@media screen and (max-width: 770px){
 				#map{
@@ -229,8 +231,7 @@
 			});
 			var map;
 			var lastMarker = null;
-			function bounce(){
-				var marker = this;
+			function toggleMarker(marker){
 				if(lastMarker !== null){
 					lastMarker.setZIndex();
 				}
@@ -260,8 +261,17 @@
 					});
 				}
 			}
-			function alertSiteID(){
-				//alert("Site ID: " + this.siteID);
+			function markerClick(){
+				toggleMarker(this);
+				alert("Site ID: " + this.siteInformation["ID"] + "\n" + 
+				     "Site Name: " + this.siteInformation["Name"] + "\n" + 
+				      "Site Description: " + this.siteInformation["Description"] + "\n" + 
+				      "Site UserCount: " + this.siteInformation["UserCount"] + "\n" + 
+				      "Site ArthropodGroupCount: " + this.siteInformation["ArthropodGroupCount"] + "\n" + 
+				      "Site ArthropodCount: " + this.siteInformation["ArthropodCount"] + "\n" + 
+				      "Site CaterpillarCount: " + this.siteInformation["CaterpillarCount"] + "\n" + 
+				      "Site SurveyCount: " + this.siteInformation["SurveyCount"] + "\n" + 
+				      "Site MostRecentDateTime: " + this.siteInformation["MostRecentDateTime"]);
 			}
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
@@ -291,10 +301,20 @@
 								fillOpacity: .9
 							},
 							animation: google.maps.Animation.DROP,
-							siteID: sites[i]["ID"]
+							siteInformation: {
+								ID: sites[i]["ID"],
+								Name: sites[i]["Name"],
+								Description: sites[i]["Description"],
+								UserCount: sites[i]["UserCount"],
+								ArthropodGroupCount: sites[i]["ArthropodGroupCount"],
+								ArthropodCount: sites[i]["ArthropodCount"],
+								CaterpillarCount: sites[i]["CaterpillarCount"],
+								SurveyCount: sites[i]["SurveyCount"],
+								MostRecentDateTime: sites[i]["MostRecentDateTime"]
+							}
+							
 						});
-						marker.addListener('click', bounce);
-						marker.addListener('click', alertSiteID);
+						marker.addListener('click', markerClick);
 						//marker.setMap(map);
 					}
 				})
