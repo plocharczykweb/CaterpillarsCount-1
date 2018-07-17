@@ -265,15 +265,16 @@
 			}
 			function markerClick(){
 				toggleMarker(this);
-				alert("Site ID: " + this.siteInformation["ID"] + "\n" + 
-				     "Site Name: " + this.siteInformation["Name"] + "\n" + 
-				      "Site Description: " + this.siteInformation["Description"] + "\n" + 
-				      "Site UserCount: " + this.siteInformation["UserCount"] + "\n" + 
-				      "Site ArthropodGroupCount: " + this.siteInformation["ArthropodGroupCount"] + "\n" + 
-				      "Site ArthropodCount: " + this.siteInformation["ArthropodCount"] + "\n" + 
-				      "Site CaterpillarCount: " + this.siteInformation["CaterpillarCount"] + "\n" + 
-				      "Site SurveyCount: " + this.siteInformation["SurveyCount"] + "\n" + 
-				      "Site MostRecentDateTime: " + this.siteInformation["MostRecentDateTime"]);
+				$("#siteStats")[0].innerHTML = "Site ID: " + this.siteInformation["ID"] + "<br/>" + 
+				     "Site Name: " + this.siteInformation["Name"] + "<br/>" + 
+				      "Site Description: " + this.siteInformation["Description"] + "<br/>" + 
+				      "Site UserCount: " + this.siteInformation["UserCount"] + "<br/>" + 
+				      "Site ArthropodGroupCount: " + this.siteInformation["ArthropodGroupCount"] + "<br/>" + 
+				      "Site ArthropodCount: " + this.siteInformation["ArthropodCount"] + "<br/>" + 
+				      "Site CaterpillarCount: " + this.siteInformation["CaterpillarCount"] + "<br/>" + 
+				      "Site SurveyCount: " + this.siteInformation["SurveyCount"] + "<br/>" + 
+				      "Site MostRecentDateTime: " + this.siteInformation["MostRecentDateTime"];
+				scrollToElement($("#siteStats"));
 			}
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
@@ -329,7 +330,9 @@
 				});
 			}
 			function lockInMapHeight(){
-				$("#mapSpace")[0].style.height = $("#map")[0].clientHeight;
+				var mapHeight = $(window).height() - 51;
+				$("#map")[0].style.height = mapHeight + "px";
+				$("#mapSpace")[0].style.height = mapHeight + "px;
 			}
 			
 			var numberOfShownRankings = 10;
@@ -555,7 +558,7 @@
 				<div class="tagline">Click sites on the map to show explore statistics and graphs about them.</div>
 				<div id="map"></div>
 				<div id="mapSpace"></div>
-				<div>wjdkjfsnkf</div>
+				<div id="siteStats"></div>
 			</div>
 		</main>
 		<footer>
