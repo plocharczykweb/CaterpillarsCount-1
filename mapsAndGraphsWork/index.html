@@ -332,7 +332,7 @@
 				});
 			}
 			function lockInMapHeight(){
-				var mapHeight = $(window).height() - 51;
+				var mapHeight = (window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight) - 51;
 				$("#map")[0].style.height = mapHeight + "px";
 				$("#mapSpace")[0].style.height = mapHeight + "px";
 			}
