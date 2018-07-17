@@ -254,7 +254,9 @@
 					lastMarker.setZIndex();
 				}
 				if(marker.icon.defaultFillColor == marker.icon.fillColor){
-					deactivate(lastMarker);
+					if(lastMarker !== null){
+						deactivate(lastMarker);
+					}
 					activate(marker);
 				}
 				else{
