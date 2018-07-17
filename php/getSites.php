@@ -61,7 +61,7 @@
 			$sitesArray[strval($sites[$i]->getID())]["CaterpillarCount"] = 0;
 		}
 		if(!array_key_exists("MostRecentDateTime", $sitesArray[strval($sites[$i]->getID())])){
-			$sitesArray[strval($sites[$i]->getID())]["MostRecentDateTime"] = 0;
+			$sitesArray[strval($sites[$i]->getID())]["MostRecentDateTime"] = "Never";
 		}
 	}
 	die(json_encode(array_values($sitesArray)));
