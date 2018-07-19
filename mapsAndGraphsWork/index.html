@@ -1,0 +1,614 @@
+<html>
+	<head>
+		<!-- Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113319025-1"></script>
+		<script>
+  			window.dataLayer = window.dataLayer || [];
+  			function gtag(){dataLayer.push(arguments);}
+  			gtag('js', new Date());
+			gtag('config', 'UA-113319025-1');
+		</script>
+		<!-- End of Google Analytics -->
+
+		<title>Maps & Graphs | Caterpillars Count!</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3VugOTqs_94H5B51-xVyxBGHqx4uqxTA"></script>
+		<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Fanwood+Text:400i" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+		<link href="../css/template.css" rel="stylesheet">
+		<script src="../js/template.js?v=1"></script>
+		<style>
+			.loading{
+				background:rgba(0,0,0,0.1);
+				padding:20px;
+				text-align:center;
+				border-radius:5px;
+			}
+			
+			.loading>img{
+				height:30px;
+			}
+			
+			#siteStats{
+				margin-top:20px;
+			}
+			
+			#siteStats h2{
+				font-size:25px;
+			}
+			#siteStats .tagline{
+				font-size:14px;
+			}
+			
+			#rankingsRoundedTop{
+				background:#555;
+				border-radius:4px 4px 0px 0px;
+				height:4px;
+				display:none;
+			}
+			
+			#rankings table, #siteStats table{
+				width:100%;
+				border-collapse:collapse;
+				font-family: 'Roboto Slab', serif;
+				color:#666;
+			}
+			
+			#siteStats table{
+				border-radius:4px;
+				overflow:hidden;
+			}
+			
+			#rankings table thead, #siteStats table thead{
+				background:#555;
+				color:#fff;
+				cursor:pointer;
+			}
+			
+			#siteStats td{
+				text-align:center;
+				background:rgba(0,0,0,0.025);
+			}
+			
+			#rankings table tr td>div{
+				max-height:500px;
+				position:relative;
+				min-width:100%;
+			}
+			
+			#rankings table tr:nth-of-type(even){
+				background:rgba(0,0,0,0.025);
+			}
+			
+			#rankings table td, #rankings table th{
+				width:16%;
+				box-sizing:border-box;
+				text-align:left;
+			}
+			
+			#rankings table th{
+				padding:1px 7px 5px 7px;
+			}
+			
+			#rankings table th:hover{
+				text-decoration:underline;
+			}
+			
+			#rankings table td, #siteStats table td, #siteStats table th{
+				padding:5px 7px;
+			}
+			
+			#rankings table td:first-of-type, #rankings table th:first-of-type{
+				width:6%;
+			}
+			
+			#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2){
+				width:30%;
+				min-width:250px;
+			}
+			
+			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5){
+				text-align:right;
+			}
+			
+			#rankings table td:last-of-type, #rankings table th:last-of-type{
+				text-align:right;
+			}
+			
+			#rankings table td>div, #rankings table th>div{
+				display:inline-block;
+			}
+			
+			#rankings table tr:nth-of-type(10) ~ tr td{
+				padding:0px 7px;
+			}
+			
+			#rankings table tr:nth-of-type(10) ~ tr td>div{
+				max-height:0px;
+				overflow:hidden;
+			}
+			
+			#showMoreRankings{
+				display:none;
+				font-family: 'Roboto Slab', serif;
+				text-align:center;
+				margin-top:20px;
+				color:#777;
+				text-transform:uppercase;
+				font-size:12px;
+			}
+			
+			#showMoreRankings>div{
+				display:inline-block;
+				cursor:pointer;
+				padding:5px;
+				text-decoration:underline;
+			}
+			
+			#rankings table td:first-of-type .bottomTooltip{
+				left:0px;
+				margin-left:0px;
+			}
+			
+			#rankings table td:first-of-type .bottomTooltip .arrow{
+				margin:-12px 0px 0px 0px;
+			}
+			
+			.bottomTooltip{
+				display:none;
+				position:absolute;
+				top:100%;
+				margin-top:10px;
+				right:0px;
+				width:180px;
+				font-size:13px;
+				padding:5px;
+				border-radius:4px;
+				background:#444;
+				color:#fff;
+				box-sizing:border-box;
+				z-index:1;
+				text-align:left;
+			}
+			
+			.bottomTooltip .arrow{
+				position:relative;
+				right:0px;
+				margin:-12px 0px 0px 153px;
+				border:5px solid transparent;
+				border-top:0px none transparent;
+				border-bottom:7px solid #444;
+				width:0px;
+			}
+			
+			#rankings .underText{
+				color:rgba(0,0,0,0.4);
+				font-size:12px;
+			}
+			
+			#rankings .underText::after{
+				content:" survey date(s)";
+			}
+			
+			#map{
+				width:100%;
+				height:92%;
+				position:absolute;
+				left:0px;
+				right:0px;
+			}
+			
+			@media screen and (max-width: 957px){
+				#rankings table tr td:nth-of-type(5), #rankings table thead th:nth-of-type(5){
+					display:none;
+				}
+			}
+			
+			@media screen and (max-width: 868px){
+				#rankings table tr td:nth-of-type(3), #rankings table thead th:nth-of-type(3){
+					display:none;
+				}
+			}
+			
+			@media screen and (max-width: 783px){
+				#rankings table tr td:nth-of-type(4), #rankings table thead th:nth-of-type(4){
+					display:none;
+				}
+			}
+			
+			@media screen and (max-width: 539px){
+				#rankings table tr td:nth-of-type(6), #rankings table thead th:nth-of-type(6){
+					display:none;
+				}
+				
+				#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2){
+					width:auto;
+					min-width:0px;
+				}
+			}
+			
+			@media screen and (max-width: 373px){
+				main h2{
+					font-size:33px;
+				}
+			}
+		</style>
+		<script>
+			$(document).ready(function(){
+				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				showLeaderboard();
+				initializeMap();
+				lockInMapHeight();
+				$(window).resize(lockInMapHeight);
+			});
+			
+			var map;
+			var lastMarker = null;
+			function activate(marker){
+				marker.setIcon({
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: marker.icon.scale,
+					strokeWeight: marker.icon.strokeWeight,
+					defaultFillColor: marker.icon.defaultFillColor,
+					fillColor: "#fed136",
+					fillOpacity: marker.icon.fillOpacity
+				});
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+				setTimeout(function(){marker.setAnimation(null);}, 750);
+			}
+			function deactivate(marker){
+				marker.setIcon({
+					path: google.maps.SymbolPath.CIRCLE,
+					scale: marker.icon.scale,
+					strokeWeight: marker.icon.strokeWeight,
+					defaultFillColor: marker.icon.defaultFillColor,
+					fillColor: marker.icon.defaultFillColor,
+					fillOpacity: marker.icon.fillOpacity
+				});
+			}
+			function toggleMarker(marker){
+				if(lastMarker !== null){
+					lastMarker.setZIndex();
+				}
+				if(marker.icon.defaultFillColor == marker.icon.fillColor){
+					if(lastMarker !== null){
+						deactivate(lastMarker);
+					}
+					activate(marker);
+				}
+				else{
+					deactivate(marker);
+				}
+				lastMarker = marker;
+				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+			}
+			function markerClick(){
+				toggleMarker(this);
+				$("#siteStats")[0].innerHTML = "<h2>" + this.siteInformation["Name"] + "</h2>" + 
+					"<div class=\"tagline\">" + this.siteInformation["Description"] + "</div>" + 
+					"<table>" + 
+						"<thead>" + 
+							"<tr>" + 
+								"<th>Users</th>" + 
+								"<th>Surveys</th>" + 
+								"<th>Arthropod Groups</th>" + 
+								"<th>Arthropods</th>" + 
+								"<th>Caterpillars</th>" + 
+								"<th>Most Recent Survey</th>" + 
+							"</tr>" + 
+						"</thead>" + 
+						"<tr>" + 
+							"<td>" + this.siteInformation["UserCount"] + "</td>" + 
+							"<td>" + this.siteInformation["SurveyCount"] + "</td>" + 
+							"<td>" + this.siteInformation["ArthropodGroupCount"] + "</td>" + 
+							"<td>" + this.siteInformation["ArthropodCount"] + "</td>" + 
+							"<td>" + this.siteInformation["CaterpillarCount"] + "</td>" + 
+							"<td>" + this.siteInformation["MostRecentDateTime"] + "</td>" + 
+						"</tr>" + 
+					"</table>";
+				scrollToElement($("#siteStats"));
+			}
+			function initializeMap() {
+				map = new google.maps.Map($('#map')[0], {
+					center: {lat: 37.068427, lng: -80.089019},
+					zoom: 6
+				});
+				
+				$.get("../php/getSites.php", function(data){
+					//success
+					var sites = JSON.parse(data);
+					for(var i = 0; i < sites.length; i++){
+						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
+						var color = "#999";
+						if(sites[i]["SurveyCount"] > 0){
+							color = "#444";
+						}
+						var marker = new google.maps.Marker({
+							map: map,
+							position: latlng,
+							title: sites[i]["Name"],
+							icon: {
+								path: google.maps.SymbolPath.CIRCLE,
+								scale: 10,
+								strokeWeight: 1,
+								defaultFillColor: color,
+								fillColor: color,
+								fillOpacity: .9
+							},
+							animation: google.maps.Animation.DROP,
+							siteInformation: {
+								ID: sites[i]["ID"],
+								Name: sites[i]["Name"],
+								Description: sites[i]["Description"],
+								UserCount: sites[i]["UserCount"],
+								ArthropodGroupCount: sites[i]["ArthropodGroupCount"],
+								ArthropodCount: sites[i]["ArthropodCount"],
+								CaterpillarCount: sites[i]["CaterpillarCount"],
+								SurveyCount: sites[i]["SurveyCount"],
+								MostRecentDateTime: sites[i]["MostRecentDateTime"]
+							}
+							
+						});
+						marker.addListener('click', markerClick);
+						//marker.setMap(map);
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+			}
+			function lockInMapHeight(){
+				var mapHeight = (window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight) - $("header").eq(0)[0].clientHeight;
+				$("#map")[0].style.height = mapHeight + "px";
+				$("#mapSpace")[0].style.height = mapHeight + "px";
+			}
+			
+			var numberOfShownRankings = 10;
+			var rankings = [];
+			function showLeaderboard(){
+				$.get("../php/getSiteRankings.php", function(data){
+					//success
+					rankings = JSON.parse(data);
+					populateLeaderboard("Rank");
+				})
+				.fail(function(){
+					//error
+					$("#rankings")[0].innerHTML = "";
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+			}
+			
+			function populateLeaderboard(sortingMetric){
+				rankings = rankings.sort(function(a, b){
+					a = a[sortingMetric];
+					b = b[sortingMetric];
+					
+					var order = -1;
+					if(sortingMetric == "Name" || sortingMetric == "Rank"){order = 1;}
+					
+					if(sortingMetric == "Name"){
+						a = a.toLowerCase();
+						b = b.toLowerCase();
+					}
+					else{
+						a = Number(a);
+						b = Number(b);
+					}
+					
+					if(a < b) return -1 * order;
+					if(a > b) return 1 * order;
+					return 0;
+				});
+
+				var htmlToAdd = 	"<table>";
+				htmlToAdd += 			"<thead>";
+				htmlToAdd += 				"<tr>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Rank');\"";
+				if(sortingMetric == "Rank"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Rank</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Name');\"";
+				if(sortingMetric == "Name"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Site Name</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Week');\"";
+				if(sortingMetric == "Week"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">This week</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Month');\"";
+				if(sortingMetric == "Month"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">This month</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Year');\"";
+				if(sortingMetric == "Year"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">This year</th>";
+				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Total');\"";
+				if(sortingMetric == "Total"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Total surveys</th>";
+				htmlToAdd += 				"</tr>";
+				htmlToAdd += 			"</thead>";
+				for(var i = 0; i < rankings.length; i++){
+					htmlToAdd += 		"<tr>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Rank"] + "</div></td>";
+					htmlToAdd += 			"<td><div><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Week"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisWeek"] + "</div></div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Month"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisMonth"] + "</div></div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Year"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisYear"] + "</div></div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Total"] + "<div class='underText'>" + rankings[i]["TotalUniqueDates"] + "</div></div></td>";
+					htmlToAdd += 		"</tr>";
+				}
+				htmlToAdd += 		"</table>";
+				$("#rankings")[0].innerHTML = htmlToAdd;
+				$("#showMoreRankings").stop().fadeIn(0);
+				$("#rankingsRoundedTop").stop().fadeIn(0);
+				showCurrentNumberOfRankings();
+			}
+			
+			function showMoreRankings(){
+				numberOfShownRankings += 10;
+				showCurrentNumberOfRankings(true);
+			}
+			
+			function showCurrentNumberOfRankings(showAnimation){
+				showAnimation = showAnimation || false;
+				if(showAnimation){
+					$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().animate({maxHeight:'500px'}, 500, function(){
+						$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).css({overflow:'visible'});
+					});
+					$('#rankings tr td').slice(0,numberOfShownRankings * 6).stop().animate({padding:'5px 7px'}, 300);
+
+					if(numberOfShownRankings >= $('#rankings tr').length){
+						$("#showMoreRankings").fadeOut(200);
+					}
+				}
+				else{
+					$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().css({maxHeight:'500px', overflow:'visible'});
+					$('#rankings tr td').slice(0,numberOfShownRankings * 6).stop().css({padding:'5px 7px'});
+
+					if(numberOfShownRankings >= $('#rankings tr').length){
+						$("#showMoreRankings").fadeOut(0);
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="managerRequest">
+			<div id="managerRequestMessage"></div>
+			<div id="managerRequestButtons">
+				<div class="managerRequestButton" onclick="hideNotice();respondToManagerRequest('deny');">Deny</div>
+				<div class="managerRequestButton" onclick="hideNotice();respondToManagerRequest('approve');">Accept</div>
+			</div>
+		</div>
+		<div id="error" onclick="hideNotice();"></div>
+		<div id="confirmation" onclick="hideNotice();"></div>
+		<div id="alert" onclick="hideNotice();"></div>
+		<div id="promptInteractionBlock"></div>
+		<div id="noticeInteractionBlock" onclick="hideNotice();"></div>
+		<div id="confirm">
+			<div></div>
+			<div>
+				<button>OK</button>
+				<button>Cancel</button>
+				<div class="clearBoth"></div>
+			</div>
+		</div>
+		
+		<div id="splash">
+			<div id="splashImage"></div>
+			<div id="splashOverlay">
+				<div id="splashIntroText">Welcome to</div>
+				<div id="splashMainText">Caterpillars Count!</div>
+				<button id="splashButton" onclick="this.blur();scrollToPanel(1);">Explore maps & graphs</button>
+			</div>
+		</div>
+		<header>
+			<h1><a href="../">Caterpillars Count!</a></h1>
+			<div id="hamburger" onclick="toggleNav();">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div id="navKnockDown" class="clearBoth"></div>
+			<nav class="loadingNav">
+				<ul>
+					<li onclick="accessSubMenu(this);">
+						<span>Participate</span>
+						<ul onclick="event.stopPropagation();">
+							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
+							<li><a href="../getStarted">Get Started</a></li>
+							<li><a href="../conductASurvey">Conduct a Survey</a></li>
+							<li><a href="../submitObservations">Submit Observations</a></li>
+							<li><a href="../hostASurveySite">Host a Survey Site</a></li>
+							<li><a href="../resources">Resources</a></li>
+						</ul>
+					</li>
+					<li onclick="accessSubMenu(this);">
+						<span>Explore</span>
+						<ul onclick="event.stopPropagation();">
+							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
+							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
+							<li><a href="../recentObservations">Recent Observations</a></li>
+						</ul>
+					</li>
+					<li onclick="accessSubMenu(this);">
+						<span>Learn</span>
+						<ul onclick="event.stopPropagation();">
+							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
+							<li><a href="../identificationSkills">Identification Skills</a></li>
+							<li><a href="../forEducators">For Educators</a></li>
+							<li><a href="../faq">FAQ</a></li>
+						</ul>
+					</li>
+					<li onclick="window.location = '../news';">
+						<span>News</span>
+					</li>
+					<li onclick="window.location = '../signIn';">
+						<span>Sign In</span>
+						<ul onclick="event.stopPropagation();">
+							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
+							<li><a href="../createNewSite">Create New Site</a></li>
+							<li><a href="../manageMySites">Manage My Sites</a></li>
+							<li><a href="../manageMySurveys">Manage My Surveys</a></li>
+							<li><a href="../settings">Settings</a></li>
+							<li><a href="" onclick="logOut();">Sign Out</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<div id="navBack" onclick="resetMenu(false);">&#10094;</div>
+		</header>
+		<main>
+			<div class="panel">
+				<h2>Survey Submission Leaderboard</h2>
+				<div class="tagline">We rank sites based on their total number of surveys for this calendar year.</div>
+				<div class="content">
+					<div id="rankingsRoundedTop"></div>
+					<div id="rankings">
+						<div class="loading"><img src="../images/rolling.svg"/></div>
+					</div>
+					<div id="showMoreRankings"><div onclick="showMoreRankings();">Show more</div></div>
+				</div>
+			</div>
+			<div class="panel">
+				<h2>Explore Sites</h2>
+				<div class="tagline">Click the sites on the map below to explore their statistics.</div>
+				<div id="map"></div>
+				<div id="mapSpace"></div>
+				<div class="content">
+					<div id="siteStats"></div>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
+			
+			<div><img src="../images/unc.png"/></div><div>
+				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
+			</div>
+			
+			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
+		
+			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
+		</footer>
+	</body>
+</html>

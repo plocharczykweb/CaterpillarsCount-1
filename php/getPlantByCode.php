@@ -11,7 +11,7 @@
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
 		$plant = Plant::findByCode($code);
-		if(!is_object($plant)){
+		if(!is_object($plant) || $plant->getCircle() < 1){
 			die("no plant");
 		}
 		$plantArray = array(
