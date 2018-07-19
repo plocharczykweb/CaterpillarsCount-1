@@ -5,7 +5,7 @@
 			[
 				"Training Materials",
 				[
-					
+
 					["../images/gettingstarted_thumbnail.jpg", "Getting Started", "../pdfs/GettingStarted.pdf"],
 					["../images/trainingparticipants_thumbnail.jpg", "Training Participants", "../pdfs/TrainingParticipants.pdf"],
 					["../images/arthropodID_thumbnail.jpg", "Identification Skill Building", "../identificationSkills/"],
@@ -40,33 +40,33 @@
 				],
 			],
 		];
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		</script>
 		<title>Resources | Caterpillars Count!</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,9 +80,9 @@
 		<script src="../js/template.js?v=1"></script>
 		<style>
 			.section{
-				
+
 			}
-			
+
 			.section .header{
 				text-transform:uppercase;
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -102,7 +102,7 @@
 				border-right:20px solid transparent;
 				padding-right:35px;
 			}
-			
+
 			.section .body{
 				background:rgba(0,0,0,0.03);
 				text-align:center;
@@ -111,7 +111,7 @@
 				margin-bottom:20px;
 				border-radius:0px 0px 5px 5px;
 			}
-			
+
 			.section .body .grid{
 				border-top:3px solid rgba(0,0,0,0.03);
 				padding:10px 0px;
@@ -120,7 +120,7 @@
 				display:inline-block;
 				text-align:left;
 			}
-			
+
 			.section .body .grid .resource{
 				display:inline-block;
 				width:200px;
@@ -135,7 +135,7 @@
 				overflow:hidden;
 				margin:20px 10px;
 			}
-			
+
 			.section .body .grid .resource .text{
 				position:absolute;
 				bottom:0px;
@@ -149,25 +149,25 @@
 				font-size:14px;
 				font-family: 'Roboto Slab', serif;
 			}
-			
+
 			@media screen and (max-width: 847px) {
 				.section .body .grid{
 					width:444px;
 				}
 			}
-			
+
 			@media screen and (max-width: 770px) {
 				.section .body .grid{
 					width:668px;
 				}
 			}
-			
+
 			@media screen and (max-width: 687px) {
 				.section .body .grid{
 					width:444px;
 				}
 			}
-			
+
 			@media screen and (max-width: 463px) {
 				.section .body .grid{
 					width:100%;
@@ -188,7 +188,7 @@
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
-				
+
 				var htmlToAdd = "";
 				for(var i = 0; i < sections.length; i++){
 					htmlToAdd += "<div class=\"section\">";
@@ -209,7 +209,7 @@
 					htmlToAdd += "</div>";
 				}
 				$("#sections")[0].innerHTML = htmlToAdd;
-				
+
 				$(".header").click(function(){
 					if($(this).parent().find(".body").eq(0)[0].style.maxHeight == "0px" || $(this).parent().find(".body").eq(0)[0].style.maxHeight == ""){
 						this.style.borderRadius = "5px 5px 0px 0px";
@@ -249,7 +249,7 @@
 				<div class="clearBoth"></div>
 			</div>
 		</div>
-		
+
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -284,7 +284,7 @@
 						<ul onclick="event.stopPropagation();">
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
-							<li><a href="../recentObservations">Recent Observations</a></li>
+							<li><a href="https://www.inaturalist.org/observations?place_id=any../recentObservationsuser_id=caterpillarscount../recentObservationsverifiable=any">Recent Observations</a></li>
 						</ul>
 					</li>
 					<li onclick="accessSubMenu(this);">
@@ -345,7 +345,7 @@
 			</div>
 
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
-		
+
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
 	</body>

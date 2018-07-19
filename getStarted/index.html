@@ -33,20 +33,20 @@
         			width:100%;
         			margin:40px 0px;
     			}
-    
+
     			#announcementTable td{
     				padding:10px;
     			}
-			
+
 			#announcementTable td:first-of-type{
 				min-width:61px;
 			}
-    
+
     			/*rows*/
     			#announcementTable tr{
     				background:rgba(0,0,0,.06);
     			}
-    
+
     			/*header row*/
     			#announcementTable tr:nth-of-type(1){
     				background:#333;
@@ -55,12 +55,12 @@
     			#announcementTable tr:nth-of-type(1)>td{
         			font-size:110%;
     			}
-    
+
     			/*even rows*/
     			#announcementTable tr:nth-of-type(even){
     				background:rgba(0,0,0,.03);
     			}
-			
+
 			@media screen and (max-width: 900px) {
 				#announcementTable{
 					font-size:15px;
@@ -82,7 +82,7 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 			});
-			
+
 			function email(creatorEmailParts){
 				window.location = "mailto:" + creatorEmailParts.join('@');
 			}
@@ -109,7 +109,7 @@
 				<div class="clearBoth"></div>
 			</div>
 		</div>
-		
+
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -144,7 +144,7 @@
 						<ul onclick="event.stopPropagation();">
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
-							<li><a href="../recentObservations">Recent Observations</a></li>
+							<li><a href="https://www.inaturalist.org/observations?place_id=any../recentObservationsuser_id=caterpillarscount../recentObservationsverifiable=any">Recent Observations</a></li>
 						</ul>
 					</li>
 					<li onclick="accessSubMenu(this);">
@@ -179,7 +179,7 @@
 				<h2>Training Workshops</h2>
 				<div class="content">
 					<p class="leftText">In 2018 we will be conducting several Training Workshops to introduce environmental educators to the project. Learn how to conduct surveys of insects with your students/visitors, monitor changes in the abundance and type of insects present over time, and report your data using our free mobile app. See below for workshop locations and dates.</p>
-					
+
 					<table id="announcementTable">
     						<tr>
         						<td>Date</td>
@@ -202,7 +202,7 @@
     						    	<td><span class="highlighted pointer underline" onclick="email(['jtagett', 'naturecenter.org']);">Email Jennifer Taggett</span></td>
     						</tr>
 					</table>
-					
+
 					<p class="leftText">We will be looking for additional sites in eastern North America to hold training workshops in 2019. If you are interested in hosting a workshop, or in being eligible for some funding assistance to start up a new site fill out our interest form <a href="https://docs.google.com/forms/d/e/1FAIpQLSc-7QavO9aGKa-NnpdBz9-ZOh3KWUuw5TS_x-yNQk9nrd3kag/viewform" target="_blank">here</a>.</p>
 					<p class="leftText" style="margin-top:10px;">Even if you can't make one of these workshops, you can still start up your own Caterpillars Count! site. Read below for more details!</p>
 				</div>
@@ -221,10 +221,10 @@
 							</div>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
-			
+
 			<div class="panel">
 				<h2>Two ways to get involved</h2>
 				<div class="content">
@@ -241,7 +241,7 @@
 								</ul>
 							</div>
 						</div>
-						
+
 						<div class="imageTextTable tableDiv">
 							<div class="cellDiv">
 								<div class="circleImage" style="background-image:url('../images/carolinaChickadee.jpg');" title="&copy; Douglas Tallamy"></div>
@@ -255,10 +255,10 @@
 							</div>
 						</div>
 					</div>
-			
+
 				</div>
 			</div>
-				
+
 			<div class="panel">
 				<h2>Next Steps</h2>
 				<div class="content">
@@ -276,30 +276,30 @@
 									<li>Create an account by clicking <a href="../signUp" class="highlighted">here</a> or through the app.</li>
 									<li>Check out our <a href="../forEducators" class="highlighted">resources for educators</a></li>
 								</ol>
-								
+
 								<p style="margin-top:20px;">For more information, refer to our <a href="../faq" class="highlighted">Frequently Asked Questions</a> page!</p>
 							</div>
 						</div>
 					</div>
-					
-					
+
+
 				</div>
 			</div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			<!--
 			<div class="panel">
 				<h2>Survey Basics</h2>
@@ -317,12 +317,12 @@
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 			<div class="panel">
 				<h2>Survey Prep</h3>
 				<div class="tagline">To effectively compare insect abundance from one place to another, we need to make sure we use the same survey protocol and keep track of our level of effort.</div>
-				
+
 				<div class="content scrollAnimationElement fadeInOnScroll">
 					<p class="leftText">Before you conduct a survey, you'll need to do the following:</p>
 					<ol>
@@ -332,23 +332,23 @@
 						<li>Gather your equipment. The equipment you need depends on how you plan to record your data - with the mobile app or a paper datasheet. We encourage participants to use the mobile app if at all possible. It makes data collection much easier.</li>
 					</ol>
 				</div>
-				
+
 				<div class="centeredText" style="margin:20px 0px;">
 					<div class="circleIcon" style="background:#ffff87;margin:20px;width:100px;height:100px;">
 						<div class="shadow"></div>
 						<div class="circleIconImage" style="background-image:url('../images/smartPhone.png');top:25%;height:50%;"></div>
 					</div>
-				
+
 					<div class="circleIcon" style="background:#6ef5ff;margin:20px;width:100px;height:100px;">
 						<div class="shadow"></div>
 						<div class="circleIconImage" style="background-image:url('../images/document.png');top:25%;height:50%;"></div>
 					</div>
-				
+
 					<div class="circleIcon" style="background:#4affcc;margin:20px;width:100px;height:100px;">
 						<div class="shadow"></div>
 						<div class="circleIconImage" style="background-image:url('../images/pencil.png');top:25%;height:50%;"></div>
 					</div>
-				
+
 					<div class="circleIcon" style="background:#fed136;margin:20px;width:100px;height:100px;">
 						<div class="shadow"></div>
 						<div class="circleIconImage" style="background-image:url('../images/beatSheet.png');top:25%;height:50%;"></div>
@@ -360,13 +360,13 @@
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
-			
+
 			<div><img src="../images/unc.png"/></div><div>
 				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
 			</div>
-			
+
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
-		
+
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
 	</body>

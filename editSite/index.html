@@ -34,22 +34,22 @@
 				border-radius:4px;
 				margin:5px 0px;
 				color:#aaa;
-				-webkit-appearance: none; 
+				-webkit-appearance: none;
     				-moz-appearance: none;
     				appearance: none;
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 			}
-			
+
 			textarea{
 				height:54px;
 				overflow:hidden;
 				resize: vertical;
 			}
-			
+
 			.textareaHolder{
 				position:relative;
 			}
-			
+
 			.textareaOtherLinesCover{
 				background:#fff;
 				position:absolute;
@@ -59,37 +59,37 @@
 				height:16px;
 				pointer-events: none;
 			}
-			
+
 			.group{
 				margin-top:30px;
 			}
-			
+
 			.group:first-of-type{
 				margin-top:0px;
 			}
-			
+
 			.inputTitle{
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 				color:#666;
 				text-transform:uppercase;
 				font-size:14px;
 			}
-			
+
 			.characterCount{
 				text-align:right;
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 				font-size:14px;
 				color:#666;
 			}
-			
+
 			#confirmSitePasswordGroup{
 				display:none;
 			}
-			
+
 			.form{
 				display:none;
 			}
-			
+
 			@media screen and (max-width: 620px) {
 				#saveSiteSettingsButton{
 					width:100%;
@@ -98,49 +98,49 @@
 		</style>
 		<script>
 			requireLogIn();
-			
+
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				loadSiteSettings();
 			});
-			
+
 			function incrementCountInput(inputElement, min, max, step){
 				$(inputElement)[0].value = Math.max(Number($(inputElement)[0].value) + step, min);
 				enforceRange(inputElement, min, max, step);
 			}
-			
+
 			function decrementCountInput(inputElement, min, max, step){
 				$(inputElement)[0].value = Number($(inputElement)[0].value) - step;
 				enforceRange(inputElement, min, max, step);
 			}
-			
+
 			function countTo(inputElement, max){
 				inputElement = $(inputElement)[0];
 				inputElement.value = inputElement.value.substring(0, max);
 				$(inputElement.parentNode.parentNode).find('.characterCount').eq(0)[0].innerHTML = inputElement.value.length + "/" + max;
 			}
-			
+
 			function clearCountInput(inputElement){
 				inputElement = $(inputElement)[0];
 				inputElement.value = "";
 				var charCountDiv = $(inputElement.parentNode.parentNode).find(".characterCount").eq(0)[0];
 				charCountDiv.innerHTML = "0" + charCountDiv.innerHTML.substring(charCountDiv.innerHTML.indexOf("/"));
 			}
-			
+
 			function expandTextarea(textareaElement){
 				textareaElement = $(textareaElement)[0];
 				textareaElement.style.overflow = "scroll";
 				$(textareaElement).stop().animate({height:'150px'});
 				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeOut();
 			}
-			
+
 			function compressTextarea(textareaElement){
 				textareaElement = $(textareaElement)[0];
 				textareaElement.style.overflow = "hidden";
 				$(textareaElement).stop().animate({height:'54px', scrollTop:'0'});
 				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeIn();
 			}
-			
+
 			var savedName = "";
 			function loadSiteSettings(){
 				var xhttp = new XMLHttpRequest();
@@ -152,20 +152,20 @@
 							savedName = name;
 							var description = data["description"];
 							var openToPublic = data["openToPublic"];
-							
+
 							$("#name")[0].value = name;
 							$("#description")[0].value = description;
 							countTo($("#description")[0], 140);
 							if(openToPublic){
 								checkCheckbox($("#openToPublic"));
 							}
-							
+
 							$(".tagline").eq(0)[0].innerHTML = "Update anything about this site here. Manage this site's plants on the <a href=\"../editSurveyPlants/index.html" + window.location.toString().substring(window.location.toString().indexOf("?s=")) + "\">Edit Survey Plants</a> page.";
 							$(".form").eq(0)[0].style.display = "block";
 						}
 						else{
 							var error = this.responseText.replace("false|", "");
-							
+
 							$(".tagline").eq(0)[0].innerHTML = "Could not load.";
 							$("#error")[0].onclick = function(){window.location = "../manageMySites";};
 							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
@@ -179,55 +179,55 @@
 				xhttp.open("GET", "../php/getSiteSettings.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
-			
+
 			var savingSiteSettings = false;
 			function saveSiteSettings(){
 				if(savingSiteSettings){return false;}
-				
+
 				var name = $("#name")[0].value;
 				var description = $("#description")[0].value;
 				var openToPublic = checkboxIsChecked($("#openToPublic"));
 				var password = $("#password")[0].value;
 				var confirmPassword = $("#confirmPassword")[0].value;
-				
+
 				if(name.replace(/ /g, "") == ""){
 					queueNotice("error", "Enter a site name.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					$("#name")[0].value = "";
 					$("#name")[0].focus();
 					return false;
 				}
-				
+
 				if(description == ""){
 					queueNotice("error", "Enter a site description.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					clearCountInput($("#description")[0]);
 					$("#description")[0].focus();
 					return false;
 				}
-				
+
 				if(password != confirmPassword && (password != "hf!Eo 2k" || confirmPassword != "")){
 					queueNotice("error", "Site passwords must match.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					$("#password")[0].value = "";
 					$("#confirmPassword")[0].value ="";
 					$("#password")[0].focus();
 					return false;
 				}
-				
+
 				if((password.indexOf(" ") > -1 || password.length < 4) && password != "hf!Eo 2k"){
 					queueNotice("error", "Password must be at least 4 characters with no spaces.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					$("#password")[0].value = "";
 					$("#confirmPassword")[0].value ="";
 					$("#password")[0].focus();
 					return false;
 				}
-				
+
 				savingSiteSettings = true;
 				setLoadingButton($("#saveSiteSettingsButton")[0], "Save site settings", true);
 				var xhttp = new XMLHttpRequest();
@@ -245,13 +245,13 @@
 						else{
 							var savingSiteError = this.responseText.replace("false|", "");
 							queueNotice("error", savingSiteError);
-							
+
 							if(savingSiteError.indexOf("That site name is already in use. Choose a different one.") > -1){
 								$("#name")[0].blur();
 								$("#description")[0].blur();
 								$("#password")[0].blur();
 								$("#confirmPassword")[0].blur();
-								
+
 								$("#name")[0].value = "";
 								$("#name")[0].focus();
 							}
@@ -260,7 +260,7 @@
 								$("#description")[0].blur();
 								$("#password")[0].blur();
 								$("#confirmPassword")[0].blur();
-								
+
 								$("#description")[0].focus();
 							}
 							else if(savingSiteError.indexOf("Password must be at least 4 characters with no spaces.") > -1){
@@ -268,7 +268,7 @@
 								$("#description")[0].blur();
 								$("#password")[0].blur();
 								$("#confirmPassword")[0].blur();
-								
+
 								$("#password")[0].value = "";
 								$("#confirmPassword")[0].value = "";
 								$("#password")[0].focus();
@@ -278,7 +278,7 @@
 								$("#description")[0].blur();
 								$("#password")[0].blur();
 								$("#confirmPassword")[0].blur();
-								
+
 								$("#password")[0].value = "";
 								$("#confirmPassword")[0].value = "";
 								$("#password")[0].focus();
@@ -288,9 +288,9 @@
 								$("#description")[0].blur();
 								$("#password")[0].blur();
 								$("#confirmPassword")[0].blur();
-								
+
 								$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
-								
+
 								logOut();
 							}
 						}
@@ -299,7 +299,7 @@
 				xhttp.open("GET", "../php/editSiteSettings.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&siteName=" + encodeURIComponent(name) + "&description=" + encodeURIComponent(description) + "&sitePassword=" + encodeURIComponent(password) + "&public=" + checkboxIsChecked($("#openToPublic")).toString() + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
-			
+
 			var changeSiteNameConfirmed = true;
 			function setChangeSiteNameConfirmed(confirmBoolean){
 				changeSiteNameConfirmed = confirmBoolean;
@@ -327,7 +327,7 @@
 				<div class="clearBoth"></div>
 			</div>
 		</div>
-		
+
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -362,7 +362,7 @@
 						<ul onclick="event.stopPropagation();">
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
-							<li><a href="../recentObservations">Recent Observations</a></li>
+							<li><a href="https://www.inaturalist.org/observations?place_id=any../recentObservationsuser_id=caterpillarscount../recentObservationsverifiable=any">Recent Observations</a></li>
 						</ul>
 					</li>
 					<li onclick="accessSubMenu(this);">
@@ -440,13 +440,13 @@
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
-			
+
 			<div><img src="../images/unc.png"/></div><div>
 				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
 			</div>
-			
+
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
-		
+
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
 	</body>

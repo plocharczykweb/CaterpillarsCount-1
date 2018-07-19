@@ -24,7 +24,7 @@
 			$(document).ready(function(){
 				tryAutoLogIn();
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
-				
+
 				var loggedInPage = "";
 				if(window.location.toString().indexOf("?p=") > -1){
 					loggedInPage = "/index.html" + window.location.toString().substring(window.location.toString().indexOf("?p="));
@@ -32,13 +32,13 @@
 					$(".link").eq(1).find("a").eq(0)[0].href = ("../recover" + loggedInPage);
 				}
 			});
-			
+
 			var tryingAutoLogIn = false;
 			function tryAutoLogIn(){
 				setTimeout(function(){
 					if(!tryingAutoLogIn){
 						tryingAutoLogIn = true;
-					
+
 						//if we arent already doing so, verify log in credentials that are saved locally and log in
 						var xhttp = new XMLHttpRequest();
 						xhttp.onreadystatechange = function() {
@@ -61,7 +61,7 @@
 					}
 				},700);
 			}
-			
+
 			var loggingIn = false;
 			function logIn(){
 				//verify log in credentials and log in if successful
@@ -117,7 +117,7 @@
 				<div class="clearBoth"></div>
 			</div>
 		</div>
-		
+
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -152,7 +152,7 @@
 						<ul onclick="event.stopPropagation();">
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
-							<li><a href="../recentObservations">Recent Observations</a></li>
+							<li><a href="https://www.inaturalist.org/observations?place_id=any../recentObservationsuser_id=caterpillarscount../recentObservationsverifiable=any">Recent Observations</a></li>
 						</ul>
 					</li>
 					<li onclick="accessSubMenu(this);">
@@ -201,13 +201,13 @@
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
-			
+
 			<div><img src="../images/unc.png"/></div><div>
 				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
 			</div>
-			
+
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
-		
+
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
 	</body>

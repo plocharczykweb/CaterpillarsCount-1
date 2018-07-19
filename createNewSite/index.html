@@ -41,7 +41,7 @@
               			width: 20px;
               			pointer-events: none;
             		}
-            		
+
             		main input[type="text"], main input[type="password"], main input[type="number"], textarea{
 				width:100%;
 				background:#fff;
@@ -58,17 +58,17 @@
     				appearance: none;
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 			}
-            		
+
             		textarea{
 				height:54px;
 				overflow:hidden;
 				resize: vertical;
 			}
-			
+
 			.textareaHolder{
 				position:relative;
 			}
-			
+
 			.textareaOtherLinesCover{
 				background:#fff;
 				position:absolute;
@@ -78,40 +78,40 @@
 				height:16px;
 				pointer-events: none;
 			}
-			
+
 			.group{
 				margin-top:30px;
 			}
-			
+
 			.group:first-of-type{
 				margin-top:0px;
 			}
-			
+
 			.inputTitle{
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 				color:#666;
 				text-transform:uppercase;
 				font-size:14px;
 			}
-			
+
 			.characterCount{
 				text-align:right;
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 				font-size:14px;
 				color:#666;
 			}
-			
+
 			.countInput{
 				position:relative;
 			}
-			
+
 			.countAttachment{
 				position:absolute;
 				top:6px;
 				right:1px;
 				height:100%;
 			}
-			
+
 			.countAttachment>div{
 				height:25.5px;
 				width:40px;
@@ -121,21 +121,21 @@
 				background-size:auto 7px;
 				cursor:pointer;
 			}
-			
+
 			.countAttachment>div:first-of-type{
 				border-radius:0px 2px 0px 0px;
 				background-image:url("../images/upCountArrow.png");
 			}
-			
+
 			.countAttachment>div:last-of-type{
 				border-radius:0px 0px 2px 0px;
 				background-image:url("../images/downCountArrow.png");
 			}
-			
+
 			#createSiteButton{
 				width:201px;
 			}
-			
+
 			@media screen and (max-width: 620px) {
 				#createSiteButton{
 					width:100%;
@@ -144,7 +144,7 @@
 		</style>
 		<script>
 			requireLogIn();
-			
+
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				showCreateSite();
@@ -177,14 +177,14 @@
 	        		}
 				//$('#createSite input').eq(0)[0].focus();
 			}
-			
+
 			var creatingSite = false;
 			function createNewSite(){
 				if(creatingSite){
 					return false;
 				}
 				//verify the site paramenters and create the site in the database
-				
+
 				//verify all site parameters we can without an internet connection
 				var name = $("#createSite input").eq(0)[0].value.trim();
 				var description = $("#createSite textarea").eq(0)[0].value.trim();
@@ -193,35 +193,35 @@
 				var plantCount = $("#createSite input").eq(1)[0].value.trim();
 				var password = $("#createSite input").eq(2)[0].value;
 				var confirmPassword = $("#createSite input").eq(3)[0].value;
-				
+
 				if(name.replace(/ /g, "") == ""){
 					queueNotice("error", "Enter a site name.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					$("#createSite input").eq(0)[0].value = "";
 					$("#createSite input").eq(0)[0].focus();
 					return false;
 				}
-				
+
 				if(description == ""){
 					queueNotice("error", "Enter a site description.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					clearCountInput($("#createSite textarea").eq(0)[0]);
 					$("#createSite textarea").eq(0)[0].focus();
 					return false;
 				}
-				
+
 				if(map.getZoom() < 10){
 					queueNotice("error", "Zoom in on map " + ((10 - map.getZoom()) * 10) + "% more to select an accurate site location.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
 					return false;
 				}
-				
+
 				if(plantCount == ""){
 					queueNotice("error", "Enter the number of plants you will survey.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					$("#createSite input").eq(1)[0].value = "";
 					$("#createSite input").eq(1)[0].focus();
 					return false;
@@ -229,33 +229,33 @@
 				else if(Number(plantCount) % 5 != 0){
 					queueNotice("error", "The number of plants you will survey must be a multiple of 5.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					$("#createSite input").eq(1)[0].value = "";
 					$("#createSite input").eq(1)[0].focus();
 					return false;
 				}
-				
+
 				if(password != confirmPassword){
 					queueNotice("error", "Site passwords must match.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					$("#createSite input").eq(2)[0].value = "";
 					$("#createSite input").eq(3)[0].value ="";
 					$("#createSite input").eq(2)[0].focus();
 					return false;
 				}
-				
+
 				if(password.indexOf(" ") > -1 || password.length < 4){
 					queueNotice("error", "Password must be at least 4 characters with no spaces.");
 					$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 300);
-					
+
 					$("#createSite input").eq(2)[0].value = "";
 					$("#createSite input").eq(3)[0].value = "";
 					$("#createSite input").eq(2)[0].focus();
 					return false;
 				}
-				
-				
+
+
 				//verify and create the site in the database if we have an internet connection
 				creatingSite = true;
 				setLoadingButton($("#createSiteButton")[0], "Create site", true);
@@ -271,7 +271,7 @@
 							$("#createSite input").eq(1)[0].value = "";
 							$("#createSite input").eq(2)[0].value = "";
 							$("#createSite input").eq(3)[0].value = "";
-							
+
 							queueNotice("confirmation", "Check your email to finish setting up your site! Allow 5 minutes and check spam!");
 							$("#confirmation")[0].onclick = function(){window.location = "../manageMySites";};
 							$("#noticeInteractionBlock")[0].onclick = function(){window.location = "../manageMySites";};
@@ -279,14 +279,14 @@
 						else{
 							var createSiteError = this.responseText.replace("false|", "");
 							queueNotice("error", createSiteError);
-							
+
 							if(createSiteError.indexOf("That site name is already in use. Choose a different one.") > -1){
 								$("#createSite input").eq(0)[0].blur();
 								$("#createSite textarea").eq(0)[0].blur();
 								$("#createSite input").eq(1)[0].blur();
 								$("#createSite input").eq(2)[0].blur();
 								$("#createSite input").eq(3)[0].blur();
-								
+
 								$("#createSite input").eq(0)[0].value = "";
 								$("#createSite input").eq(0)[0].focus();
 							}
@@ -296,7 +296,7 @@
 								$("#createSite input").eq(1)[0].blur();
 								$("#createSite input").eq(2)[0].blur();
 								$("#createSite input").eq(3)[0].blur();
-								
+
 								$("#createSite textarea").eq(0)[0].focus();
 							}
 							else if(createSiteError.indexOf("Latitude is invalid.") > -1 || createSiteError.indexOf("Longitude is invalid.") > -1 || createSiteError.indexOf("Site location must be on land.") > -1){
@@ -312,7 +312,7 @@
 								$("#createSite input").eq(1)[0].blur();
 								$("#createSite input").eq(2)[0].blur();
 								$("#createSite input").eq(3)[0].blur();
-								
+
 								$("#createSite textarea").eq(1)[0].focus();
 							}
 							else if(createSiteError.indexOf("Password must be at least 4 characters with no spaces.") > -1){
@@ -321,7 +321,7 @@
 								$("#createSite input").eq(1)[0].blur();
 								$("#createSite input").eq(2)[0].blur();
 								$("#createSite input").eq(3)[0].blur();
-								
+
 								$("#createSite input").eq(2)[0].value = "";
 								$("#createSite input").eq(3)[0].value = "";
 								$("#createSite input").eq(2)[0].focus();
@@ -332,7 +332,7 @@
 								$("#createSite input").eq(1)[0].blur();
 								$("#createSite input").eq(2)[0].blur();
 								$("#createSite input").eq(3)[0].blur();
-								
+
 								$("#createSite input").eq(2)[0].value = "";
 								$("#createSite input").eq(3)[0].value = "";
 								$("#createSite input").eq(2)[0].focus();
@@ -343,9 +343,9 @@
 								$("#createSite input").eq(1)[0].blur();
 								$("#createSite input").eq(2)[0].blur();
 								$("#createSite input").eq(3)[0].blur();
-								
+
 								$('html, body').animate({ scrollTop: document.getElementById("splashImage").clientHeight }, 'slow');
-								
+
 								logOut();
 							}
 						}
@@ -354,17 +354,17 @@
 				xhttp.open("GET", "../php/createSite.php?siteName=" + encodeURIComponent(name) + "&description=" + encodeURIComponent(description) + "&longitude=" + encodeURIComponent(longitude) + "&latitude=" + encodeURIComponent(latitude) + "&zoom=" + encodeURIComponent(map.getZoom()) + "&plantCount=" + encodeURIComponent(plantCount) + "&sitePassword=" + encodeURIComponent(password) + "&public=" + checkboxIsChecked($("#publicCheckbox")).toString() + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
-			
+
 			function incrementCountInput(inputElement, min, max, step){
 				$(inputElement)[0].value = Math.max(Number($(inputElement)[0].value) + step, min);
 				enforceRange(inputElement, min, max, step);
 			}
-			
+
 			function decrementCountInput(inputElement, min, max, step){
 				$(inputElement)[0].value = Number($(inputElement)[0].value) - step;
 				enforceRange(inputElement, min, max, step);
 			}
-			
+
 			function enforceRange(ele, min, max, step){
 				ele = $(ele)[0];
 				if(ele.value == ""){
@@ -382,27 +382,27 @@
 					//queueNotice("alert", "Value must be between " + min + " and " + max + ".");
 				}
 			}
-			
+
 			function countTo(inputElement, max){
 				inputElement = $(inputElement)[0];
 				inputElement.value = inputElement.value.substring(0, max);
 				$(inputElement.parentNode.parentNode).find('.characterCount').eq(0)[0].innerHTML = inputElement.value.length + "/" + max;
 			}
-			
+
 			function clearCountInput(inputElement){
 				inputElement = $(inputElement)[0];
 				inputElement.value = "";
 				var charCountDiv = $(inputElement.parentNode.parentNode).find(".characterCount").eq(0)[0];
 				charCountDiv.innerHTML = "0" + charCountDiv.innerHTML.substring(charCountDiv.innerHTML.indexOf("/"));
 			}
-			
+
 			function expandTextarea(textareaElement){
 				textareaElement = $(textareaElement)[0];
 				textareaElement.style.overflow = "scroll";
 				$(textareaElement).stop().animate({height:'150px'});
 				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeOut();
 			}
-			
+
 			function compressTextarea(textareaElement){
 				textareaElement = $(textareaElement)[0];
 				textareaElement.style.overflow = "hidden";
@@ -432,7 +432,7 @@
 				<div class="clearBoth"></div>
 			</div>
 		</div>
-		
+
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -467,7 +467,7 @@
 						<ul onclick="event.stopPropagation();">
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
-							<li><a href="../recentObservations">Recent Observations</a></li>
+							<li><a href="https://www.inaturalist.org/observations?place_id=any../recentObservationsuser_id=caterpillarscount../recentObservationsverifiable=any">Recent Observations</a></li>
 						</ul>
 					</li>
 					<li onclick="accessSubMenu(this);">
@@ -507,9 +507,9 @@
 							<div class="inputTitle">Site name:</div>
 							<input type="text" placeholder="short and descriptive"/>
 						</div>
-					
+
 						<!--<input type="text" placeholder="site zip code" pattern="\d*"/>-->
-						
+
 						<div class="group">
 							<div class="inputTitle">Site description:</div>
 							<div class="textareaHolder">
@@ -518,12 +518,12 @@
 							</div>
 							<div class="characterCount">0/140</div>
 						</div>
-						
+
 						<div class="group" style="margin-bottom:20px;">
 							<div class="inputTitle">Site location (drag & zoom):</div>
 							<div id="map-canvas" onmousedown="$('#createSite').find('input').blur();$('#createSite').find('textarea').blur();"></div>
 						</div>
-						
+
 						<div class="group">
 							<div class="inputTitle">Number of plants you will survey:</div>
 							<div class="countInput">
@@ -534,17 +534,17 @@
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="group">
 							<div class="inputTitle">Site password (that you are willing to share with vistors at this site):</div>
 							<input type="password" placeholder="to verify submissions"/>
 						</div>
-						
+
 						<div class="group">
 							<div class="inputTitle">Confirm site password:</div>
 							<input type="password" placeholder="to verify submissions"/>
 						</div>
-						
+
 						<div class="group">
 							<table class="checkboxTable">
 								<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
@@ -554,7 +554,7 @@
 								<tr>
 							</table>
 						</div>
-						
+
 						<button id="createSiteButton" onclick="createNewSite();">Create site</button>
 					</div>
 				</div>
@@ -562,13 +562,13 @@
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
-			
+
 			<div><img src="../images/unc.png"/></div><div>
 				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
 			</div>
-			
+
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
-		
+
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1mAwi8Cs7H5vCpTApTkdHLgU_9Mimlko"></script>

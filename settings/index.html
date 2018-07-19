@@ -24,21 +24,21 @@
 			.superUsersOnly{
 				display:none;
 			}
-			
+
 			.setting{
 				margin:20px 0px;
 				border-radius:4px;
 				overflow:hidden;
 				border:2px solid #eee;
 			}
-			
+
 			.settingTitle{
 				font-size:20px;
 				background:#f7f7f7;
 				color:#aaa;
 				padding:20px;
 				cursor:pointer;
-				
+
 			}
 			.settingBody{
 				font-size:14px;
@@ -51,42 +51,42 @@
 			.settingTitle, .settingBody{
 				font-family: 'Roboto Slab', serif;
 			}
-			
+
 			.settingBody>div{
 				padding:20px;
 			}
-			
+
 			main .panel .settingBody button{
 				margin:20px auto 5px auto;
 			}
-			
+
 			#getEmailsLoading{
 				text-align:center;
 			}
-			
+
 			#getEmailsLoading img{
 				height:40px;
 			}
-			
+
 			#emails{
 				display:none;
 			}
-			
+
 			.group{
 				margin-top:30px;
 			}
-			
+
 			.group:first-of-type{
 				margin-top:0px;
 			}
-			
+
 			.inputTitle{
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 				color:#666;
 				text-transform:uppercase;
 				font-size:14px;
 			}
-			
+
 			textarea{
 				width:100%;
 				background:#fff;
@@ -107,11 +107,11 @@
 				resize: vertical;
 				height:54px;
 			}
-			
+
 			.textareaHolder{
 				position:relative;
 			}
-			
+
 			.textareaOtherLinesCover{
 				background:#fff;
 				position:absolute;
@@ -124,10 +124,10 @@
 		</style>
 		<script>
 			requireLogIn();
-			
+
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
-				
+
 				if(window.localStorage.getItem("email") == ["plocharczykweb", "gmail.com"].join("@") || window.localStorage.getItem("email") == ["hurlbert", "bio.unc.edu"].join("@") || window.localStorage.getItem("email") == ["sarah.yelton", "unc.edu"].join("@") || window.localStorage.getItem("email") == ["ssnell", "live.unc.edu"].join("@") || window.localStorage.getItem("email") == ["gdicecco", "live.unc.edu"].join("@")){
 				   	$(".superUsersOnly").stop().fadeIn(0);
 					$.get("../php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + encodeURIComponent(window.localStorage.getItem("salt")), function(data){
@@ -168,33 +168,33 @@
 					});
 				}
 			});
-			
+
 			function expandTextarea(textareaElement){
 				textareaElement = $(textareaElement)[0];
 				textareaElement.style.overflow = "scroll";
 				$(textareaElement).stop().animate({height:'150px'});
 				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeOut();
 			}
-			
+
 			function compressTextarea(textareaElement){
 				textareaElement = $(textareaElement)[0];
 				textareaElement.style.overflow = "hidden";
 				$(textareaElement).stop().animate({height:'54px', scrollTop:'0'});
 				$(textareaElement.parentNode).find('.textareaOtherLinesCover').stop().fadeIn();
 			}
-			
+
 			function closeAllSettings(){
 				$(".setting").css({border:"2px solid #eee"});
 				$(".settingBody").stop().animate({maxHeight:"0px"});
 				$(".settingTitle").stop().animate({backgroundColor:"#f7f7f7", color:"#aaa"});
 			}
-			
+
 			function toggleSetting(setting){
 				var settingBody = $(setting).find(".settingBody").eq(0)[0];
-				
+
 				//reset all
 				closeAllSettings();
-				
+
 				if(settingBody.style.maxHeight == "" || settingBody.style.maxHeight == "0px"){
 					$(setting).css({border:"0px none transparent"});
 					$(settingBody).stop().animate({maxHeight:"500px"});
@@ -204,18 +204,18 @@
 					$(settingBody).stop().animate({maxHeight:"0px"});
 				}
 			}
-			
+
 			function resetNewPasswords(){
 				//clear password inputs in #changePassword and focus on the first one
 				$("#changePassword input").eq(0)[0].blur();
 				$("#changePassword input").eq(1)[0].blur();
 				$("#changePassword input").eq(2)[0].blur();
-				
+
 				$("#changePassword input").eq(1)[0].value = "";
 				$("#changePassword input").eq(2)[0].value = "";
 				$("#changePassword input").eq(1)[0].focus();
 			}
-			
+
 			var settingNewPassword = false;
 			function setNewPassword(){
 				//change the password and, if successful, update the locally saved version of the password and close the drop down
@@ -223,7 +223,7 @@
 					var currentPassword = $("#changePassword input").eq(0)[0].value;
 					var newPassword = $("#changePassword input").eq(1)[0].value;
 					var confirmNewPassword = $("#changePassword input").eq(2)[0].value;
-					
+
 					if(newPassword != confirmNewPassword){
 						queueNotice("error", "New passwords must match.");
 						resetNewPasswords();
@@ -234,7 +234,7 @@
 						resetNewPasswords();
 						return false;
 					}
-					
+
 					settingNewPassword = true;
 					setLoadingButton($("#changePasswordButton")[0], "Change password", true);
 					var xhttp = new XMLHttpRequest();
@@ -261,7 +261,7 @@
 									$("#changePassword input").eq(0)[0].blur();
 									$("#changePassword input").eq(1)[0].blur();
 									$("#changePassword input").eq(2)[0].blur();
-									
+
 									$("#changePassword input").eq(0)[0].value = "";
 									$("#changePassword input").eq(0)[0].focus();
 								}
@@ -269,7 +269,7 @@
 									$("#changePassword input").eq(0)[0].blur();
 									$("#changePassword input").eq(1)[0].blur();
 									$("#changePassword input").eq(2)[0].blur();
-									
+
 									logOut();
 								}
 							}
@@ -279,7 +279,7 @@
 					xhttp.send();
 				}
 			}
-			
+
 			var signingOutOfAllOtherDevices = false;
 			function signOutOfAllOtherDevices(){
 				if(!signingOutOfAllOtherDevices){
@@ -334,7 +334,7 @@
 				<div class="clearBoth"></div>
 			</div>
 		</div>
-		
+
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -369,7 +369,7 @@
 						<ul onclick="event.stopPropagation();">
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
-							<li><a href="../recentObservations">Recent Observations</a></li>
+							<li><a href="https://www.inaturalist.org/observations?place_id=any../recentObservationsuser_id=caterpillarscount../recentObservationsverifiable=any">Recent Observations</a></li>
 						</ul>
 					</li>
 					<li onclick="accessSubMenu(this);">
@@ -454,13 +454,13 @@
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
-			
+
 			<div><img src="../images/unc.png"/></div><div>
 				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
 			</div>
-			
+
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
-		
+
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
 	</body>

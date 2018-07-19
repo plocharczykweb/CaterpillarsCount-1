@@ -27,14 +27,14 @@
 				border-radius:4px 4px 0px 0px;
 				display:none;
 			}
-			
+
 			.inputTitle{
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 				color:#666;
 				text-transform:uppercase;
 				font-size:14px;
 			}
-			
+
 			#newManagerEmailDiv{
 				position:relative;
 				border:1px solid #eee;
@@ -43,12 +43,12 @@
 				border-radius:4px;
 				overflow:hidden;
 			}
-			
+
 			#newManagerEmailDiv input{
 				border:0px none transparent;
 				margin:0px;
 			}
-			
+
 			#newManagerEmailDiv button{
 				position:absolute;
 				top:0px;
@@ -57,7 +57,7 @@
 				border-radius:0px;
 				padding:14px 30px;
 			}
-			
+
 			#managers{
 				border-radius:0px 0px 4px 4px;
 				overflow:hidden;
@@ -66,14 +66,14 @@
 				font-size:18px;
 				word-break:break-word;
 			}
-			
+
 			#managers>div{
 				border-top:1px solid rgba(0,0,0,0.03);
 				padding:20px 60px 20px 20px;
 				background:rgba(0,0,0,0.03);
 				position:relative;
 			}
-			
+
 			#managers>div>div{
 				position:absolute;
 				top:50%;
@@ -91,16 +91,16 @@
 		</style>
 		<script>
 			requireLogIn();
-			
+
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				loadManagers();
 			});
-			
+
 			function email(emailParts){
 				window.location = "mailto:" + emailParts.join('@');
 			}
-			
+
 			function loadManagers(){
 				var xhttp = new XMLHttpRequest();
 				xhttp.onreadystatechange = function() {
@@ -108,7 +108,7 @@
 						if(this.responseText.indexOf("true|") == 0){
 							var managers = JSON.parse(this.responseText.replace("true|", ""));
 							if(managers === null){managers = [];}
-							
+
 							var htmlToAdd = "";
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div id=\"manager" + managers[i]["managerID"] + "\">";
@@ -153,7 +153,7 @@
 					if(data.indexOf("true|") == 0){
 						var managers = JSON.parse(data.replace("true|", ""));
 						if(managers === null){managers = [];}
-						
+
 						//check if each status on page reflects status from back end
 						for(var i = 0; i < managers.length; i++){
 							if($("#manager" + managers[i]["managerID"]).length > 0){
@@ -176,7 +176,7 @@
 								loadManagers();
 							}
 						}
-						
+
 						//check if there is one on the page that should not be on the page
 						var managerDivs = $("#managers>div");
 						for(var i = 0; i < managerDivs.length; i++){
@@ -198,7 +198,7 @@
 					setTimeout(updateManagers, 1000);
 				});
 			}
-			
+
 			function sendManagerRequest(){
 				var newManagerEmail = $("#newManagerEmail")[0].value.replace(/ /g,"");
 				$("#newManagerEmail")[0].value = "";
@@ -211,7 +211,7 @@
 						if(this.responseText.indexOf("true") == 0){
 							var newManager = JSON.parse(this.responseText.replace("true|", ""));
 							$("#topSection")[0].style.borderRadius = "";
-							
+
 							if($("#manager" + newManager["managerID"]).length > 0){
 								var innerHTMLToReplaceWith = "<span class=\"highlighted pointer underline\" onclick=\"email(['" + newManager["email"].split("@")[0] + "', '" + newManager["email"].split("@")[1] + "']);\">" + newManager["fullName"] + "</span>";
 								innerHTMLToReplaceWith += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "\\'s management services at this site?', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + newManager["managerID"] + "');});\">&times;</div>";
@@ -238,7 +238,7 @@
 				xhttp.open("GET", "../php/sendManagerRequest.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&managerEmail=" + encodeURIComponent(newManagerEmail) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
-			
+
 			function terminate(managerID){
 				$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].innerHTML = "";
 				$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].style.backgroundImage = "url('../images/rolling.svg')";
@@ -288,7 +288,7 @@
 				<div class="clearBoth"></div>
 			</div>
 		</div>
-		
+
 		<div id="splash">
 			<div id="splashImage"></div>
 			<div id="splashOverlay">
@@ -323,7 +323,7 @@
 						<ul onclick="event.stopPropagation();">
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
-							<li><a href="../recentObservations">Recent Observations</a></li>
+							<li><a href="https://www.inaturalist.org/observations?place_id=any../recentObservationsuser_id=caterpillarscount../recentObservationsverifiable=any">Recent Observations</a></li>
 						</ul>
 					</li>
 					<li onclick="accessSubMenu(this);">
@@ -374,13 +374,13 @@
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
-			
+
 			<div><img src="../images/unc.png"/></div><div>
 				<a target="_blank" href="https://www.facebook.com/Caterpillars-Count-1854259101283140/"><img src="../images/facebook.png" alt="facebook"/></a><a target="_blank" href="https://twitter.com/CaterpillarsCt"><img src="../images/twitter.png" alt="twitter"/></a>
 			</div>
-			
+
 			<div>Contact us: <a href="mailto:caterpillarscount@gmail.com">caterpillarscount@gmail.com</a></div>
-		
+
 			<div>View our <a href="../privacyPolicy">privacy policy</a></div>
 		</footer>
 	</body>
