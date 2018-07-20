@@ -1,14 +1,12 @@
 <?php
-	require_once("orm/Site.php");
+	require_once("orm/User.php");
 	require_once('orm/resources/Keychain.php');
-	$sites = Site::findAll();
-	$sitesArray = array();
-	for($i = 0; $i < count($sites); $i++){
-		$sitesArray[strval($sites[$i]->getID())] = array(
-			"ID" => $sites[$i]->getID(),
-			"Name" => $sites[$i]->getName(),
-			"Coordinates" => $sites[$i]->getLatitude() . "," . $sites[$i]->getLongitude(),
-			"Description" => $sites[$i]->getDescription(),
+	$users = User::findAll();
+	$usersArray = array();
+	for($i = 0; $i < count($users); $i++){
+		$usersArray[strval($users[$i]->getID())] = array(
+			"ID" => $users[$i]->getID(),
+			"FullName" => $users[$i]->getFullName(),
 		);
 	}
 	$dbconn = (new Keychain)->getDatabaseConnection();
