@@ -134,6 +134,19 @@ class User
 		return self::findByID(intval(mysqli_fetch_assoc($query)["ID"]));
 	}
 	
+	public static function findAll(){
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		$query = mysqli_query($dbconn, "SELECT `ID` FROM `User`");
+		mysqli_close($dbconn);
+		
+		$usersArray = array();
+		while($userRow = mysqli_fetch_assoc($query)){
+			$user = self::findByID($userRow["ID"]);
+			array_push($usersArray, $user);
+		}
+		return $usersArray;
+	}
+	
 //SIGNERS
 	public function signIn($password){
 		$dbconn = (new Keychain)->getDatabaseConnection();
