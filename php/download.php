@@ -1,6 +1,5 @@
 <?php
   header('Access-Control-Allow-Origin: *');
-
   require_once('orm/resources/Keychain.php');
   //require_once('orm/resources/mailing.php');
 
@@ -30,6 +29,11 @@
   $filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
   $fp = fopen($filename, 'w');
   foreach ($tableArray as $line) fputcsv($fp, $line);
+  
+  header('Content-Type: application/octet-stream');
+  header("Content-Transfer-Encoding: Binary"); 
+  header("Content-disposition: attachment; filename=\"" . basename($filename) . "\"");
+  
   readfile($filename);
   unlink($filename);
 ?>
