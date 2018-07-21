@@ -78,7 +78,7 @@
       }
       
       if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
-        echo $files[$i] . "<br/>";
+        unlink("../iuFYr1xREQOp2ioB5MHvnCTY39UHv2/" . $files[$i]);
       }
    // }
   }
