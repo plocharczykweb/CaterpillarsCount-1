@@ -122,7 +122,7 @@ class User
 	
 	public static function findBySignInKey($email, $salt){
 		//just backup the database here until we can configure cronjobs through cloudapps
-		require("../backup.php");
+		//require("../backup.php");
 		
 		//and proceed to findBySignInKey
 		$dbconn = (new Keychain)->getDatabaseConnection();
