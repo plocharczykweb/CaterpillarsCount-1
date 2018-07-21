@@ -55,7 +55,7 @@
     while($row = mysqli_fetch_assoc($query)){
       backup($row["table_name"]);
     }
-    
+  }
     //delete older files
     $acceptableDates = array(
       date("Y-m-d"), //today
@@ -80,6 +80,6 @@
       if(!$dateIsAcceptable){
         echo $files[$i] . "<br/>";
       }
-    }
+   // }
   }
 ?>
