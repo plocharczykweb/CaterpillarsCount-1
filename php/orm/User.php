@@ -4,8 +4,6 @@ require_once('resources/mailing.php');
 require_once('resources/Keychain.php');
 require_once('Site.php');
 require_once('ManagerRequest.php');
-//just backup the database here until we can configure cronjobs through cloudapps
-//require_once('../backup.php');
 
 class User
 {
