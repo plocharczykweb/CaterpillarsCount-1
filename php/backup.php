@@ -77,7 +77,7 @@
         }
       }
       
-      if(!$dateIsAcceptable){
+      if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
         echo $files[$i] . "<br/>";
       }
    // }
