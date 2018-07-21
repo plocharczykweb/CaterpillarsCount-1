@@ -55,18 +55,16 @@
     while($row = mysqli_fetch_assoc($query)){
       backup($row["table_name"]);
     }
-  }
+    
     //delete older files
     $acceptableDates = array(
       date("Y-m-d"), //today
       date("Y-m-d", time() - 60 * 60 * 24 * 1), //yesterday
-      /*
       date("Y-m-d", time() - 60 * 60 * 24 * 2), //etc...
       date("Y-m-d", time() - 60 * 60 * 24 * 3),
       date("Y-m-d", time() - 60 * 60 * 24 * 4),
       date("Y-m-d", time() - 60 * 60 * 24 * 5),
       date("Y-m-d", time() - 60 * 60 * 24 * 6),
-      */
     );
     
     for($i = 0; $i < count($files); $i++){
@@ -80,6 +78,6 @@
       if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
         unlink("../iuFYr1xREQOp2ioB5MHvnCTY39UHv2/" . $files[$i]);
       }
-   // }
+    }
   }
 ?>
