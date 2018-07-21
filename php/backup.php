@@ -60,11 +60,13 @@
     $acceptableDates = array(
       date("Y-m-d"), //today
       date("Y-m-d", time() - 60 * 60 * 24 * 1), //yesterday
+      /*
       date("Y-m-d", time() - 60 * 60 * 24 * 2), //etc...
       date("Y-m-d", time() - 60 * 60 * 24 * 3),
       date("Y-m-d", time() - 60 * 60 * 24 * 4),
       date("Y-m-d", time() - 60 * 60 * 24 * 5),
       date("Y-m-d", time() - 60 * 60 * 24 * 6),
+      */
     );
     
     for($i = 0; $i < count($files); $i++){
