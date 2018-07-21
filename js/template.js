@@ -1,3 +1,6 @@
+			//backup here until we get cloudapps cronjobs configured
+			$.get("https://caterpillarscount.unc.edu/php/backup.php", function(data){});
+
 			var noticeQueue = [];
 			var showingQueue = false;
 			function queueNotice(type, message){
