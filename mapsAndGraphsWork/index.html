@@ -371,13 +371,35 @@
 				$("#mapSpace")[0].style.height = mapHeight + "px";
 			}
 			
-			var numberOfShownRankings = 10;
-			var rankings = [];
+			var numberOfShownSiteRankings = 10;
+			var numberOfShownUserRankings = 10;
+			var siteRankings = [];
+			var userRankings = [];
+			var shownRankings = "Site";
 			function showLeaderboard(){
+				var loadedCount = 0;
 				$.get("../php/getSiteRankings.php", function(data){
 					//success
-					rankings = JSON.parse(data);
-					populateLeaderboard("Rank");
+					siteRankings = JSON.parse(data);
+					if(++loadedCount == 2){
+						populateLeaderboard("Year");
+					}
+				})
+				.fail(function(){
+					//error
+					$("#rankings")[0].innerHTML = "";
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+				
+				$.get("../php/getUserRankings.php", function(data){
+					//success
+					userRankings = JSON.parse(data);
+					if(++loadedCount == 2){
+						populateLeaderboard("Year");
+					}
 				})
 				.fail(function(){
 					//error
@@ -390,6 +412,10 @@
 			}
 			
 			function populateLeaderboard(sortingMetric){
+				var rankings = siteRankings;
+				if(shownRankings == "User"){
+					rankings = userRankings;
+				}
 				rankings = rankings.sort(function(a, b){
 					a = a[sortingMetric];
 					b = b[sortingMetric];
@@ -414,16 +440,12 @@
 				var htmlToAdd = 	"<table>";
 				htmlToAdd += 			"<thead>";
 				htmlToAdd += 				"<tr>";
-				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Rank');\"";
-				if(sortingMetric == "Rank"){
-					htmlToAdd += 				" style=\"text-decoration:underline;\"";
-				}
-				htmlToAdd += 					">Rank</th>";
+				htmlToAdd += 					"<th>Rank</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Name');\"";
 				if(sortingMetric == "Name"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">Site Name</th>";
+				htmlToAdd += 					">" + shownRankings + " Name</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Week');\"";
 				if(sortingMetric == "Week"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
@@ -448,8 +470,8 @@
 				htmlToAdd += 			"</thead>";
 				for(var i = 0; i < rankings.length; i++){
 					htmlToAdd += 		"<tr>";
-					htmlToAdd += 			"<td><div>" + rankings[i]["Rank"] + "</div></td>";
-					htmlToAdd += 			"<td><div><a href='https://www.google.com/maps/search/?api=1&query=" + rankings[i]["Coordinates"] + "' target='_blank'>" + rankings[i]["Name"] + "</a></div></td>";
+					htmlToAdd += 			"<td><div>" + (i + 1) + "</div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Name"] + "</div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Week"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisWeek"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Month"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisMonth"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Year"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisYear"] + "</div></div></td>";
@@ -464,12 +486,21 @@
 			}
 			
 			function showMoreRankings(){
-				numberOfShownRankings += 10;
+				if(shownRankings == "Site"){
+					numberOfShownSiteRankings += 10;
+				}
+				else{
+					numberOfShownUserRankings += 10;
+				}
 				showCurrentNumberOfRankings(true);
 			}
 			
 			function showCurrentNumberOfRankings(showAnimation){
 				showAnimation = showAnimation || false;
+				var numberOfShownRankings = numberOfShownSiteRankings;
+				if(shownRankings == "User"){
+					numberOfShownRankings = numberOfShownUserRankings;
+				}
 				if(showAnimation){
 					$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().animate({maxHeight:'500px'}, 500, function(){
 						$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).css({overflow:'visible'});
@@ -582,6 +613,7 @@
 				<h2>Survey Submission Leaderboard</h2>
 				<div class="tagline">We rank sites based on their total number of surveys for this calendar year.</div>
 				<div class="content">
+					<button onclick="shownRankings='User';populateLeaderboard('Year');">User</button>
 					<div id="rankingsRoundedTop"></div>
 					<div id="rankings">
 						<div class="loading"><img src="../images/rolling.svg"/></div>
