@@ -94,7 +94,7 @@
 				padding:1px 7px 5px 7px;
 			}
 			
-			#rankings table th:hover{
+			#rankings table th:nth-of-type(1) ~ #rankings table th:hover{
 				text-decoration:underline;
 			}
 			
@@ -376,12 +376,12 @@
 			var siteRankings = [];
 			var userRankings = [];
 			var shownRankings = "Site";
+			var loadedRankingsDataCount = 0;
 			function showLeaderboard(){
-				var loadedCount = 0;
 				$.get("../php/getSiteRankings.php", function(data){
 					//success
 					siteRankings = JSON.parse(data);
-					if(++loadedCount == 2){
+					if(++loadedRankingsDataCount == 2){
 						populateLeaderboard("Year");
 					}
 				})
@@ -397,7 +397,7 @@
 				$.get("../php/getUserRankings.php", function(data){
 					//success
 					userRankings = JSON.parse(data);
-					if(++loadedCount == 2){
+					if(++loadedRankingsDataCount == 2){
 						populateLeaderboard("Year");
 					}
 				})
@@ -411,10 +411,19 @@
 				});
 			}
 			
+			var lastSiteSortingMetric = "Year";
+			var lastUserSortingMetric = "Year";
 			function populateLeaderboard(sortingMetric){
-				var rankings = siteRankings;
-				if(shownRankings == "User"){
+				if(loadedRankingsDataCount < 2){return false;}
+				
+				var rankings = [];
+				if(shownRankings == "Site"){
+					rankings = siteRankings;
+					lastSiteSortingMetric = sortingMetric;
+				}
+				else{
 					rankings = userRankings;
+					lastUserSortingMetric = sortingMetric;
 				}
 				rankings = rankings.sort(function(a, b){
 					a = a[sortingMetric];
@@ -611,9 +620,10 @@
 		<main>
 			<div class="panel">
 				<h2>Survey Submission Leaderboard</h2>
-				<div class="tagline">We rank sites based on their total number of surveys for this calendar year.</div>
+				<div class="tagline">We set our default rankings based on total number of surveys for this calendar year.</div>
 				<div class="content">
-					<button onclick="shownRankings='User';populateLeaderboard('Year');">User</button>
+					<button onclick="shownRankings='Site';populateLeaderboard(lastSiteSortingMetric);">Site</button>
+					<button onclick="shownRankings='User';populateLeaderboard(lastUserSortingMetric);">User</button>
 					<div id="rankingsRoundedTop"></div>
 					<div id="rankings">
 						<div class="loading"><img src="../images/rolling.svg"/></div>
