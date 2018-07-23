@@ -69,9 +69,9 @@ class User
 		$id = intval(mysqli_insert_id($dbconn));
 		mysqli_close($dbconn);
 		
-		return new User($id, $firstName, $lastName, $desiredEmail, "", $salt, $saltedPasswordHash);
+		return new User($id, $firstName, $lastName, $desiredEmail, "", $salt, $saltedPasswordHash, false);
 	}
-	private function __construct($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash) {
+	private function __construct($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards) {
 		$this->id = intval($id);
 		$this->firstName = $firstName;
 		$this->lastName = $lastName;
@@ -79,6 +79,7 @@ class User
 		$this->email = $email;
 		$this->salt = $salt;
 		$this->saltedPasswordHash = $saltedPasswordHash;
+		$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
 		
 		$this->deleted = false;
 	}	
@@ -102,8 +103,9 @@ class User
 		$email = $userRow["Email"];
 		$salt = $userRow["Salt"];
 		$saltedPasswordHash = $userRow["SaltedPasswordHash"];
+		$hiddenFromLeaderboards = $userRow["HiddenFromLeaderboards"];
 		
-		return new User($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash);
+		return new User($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards);
 	}
 	
 	public static function findByEmail($email) {
@@ -211,6 +213,11 @@ class User
 	public function getEmail() {
 		if($this->deleted){return null;}
 		return $this->email;
+	}
+	
+	public function getHiddenFromLeaderboards() {
+		if($this->deleted){return null;}
+		return $this->hiddenFromLeaderboards;
 	}
 	
 	public function getSites(){
