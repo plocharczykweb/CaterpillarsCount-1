@@ -13,7 +13,7 @@
 	while($row = mysqli_fetch_assoc($query)){
 		$rankingsArray[strval($row["ID"])] = array(
 			"UserID" => $row["ID"],
-      			"FullName" => $row["FullName"],
+      			"Name" => $row["FullName"],
       			"HiddenFromLeaderboards" => $row["HiddenFromLeaderboards"],
       			"Week" => intval($row["Week"]),
 			"UniqueDatesThisWeek" => 0,
@@ -48,6 +48,7 @@
 			$rankingsArray[strval($allUsers[$j]->getID())] = array(
 				"UserID" => $allUsers[$j]->getID(),
 				"Name" => $allUsers[$j]->getFullName(),
+      				"HiddenFromLeaderboards" => $allUsers[$j]->getHiddenFromLeaderboards(),
 				"Week" => 0,
 				"UniqueDatesThisWeek" => 0,
 				"Month" => 0,
