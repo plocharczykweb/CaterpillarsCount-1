@@ -12,7 +12,7 @@
   	$i = 1;
 	while($row = mysqli_fetch_assoc($query)){
 		$rankingsArray[strval($row["ID"])] = array(
-			"UserID" => $row["ID"],
+			"ID" => $row["ID"],
       			"Name" => $row["FullName"],
       			"HiddenFromLeaderboards" => $row["HiddenFromLeaderboards"],
       			"Week" => intval($row["Week"]),
@@ -52,7 +52,7 @@
 	for($j = 0; $j < count($allUsers); $j++){
 		if(is_object($allUsers[$j]) && get_class($allUsers[$j]) == "User" && !array_key_exists(strval($allUsers[$j]->getID()), $rankingsArray)){
 			$rankingsArray[strval($allUsers[$j]->getID())] = array(
-				"UserID" => $allUsers[$j]->getID(),
+				"ID" => $allUsers[$j]->getID(),
 				"Name" => $allUsers[$j]->getFullName(),
       				"HiddenFromLeaderboards" => $allUsers[$j]->getHiddenFromLeaderboards(),
 				"Week" => 0,
