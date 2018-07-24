@@ -614,9 +614,13 @@
 			function switchRankingsTo(leaderboardType){
 				if(leaderboardType.toLowerCase() == "site"){
 					shownRankings='Site';
-					populateLeaderboard(lastSiteSortingMetric);
 					$("#siteSwitchButton")[0].className = "active";
 					$("#userSwitchButton")[0].className = "";
+					$("#siteSwitchButton")[0].innerHTML = ". . .";
+					setTimeout(function(){
+						populateLeaderboard(lastSiteSortingMetric);
+						$("#siteSwitchButton")[0].innerHTML = "Site";
+					}, 1);
 				}
 				else{
 					shownRankings='User';
