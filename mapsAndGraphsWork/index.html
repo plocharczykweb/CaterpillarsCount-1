@@ -42,6 +42,7 @@
 				border-bottom:1px solid rgba(0,0,0,0.2);
 				white-space:nowrap;
 				margin-bottom:20px;
+				display:none;
 			}
 			#rankingsSwitch button{
 				color:inherit;
@@ -168,7 +169,7 @@
 			}
 			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table td:nth-of-type(6){
 				text-align:right;
-				background:rgba(0,0,0,0.0275);
+				background:rgba(0,0,0,0.0315);
 			}
 			
 			#rankings table td:last-of-type, #rankings table th:last-of-type{
@@ -558,6 +559,7 @@
 				$("#rankings")[0].innerHTML = htmlToAdd;
 				$("#showMoreRankings").stop().fadeIn(0);
 				$("#superHeader").stop().fadeIn(0);
+				$("#rankingsSwitch").stop().fadeIn(0);
 				showCurrentNumberOfRankings();
 			}
 			
