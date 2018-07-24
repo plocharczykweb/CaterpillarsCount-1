@@ -41,7 +41,7 @@
 				overflow:hidden;
 				border-bottom:1px solid rgba(0,0,0,0.2);
 				white-space:nowrap;
-				margin-bottom:10px;
+				margin-bottom:20px;
 			}
 			#rankingsSwitch button{
 				color:inherit;
@@ -84,6 +84,12 @@
 				display:none;
 			}
 			
+			#superHeader{
+				background:#555;
+				color:#fff;
+				text-align:right;
+			}
+			
 			#rankings table, #siteStats table{
 				width:100%;
 				border-collapse:collapse;
@@ -96,8 +102,8 @@
 				overflow:hidden;
 			}
 			
-			#rankings table thead, #siteStats table thead{
-				background:#555;
+			#rankings table thead, #siteStats table thead, #superHeader{
+				background:#666;
 				color:#fff;
 			}
 			
@@ -492,7 +498,7 @@
 				var htmlToAdd = 	"<table>";
 				htmlToAdd += 			"<thead>";
 				htmlToAdd += 				"<tr>";
-				htmlToAdd += 					"<th>Rank</th>";
+				htmlToAdd += 					"<th></th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Name');\"";
 				if(sortingMetric == "Name"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
@@ -687,6 +693,7 @@
 						</div>
 					</div>
 					<div id="rankingsRoundedTop"></div>
+					<div id="superHeader">Surveys this..</div>
 					<div id="rankings">
 						<div class="loading"><img src="../images/rolling.svg"/></div>
 					</div>
