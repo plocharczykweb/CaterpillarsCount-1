@@ -344,10 +344,11 @@
 				lastMarker = marker;
 				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 			}
-			function markerClick(){
-				toggleMarker(this);
-				$("#siteStats")[0].innerHTML = "<h2>" + this.siteInformation["Name"] + "</h2>" + 
-					"<div class=\"tagline\">" + this.siteInformation["Description"] + "</div>" + 
+			function markerClick(marker){
+				marker = marker || this;
+				toggleMarker(marker);
+				$("#siteStats")[0].innerHTML = "<h2>" + marker.siteInformation["Name"] + "</h2>" + 
+					"<div class=\"tagline\">" + marker.siteInformation["Description"] + "</div>" + 
 					"<table>" + 
 						"<thead>" + 
 							"<tr>" + 
@@ -360,16 +361,17 @@
 							"</tr>" + 
 						"</thead>" + 
 						"<tr>" + 
-							"<td>" + this.siteInformation["UserCount"] + "</td>" + 
-							"<td>" + this.siteInformation["SurveyCount"] + "</td>" + 
-							"<td>" + this.siteInformation["ArthropodGroupCount"] + "</td>" + 
-							"<td>" + this.siteInformation["ArthropodCount"] + "</td>" + 
-							"<td>" + this.siteInformation["CaterpillarCount"] + "</td>" + 
-							"<td>" + this.siteInformation["MostRecentDateTime"] + "</td>" + 
+							"<td>" + marker.siteInformation["UserCount"] + "</td>" + 
+							"<td>" + marker.siteInformation["SurveyCount"] + "</td>" + 
+							"<td>" + marker.siteInformation["ArthropodGroupCount"] + "</td>" + 
+							"<td>" + marker.siteInformation["ArthropodCount"] + "</td>" + 
+							"<td>" + marker.siteInformation["CaterpillarCount"] + "</td>" + 
+							"<td>" + marker.siteInformation["MostRecentDateTime"] + "</td>" + 
 						"</tr>" + 
 					"</table>";
 				scrollToElement($("#siteStats"));
 			}
+			var markers = {};
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
 					center: {lat: 37.068427, lng: -80.089019},
@@ -412,6 +414,7 @@
 							
 						});
 						marker.addListener('click', markerClick);
+						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
 					}
 				})
@@ -547,7 +550,11 @@
 				for(var i = 0; i < rankings.length; i++){
 					htmlToAdd += 		"<tr>";
 					htmlToAdd +=			"<td><div>" + (i + 1) + "</div></td>";
-					htmlToAdd += 			"<td><div>" + rankings[i]["Name"] + "</div></td>";
+					htmlToAdd += 			"<td><div id=\"" + rankings[i]["ID"] + "\"";
+					if(shownRankings == "Site"){
+					   htmlToAdd += 		" onclick=\"markerClick(markers['" + rankings[i]["ID"] + "'])\" class=\"pointer underline\"";
+					}
+					htmlToAdd += 			">" + rankings[i]["Name"] + "</div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Week"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisWeek"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Month"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisMonth"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Year"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisYear"] + "</div></div></td>";
