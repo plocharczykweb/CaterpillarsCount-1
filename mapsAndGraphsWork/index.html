@@ -503,6 +503,7 @@
 				var htmlToAdd = 	"<table>";
 				htmlToAdd += 			"<thead>";
 				htmlToAdd += 				"<tr>";
+				htmlToAdd +=					"<th></th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Name');\"";
 				if(sortingMetric == "Name"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
@@ -537,7 +538,8 @@
 				htmlToAdd += 			"</thead>";
 				for(var i = 0; i < rankings.length; i++){
 					htmlToAdd += 		"<tr>";
-					htmlToAdd += 			"<td><div>" + (i + 1) + ") " + rankings[i]["Name"] + "</div></td>";
+					htmlToAdd +=			"<td><div>" + (i + 1) + "</div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Name"] + "</div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Week"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisWeek"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Month"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisMonth"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Year"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisYear"] + "</div></div></td>";
