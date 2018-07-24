@@ -135,7 +135,7 @@
 			}
 			
 			#rankings table th{
-				padding:1px 7px 5px 7px;
+				padding:5px 7px;
 				cursor:pointer;
 			}
 			#rankings table th:nth-of-type(1){
@@ -514,22 +514,22 @@
 				if(sortingMetric == "Week"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">This week</th>";
+				htmlToAdd += 					">week</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Month');\"";
 				if(sortingMetric == "Month"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">This month</th>";
+				htmlToAdd += 					">month</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Year');\"";
 				if(sortingMetric == "Year"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">This year</th>";
+				htmlToAdd += 					">year</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Total');\"";
 				if(sortingMetric == "Total"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">Total surveys</th>";
+				htmlToAdd += 					">ever</th>";
 				htmlToAdd += 				"</tr>";
 				htmlToAdd += 			"</thead>";
 				for(var i = 0; i < rankings.length; i++){
@@ -699,7 +699,9 @@
 						</div>
 					</div>
 					<div id="rankingsRoundedTop"></div>
-					<div id="superHeader">Surveys this..</div>
+					<div id="superHeader">
+						<div>Surveys this...</div>
+					</div>
 					<div id="rankings">
 						<div class="loading"><img src="../images/rolling.svg"/></div>
 					</div>
