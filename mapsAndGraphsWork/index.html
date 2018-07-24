@@ -163,6 +163,7 @@
 			
 			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table td:nth-of-type(6), #rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5), #rankings table th:nth-of-type(6){
 				text-align:right;
+				background:rgba(0,0,0,0.1);
 			}
 			
 			#rankings table td:last-of-type, #rankings table th:last-of-type{
@@ -170,7 +171,7 @@
 				width:13%;
 			}
 			
-			#rankings table td>div, #rankings table th>div{
+			#rankings table td>div{
 				display:inline-block;
 			}
 			
@@ -514,22 +515,22 @@
 				if(sortingMetric == "Week"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">week</th>";
+				htmlToAdd += 					">Week</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Month');\"";
 				if(sortingMetric == "Month"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">month</th>";
+				htmlToAdd += 					">Month</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Year');\"";
 				if(sortingMetric == "Year"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">year</th>";
+				htmlToAdd += 					">Year</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Total');\"";
 				if(sortingMetric == "Total"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
-				htmlToAdd += 					">millennium</th>";
+				htmlToAdd += 					">Millennium</th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Caterpillars');\" onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;";
 				if(sortingMetric == "Caterpillars"){
 					htmlToAdd += 				"text-decoration:underline;";
