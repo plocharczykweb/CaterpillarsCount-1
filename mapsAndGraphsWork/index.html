@@ -620,11 +620,13 @@
 				}
 				else{
 					shownRankings='User';
-					$("#userSwitchButton")[0].innerHTML = ". . .";
-					populateLeaderboard(lastUserSortingMetric);
-					$("#userSwitchButton")[0].innerHTML = "User";
 					$("#userSwitchButton")[0].className = "active";
 					$("#siteSwitchButton")[0].className = "";
+					$("#userSwitchButton")[0].innerHTML = ". . .";
+					setTimeout(function(){
+						populateLeaderboard(lastUserSortingMetric);
+						$("#userSwitchButton")[0].innerHTML = "User";
+					}, 1);
 				}
 			}
 		</script>
