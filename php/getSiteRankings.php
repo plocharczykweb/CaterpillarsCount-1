@@ -10,7 +10,7 @@
 	while($row = mysqli_fetch_assoc($query)){
     		$openToPublic = $row["OpenToPublic"];
 		$rankingsArray[strval($row["ID"])] = array(
-      			"Rank" => $i++,
+      			"SiteID" => $row["ID"],
       			"Name" => $row["Name"] . " (" . $row["Region"] . ")",
       			"Coordinates" => $row["Latitude"] . "," . $row["Longitude"],
       			"Week" => intval($row["Week"]),
@@ -54,7 +54,7 @@
 				$coordinates = $allSites[$j]->getLatitude() . "," . $allSites[$j]->getLongitude();
 			}
 			$rankingsArray[strval($allSites[$j]->getID())] = array(
-				"Rank" => $i++,
+				"SiteID" => $allSites[$j]->getID(),
 				"Name" => $allSites[$j]->getName() . " (" . $allSites[$j]->getRegion() . ")",
 				"Coordinates" => $coordinates,
 				"Week" => 0,
