@@ -125,7 +125,7 @@
 			}
 			
 			#rankings table td, #rankings table th{
-				width:15%;
+				width:16%;
 				box-sizing:border-box;
 				text-align:left;
 			}
@@ -158,7 +158,7 @@
 			}
 			
 			#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2){
-				width:22%;
+				width:17%;
 				min-width:250px;
 			}
 			
@@ -571,19 +571,20 @@
 				if(shownRankings == "User"){
 					numberOfShownRankings = numberOfShownUserRankings;
 				}
+				var NUMBER_OF_COLUMNS = 7;
 				if(showAnimation){
-					$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().animate({maxHeight:'500px'}, 500, function(){
-						$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).css({overflow:'visible'});
+					$('#rankings tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().animate({maxHeight:'500px'}, 500, function(){
+						$('#rankings tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).css({overflow:'visible'});
 					});
-					$('#rankings tr td').slice(0,numberOfShownRankings * 6).stop().animate({padding:'5px 7px'}, 300);
+					$('#rankings tr td').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().animate({padding:'5px 7px'}, 300);
 
 					if(numberOfShownRankings >= $('#rankings tr').length){
 						$("#showMoreRankings").fadeOut(200);
 					}
 				}
 				else{
-					$('#rankings tr td>div').slice(0,numberOfShownRankings * 6).stop().css({maxHeight:'500px', overflow:'visible'});
-					$('#rankings tr td').slice(0,numberOfShownRankings * 6).stop().css({padding:'5px 7px'});
+					$('#rankings tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().css({maxHeight:'500px', overflow:'visible'});
+					$('#rankings tr td').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().css({padding:'5px 7px'});
 
 					if(numberOfShownRankings >= $('#rankings tr').length){
 						$("#showMoreRankings").fadeOut(0);
