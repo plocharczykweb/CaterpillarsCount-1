@@ -344,8 +344,10 @@
 				lastMarker = marker;
 				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 			}
+			function physicalMarkerClick(){
+				markerClick(this);
+			}
 			function markerClick(marker){
-				marker = marker || this;
 				toggleMarker(marker);
 				$("#siteStats")[0].innerHTML = "<h2>" + marker.siteInformation["Name"] + "</h2>" + 
 					"<div class=\"tagline\">" + marker.siteInformation["Description"] + "</div>" + 
@@ -413,7 +415,7 @@
 							}
 							
 						});
-						marker.addListener('click', markerClick);
+						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
 					}
