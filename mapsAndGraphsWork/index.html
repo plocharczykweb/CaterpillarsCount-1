@@ -41,6 +41,7 @@
 				overflow:hidden;
 				border-bottom:1px solid rgba(0,0,0,0.2);
 				white-space:nowrap;
+				margin-bottom:10px;
 			}
 			#rankingsSwitch button{
 				color:inherit;
@@ -50,7 +51,7 @@
 				border:0px none transparent;
 				border-radius:0px;
 				padding:7px 15px;
-				font-size:18px;
+				font-size:14px;
 				background:transparent;
 			}
 			
@@ -678,9 +679,11 @@
 				<h2>Survey Submission Leaderboard</h2>
 				<div class="tagline">We set our default rankings based on total number of surveys for this calendar year.</div>
 				<div class="content">
-					<div id="rankingsSwitch">
-						<button id="siteSwitchButton" class="active" onclick="switchRankingsTo('site');">Site</button>
-						<button id="userSwitchButton" onclick="switchRankingsTo('user');">User</button>
+					<div class="centeredText">
+						<div id="rankingsSwitch">
+							<button id="siteSwitchButton" class="active" onclick="switchRankingsTo('site');">Site</button>
+							<button id="userSwitchButton" onclick="switchRankingsTo('user');">User</button>
+						</div>
 					</div>
 					<div id="rankingsRoundedTop"></div>
 					<div id="rankings">
