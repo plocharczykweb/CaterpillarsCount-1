@@ -93,7 +93,7 @@
 				box-sizing:border-box;
 				margin-right:13%;
 				text-align:center;
-				font-size:20px;
+				text-transform:uppercase;
 			}
 			
 			#rankings table, #siteStats table{
@@ -534,7 +534,7 @@
 				if(sortingMetric == "Caterpillars"){
 					htmlToAdd += 				"text-decoration:underline;";
 				}
-				htmlToAdd += 					"\">Caterpillars<div class=\"bottomToolTip\">proportion of surveys with caterpillars</div></th>";
+				htmlToAdd += 					"\">Caterpillars<div class=\"bottomToolTip\"><div class=\"arrow\"></div>proportion of surveys that have caterpillars</div></th>";
 				htmlToAdd += 				"</tr>";
 				htmlToAdd += 			"</thead>";
 				for(var i = 0; i < rankings.length; i++){
@@ -545,7 +545,7 @@
 					htmlToAdd += 			"<td><div>" + rankings[i]["Month"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisMonth"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Year"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisYear"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Total"] + "<div class='underText'>" + rankings[i]["TotalUniqueDates"] + "</div></div></td>";
-					htmlToAdd += 			"<td><div>" + rankings[i]["Caterpillars"] + "</div></td>";
+					htmlToAdd += 			"<td><div style=\"position:relative;\" onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\">" + rankings[i]["Caterpillars"] + "<div class=\"bottomToolTip\"><div class=\"arrow\"></div>proportion of surveys that have caterpillars</div></div></td>";
 					htmlToAdd += 		"</tr>";
 				}
 				htmlToAdd += 		"</table>";
