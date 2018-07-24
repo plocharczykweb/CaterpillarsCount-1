@@ -55,6 +55,8 @@
 				font-size:14px;
 				background:transparent;
 				display:inline-block;
+				text-align:center;
+				width:40px;
 			}
 			
 			#rankingsSwitch button:last-of-type{
@@ -566,6 +568,7 @@
 				}
 				htmlToAdd += 		"</table>";
 				$("#rankings")[0].innerHTML = htmlToAdd;
+				$("#userSwitchButton")[0].innerHTML = "User";
 				$("#showMoreRankings").stop().fadeIn(0);
 				$("#superHeader").stop().fadeIn(0);
 				$("#rankingsSwitch").stop().css({display:"inline-block"});
@@ -613,12 +616,14 @@
 				if(leaderboardType.toLowerCase() == "site"){
 					shownRankings='Site';
 					populateLeaderboard(lastSiteSortingMetric);
+					$("#userSwitchButton")[0].innerHTML = "User";
 					$("#siteSwitchButton")[0].className = "active";
 					$("#userSwitchButton")[0].className = "";
 				}
 				else{
 					shownRankings='User';
 					populateLeaderboard(lastUserSortingMetric);
+					$("#userSwitchButton")[0].innerHTML = ". . .";
 					$("#userSwitchButton")[0].className = "active";
 					$("#siteSwitchButton")[0].className = "";
 				}
