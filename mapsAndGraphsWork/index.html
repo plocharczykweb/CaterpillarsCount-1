@@ -33,6 +33,35 @@
 				height:30px;
 			}
 			
+			#rankingsSwitch{
+				color:#666;
+				background:#eee;
+				display:inline-block;
+				border-radius:5px;
+				overflow:hidden;
+				border-bottom:1px solid rgba(0,0,0,0.2);
+			}
+			#rankingsSwitch button{
+				cursor:pointer;
+				outline:none;
+				margin:0px;
+				border:0px none transparent;
+				border-radius:0px;
+				padding:7px 15px;
+				font-size:18px;
+				background:transparent;
+			}
+			
+			#rankingsSwitch button:last-of-type{
+				margin-left:-4px;
+			}
+			#rankingsSwitch .active{
+				background:rgba(0,0,0,.1);
+				-webkit-box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
+				-moz-box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
+				box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
+			}
+			
 			#siteStats{
 				margin-top:20px;
 			}
@@ -539,6 +568,21 @@
 					}
 				}
 			}
+			
+			function switchRankingsTo(leaderboardType){
+				if(leaderboardType.toLowerCase() == "site"){
+					shownRankings='Site';
+					populateLeaderboard(lastSiteSortingMetric);
+					$("#siteSwitchButton")[0].className = "active";
+					$("#userSwitchButton")[0].className = "";
+				}
+				else{
+					shownRankings='User';
+					populateLeaderboard(lastUserSortingMetric);
+					$("#userSwitchButton")[0].className = "active";
+					$("#siteSwitchButton")[0].className = "";
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -632,8 +676,10 @@
 				<h2>Survey Submission Leaderboard</h2>
 				<div class="tagline">We set our default rankings based on total number of surveys for this calendar year.</div>
 				<div class="content">
-					<button onclick="shownRankings='Site';populateLeaderboard(lastSiteSortingMetric);">Site</button>
-					<button onclick="shownRankings='User';populateLeaderboard(lastUserSortingMetric);">User</button>
+					<div id="rankingsSwitch">
+						<button id="siteSwitchButton" class="active" onclick="switchRankingsTo('site');">Site</button>
+						<button id="userSwitchButton" onclick="switchRankingsTo('user');">User</button>
+					</div>
 					<div id="rankingsRoundedTop"></div>
 					<div id="rankings">
 						<div class="loading"><img src="../images/rolling.svg"/></div>
