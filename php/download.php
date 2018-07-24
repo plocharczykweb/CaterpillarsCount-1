@@ -35,6 +35,6 @@
   header("Content-disposition: attachment; filename=\"" . basename($filename) . "\"");
   
   //readfile($filename);
-  echo "Thanks for downloading the most up-to-date Caterpillars Count! arthropd sightings data! Please note that each line in this data pertains to a specific arthropod sighting, so surveys which contained no arthropod sightings are excluded from this data.";
+  //echo "Thanks for downloading the most up-to-date Caterpillars Count! arthropd sightings data! Please note that each line in this data pertains to a specific arthropod sighting, so surveys which contained no arthropod sightings are excluded from this data.";
   unlink($filename);
 ?>
