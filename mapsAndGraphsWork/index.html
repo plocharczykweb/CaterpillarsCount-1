@@ -136,9 +136,6 @@
 				padding:5px 7px;
 				cursor:pointer;
 			}
-			#rankings table th:nth-of-type(1){
-				cursor:default;
-			}
 			#siteStats table th{
 				cursor:pointer;
 			}
@@ -147,23 +144,15 @@
 				text-decoration:underline;
 			}
 			
-			#rankings table th:nth-of-type(1):hover{
-				text-decoration:none;
-			}
-			
 			#rankings table td, #siteStats table td, #siteStats table th{
 				padding:5px 7px;
 			}
 			
-			#rankings table td:first-of-type, #rankings table th:first-of-type{
-				width:2%;
+			#rankings table td:nth-of-type(1), #rankings table th:nth-of-type(1){
+				width:27%;
 			}
 			
-			#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2){
-				width:25%;
-			}
-			
-			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table td:nth-of-type(6), #rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5), #rankings table th:nth-of-type(6){
+			#rankings table td:nth-of-type(2), #rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table th:nth-of-type(2), #rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5){
 				text-align:right;
 			}
 			
@@ -506,7 +495,6 @@
 				var htmlToAdd = 	"<table>";
 				htmlToAdd += 			"<thead>";
 				htmlToAdd += 				"<tr>";
-				htmlToAdd += 					"<th></th>";
 				htmlToAdd += 					"<th onclick=\"populateLeaderboard('Name');\"";
 				if(sortingMetric == "Name"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
@@ -541,8 +529,7 @@
 				htmlToAdd += 			"</thead>";
 				for(var i = 0; i < rankings.length; i++){
 					htmlToAdd += 		"<tr>";
-					htmlToAdd += 			"<td><div>" + (i + 1) + "</div></td>";
-					htmlToAdd += 			"<td><div>" + rankings[i]["Name"] + "</div></td>";
+					htmlToAdd += 			"<td><div>" + (i + 1) + ") " + rankings[i]["Name"] + "</div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Week"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisWeek"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Month"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisMonth"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Year"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisYear"] + "</div></div></td>";
