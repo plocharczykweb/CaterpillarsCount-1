@@ -11,8 +11,9 @@
       $id = $plantRow["ID"];
 			$siteFK = $plantRow["SiteFK"];
       $site = Site::findByID($siteFK);
-      if(is_null($site)){
-        Plant::findByID($id)->permanentDelete();
+	  $plant = Plant::findByID($id);
+      if(is_null($site) && !is_null($plant)){
+        $plant->permanentDelete();
       }
 		}
 	
