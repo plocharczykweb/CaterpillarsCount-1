@@ -46,7 +46,7 @@ class Plant
 		}
 		
 		//DETERMINE ID MANUALLY TO FILL IN THE CRACKS OF DELETED CODES:
-		$MIN_ID = 1261;//corresponds to "AAA"
+		$MIN_ID = 703;//corresponds to "AAA"
 		$id = $MIN_ID;
 		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Plant` ORDER BY `ID` ASC LIMIT 1");
 		if(mysqli_num_rows($query) == 1 && intval(mysqli_fetch_assoc($query)["ID"]) <= $MIN_ID){
