@@ -462,7 +462,8 @@ class Site
 	}
 	
 	public static function validDescription($dbconn, $description){
-		$description = mysqli_real_escape_string($dbconn, rawurldecode($description));
+		$description = preg_replace("/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/", "[URL Removed]", rawurldecode($description));
+		$description = mysqli_real_escape_string($dbconn, $description);
 		
 		if(strlen($description) == 0 || strlen($description) > 255){
 			return false;
