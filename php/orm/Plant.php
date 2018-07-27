@@ -63,7 +63,6 @@ class Plant
 				$id += 1;
 				if(mysqli_num_rows(mysqli_query($dbconn, "SELECT `ID` FROM `Plant` WHERE `Code`='" . self::IDToCode($id) . "' LIMIT 1")) == 0){
 					$foundAvailableID = true;
-					break;
 				}
 			}
 		}
