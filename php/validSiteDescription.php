@@ -5,4 +5,5 @@
   
   $description="hello https://google.com, how are you http://yahoo.com https://bing.com https://ask.com?";
   $description = Site::validDescription($dbconn, $description);
+  echo $description;
 ?>
