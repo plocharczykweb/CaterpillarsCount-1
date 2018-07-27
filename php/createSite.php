@@ -20,6 +20,9 @@
 		if($plantCount % 5 != 0){
 			die("false|The number of plants you will survey must be a multiple of 5. ");
 		}
+		if($plantCount > 125){
+			die("false|Woah! That's a lot of plants. The number of plants you will survey must be 125 at most.");
+		}
 		
 		//get region from lat/long
 		//Max of 2,500 free requests per day, calculated as the sum of client-side and server-side queries.
