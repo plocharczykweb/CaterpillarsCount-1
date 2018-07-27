@@ -23,6 +23,11 @@
                         "PlantSpeciesMarkedByObserver", 
                         "OfficialPlantSpecies", 
                         "ObservationMethod", 
+                        "SurveyNotes", 
+                        "WetLeaves", 
+                        "NumberOfLeaves", 
+                        "AverageLeafLength", 
+                        "HerbivoryScore", 
                         "ArthropodGroup", 
                         "ArthropodLength", 
                         "ArthropodQuantity", 
@@ -30,12 +35,7 @@
                         "ArthropodNotes", 
                         "IsCaterpillarAndIsHairy", 
                         "IsCaterpillarAndIsInLeafRoll", 
-                        "IsCaterpillarAndIsInSilkTent", 
-                        "SurveyNotes", 
-                        "WetLeaves", 
-                        "NumberOfLeaves", 
-                        "AverageLeafLength", 
-                        "HerbivoryScore");
+                        "IsCaterpillarAndIsInSilkTent");
     $tableArray[] = $colHeaders;
     
     //ROWS
