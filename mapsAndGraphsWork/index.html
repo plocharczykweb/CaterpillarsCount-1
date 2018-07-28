@@ -526,6 +526,8 @@
 					if(sortingMetric == "Name"){
 						a = a.toLowerCase();
 						b = b.toLowerCase();
+						if(a == "(anonymous user)") return 1;
+						if(b == "(anonymous user)") return -1;
 					}
 					else{
 						if(sortingMetric == "Caterpillars"){
@@ -584,14 +586,7 @@
 					if(shownRankings == "Site"){
 					   htmlToAdd += 		" onclick=\"markerClick(markers['" + rankings[i]["ID"] + "'])\" class=\"pointer underline\"";
 					}
-					htmlToAdd += 			">";
-					if(shownRankings == "User" && rankings[i]["HiddenFromLeaderboards"]){
-						htmlToAdd +=  "(anonymous user)";
-					}
-					else{
-						htmlToAdd +=  rankings[i]["Name"];
-					}
-					htmlToAdd += 			"</div></td>";
+					htmlToAdd += 			">htmlToAdd +=  rankings[i]["Name"]</div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Week"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisWeek"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Month"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisMonth"] + "</div></div></td>";
 					htmlToAdd += 			"<td><div>" + rankings[i]["Year"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisYear"] + "</div></div></td>";
