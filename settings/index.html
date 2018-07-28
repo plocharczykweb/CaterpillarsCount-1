@@ -343,7 +343,7 @@
 				if(savingPrivacySettings){return false;}
 				savingPrivacySettings = true;
 				setLoadingButton($("#savePrivacySettingsButton")[0], "Save privacy settings", true);
-				$.get("../php/setHiddenFromLeaderboards.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "newValue=" + checkboxIsChecked($("#hiddenFromLeaderboardsCheckbox")), function(data){
+				$.get("../php/setHiddenFromLeaderboards.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&newValue=" + checkboxIsChecked($("#hiddenFromLeaderboardsCheckbox")), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
 						queueNotice("confirmation", "Your privacy settings have been updated!");
