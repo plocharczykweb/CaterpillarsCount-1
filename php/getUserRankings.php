@@ -51,26 +51,28 @@
 	}
 	mysqli_close($dbconn);
 	
-	$allUsers = User::findAll();
-	for($j = 0; $j < count($allUsers); $j++){
-		if(is_object($allUsers[$j]) && get_class($allUsers[$j]) == "User" && !array_key_exists(strval($allUsers[$j]->getID()), $rankingsArray)){
-			$name = $allUsers[$j]->getFullName();
-			if($allUsers[$j]->getHiddenFromLeaderboards()){
-				$name = "(anonymous user)";
+	if($siteID > 1){
+		$allUsers = User::findAll();
+		for($j = 0; $j < count($allUsers); $j++){
+			if(is_object($allUsers[$j]) && get_class($allUsers[$j]) == "User" && !array_key_exists(strval($allUsers[$j]->getID()), $rankingsArray)){
+				$name = $allUsers[$j]->getFullName();
+				if($allUsers[$j]->getHiddenFromLeaderboards()){
+					$name = "(anonymous user)";
+				}
+				$rankingsArray[strval($allUsers[$j]->getID())] = array(
+					"ID" => $allUsers[$j]->getID(),
+					"Name" => $name,
+					"Week" => 0,
+					"UniqueDatesThisWeek" => 0,
+					"Month" => 0,
+					"UniqueDatesThisMonth" => 0,
+					"Year" => 0,
+					"UniqueDatesThisYear" => 0,
+					"Total" => 0,
+					"TotalUniqueDates" => 0,
+					"Caterpillars" => "0%",
+				);
 			}
-			$rankingsArray[strval($allUsers[$j]->getID())] = array(
-				"ID" => $allUsers[$j]->getID(),
-				"Name" => $name,
-				"Week" => 0,
-				"UniqueDatesThisWeek" => 0,
-				"Month" => 0,
-				"UniqueDatesThisMonth" => 0,
-				"Year" => 0,
-				"UniqueDatesThisYear" => 0,
-				"Total" => 0,
-      				"TotalUniqueDates" => 0,
-      				"Caterpillars" => "0%",
-			);
 		}
 	}
 
