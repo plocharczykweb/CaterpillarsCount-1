@@ -327,6 +327,18 @@ class User
 		return $site->setObservationMethodPreset($this, $observationMethod);
 	}
 	
+	public function setHiddenFromLeaderboards($hiddenFromLeaderboards){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$openToPublic = filter_var($hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
+			mysqli_query($dbconn, "UPDATE User SET HiddenFromLeaderboards='$hiddenFromLeaderboards' WHERE ID='" . $this->id . "'");
+			mysqli_close($dbconn);
+			$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
+			return true;
+		}
+		return false;
+	}
+	
 	
 //REMOVER
 	public function permanentDelete()
