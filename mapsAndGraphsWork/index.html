@@ -350,6 +350,7 @@
 				markerClick(this);
 			}
 			function markerClick(marker){
+				showSiteUserLeaderboard(marker.siteInformation["ID"]);
 				toggleMarker(marker);
 				$("#siteStats")[0].innerHTML = "<h2>" + marker.siteInformation["Name"] + "</h2>" + 
 					"<div class=\"tagline\">" + marker.siteInformation["Description"] + "</div>" + 
@@ -375,6 +376,31 @@
 					"</table>";
 				scrollToElement($("#siteStats"));
 			}
+			
+			var currentSiteUserLeaderboardSiteID = -1;
+			function showSiteUserLeaderboard(siteID){
+				if(siteID == currentSiteUserLeaderboardSiteID){return false;}
+				currentSiteUserLeaderboardSiteID = siteID;
+				
+				$("#siteUserLeaderboard")[0].innerHTML = "<div class=\"loading\"><img src=\"../images/rolling.svg\"/></div>";
+				
+				$.get("../php/getUserRankings.php?siteID=" + siteID, function(data){
+					//success
+					if(siteID == currentSiteUserLeaderboardSiteID){
+						$("#siteUserLeaderboard")[0].innerHTML = data;
+						userRankings = JSON.parse(data);
+					}
+				})
+				.fail(function(){
+					//error
+					$("#siteUserLeaderboard")[0].innerHTML = "";
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+			}
+			
 			var markers = {};
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
@@ -749,6 +775,7 @@
 				<div id="mapSpace"></div>
 				<div class="content">
 					<div id="siteStats"></div>
+					<div id="siteUserLeaderboard"></div>
 				</div>
 			</div>
 		</main>
