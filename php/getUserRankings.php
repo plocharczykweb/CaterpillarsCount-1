@@ -14,7 +14,7 @@
 		$rankingsArray[strval($row["ID"])] = array(
 			"ID" => $row["ID"],
       			"Name" => $row["FullName"],
-      			"HiddenFromLeaderboards" => $row["HiddenFromLeaderboards"],
+      			"HiddenFromLeaderboards" => filter_var($row["HiddenFromLeaderboards"], FILTER_VALIDATE_BOOLEAN),
       			"Week" => intval($row["Week"]),
 			"UniqueDatesThisWeek" => 0,
       			"Month" => intval($row["Month"]),
