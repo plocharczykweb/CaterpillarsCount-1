@@ -7,7 +7,10 @@
   
   	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
-    		die("true|" . ($user->getHiddenFromLeaderboards() ? 'true' : 'false'));
+		$privacySettings = array(
+			"HiddenFromLeaderboards" => ($user->getHiddenFromLeaderboards() ? 'true' : 'false')
+		);
+    		die("true|" . json_encode($privacySettings));
   	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
