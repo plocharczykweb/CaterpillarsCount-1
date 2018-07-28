@@ -262,6 +262,11 @@
 				right:0px;
 			}
 			
+			#nameMaskNotice{
+				font-size:10px;
+				display:none;
+			}
+			
 			@media screen and (max-width: 957px){
 				#rankings table tr td:nth-of-type(5), #rankings table thead th:nth-of-type(5){
 					display:none;
@@ -596,6 +601,12 @@
 				}
 				htmlToAdd += 		"</table>";
 				$("#rankings")[0].innerHTML = htmlToAdd;
+				if(shownRankings == "User"){
+					$("#nameMaskNotice")[0].style.display = "block";
+				}
+				else{
+					$("#nameMaskNotice")[0].style.display = "none";
+				}
 				$("#showMoreRankings").stop().fadeIn(0);
 				$("#superHeader").stop().fadeIn(0);
 				$("#rankingsSwitch").stop().css({display:"inline-block"});
@@ -760,6 +771,7 @@
 							<button id="userSwitchButton" onclick="switchRankingsTo('user');">User</button>
 						</div>
 					</div>
+					<p id="nameMaskNotice">Visit your <a href="../settings" class="highlighted">Settings</a> page and click on "Privacy" to hide your name from these leaderboards.</p>
 					<div id="rankingsRoundedTop"></div>
 					<div id="superHeader">
 						<div>Surveys this...</div>
