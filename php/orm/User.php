@@ -217,7 +217,7 @@ class User
 	
 	public function getHiddenFromLeaderboards() {
 		if($this->deleted){return null;}
-		return $this->hiddenFromLeaderboards;
+		return filter_var($this->hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
 	}
 	
 	public function getSites(){
@@ -330,7 +330,7 @@ class User
 	public function setHiddenFromLeaderboards($hiddenFromLeaderboards){
 		if(!$this->deleted){
 			$dbconn = (new Keychain)->getDatabaseConnection();
-			$openToPublic = filter_var($hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
+			$hiddenFromLeaderboards = filter_var($hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
 			mysqli_query($dbconn, "UPDATE User SET HiddenFromLeaderboards='$hiddenFromLeaderboards' WHERE ID='" . $this->id . "'");
 			mysqli_close($dbconn);
 			$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
