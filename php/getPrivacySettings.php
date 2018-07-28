@@ -1,6 +1,6 @@
 <?php
 	require_once('orm/resources/Keychain.php');
-	require_once('User.php');
+	require_once('orm/User.php');
   
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
