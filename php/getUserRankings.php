@@ -11,10 +11,13 @@
 	$rankingsArray = array();
   	$i = 1;
 	while($row = mysqli_fetch_assoc($query)){
+		$name = $row["FullName"];
+		if(filter_var($row["HiddenFromLeaderboards"], FILTER_VALIDATE_BOOLEAN)){
+			$name = "(anonymous user)";
+		}
 		$rankingsArray[strval($row["ID"])] = array(
 			"ID" => $row["ID"],
-      			"Name" => $row["FullName"],
-      			"HiddenFromLeaderboards" => filter_var($row["HiddenFromLeaderboards"], FILTER_VALIDATE_BOOLEAN),
+      			"Name" => $name,
       			"Week" => intval($row["Week"]),
 			"UniqueDatesThisWeek" => 0,
       			"Month" => intval($row["Month"]),
