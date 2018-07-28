@@ -132,7 +132,7 @@
 
 				if(window.localStorage.getItem("email") == ["plocharczykweb", "gmail.com"].join("@") || window.localStorage.getItem("email") == ["hurlbert", "bio.unc.edu"].join("@") || window.localStorage.getItem("email") == ["sarah.yelton", "unc.edu"].join("@") || window.localStorage.getItem("email") == ["ssnell", "live.unc.edu"].join("@") || window.localStorage.getItem("email") == ["gdicecco", "live.unc.edu"].join("@")){
 				   	$(".superUsersOnly").stop().fadeIn(0);
-					$.get("../php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + encodeURIComponent(window.localStorage.getItem("salt")), function(data){
+					$.get("../php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 						//success
 						if(data.indexOf("true|") == 0){
 							var emails = JSON.parse(data.replace("true|", ""));
@@ -343,7 +343,7 @@
 				if(savingPrivacySettings){return false;}
 				savingPrivacySettings = true;
 				setLoadingButton($("#savePrivacySettingsButton")[0], "Save privacy settings", true);
-				$.get("../php/setHiddenFromLeaderboards.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&password=" + encodeURIComponent($("#signOutOfAllOtherDevices input").eq(0)[0].value) + "newValue=" + checkboxIsChecked($("#hiddenFromLeaderboardsCheckbox")), function(data){
+				$.get("../php/setHiddenFromLeaderboards.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "newValue=" + checkboxIsChecked($("#hiddenFromLeaderboardsCheckbox")), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
 						queueNotice("confirmation", "Your privacy settings have been updated!");
