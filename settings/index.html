@@ -174,7 +174,7 @@
 					if(data.indexOf("true|") == 0){
 						var privacySettings = JSON.parse(data.replace("true|", ""));
 						if(privacySettings["HiddenFromLeaderboards"]){
-							checkCheckbox("hiddenFromLeaderboardsCheckbox");
+							checkCheckbox($("#hiddenFromLeaderboardsCheckbox"));
 						}
 						$("#privacy")[0].style.display = "block";
 					}
@@ -343,7 +343,7 @@
 				if(savingPrivacySettings){return false;}
 				savingPrivacySettings = true;
 				setLoadingButton($("#savePrivacySettingsButton")[0], "Save privacy settings", true);
-				$.get("../php/setHiddenFromLeaderboards.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&password=" + encodeURIComponent($("#signOutOfAllOtherDevices input").eq(0)[0].value) + "newValue=" + checkboxIsChecked("hiddenFromLeaderboardsCheckbox"), function(data){
+				$.get("../php/setHiddenFromLeaderboards.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&password=" + encodeURIComponent($("#signOutOfAllOtherDevices input").eq(0)[0].value) + "newValue=" + checkboxIsChecked($("#hiddenFromLeaderboardsCheckbox")), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
 						queueNotice("confirmation", "Your privacy settings have been updated!");
@@ -479,7 +479,7 @@
 								<div id="privacy">
 									<table class="checkboxTable">
 										<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
-											<td><div class="checkbox checked" id="hiddenFromLeaderboardsCheckbox"></div></td>
+											<td><div class="checkbox" id="hiddenFromLeaderboardsCheckbox"></div></td>
 											<td>Hide my name from the leaderboards on the <a href="../mapsAndGraphs">Maps & Graphs</a> page.</td>
 											<td onclick="event.stopPropagation();queueNotice('alert', 'Some of the user-specific leaderboards on our Maps & Graphs page may display your name. If you choose to hide your name from these leaderboards, we will refer to you as \"anonymous\" instead.');"><img src="../images/question.png"/></td>
 										<tr>
