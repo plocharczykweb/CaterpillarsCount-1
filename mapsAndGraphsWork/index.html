@@ -598,6 +598,24 @@
 				}
 			}
 			
+			function mapPercentToColor(percent){
+				percent = Number(percent.replace(/\D/g, ""))/100;
+				var colors = [[247,255,0], [255,140,0], [255,0,0]];
+				for(var i = 0; i < colors.length; i++){
+					if(percent == (i/colors.length)) return colors[i];
+				}
+				var color1, color2;
+				for(var i = 1; i < colors.length; i++){
+					if(percent < (i/colors.length)){
+						color1 = colors[i - 1];
+						color2 = colors[i];
+					}
+				}
+				var w1 = ((percent * 2 - 1)/1+1) / 2;
+				var w2 = 1 - w1;
+				return [Math.round(color1[0] * w1 + color2[0] * w2), Math.round(color1[1] * w1 + color2[1] * w2), Math.round(color1[2] * w1 + color2[2] * w2)];
+			}
+			
 			var markers = {};
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
@@ -610,9 +628,9 @@
 					var sites = JSON.parse(data);
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
-						var color = "#999";
-						if(sites[i]["SurveyCount"] > 0){
-							color = "#444";
+						var color = mapPercentToColor(sites[i]["Caterpillars"]);
+						if(sites[i]["SurveyCount"] == 0){
+							color = "#999";
 						}
 						var marker = new google.maps.Marker({
 							map: map,
@@ -972,7 +990,7 @@
 					<div id="showMoreRankings"><div onclick="showMoreRankings();">Show more</div></div>
 				</div>
 			</div>
-			<div class="panel">
+			<div class="panel" style="padding-bottom:10px;">
 				<h2>Explore Sites</h2>
 				<div class="tagline">Click the sites on the map below to explore their statistics.</div>
 				<div id="map"></div>
