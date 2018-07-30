@@ -386,7 +386,7 @@
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
 				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
 				var dateParts = marker.siteInformation["MostRecentDateTime"].split('-');
-				var lastSurveyedDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+				var lastSurveyedDate = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
 				var today = new Date();
 				var midnight = new Date();
 				midnight.setHours(0,0,0,0);
