@@ -386,21 +386,22 @@
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
 				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
 				var dateParts = marker.siteInformation["MostRecentDateTime"].split('-');
-				var lastSurveyedDate = new Date(Number(dateParts[0]), Number(dateParts[1]) - 1, Number(dateParts[2]));
+				var lastSurveyedDate = new Date();
+				lastSurveyedDate.setFullYear(Number(dateParts[0]));
+				lastSurveyedDate.setMonth(Number(dateParts[1]) - 1);
+				lastSurveyedDate.setDate(Number(dateParts[2]));
 				var today = new Date();
-				var midnight = new Date();
-				midnight.setHours(0,0,0,0);
-				var msSinceMidnight = today.getTime() - midnight.getTime();
-				var timeDiff = Math.abs(lastSurveyedDate.getTime() - today.getTime()) - msSinceMidnight;
+				var timeDiff = Math.abs(lastSurveyedDate.getTime() - today.getTime());
 				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+				var lastSurveyed = "(" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + ")";
 				if(diffDays < 1){
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed today.";
+					$("#lastSurveyed")[0].innerHTML = "Last surveyed today " + lastSurveyed + ".";
 				}
 				else if(diffDays == 1){
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed yesterday.";
+					$("#lastSurveyed")[0].innerHTML = "Last surveyed yesterday " + lastSurveyed + ".";
 				}
 				else{
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed " + diffDays + " days ago. (" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + ")";
+					$("#lastSurveyed")[0].innerHTML = "Last surveyed " + diffDays + " days ago " + lastSurveyed + ".";
 				}
 				$("#siteStats")[0].innerHTML = "<table>" + 
 						"<thead>" + 
