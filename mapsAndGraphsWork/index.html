@@ -601,12 +601,13 @@
 			function mapPercentToColor(percent){
 				percent = Number(percent.toString().replace(/\D/g, ""))/100;
 				var colors = [[247,255,0], [255,140,0], [255,0,0]];
+				if(percent == 0) return colors[0];
 				for(var i = 0; i < colors.length; i++){
-					if(percent == (i/colors.length)) return colors[i];
+					if(percent == (i/(colors.length - 1))) return colors[i];
 				}
 				var color1, color2;
 				for(var i = 1; i < colors.length; i++){
-					if(percent < (i/colors.length)){
+					if(percent < (i/(colors.length - 1))){
 						color1 = colors[i - 1];
 						color2 = colors[i];
 					}
