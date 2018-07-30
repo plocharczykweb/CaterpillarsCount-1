@@ -486,6 +486,21 @@
 				});
 			}
 			
+			var numberOfShownSiteUserRankings = 10;
+			function showMoreSiteUserRankings(){
+				var NUMBER_OF_COLUMNS = 7;
+				numberOfShownSiteUserRankings += 10;
+				var numberOfShownRankings = numberOfShownSiteUserRankings;
+				$('#siteUserLeaderboard tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().animate({maxHeight:'500px'}, 500, function(){
+					$('#siteUserLeaderboard tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).css({overflow:'visible'});
+				});
+				$('#siteUserLeaderboard tr td').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().animate({padding:'5px 7px'}, 300);
+
+				if(numberOfShownRankings >= $('#siteUserLeaderboard tr').length){
+					$("#showMoreSiteUserRankings").fadeOut(200);
+				}
+			}
+			
 			function populateSiteUserLeaderboard(sortingMetric){
 				var rankings = siteUserRankings.sort(function(a, b){
 					a = a[sortingMetric];
@@ -561,9 +576,15 @@
 					htmlToAdd += 		"</tr>";
 				}
 				htmlToAdd += 		"</table>";
-				$("#showMoreSiteUserRankings")[0].style.display = "block";
+				if(rankings.length > 10){
+					$("#showMoreSiteUserRankings")[0].style.display = "block";
+				}
+				else{
+					$("#showMoreSiteUserRankings")[0].style.display = "none";
+				}
 				$("#siteUserLeaderboard")[0].innerHTML = htmlToAdd;
 				$("#siteUserSuperHeader")[0].style.display = "block";
+				numberOfShownSiteUserRankings = 10;
 			}
 			
 			var markers = {};
@@ -806,19 +827,6 @@
 					if(numberOfShownRankings >= $('#rankings tr').length){
 						$("#showMoreRankings").fadeOut(0);
 					}
-				}
-			}
-			
-			function showMoreSiteUserRankings(){
-				var NUMBER_OF_COLUMNS = 7;
-				var numberOfShownRankings = $('#siteUserLeaderboard tr').length + 9;
-				$('#siteUserLeaderboard tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().animate({maxHeight:'500px'}, 500, function(){
-					$('#siteUserLeaderboard tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).css({overflow:'visible'});
-				});
-				$('#siteUserLeaderboard tr td').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().animate({padding:'5px 7px'}, 300);
-
-				if(numberOfShownRankings >= $('#siteUserLeaderboard tr').length){
-					$("#showMoreSiteUserRankings").fadeOut(200);
 				}
 			}
 			
