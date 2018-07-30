@@ -69,7 +69,7 @@
 				box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
 			}
 			
-			#superHeader{
+			#superHeader, #siteUserSuperHeader{
 				background:#555;
 				color:#fff;
 				text-align:right;
@@ -78,7 +78,7 @@
 				overflow:hidden;
 				display:none;
 			}
-			#superHeader>div{
+			#superHeader>div, #siteUserSuperHeader>div{
 				padding:5px 7px;
 				background:#444;
 				width:60%;
@@ -289,10 +289,10 @@
 			}
 			
 			#noDataSection p{
-				pading:5px 10px;
+				pading:10px;
 				background:rgba(0,0,0,0.05);
 				border-radius:4px;
-				fon-size:15px;
+				display:inline-block;
 			}
 			
 			
@@ -465,12 +465,12 @@
 				if(siteID == currentSiteUserLeaderboardSiteID){return false;}
 				currentSiteUserLeaderboardSiteID = siteID;
 				
+				$("#siteUserSuperHeader")[0].style.display = "none";
 				$("#siteUserLeaderboard")[0].innerHTML = "<div class=\"loading\"><img src=\"../images/rolling.svg\"/></div>";
 				
 				$.get("../php/getUserRankings.php?siteID=" + siteID, function(data){
 					//success
 					if(siteID == currentSiteUserLeaderboardSiteID){
-						$("#siteUserLeaderboard")[0].innerHTML = data;
 						siteUserRankings = JSON.parse(data);
 						populateSiteUserLeaderboard("Year");
 					}
@@ -561,6 +561,7 @@
 				}
 				htmlToAdd += 		"</table>";
 				$("#siteUserLeaderboard")[0].innerHTML = htmlToAdd;
+				$("#siteUserSuperHeader")[0].style.display = "none";
 			}
 			
 			var markers = {};
@@ -954,7 +955,12 @@
 					<div id="dataSection">
 						<div id="lastSurveyed"></div>
 						<h3>Site Summary</h3>
+						
+						<div id="superHeader">
+							<div>Surveys this...</div>
+						</div>
 						<div id="siteStats"></div>
+						
 						<h3>User Leaderboard</h3>
 						<div id="siteUserLeaderboard"></div>
 						<h3>Graphs</h3>
