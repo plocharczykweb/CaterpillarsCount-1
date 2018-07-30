@@ -473,7 +473,7 @@
 					//success
 					if(siteID == currentSiteUserLeaderboardSiteID){
 						siteUserRankings = JSON.parse(data);
-						populateSiteUserLeaderboard("Year");
+						populateSiteUserLeaderboard("Year", false);
 					}
 				})
 				.fail(function(){
@@ -501,7 +501,7 @@
 				}
 			}
 			
-			function populateSiteUserLeaderboard(sortingMetric){
+			function populateSiteUserLeaderboard(sortingMetric, keepCurrentNumberShown){
 				var rankings = siteUserRankings.sort(function(a, b){
 					a = a[sortingMetric];
 					b = b[sortingMetric];
@@ -532,32 +532,32 @@
 				htmlToAdd += 			"<thead>";
 				htmlToAdd += 				"<tr>";
 				htmlToAdd +=					"<th></th>";
-				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Name');\"";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Name', true);\"";
 				if(sortingMetric == "Name"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
 				htmlToAdd += 					">User name</th>";
-				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Week');\"";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Week', true);\"";
 				if(sortingMetric == "Week"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
 				htmlToAdd += 					">Week</th>";
-				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Month');\"";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Month', true);\"";
 				if(sortingMetric == "Month"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
 				htmlToAdd += 					">Month</th>";
-				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Year');\"";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Year', true);\"";
 				if(sortingMetric == "Year"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
 				htmlToAdd += 					">Year</th>";
-				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Total');\"";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Total', true);\"";
 				if(sortingMetric == "Total"){
 					htmlToAdd += 				" style=\"text-decoration:underline;\"";
 				}
 				htmlToAdd += 					">Millennium</th>";
-				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Caterpillars');\" onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Caterpillars', true);\" onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;";
 				if(sortingMetric == "Caterpillars"){
 					htmlToAdd += 				"text-decoration:underline;";
 				}
@@ -584,7 +584,18 @@
 				}
 				$("#siteUserLeaderboard")[0].innerHTML = htmlToAdd;
 				$("#siteUserSuperHeader")[0].style.display = "block";
-				numberOfShownSiteUserRankings = 10;
+				if(keepCurrentNumberShown){
+					var NUMBER_OF_COLUMNS = 7;
+					$('#siteUserLeaderboard tr td>div').slice(0,numberOfShownSiteUserRankings * NUMBER_OF_COLUMNS).stop().css({maxHeight:'500px', overflow:'visible'});
+					$('#siteUserLeaderboard tr td').slice(0,numberOfShownSiteUserRankings * NUMBER_OF_COLUMNS).stop().css({padding:'5px 7px'});
+
+					if(numberOfShownSiteUserRankings >= $('#siteUserLeaderboard tr').length){
+						$("#showMoreSiteUserRankings").fadeOut(0);
+					}
+				}
+				else{
+					numberOfShownSiteUserRankings = 10;
+				}
 			}
 			
 			var markers = {};
