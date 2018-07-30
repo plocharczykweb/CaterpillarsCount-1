@@ -100,19 +100,19 @@
 				text-transform:uppercase;
 			}
 			
-			#rankings table, #siteStats table{
+			#rankings table, #siteStats table, #siteUserLeaderboard table{
 				width:100%;
 				border-collapse:collapse;
 				font-family: 'Roboto Slab', serif;
 				color:#666;
 			}
 			
-			#siteStats table{
+			#siteStats table:first-of-type{
 				border-radius:4px;
 				overflow:hidden;
 			}
 			
-			#rankings table thead, #siteStats table thead{
+			#rankings table thead, #siteStats table thead, #siteUserLeaderboard table thead{
 				background:#666;
 				color:#fff;
 			}
@@ -122,72 +122,72 @@
 				background:rgba(0,0,0,0.025);
 			}
 			
-			#rankings table tr td>div{
+			#rankings table tr td>div, #siteUserLeaderboard table tr td>div{
 				max-height:500px;
 				position:relative;
 				min-width:100%;
 			}
 			
-			#rankings table tr:nth-of-type(even){
+			#rankings table tr:nth-of-type(even), #siteUserLeaderboard table tr:nth-of-type(even){
 				background:rgba(0,0,0,0.025);
 			}
 			
-			#rankings table td, #rankings table th{
+			#rankings table td, #rankings table th, #siteUserLeaderboard table td, #siteUserLeaderboard table th{
 				width:15%;
 				box-sizing:border-box;
 				text-align:left;
 			}
 			
-			#rankings table th{
+			#rankings table th, #siteUserLeaderboard table th{
 				padding:5px 7px;
 				cursor:pointer;
 			}
-			#rankings table th:first-of-type{
+			#rankings table th:first-of-type, #siteUserLeaderboard table th:first-of-type{
 				cursor:default;
 			}
-			#siteStats table th{
+			#siteStats table:first-of-type th{
 				cursor:pointer;
 			}
 			
-			#rankings table th:hover{
+			#rankings table th:hover, #siteUserLeaderboard table th:hover{
 				text-decoration:underline;
 			}
 			
-			#rankings table td, #siteStats table td, #siteStats table th{
+			#rankings table td, #siteStats table td, #siteStats table th, #siteUserLeaderboard table td{
 				padding:5px 7px;
 			}
 			
-			#rankings table td:nth-of-type(1), #rankings table th:nth-of-type(1){
+			#rankings table td:nth-of-type(1), #rankings table th:nth-of-type(1), #siteUserLeaderboard table td:nth-of-type(1), #siteUserLeaderboard table th:nth-of-type(1){
 				width:5%;
 			}
 			
-			#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2){
+			#rankings table td:nth-of-type(2), #rankings table th:nth-of-type(2), #siteUserLeaderboard table td:nth-of-type(2), #siteUserLeaderboard table th:nth-of-type(2){
 				width:22%;
 			}
 			
-			#rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5), #rankings table th:nth-of-type(6){
+			#rankings table th:nth-of-type(3), #rankings table th:nth-of-type(4), #rankings table th:nth-of-type(5), #rankings table th:nth-of-type(6), #siteUserLeaderboard table th:nth-of-type(3), #siteUserLeaderboard table th:nth-of-type(4), #siteUserLeaderboard table th:nth-of-type(5), #siteUserLeaderboard table th:nth-of-type(6){
 				text-align:right;
 				background:rgba(0,0,0,0.1);
 			}
-			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table td:nth-of-type(6){
+			#rankings table td:nth-of-type(3), #rankings table td:nth-of-type(4), #rankings table td:nth-of-type(5), #rankings table td:nth-of-type(6), #siteUserLeaderboard table td:nth-of-type(3), #siteUserLeaderboard table td:nth-of-type(4), #siteUserLeaderboard table td:nth-of-type(5), #siteUserLeaderboard table td:nth-of-type(6){
 				text-align:right;
 				background:rgba(0,0,0,0.0315);
 			}
 			
-			#rankings table td:last-of-type, #rankings table th:last-of-type{
+			#rankings table td:last-of-type, #rankings table th:last-of-type, #siteUserLeaderboard table td:last-of-type, #siteUserLeaderboard table th:last-of-type{
 				text-align:right;
 				width:13%;
 			}
 			
-			#rankings table td>div{
+			#rankings table td>div, #siteUserLeaderboard table td>div{
 				display:inline-block;
 			}
 			
-			#rankings table tr:nth-of-type(10) ~ tr td{
+			#rankings table tr:nth-of-type(10) ~ tr td, #siteUserLeaderboard table tr:nth-of-type(10) ~ tr td{
 				padding:0px 7px;
 			}
 			
-			#rankings table tr:nth-of-type(10) ~ tr td>div{
+			#rankings table tr:nth-of-type(10) ~ tr td>div, #siteUserLeaderboard table tr:nth-of-type(10) ~ tr td>div{
 				max-height:0px;
 				overflow:hidden;
 			}
@@ -209,12 +209,12 @@
 				text-decoration:underline;
 			}
 			
-			#rankings table td:first-of-type .bottomTooltip{
+			table td:first-of-type .bottomTooltip{
 				left:0px;
 				margin-left:0px;
 			}
 			
-			#rankings table td:first-of-type .bottomTooltip .arrow{
+			table td:first-of-type .bottomTooltip .arrow{
 				margin:-12px 0px 0px 0px;
 			}
 			
@@ -245,12 +245,12 @@
 				width:0px;
 			}
 			
-			#rankings .underText{
+			#rankings .underText, #siteUserLeaderboard .underText{
 				color:rgba(0,0,0,0.4);
 				font-size:12px;
 			}
 			
-			#rankings .underText::after{
+			#rankings .underText::after, #siteUserLeaderboard .underText::after{
 				content:" survey date(s)";
 			}
 			
