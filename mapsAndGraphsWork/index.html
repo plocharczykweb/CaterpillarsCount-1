@@ -395,41 +395,51 @@
 				toggleMarker(marker);
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
 				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
-				var dateParts = marker.siteInformation["MostRecentDateTime"].split(" ")[0].split('-');
-				var lastSurveyedDate = new Date();
-				lastSurveyedDate.setFullYear(Number(dateParts[0]));
-				lastSurveyedDate.setMonth(Number(dateParts[1]) - 1);
-				lastSurveyedDate.setDate(Number(dateParts[2]));
-				var today = new Date();
-				var timeDiff = Math.abs(lastSurveyedDate.getTime() - today.getTime());
-				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-				if(diffDays < 1){
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed <div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;display:inline-block;text-decoration:underline;\">today<div class=\"bottomTooltip\">" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + "<div class=\"arrow\"></div></div></div>.";
-				}
-				else if(diffDays == 1){
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed <div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;display:inline-block;text-decoration:underline;\">yesterday<div class=\"bottomTooltip\">" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + "<div class=\"arrow\"></div></div></div>.";
+				if(marker.siteInformation["MostRecentDateTime"] == "Never"){
+					$("#noDataSection")[0].style.display = "block";
+					$("#dataSection")[0].style.display = "none";
 				}
 				else{
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed <div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;display:inline-block;text-decoration:underline;\">" + diffDays + " days ago<div class=\"bottomTooltip\">" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + "<div class=\"arrow\"></div></div></div>.";
-				}
-				$("#siteStats")[0].innerHTML = "<table>" + 
-						"<thead>" + 
+					$("#dataSection")[0].style.display = "block";
+					$("#noDataSection")[0].style.display = "none";
+					
+					var dateParts = marker.siteInformation["MostRecentDateTime"].split(" ")[0].split('-');
+					var lastSurveyedDate = new Date();
+					lastSurveyedDate.setFullYear(Number(dateParts[0]));
+					lastSurveyedDate.setMonth(Number(dateParts[1]) - 1);
+					lastSurveyedDate.setDate(Number(dateParts[2]));
+					var today = new Date();
+					var timeDiff = Math.abs(lastSurveyedDate.getTime() - today.getTime());
+					var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+					if(diffDays < 1){
+						$("#lastSurveyed")[0].innerHTML = "Last surveyed <div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;display:inline-block;text-decoration:underline;\">today<div class=\"bottomTooltip\">" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + "<div class=\"arrow\"></div></div></div>.";
+					}
+					else if(diffDays == 1){
+						$("#lastSurveyed")[0].innerHTML = "Last surveyed <div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;display:inline-block;text-decoration:underline;\">yesterday<div class=\"bottomTooltip\">" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + "<div class=\"arrow\"></div></div></div>.";
+					}
+					else{
+						$("#lastSurveyed")[0].innerHTML = "Last surveyed <div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;display:inline-block;text-decoration:underline;\">" + diffDays + " days ago<div class=\"bottomTooltip\">" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + "<div class=\"arrow\"></div></div></div>.";
+					}
+
+					$("#siteStats")[0].innerHTML = "<table>" + 
+							"<thead>" + 
+								"<tr>" + 
+									"<th>Users</th>" + 
+									"<th>Surveys</th>" + 
+									"<th>Arthropod Groups</th>" + 
+									"<th>Arthropods</th>" + 
+									"<th>Caterpillars</th>" + 
+								"</tr>" + 
+							"</thead>" + 
 							"<tr>" + 
-								"<th>Users</th>" + 
-								"<th>Surveys</th>" + 
-								"<th>Arthropod Groups</th>" + 
-								"<th>Arthropods</th>" + 
-								"<th>Caterpillars</th>" + 
+								"<td>" + marker.siteInformation["UserCount"] + "</td>" + 
+								"<td>" + marker.siteInformation["SurveyCount"] + "</td>" + 
+								"<td>" + marker.siteInformation["ArthropodGroupCount"] + "</td>" + 
+								"<td>" + marker.siteInformation["ArthropodCount"] + "</td>" + 
+								"<td>" + marker.siteInformation["CaterpillarCount"] + "</td>" + 
 							"</tr>" + 
-						"</thead>" + 
-						"<tr>" + 
-							"<td>" + marker.siteInformation["UserCount"] + "</td>" + 
-							"<td>" + marker.siteInformation["SurveyCount"] + "</td>" + 
-							"<td>" + marker.siteInformation["ArthropodGroupCount"] + "</td>" + 
-							"<td>" + marker.siteInformation["ArthropodCount"] + "</td>" + 
-							"<td>" + marker.siteInformation["CaterpillarCount"] + "</td>" + 
-						"</tr>" + 
-					"</table>";
+						"</table>";
+				}
 				$("#selectedSitePanel")[0].style.display = "block";
 				scrollToPanel(3);
 			}
@@ -921,13 +931,19 @@
 			<div class="panel" id="selectedSitePanel">
 				<h2></h2>
 				<div class="tagline"></div>
-				<div id="lastSurveyed"></div>
 				<div class="content">
-					<h3>Site Summary</h3>
-					<div id="siteStats"></div>
-					<h3>User Leaderboard</h3>
-					<div id="siteUserLeaderboard"></div>
-					<h3>Graphs</h3>
+					<div class="noDataSection">
+						<div class="circleImage" style="width:200px;height:200px;background-image:url('../images/noSurveys.png');margin:40px 0px;"></div>
+						<p>No surveys have been submitted at this site  yet.</p>
+					</div>
+					<div id="dataSection">
+						<div id="lastSurveyed"></div>
+						<h3>Site Summary</h3>
+						<div id="siteStats"></div>
+						<h3>User Leaderboard</h3>
+						<div id="siteUserLeaderboard"></div>
+						<h3>Graphs</h3>
+					</div>
 				</div>
 			</div>
 		</main>
