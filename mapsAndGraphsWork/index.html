@@ -393,7 +393,7 @@
 				var today = new Date();
 				var timeDiff = Math.abs(lastSurveyedDate.getTime() - today.getTime());
 				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-				var lastSurveyed = "(" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + ")";
+				var lastSurveyed = "(" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + ")";
 				if(diffDays < 1){
 					$("#lastSurveyed")[0].innerHTML = "Last surveyed today " + lastSurveyed + ".";
 				}
