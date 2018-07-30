@@ -599,7 +599,7 @@
 			}
 			
 			function mapPercentToColor(percent){
-				percent = Number(percent.toString().replace("%", ""))/100;
+				percent = Number(percent.toString().replace("%", ""));
 				//alert(percent);
 				var colors = [[247,255,0], [255,140,0], [255,0,0]];
 				for(var i = 0; i < colors.length; i++){
@@ -629,9 +629,15 @@
 				$.get("../php/getSites.php", function(data){
 					//success
 					var sites = JSON.parse(data);
+					var maxCaterpillars = 0;
+					for(var i = 0; i < sites.length; i++){
+						if(Number(sites[i]["Caterpillars"].replace("%", "")) > maxCaterpillars){
+							maxCaterpillars = Number(sites[i]["Caterpillars"].replace("%", ""));
+						}
+					}
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
-						var color = mapPercentToColor(sites[i]["Caterpillars"]);
+						var color = mapPercentToColor(Number(sites[i]["Caterpillars"].replace("%", "")) / maxCaterpillars);
 						if(sites[i]["SurveyCount"] == 0){
 							color = "#999";
 						}
