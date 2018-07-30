@@ -258,6 +258,19 @@
 				margin-bottom:10px;
 			}
 			
+			#selectedSitePanel{
+				display:none;
+			}
+			
+			#lastSurveyed{
+				font-size:14px;
+				color:#999;
+				font-family: 'Roboto Slab', serif;
+				text-align:center;
+				margin-top:-20px;
+				margin-bottom:40px;
+			}
+			
 			@media screen and (max-width: 957px){
 				#rankings table tr td:nth-of-type(5), #rankings table thead th:nth-of-type(5){
 					display:none;
@@ -350,6 +363,7 @@
 				toggleMarker(marker);
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
 				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
+				$("#lastSurveyed")[0].innerHTML = "Last surveyed on " + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + " at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]);
 				$("#siteStats")[0].innerHTML = "<table>" + 
 						"<thead>" + 
 							"<tr>" + 
@@ -358,7 +372,6 @@
 								"<th>Arthropod Groups</th>" + 
 								"<th>Arthropods</th>" + 
 								"<th>Caterpillars</th>" + 
-								"<th>Most Recent Survey</th>" + 
 							"</tr>" + 
 						"</thead>" + 
 						"<tr>" + 
@@ -367,9 +380,9 @@
 							"<td>" + marker.siteInformation["ArthropodGroupCount"] + "</td>" + 
 							"<td>" + marker.siteInformation["ArthropodCount"] + "</td>" + 
 							"<td>" + marker.siteInformation["CaterpillarCount"] + "</td>" + 
-							"<td>" + marker.siteInformation["MostRecentDateTime"] + "</td>" + 
 						"</tr>" + 
 					"</table>";
+				$("#selectedSitePanel")[0].style.display = "block";
 				scrollToPanel(3);
 			}
 			
@@ -742,6 +755,28 @@
 					}, 1);
 				}
 			}
+			
+			function getReadableDate(databaseFormattedDate){
+				//PRE: databaseFormattedDate format is YYYY-MM-DD
+				var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+				//var months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
+				var year = databaseFormattedDate.substring(0, 4);
+				var month = months[Number(databaseFormattedDate.substring(5, 7)) - 1];
+				var fullOrdinal = getOrdinal(Number(databaseFormattedDate.substring(8)));
+				var day = Number(databaseFormattedDate.substring(8)) + fullOrdinal.substring(fullOrdinal.length - 2);
+				return month + " " + day + ", " + year;
+			}
+			function getTwelveHourTime(militaryTime){
+				//PRE: militaryTime format is HH:MM:SS
+				var hours = Number(militaryTime.substring(0, 2));
+				var minutes = militaryTime.substring(3, 5);
+				var formattedHours = hours;
+				if(hours == 0){formattedHours = 12;}
+				else if(hours > 12){formattedHours = hours - 12;}
+				var ampm = "am";
+				if(hours >= 12){ampm = "pm";}
+				return formattedHours + ":" + minutes + ampm;
+			}
 		</script>
 	</head>
 	<body>
@@ -860,6 +895,7 @@
 			<div class="panel" id="selectedSitePanel">
 				<h2></h2>
 				<div class="tagline"></div>
+				<div id="lastSurveyed"></div>
 				<div class="content">
 					<div id="siteStats"></div>
 					<div id="siteUserLeaderboard"></div>
