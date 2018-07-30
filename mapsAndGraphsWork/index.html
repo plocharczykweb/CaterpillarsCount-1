@@ -181,7 +181,7 @@
 				overflow:hidden;
 			}
 			
-			#showMoreRankings{
+			#showMoreRankings, #showMoreSiteUserRankings{
 				display:none;
 				font-family: 'Roboto Slab', serif;
 				text-align:center;
@@ -191,7 +191,7 @@
 				font-size:12px;
 			}
 			
-			#showMoreRankings>div{
+			#showMoreRankings>div, #showMoreSiteUserRankings>div{
 				display:inline-block;
 				cursor:pointer;
 				padding:5px;
@@ -465,6 +465,7 @@
 				if(siteID == currentSiteUserLeaderboardSiteID){return false;}
 				currentSiteUserLeaderboardSiteID = siteID;
 				
+				$("#showMoreSiteUserRankings")[0].style.display = "none";
 				$("#siteUserSuperHeader")[0].style.display = "none";
 				$("#siteUserLeaderboard")[0].innerHTML = "<div class=\"loading\"><img src=\"../images/rolling.svg\"/></div>";
 				
@@ -560,6 +561,7 @@
 					htmlToAdd += 		"</tr>";
 				}
 				htmlToAdd += 		"</table>";
+				$("#showMoreSiteUserRankings")[0].style.display = "block";
 				$("#siteUserLeaderboard")[0].innerHTML = htmlToAdd;
 				$("#siteUserSuperHeader")[0].style.display = "block";
 			}
@@ -807,6 +809,19 @@
 				}
 			}
 			
+			function showMoreSiteUserRankings(){
+				var NUMBER_OF_COLUMNS = 7;
+				var numberOfShownRankings = $('#siteUserLeaderboard tr').length + 9;
+				$('#siteUserLeaderboard tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().animate({maxHeight:'500px'}, 500, function(){
+					$('#siteUserLeaderboard tr td>div').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).css({overflow:'visible'});
+				});
+				$('#siteUserLeaderboard tr td').slice(0,numberOfShownRankings * NUMBER_OF_COLUMNS).stop().animate({padding:'5px 7px'}, 300);
+
+				if(numberOfShownRankings >= $('#siteUserLeaderboard tr').length){
+					$("#showMoreSiteUserRankings").fadeOut(200);
+				}
+			}
+			
 			function switchRankingsTo(leaderboardType){
 				if(leaderboardType.toLowerCase() == "site"){
 					shownRankings='Site';
@@ -963,6 +978,7 @@
 							<div>Surveys this...</div>
 						</div>
 						<div id="siteUserLeaderboard"></div>
+						<div id="showMoreSiteUserRankings"><div onclick="showMoreSiteUserRankings();">Show more</div></div>
 						<h3>Graphs</h3>
 					</div>
 				</div>
