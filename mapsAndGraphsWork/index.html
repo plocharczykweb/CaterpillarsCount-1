@@ -385,6 +385,7 @@
 			}
 			
 			var currentSiteUserLeaderboardSiteID = -1;
+			var siteUserRankings = [];
 			function showSiteUserLeaderboard(siteID){
 				if(siteID == currentSiteUserLeaderboardSiteID){return false;}
 				currentSiteUserLeaderboardSiteID = siteID;
@@ -395,7 +396,8 @@
 					//success
 					if(siteID == currentSiteUserLeaderboardSiteID){
 						$("#siteUserLeaderboard")[0].innerHTML = data;
-						userRankings = JSON.parse(data);
+						siteUserRankings = JSON.parse(data);
+						populateSiteUserLeaderboard("Year");
 					}
 				})
 				.fail(function(){
@@ -406,6 +408,84 @@
 				.always(function() {
 					//complete
 				});
+			}
+			
+			function populateSiteUserLeaderboard(sortingMetric){
+				var rankings = siteUserRankings.sort(function(a, b){
+					a = a[sortingMetric];
+					b = b[sortingMetric];
+
+					var order = -1;
+					if(sortingMetric == "Name"){
+						order = 1;
+						a = a.toLowerCase();
+						b = b.toLowerCase();
+						if(a == "(anonymous user)") return 1;
+						if(b == "(anonymous user)") return -1;
+					}
+					else{
+						if(sortingMetric == "Caterpillars"){
+							a = Number(a.replace("%", ''));
+							b = Number(b.replace("%", ''));
+						}
+						a = Number(a);
+						b = Number(b);
+					}
+					
+					if(a < b) return -1 * order;
+					if(a > b) return 1 * order;
+					return 0;
+				});
+
+				var htmlToAdd = 	"<table>";
+				htmlToAdd += 			"<thead>";
+				htmlToAdd += 				"<tr>";
+				htmlToAdd +=					"<th></th>";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Name');\"";
+				if(sortingMetric == "Name"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">User name</th>";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Week');\"";
+				if(sortingMetric == "Week"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Week</th>";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Month');\"";
+				if(sortingMetric == "Month"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Month</th>";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Year');\"";
+				if(sortingMetric == "Year"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Year</th>";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Total');\"";
+				if(sortingMetric == "Total"){
+					htmlToAdd += 				" style=\"text-decoration:underline;\"";
+				}
+				htmlToAdd += 					">Millennium</th>";
+				htmlToAdd += 					"<th onclick=\"populateSiteUserLeaderboard('Caterpillars');\" onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;";
+				if(sortingMetric == "Caterpillars"){
+					htmlToAdd += 				"text-decoration:underline;";
+				}
+				htmlToAdd += 					"\">Caterpillars<div class=\"bottomToolTip\"><div class=\"arrow\"></div>Proportion of surveys that have caterpillars</div></th>";
+				htmlToAdd += 				"</tr>";
+				htmlToAdd += 			"</thead>";
+				for(var i = 0; i < rankings.length; i++){
+					htmlToAdd += 		"<tr>";
+					htmlToAdd +=			"<td><div>" + (i + 1) + "</div></td>";
+					htmlToAdd += 			"<td><div id=\"" + rankings[i]["ID"] + "\">" + rankings[i]["Name"] + "</div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Week"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisWeek"] + "</div></div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Month"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisMonth"] + "</div></div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Year"] + "<div class='underText'>" + rankings[i]["UniqueDatesThisYear"] + "</div></div></td>";
+					htmlToAdd += 			"<td><div>" + rankings[i]["Total"] + "<div class='underText'>" + rankings[i]["TotalUniqueDates"] + "</div></div></td>";
+					htmlToAdd += 			"<td><div style=\"position:relative;\" onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\">" + rankings[i]["Caterpillars"] + "<div class=\"bottomToolTip\"><div class=\"arrow\"></div>Proportion of surveys that have caterpillars</div></div></td>";
+					htmlToAdd += 		"</tr>";
+				}
+				htmlToAdd += 		"</table>";
+				$("#siteUserLeaderboard")[0].innerHTML = htmlToAdd;
 			}
 			
 			var markers = {};
@@ -528,9 +608,8 @@
 					b = b[sortingMetric];
 					
 					var order = -1;
-					if(sortingMetric == "Name" || sortingMetric == "Rank"){order = 1;}
-					
 					if(sortingMetric == "Name"){
+						order = 1;
 						a = a.toLowerCase();
 						b = b.toLowerCase();
 						if(a == "(anonymous user)") return 1;
