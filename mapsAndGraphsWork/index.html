@@ -69,17 +69,6 @@
 				box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
 			}
 			
-			#siteStats{
-				margin-top:20px;
-			}
-			
-			#siteStats h2{
-				font-size:25px;
-			}
-			#siteStats .tagline{
-				font-size:14px;
-			}
-			
 			#superHeader{
 				background:#555;
 				color:#fff;
@@ -359,9 +348,9 @@
 			function markerClick(marker){
 				showSiteUserLeaderboard(marker.siteInformation["ID"]);
 				toggleMarker(marker);
-				$("#siteStats")[0].innerHTML = "<h2>" + marker.siteInformation["Name"] + "</h2>" + 
-					"<div class=\"tagline\">" + marker.siteInformation["Description"] + "</div>" + 
-					"<table>" + 
+				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
+				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
+				$("#siteStats")[0].innerHTML = "<table>" + 
 						"<thead>" + 
 							"<tr>" + 
 								"<th>Users</th>" + 
@@ -381,7 +370,7 @@
 							"<td>" + marker.siteInformation["MostRecentDateTime"] + "</td>" + 
 						"</tr>" + 
 					"</table>";
-				scrollToElement($("#siteStats"));
+				scrollToPanel(3);
 			}
 			
 			var currentSiteUserLeaderboardSiteID = -1;
@@ -867,6 +856,10 @@
 				<div class="tagline">Click the sites on the map below to explore their statistics.</div>
 				<div id="map"></div>
 				<div id="mapSpace"></div>
+			</div>
+			<div class="panel" id="selectedSitePanel">
+				<h2></h2>
+				<div class="tagline"></div>
 				<div class="content">
 					<div id="siteStats"></div>
 					<div id="siteUserLeaderboard"></div>
