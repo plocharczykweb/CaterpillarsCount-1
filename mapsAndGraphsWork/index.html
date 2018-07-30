@@ -601,7 +601,8 @@
 			function mapPercentToColor(percent){
 				percent = Number(percent.toString().replace("%", ""));
 				//alert(percent);
-				var colors = [[247,255,0], [255,140,0], [255,0,0]];
+				//var colors = [[247,255,0], [255,140,0], [255,0,0]];
+				var colors = [[255, 242, 0], [0, 255, 68]];
 				for(var i = 0; i < colors.length; i++){
 					if(percent == (i/(colors.length - 1))) return "rgb(" + colors[i].join(", ") + ")";
 				}
