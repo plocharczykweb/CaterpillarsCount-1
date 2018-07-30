@@ -39,6 +39,11 @@
 		$sitesArray[strval($row["SiteFK"])]["CaterpillarCount"] = intval($row["CaterpillarCount"]);
 	}
 
+	$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS Caterpillars FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK<>2 AND ArthropodSighting.Group='caterpillar' GROUP BY Plant.SiteFK");
+	while($row = mysqli_fetch_assoc($query)){
+		$rankingsArray[strval($row["SiteFK"])]["Caterpillars"] = round(((floatval($row["Caterpillars"]) / floatval($sitesArray[strval($row["SiteFK"])]["SurveyCount"])) * 100), 2) . "%";
+	}
+
 	$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, MAX(STR_TO_DATE(CONCAT(Survey.LocalDate, ' ', Survey.LocalTime), '%Y-%m-%d %T')) AS MostRecentDateTime FROM `Survey` JOIN Plant ON Survey.PlantFK=Plant.ID GROUP BY Plant.SiteFK");
 	while($row = mysqli_fetch_assoc($query)){
 		$sitesArray[strval($row["SiteFK"])]["MostRecentDateTime"] = $row["MostRecentDateTime"];
@@ -59,6 +64,9 @@
 		}
 		if(!array_key_exists("CaterpillarCount", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["CaterpillarCount"] = 0;
+		}
+		if(!array_key_exists("Caterpillars", $sitesArray[strval($sites[$i]->getID())])){
+			$sitesArray[strval($sites[$i]->getID())]["Caterpillars"] = "0%";
 		}
 		if(!array_key_exists("MostRecentDateTime", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["MostRecentDateTime"] = "Never";
