@@ -393,15 +393,15 @@
 				var today = new Date();
 				var timeDiff = Math.abs(lastSurveyedDate.getTime() - today.getTime());
 				var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-				var lastSurveyed = "(" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + ")";
+				var lastSurveyed = "<div class=\"bottomTooltip\">" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + "<div class=\"arrow\"></div></div>";
 				if(diffDays < 1){
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed today " + lastSurveyed + ".";
+					$("#lastSurveyed")[0].innerHTML = "Last surveyed today." + lastSurveyed;
 				}
 				else if(diffDays == 1){
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed yesterday " + lastSurveyed + ".";
+					$("#lastSurveyed")[0].innerHTML = "Last surveyed yesterday." + lastSurveyed;
 				}
 				else{
-					$("#lastSurveyed")[0].innerHTML = "Last surveyed " + diffDays + " days ago " + lastSurveyed + ".";
+					$("#lastSurveyed")[0].innerHTML = "Last surveyed " + diffDays + " days ago." + lastSurveyed;
 				}
 				$("#siteStats")[0].innerHTML = "<table>" + 
 						"<thead>" + 
@@ -912,7 +912,7 @@
 			<div class="panel" id="selectedSitePanel">
 				<h2></h2>
 				<div class="tagline"></div>
-				<div id="lastSurveyed"></div>
+				<div id="lastSurveyed" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
 				<div class="content">
 					<h3>Site Summary</h3>
 					<div id="siteStats"></div>
