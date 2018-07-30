@@ -315,6 +315,28 @@
 				$(window).resize(lockInMapHeight);
 			});
 			
+			function getReadableDate(databaseFormattedDate){
+				//PRE: databaseFormattedDate format is YYYY-MM-DD
+				var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+				//var months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
+				var year = databaseFormattedDate.substring(0, 4);
+				var month = months[Number(databaseFormattedDate.substring(5, 7)) - 1];
+				var fullOrdinal = getOrdinal(Number(databaseFormattedDate.substring(8)));
+				var day = Number(databaseFormattedDate.substring(8)) + fullOrdinal.substring(fullOrdinal.length - 2);
+				return month + " " + day + ", " + year;
+			}
+			function getTwelveHourTime(militaryTime){
+				//PRE: militaryTime format is HH:MM:SS
+				var hours = Number(militaryTime.substring(0, 2));
+				var minutes = militaryTime.substring(3, 5);
+				var formattedHours = hours;
+				if(hours == 0){formattedHours = 12;}
+				else if(hours > 12){formattedHours = hours - 12;}
+				var ampm = "am";
+				if(hours >= 12){ampm = "pm";}
+				return formattedHours + ":" + minutes + ampm;
+			}
+			
 			var map;
 			var lastMarker = null;
 			function activate(marker){
@@ -754,28 +776,6 @@
 						$("#userSwitchButton")[0].innerHTML = "User";
 					}, 1);
 				}
-			}
-			
-			function getReadableDate(databaseFormattedDate){
-				//PRE: databaseFormattedDate format is YYYY-MM-DD
-				var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-				//var months = ["Jan.", "Feb.", "March", "April", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."];
-				var year = databaseFormattedDate.substring(0, 4);
-				var month = months[Number(databaseFormattedDate.substring(5, 7)) - 1];
-				var fullOrdinal = getOrdinal(Number(databaseFormattedDate.substring(8)));
-				var day = Number(databaseFormattedDate.substring(8)) + fullOrdinal.substring(fullOrdinal.length - 2);
-				return month + " " + day + ", " + year;
-			}
-			function getTwelveHourTime(militaryTime){
-				//PRE: militaryTime format is HH:MM:SS
-				var hours = Number(militaryTime.substring(0, 2));
-				var minutes = militaryTime.substring(3, 5);
-				var formattedHours = hours;
-				if(hours == 0){formattedHours = 12;}
-				else if(hours > 12){formattedHours = hours - 12;}
-				var ampm = "am";
-				if(hours >= 12){ampm = "pm";}
-				return formattedHours + ":" + minutes + ampm;
 			}
 		</script>
 	</head>
