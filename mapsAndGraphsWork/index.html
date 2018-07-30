@@ -598,11 +598,22 @@
 				}
 			}
 			
+			function hexToRgb(hex) {
+				// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+				var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+				hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+					return r + r + g + g + b + b;
+				});
+
+				var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+				return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : [0, 0, 0];
+			}
+			
 			function mapPercentToColor(percent){
 				percent = Number(percent.toString().replace("%", ""));
 				//alert(percent);
-				//var colors = [[247,255,0], [255,140,0], [255,0,0]];
-				var colors = [[255, 242, 0], [0, 255, 68]];
+				//var colors = [[247,255,0], [255,140,0], [255,0,0]];//yellow, orange, red
+				var colors = [hexToRgb("#2d5227"), hexToRgb("#22ff00")];//darkgreen, limegreen
 				for(var i = 0; i < colors.length; i++){
 					if(percent == (i/(colors.length - 1))) return "rgb(" + colors[i].join(", ") + ")";
 				}
