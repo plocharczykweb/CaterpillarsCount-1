@@ -337,7 +337,6 @@
 				showLeaderboard();
 				initializeMap();
 				lockInMapHeight();
-				resizeSuperHeader();
 				$(window).resize(function(){
 					lockInMapHeight();
 					resizeSuperHeader();
@@ -367,7 +366,12 @@
 			}
 			
 			function resizeSuperHeader(){
-				$("#superHeader")[0].style.width = $("#rankings th").eq(2)[0].clientWidth + $("#rankings th").eq(3)[0].clientWidth + $("#rankings th").eq(4)[0].clientWidth + $("#rankings th").eq(5)[0].clientWidth;
+				if($("#rankings th").length > 0){
+					$("#superHeader")[0].style.width = $("#rankings th").eq(2)[0].clientWidth + $("#rankings th").eq(3)[0].clientWidth + $("#rankings th").eq(4)[0].clientWidth + $("#rankings th").eq(5)[0].clientWidth;
+				}
+				if($("#siteUserLeaderboard th").length > 0){
+				   $("#siteUserSuperHeader")[0].style.width = $("#siteUserLeaderboard th").eq(2)[0].clientWidth + $("#siteUserLeaderboard th").eq(3)[0].clientWidth + $("#siteUserLeaderboard th").eq(4)[0].clientWidth + $("#siteUserLeaderboard th").eq(5)[0].clientWidth;
+				}
 			}
 			
 			var map;
@@ -858,6 +862,7 @@
 					$("#nameMaskNotice")[0].style.display = "none";
 				}
 				$("#showMoreRankings").stop().fadeIn(0);
+				resizeSuperHeader();
 				$("#superHeader").stop().fadeIn(0);
 				$("#rankingsSwitch").stop().css({display:"inline-block"});
 				showCurrentNumberOfRankings();
