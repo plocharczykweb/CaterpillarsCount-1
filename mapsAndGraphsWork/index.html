@@ -612,7 +612,6 @@
 				}
 				$("#siteUserLeaderboard")[0].innerHTML = htmlToAdd;
 				resizeSuperHeader();
-				$("#siteUserSuperHeader")[0].style.display = "block";
 				if(keepCurrentNumberShown){
 					var NUMBER_OF_COLUMNS = 7;
 					$('#siteUserLeaderboard tr td>div').slice(0,numberOfShownSiteUserRankings * NUMBER_OF_COLUMNS).stop().css({maxHeight:'500px', overflow:'visible'});
@@ -880,7 +879,6 @@
 				}
 				$("#showMoreRankings").stop().fadeIn(0);
 				resizeSuperHeader();
-				$("#superHeader").stop().fadeIn(0);
 				$("#rankingsSwitch").stop().css({display:"inline-block"});
 				showCurrentNumberOfRankings();
 			}
