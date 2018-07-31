@@ -613,9 +613,9 @@
 				percent = Number(percent.toString().replace("%", ""));
 				//alert(percent);
 				//var colors = [[247,255,0], [255,140,0], [255,0,0]];//yellow, orange, red
-				var colors = [hexToRgb("#2d5227"), hexToRgb("#22ff00")];//darkgreen, limegreen
 				//var colors = [hexToRgb("#000dff"), hexToRgb("#ff00ee")];//royalblue, hotpink
 				//var colors = [hexToRgb("#000dff"), hexToRgb("#22ff00")];//royalblue, limegreen
+				var colors = [hexToRgb("#2d5227"), hexToRgb("#22ff00")];//darkgreen, limegreen
 				for(var i = 0; i < colors.length; i++){
 					if(percent == (i/(colors.length - 1))) return "rgb(" + colors[i].join(", ") + ")";
 				}
@@ -644,14 +644,20 @@
 					//success
 					var sites = JSON.parse(data);
 					var maxCaterpillars = 0;
+					var minCaterpillars = 100;
 					for(var i = 0; i < sites.length; i++){
-						if(Number(sites[i]["Caterpillars"].replace("%", "")) > maxCaterpillars){
+						if(Number(sites[i]["Caterpillars"].replace("%", "")) > maxCaterpillars && Number(sites["ID"]) != 2){
 							maxCaterpillars = Number(sites[i]["Caterpillars"].replace("%", ""));
+						}
+						if(Number(sites[i]["Caterpillars"].replace("%", "")) < minCaterpillars && Number(sites["ID"]) != 2){
+							minCaterpillars = Number(sites[i]["Caterpillars"].replace("%", ""));
 						}
 					}
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
-						var color = mapPercentToColor(Number(sites[i]["Caterpillars"].replace("%", "")) / maxCaterpillars);
+						var caterpillars = Number(sites[i]["Caterpillars"].replace("%", ""));
+						var minMaxedCaterpillars = (caterpillars - minCaterpillars) / (maxCaterpillars - minCaterpillars)
+						var color = mapPercentToColor(Math.max(0, Math.min(1, minMaxedCaterpillars)));
 						var scale = 7;
 						if(sites[i]["SurveyCount"] == 0){
 							scale = 5;
