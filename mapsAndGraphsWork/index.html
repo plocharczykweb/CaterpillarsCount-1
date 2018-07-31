@@ -650,8 +650,10 @@
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var color = mapPercentToColor(Number(sites[i]["Caterpillars"].replace("%", "")) / maxCaterpillars);
+						var scale = 7;
 						if(sites[i]["SurveyCount"] == 0){
-							color = "#999";
+							scale = 4
+							color = "#bbb";
 						}
 						var marker = new google.maps.Marker({
 							map: map,
@@ -659,7 +661,7 @@
 							title: sites[i]["Name"],
 							icon: {
 								path: google.maps.SymbolPath.CIRCLE,
-								scale: 7,
+								scale: scale,
 								strokeWeight: 1,
 								defaultFillColor: color,
 								fillColor: color,
