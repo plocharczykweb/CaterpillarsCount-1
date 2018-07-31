@@ -367,10 +367,10 @@
 			
 			function resizeSuperHeader(){
 				if($("#rankings th").length > 0){
-					$("#superHeader")[0].style.width = $("#rankings th").eq(2)[0].clientWidth + $("#rankings th").eq(3)[0].clientWidth + $("#rankings th").eq(4)[0].clientWidth + $("#rankings th").eq(5)[0].clientWidth;
+					$("#superHeader>div").eq(0)[0].style.width = $("#rankings th").eq(2)[0].clientWidth + $("#rankings th").eq(3)[0].clientWidth + $("#rankings th").eq(4)[0].clientWidth + $("#rankings th").eq(5)[0].clientWidth;
 				}
 				if($("#siteUserLeaderboard th").length > 0){
-				   $("#siteUserSuperHeader")[0].style.width = $("#siteUserLeaderboard th").eq(2)[0].clientWidth + $("#siteUserLeaderboard th").eq(3)[0].clientWidth + $("#siteUserLeaderboard th").eq(4)[0].clientWidth + $("#siteUserLeaderboard th").eq(5)[0].clientWidth;
+				   $("#siteUserSuperHeader>div").eq(0)[0].style.width = $("#siteUserLeaderboard th").eq(2)[0].clientWidth + $("#siteUserLeaderboard th").eq(3)[0].clientWidth + $("#siteUserLeaderboard th").eq(4)[0].clientWidth + $("#siteUserLeaderboard th").eq(5)[0].clientWidth;
 				}
 			}
 			
@@ -595,6 +595,7 @@
 					$("#showMoreSiteUserRankings")[0].style.display = "none";
 				}
 				$("#siteUserLeaderboard")[0].innerHTML = htmlToAdd;
+				resizeSuperHeader();
 				$("#siteUserSuperHeader")[0].style.display = "block";
 				if(keepCurrentNumberShown){
 					var NUMBER_OF_COLUMNS = 7;
