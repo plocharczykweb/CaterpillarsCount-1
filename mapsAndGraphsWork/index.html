@@ -614,7 +614,8 @@
 				//alert(percent);
 				//var colors = [[247,255,0], [255,140,0], [255,0,0]];//yellow, orange, red
 				//var colors = [hexToRgb("#2d5227"), hexToRgb("#22ff00")];//darkgreen, limegreen
-				var colors = [hexToRgb("#000dff"), hexToRgb("#ff00ee")];//royalblue, hotpink
+				//var colors = [hexToRgb("#000dff"), hexToRgb("#ff00ee")];//royalblue, hotpink
+				var colors = [hexToRgb("#000dff"), hexToRgb("#22ff00")];//royalblue, limegreen
 				for(var i = 0; i < colors.length; i++){
 					if(percent == (i/(colors.length - 1))) return "rgb(" + colors[i].join(", ") + ")";
 				}
@@ -653,7 +654,7 @@
 						var color = mapPercentToColor(Number(sites[i]["Caterpillars"].replace("%", "")) / maxCaterpillars);
 						var scale = 7;
 						if(sites[i]["SurveyCount"] == 0){
-							scale = 6;
+							scale = 5;
 							color = "#bbb";
 						}
 						var marker = new google.maps.Marker({
