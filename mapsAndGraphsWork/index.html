@@ -368,9 +368,11 @@
 			function resizeSuperHeader(){
 				if($("#rankings th").length > 0){
 					$("#superHeader>div").eq(0)[0].style.width = $("#rankings th").eq(2)[0].clientWidth + $("#rankings th").eq(3)[0].clientWidth + $("#rankings th").eq(4)[0].clientWidth + $("#rankings th").eq(5)[0].clientWidth;
+					$("#superHeader>div").eq(0)[0].style.marginRight = $("#rankings th").eq(6)[0].clientWidth;
 				}
 				if($("#siteUserLeaderboard th").length > 0){
-				   $("#siteUserSuperHeader>div").eq(0)[0].style.width = $("#siteUserLeaderboard th").eq(2)[0].clientWidth + $("#siteUserLeaderboard th").eq(3)[0].clientWidth + $("#siteUserLeaderboard th").eq(4)[0].clientWidth + $("#siteUserLeaderboard th").eq(5)[0].clientWidth;
+					$("#siteUserSuperHeader>div").eq(0)[0].style.width = $("#siteUserLeaderboard th").eq(2)[0].clientWidth + $("#siteUserLeaderboard th").eq(3)[0].clientWidth + $("#siteUserLeaderboard th").eq(4)[0].clientWidth + $("#siteUserLeaderboard th").eq(5)[0].clientWidth;
+					$("#siteUserSuperHeader>div").eq(0)[0].style.marginRight = $("#siteUserLeaderboard th").eq(6)[0].clientWidth;
 				}
 			}
 			
