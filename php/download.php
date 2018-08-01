@@ -69,8 +69,7 @@
     return $tableArray;
   }
 
-  $tableArray = getArrayFromTable();
-  usort($tableArray, function($a, $b){
+  function customSort($a, $b){
     $alphabeticalResult = strcmp($a["SiteName"], $b["SiteName"]);
     //if($alphabeticalResult != 0){
       return $alphabeticalResult;
@@ -82,7 +81,10 @@
     $bTime = $bTime->getTimestamp();
     return $aTime - $bTime;
     */
-  });
+  }
+
+  $tableArray = getArrayFromTable();
+  usort($tableArray, "customSort");
   $filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
   $fp = fopen($filename, 'w');
   foreach ($tableArray as $line) fputcsv($fp, $line);
