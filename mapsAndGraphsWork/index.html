@@ -271,6 +271,18 @@
 				display:none;
 			}
 			
+			.forceWrapIfNeeded{
+				overflow-wrap: break-word;
+				word-wrap: break-word;
+				-ms-word-break: break-all;
+				word-break: break-all;
+				word-break: break-word;
+				-ms-hyphens: auto;
+				-moz-hyphens: auto;
+				-webkit-hyphens: auto;
+				hyphens: auto;
+			}
+			
 			#lastSurveyed{
 				font-size:14px;
 				color:#999;
@@ -303,6 +315,7 @@
 			}
 			#mobileSiteStats>ul{
 				background:transparent;
+				padding-left:21px;
 			}
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
@@ -1084,8 +1097,8 @@
 				<div id="mapSpace"></div>
 			</div>
 			<div class="panel" id="selectedSitePanel">
-				<h2></h2>
-				<div class="tagline"></div>
+				<h2 class="forceWrapIfNeeded"></h2>
+				<div class="tagline forceWrapIfNeeded"></div>
 				<div class="content">
 					<div id="noDataSection">
 						<div class="circleImage" style="width:200px;height:200px;background-image:url('../images/noSurveys.png');margin:40px 0px;"></div>
