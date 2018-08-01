@@ -295,9 +295,6 @@
 				display:inline-block;
 			}
 			
-			#desktopSiteStats{
-				display:block;
-			}
 			#mobileSiteStats{
 				display:none;
 				background:rgba(0,0,0,0.05);
@@ -316,6 +313,12 @@
 			}
 			#mobileSiteStats .summaryData{
 				display:inline-block;
+			}
+			#mobileSiteStats>div{
+				margin:-bottom:10px;
+			}
+			#mobileSiteStats>div:last-of-type{
+				margin:-bottom:0px;
 			}
 			@media screen and (max-width: 900px){
 				#desktopSiteStats{
@@ -512,6 +515,21 @@
 								"<td>" + marker.siteInformation["CaterpillarCount"] + "</td>" + 
 							"</tr>" + 
 						"</table>" + 
+						"<div class=\"imageTextTable tableDiv\">" + 
+							"<div class=\"cellDiv\">" + 
+								"<div class=\"circleImage\" style=\"background-image:url('http://icons.iconarchive.com/icons/graphicloads/100-flat/256/summary-icon.png');\"></div>" + 
+							"</div>" + 
+							"<div class=\"cellDiv\">" + 
+								"<h3>Establish the Monitoring Area</h3>" + 
+								"<ul class=\"scrollAnimationElement fadeInOnScroll\" style=\"opacity: 1;\">" + 
+									"<li><span class=\"bold\"></span>" + marker.siteInformation["UserCount"] + "</li>";
+									"<li><span class=\"bold\"></span>" + marker.siteInformation["SurveyCount"] + "</li>";
+									"<li><span class=\"bold\"></span>" + marker.siteInformation["ArthropodGroupCount"] + "</li>";
+									"<li><span class=\"bold\"></span>" + marker.siteInformation["ArthropodCount"] + "</li>";
+									"<li><span class=\"bold\"></span>" + marker.siteInformation["CaterpillarCount"] + "</li>";
+								"</ul>" + 
+							"</div>" + 
+						"</div>" + 
 						"<div id=\"mobileSiteStats\">" + 
 							"<div>" + 
 								"<div class=\"summaryTitle\">Users</div>" + 
