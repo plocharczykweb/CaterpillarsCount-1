@@ -75,8 +75,10 @@
     if($alphabeticalResult != 0){
       return $alphabeticalResult;
     }
-    $aTime = date_create_from_format("Y-m-d H:i", $a["LocalDate"] . " " . $a["LocalTime"])->getTimestamp();
-    $bTime = date_create_from_format("Y-m-d H:i", $b["LocalDate"] . " " . $b["LocalTime"])->getTimestamp();
+    $aTime = date_create_from_format("Y-m-d H:i", $a["LocalDate"] . " " . $a["LocalTime"]);
+    $aTime = $aTime->getTimestamp();
+    $bTime = date_create_from_format("Y-m-d H:i", $b["LocalDate"] . " " . $b["LocalTime"]);
+    $bTime = $bTime->getTimestamp();
     return $aTime - $bTime;
   });
   $filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
