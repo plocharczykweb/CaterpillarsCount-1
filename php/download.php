@@ -70,6 +70,15 @@
   }
 
   $tableArray = getArrayFromTable();
+  usort($tableArray function($a, $b){
+    $alphabeticalResult = strcmp($a["SiteName"], $b["SiteName"]);
+    if($alphabeticalResult != 0){
+      return $alphabeticalResult;
+    }
+    $aTime = date_create_from_format("Y-m-d H:i", $a["LocalDate"] . " " . $a["LocalTime"])->getTimestamp();
+    $bTime = date_create_from_format("Y-m-d H:i", $b["LocalDate"] . " " . $b["LocalTime"])->getTimestamp();
+    return $aTime - $bTime;
+  });
   $filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
   $fp = fopen($filename, 'w');
   foreach ($tableArray as $line) fputcsv($fp, $line);
