@@ -70,17 +70,15 @@
   }
 
   function customSort($a, $b){
-    $alphabeticalResult = strcmp($a["SiteName"], $b["SiteName"]);
-    //if($alphabeticalResult != 0){
+    $alphabeticalResult = strcmp($a[0], $b[0]);
+    if($alphabeticalResult != 0){
       return $alphabeticalResult;
-    //}
-    /*
-    $aTime = date_create_from_format("Y-m-d H:i", $a["LocalDate"] . " " . $a["LocalTime"]);
+    }
+    $aTime = date_create_from_format("Y-m-d H:i", $a[5] . " " . $a[6]);
     $aTime = $aTime->getTimestamp();
-    $bTime = date_create_from_format("Y-m-d H:i", $b["LocalDate"] . " " . $b["LocalTime"]);
+    $bTime = date_create_from_format("Y-m-d H:i", $b[5] . " " . $b[6]);
     $bTime = $bTime->getTimestamp();
     return $aTime - $bTime;
-    */
   }
 
   $tableArray = getArrayFromTable();
