@@ -295,6 +295,30 @@
 				display:inline-block;
 			}
 			
+			#desktopSiteStats{
+				display:block;
+			}
+			#mobileSiteStats{
+				display:none;
+			}
+			#mobileSiteStats .summaryTitle{
+				font-weight:bold;
+				display:inline-block;
+			}
+			#mobileSiteStats .summaryTitle::after{
+				content:": ";
+			}
+			#mobileSiteStats .summaryData{
+				display:inline-block;
+			}
+			@media screen and (max-width: 900px){
+				#desktopSiteStats{
+					display:none;
+				}
+				#mobileSiteStats{
+					display:block;
+				}
+			}
 			
 			@media screen and (max-width: 957px){
 				#rankings table tr td:nth-of-type(5), #rankings table thead th:nth-of-type(5), #siteUserLeaderboard table tr td:nth-of-type(5), #siteUserLeaderboard table thead th:nth-of-type(5){
@@ -464,7 +488,7 @@
 						$("#lastSurveyed")[0].innerHTML = "Last surveyed <div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;display:inline-block;text-decoration:underline;\">" + diffDays + " days ago<div class=\"bottomTooltip\">" + getReadableDate(marker.siteInformation["MostRecentDateTime"].split(" ")[0]) + ", at " + getTwelveHourTime(marker.siteInformation["MostRecentDateTime"].split(" ")[1]) + "<div class=\"arrow\"></div></div></div>.";
 					}
 
-					$("#siteStats")[0].innerHTML = "<table>" + 
+					$("#siteStats")[0].innerHTML = "<table id=\"desktopSiteStats\">" + 
 							"<thead>" + 
 								"<tr>" + 
 									"<th>Users</th>" + 
@@ -481,7 +505,29 @@
 								"<td>" + marker.siteInformation["ArthropodCount"] + "</td>" + 
 								"<td>" + marker.siteInformation["CaterpillarCount"] + "</td>" + 
 							"</tr>" + 
-						"</table>";
+						"</table>" + 
+						"<p id=\"mobileSiteStats\">" + 
+							"<div>" + 
+								"<div class=\"summaryTitle\">Users</div>" + 
+								"<div class=\"summaryData\">" + marker.siteInformation["UserCount"] + "</div>" + 
+							"</div>" + 
+							"<div>" + 
+								"<div class=\"summaryTitle\">Surveys</div>" + 
+								"<div class=\"summaryData\">" + marker.siteInformation["SurveyCount"] + "</div>" + 
+							"</div>" + 
+							"<div>" + 
+								"<div class=\"summaryTitle\">Arthropod Groups</div>" + 
+								"<div class=\"summaryData\">" + marker.siteInformation["ArthropodGroupCount"] + "</div>" + 
+							"</div>" + 
+							"<div>" + 
+								"<div class=\"summaryTitle\">Arthropods</div>" + 
+								"<div class=\"summaryData\">" + marker.siteInformation["ArthropodCount"] + "</div>" + 
+							"</div>" + 
+							"<div>" + 
+								"<div class=\"summaryTitle\">Caterpillars</div>" + 
+								"<div class=\"summaryData\">" + marker.siteInformation["CaterpillarCount"] + "</div>" + 
+							"</div>" + 
+						"</p>";
 				}
 				$("#selectedSitePanel")[0].style.display = "block";
 				scrollToPanel(3);
