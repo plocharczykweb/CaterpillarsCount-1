@@ -300,6 +300,12 @@
 			}
 			#mobileSiteStats{
 				display:none;
+				background:rgba(0,0,0,0.05);
+				border-radius:5px;
+				padding:5px;
+				font-family: 'Roboto Slab', serif;
+				color:#999;
+				font-size:18px;
 			}
 			#mobileSiteStats .summaryTitle{
 				font-weight:bold;
@@ -506,7 +512,7 @@
 								"<td>" + marker.siteInformation["CaterpillarCount"] + "</td>" + 
 							"</tr>" + 
 						"</table>" + 
-						"<p id=\"mobileSiteStats\">" + 
+						"<div id=\"mobileSiteStats\">" + 
 							"<div>" + 
 								"<div class=\"summaryTitle\">Users</div>" + 
 								"<div class=\"summaryData\">" + marker.siteInformation["UserCount"] + "</div>" + 
@@ -527,7 +533,7 @@
 								"<div class=\"summaryTitle\">Caterpillars</div>" + 
 								"<div class=\"summaryData\">" + marker.siteInformation["CaterpillarCount"] + "</div>" + 
 							"</div>" + 
-						"</p>";
+						"</div>";
 				}
 				$("#selectedSitePanel")[0].style.display = "block";
 				scrollToPanel(3);
