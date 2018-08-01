@@ -297,6 +297,12 @@
 			
 			#mobileSiteStats{
 				display:none;
+				background:rgba(0,0,0,0.02);
+				padding:10px;
+				border-radius:4px;
+			}
+			#mobileSiteStats>ul{
+				background:transparent;
 			}
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
@@ -493,15 +499,6 @@
 								"<td>" + marker.siteInformation["CaterpillarCount"] + "</td>" + 
 							"</tr>" + 
 						"</table>" + 
-						"<div class=\"imageTextTable tableDiv\">" + 
-							"<div class=\"cellDiv\">" + 
-								"<div class=\"circleImage\" style=\"background-image:url('http://icons.iconarchive.com/icons/graphicloads/100-flat/256/summary-icon.png');\"></div>" + 
-							"</div>" + 
-							"<div class=\"cellDiv\">" + 
-								"<h3>Site Summary</h3>" + 
-								
-							"</div>" + 
-						"</div>" + 
 						"<div id=\"mobileSiteStats\">" + 
 							"<ul class=\"scrollAnimationElement fadeInOnScroll\" style=\"opacity: 1;\">" + 
 								"<li><span class=\"bold\">Users: </span>" + marker.siteInformation["UserCount"] + "</li>" + 
