@@ -297,30 +297,8 @@
 			
 			#mobileSiteStats{
 				display:none;
-				background:rgba(0,0,0,0.05);
-				border-radius:5px;
-				padding:5px;
-				font-family: 'Roboto Slab', serif;
-				color:#999;
-				font-size:18px;
 			}
-			#mobileSiteStats .summaryTitle{
-				font-weight:bold;
-				display:inline-block;
-			}
-			#mobileSiteStats .summaryTitle::after{
-				content:": ";
-			}
-			#mobileSiteStats .summaryData{
-				display:inline-block;
-			}
-			#mobileSiteStats>div{
-				margin:-bottom:10px;
-			}
-			#mobileSiteStats>div:last-of-type{
-				margin:-bottom:0px;
-			}
-			@media screen and (max-width: 900px){
+			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
 				}
@@ -521,36 +499,17 @@
 							"</div>" + 
 							"<div class=\"cellDiv\">" + 
 								"<h3>Site Summary</h3>" + 
-								"<ul class=\"scrollAnimationElement fadeInOnScroll\" style=\"opacity: 1;\">" + 
-									"<li><span class=\"bold\">Users: </span>" + marker.siteInformation["UserCount"] + "</li>" + 
-									"<li><span class=\"bold\">Surveys: </span>" + marker.siteInformation["SurveyCount"] + "</li>" + 
-									"<li><span class=\"bold\">Arthropod Groups: </span>" + marker.siteInformation["ArthropodGroupCount"] + "</li>" + 
-									"<li><span class=\"bold\">Arthropods: </span>" + marker.siteInformation["ArthropodCount"] + "</li>" + 
-									"<li><span class=\"bold\">Caterpillars: </span>" + marker.siteInformation["CaterpillarCount"] + "</li>" + 
-								"</ul>" + 
+								
 							"</div>" + 
 						"</div>" + 
 						"<div id=\"mobileSiteStats\">" + 
-							"<div>" + 
-								"<div class=\"summaryTitle\">Users</div>" + 
-								"<div class=\"summaryData\">" + marker.siteInformation["UserCount"] + "</div>" + 
-							"</div>" + 
-							"<div>" + 
-								"<div class=\"summaryTitle\">Surveys</div>" + 
-								"<div class=\"summaryData\">" + marker.siteInformation["SurveyCount"] + "</div>" + 
-							"</div>" + 
-							"<div>" + 
-								"<div class=\"summaryTitle\">Arthropod Groups</div>" + 
-								"<div class=\"summaryData\">" + marker.siteInformation["ArthropodGroupCount"] + "</div>" + 
-							"</div>" + 
-							"<div>" + 
-								"<div class=\"summaryTitle\">Arthropods</div>" + 
-								"<div class=\"summaryData\">" + marker.siteInformation["ArthropodCount"] + "</div>" + 
-							"</div>" + 
-							"<div>" + 
-								"<div class=\"summaryTitle\">Caterpillars</div>" + 
-								"<div class=\"summaryData\">" + marker.siteInformation["CaterpillarCount"] + "</div>" + 
-							"</div>" + 
+							"<ul class=\"scrollAnimationElement fadeInOnScroll\" style=\"opacity: 1;\">" + 
+								"<li><span class=\"bold\">Users: </span>" + marker.siteInformation["UserCount"] + "</li>" + 
+								"<li><span class=\"bold\">Surveys: </span>" + marker.siteInformation["SurveyCount"] + "</li>" + 
+								"<li><span class=\"bold\">Arthropod Groups: </span>" + marker.siteInformation["ArthropodGroupCount"] + "</li>" + 
+								"<li><span class=\"bold\">Arthropods: </span>" + marker.siteInformation["ArthropodCount"] + "</li>" + 
+								"<li><span class=\"bold\">Caterpillars: </span>" + marker.siteInformation["CaterpillarCount"] + "</li>" + 
+							"</ul>" + 
 						"</div>";
 				}
 				$("#selectedSitePanel")[0].style.display = "block";
