@@ -70,7 +70,7 @@
   }
 
   $tableArray = getArrayFromTable();
-  usort($tableArray function($a, $b){
+  usort($tableArray, function($a, $b){
     $alphabeticalResult = strcmp($a["SiteName"], $b["SiteName"]);
     if($alphabeticalResult != 0){
       return $alphabeticalResult;
