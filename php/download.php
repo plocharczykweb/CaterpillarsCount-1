@@ -36,7 +36,7 @@
                         "IsCaterpillarAndIsHairy", 
                         "IsCaterpillarAndIsInLeafRoll", 
                         "IsCaterpillarAndIsInSilkTent");
-    $tableArray[] = $colHeaders;
+    $tableArray[] = array();
     
     //ROWS
     $surveyIDsWithSightings = array();
@@ -78,11 +78,12 @@
     $aTime = $aTime->getTimestamp();
     $bTime = date_create_from_format("Y-m-d H:i", $b[5] . " " . $b[6]);
     $bTime = $bTime->getTimestamp();
-    return $aTime - $bTime;
+    return $bTime - $aTime;
   }
 
   $tableArray = getArrayFromTable();
   usort($tableArray, "customSort");
+  array_unshift($tableArray, $colHeaders);
   $filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
   $fp = fopen($filename, 'w');
   foreach ($tableArray as $line) fputcsv($fp, $line);
