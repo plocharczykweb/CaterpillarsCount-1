@@ -710,7 +710,7 @@
 				}
 				var arrToReturn = [];
 				for(var i = 0; i < sitesArray.length; i++){
-					var data = Math.log(Number(sites[i][dataCategory].replace(/[^0-9.-]/g, "")));
+					var data = Math.log(Number(sitesArray[i][dataCategory].replace(/[^0-9.-]/g, "")));
 					var minMaxedData = (data - min) / (max - min);
 					var cappedMinMaxedData = Math.max(min, Math.min(max, minMaxedData));
 					var factor = max;
