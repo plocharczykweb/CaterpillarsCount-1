@@ -754,7 +754,7 @@
 						//var color = mapPercentToColor(finalCaterpillarNumber);
 						var color = mapPercentToColor(normalizedCaterpillarData[i]);
 						var scale = 7;
-						var zIndex = Math.round(finalCaterpillarNumber * 100);
+						var zIndex = Math.round(normalizedCaterpillarData[i] * 100);
 						if(sites[i]["SurveyCount"] == 0){
 							scale = 5;
 							color = "#bbb";
