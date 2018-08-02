@@ -694,6 +694,33 @@
 				return "rgb(" + Math.round(color1[0] * w1 + color2[0] * w2) + ", " + Math.round(color1[1] * w1 + color2[1] * w2) + ", " + Math.round(color1[2] * w1 + color2[2] * w2) + ")";
 			}
 			
+			function getNormalizedDataValues(sitesArray, dataCategory){//data is in the form of: [{"ID": 2, "Name": "Example Site", "Data": 9999, ...etc}]
+				var max = Math.log(0);
+				var min = false;
+				for(var i = 0; i < sitesArray.length; i++){
+					var data = Math.log(Number(sitesArray[i][dataCategory].replace(/[^0-9.-]/g, "")));
+					var isExampleSite = (Number(sitesArray[i]["ID"]) == 2);
+					if(min === false && !isExampleSite){min = data;}
+					if(Number(data > max && !isExampleSite){
+						max = data;
+					}
+					if(data < min && !isExampleSite){
+						min = data;
+					}
+				}
+				var arrToReturn = [];
+				for(var i = 0; i < sitesArray.length; i++){
+					var data = Math.log(Number(sites[i][dataCategory].replace(/[^0-9.-]/g, "")));
+					var minMaxedData = (data - min) / (max - min);
+					var cappedMinMaxedData = Math.max(min, Math.min(max, minMaxedData));
+					var factor = max;
+					if(factor == 0){factor = 1;}
+					var scaledCappedMinMaxedData = cappedMinMaxedData/factor;
+					arrToReturn[arrToReturn.length] = scaledCappedMinMaxedData;
+				}
+				return arrToReturn;
+			}
+			
 			var markers = {};
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
@@ -704,6 +731,7 @@
 				$.get("../php/getSites.php", function(data){
 					//success
 					var sites = JSON.parse(data);
+					/*
 					var maxCaterpillars = 0;
 					var minCaterpillars = 100;
 					for(var i = 0; i < sites.length; i++){
@@ -714,13 +742,19 @@
 							minCaterpillars = Number(sites[i]["Caterpillars"].replace("%", ""));
 						}
 					}
+					*/
+					var normalizedCaterpillarData = getNormalizedDataValues(sites, "Caterpillars");
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
+						/*
 						var caterpillars = Number(sites[i]["Caterpillars"].replace("%", ""));
-						var minMaxedCaterpillars = (caterpillars - minCaterpillars) / (maxCaterpillars - minCaterpillars)
-						var color = mapPercentToColor(Math.max(0, Math.min(1, minMaxedCaterpillars)));
+						var minMaxedCaterpillars = (caterpillars - minCaterpillars) / (maxCaterpillars - minCaterpillars);
+						var finalCaterpillarNumber = Math.max(0, Math.min(1, minMaxedCaterpillars));
+						*/
+						//var color = mapPercentToColor(finalCaterpillarNumber);
+						var color = mapPercentToColor(normalizedCaterpillarData[i]);
 						var scale = 7;
-						var zIndex = i;
+						var zIndex = Math.round(finalCaterpillarNumber * 100);
 						if(sites[i]["SurveyCount"] == 0){
 							scale = 5;
 							color = "#bbb";
