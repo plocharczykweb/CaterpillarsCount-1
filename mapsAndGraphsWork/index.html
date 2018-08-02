@@ -720,14 +720,17 @@
 						var minMaxedCaterpillars = (caterpillars - minCaterpillars) / (maxCaterpillars - minCaterpillars)
 						var color = mapPercentToColor(Math.max(0, Math.min(1, minMaxedCaterpillars)));
 						var scale = 7;
+						var zIndex = i;
 						if(sites[i]["SurveyCount"] == 0){
 							scale = 5;
 							color = "#bbb";
+							zIndex = -1;
 						}
 						var marker = new google.maps.Marker({
 							map: map,
 							position: latlng,
 							title: sites[i]["Name"],
+							zIndex: zIndex,
 							icon: {
 								path: google.maps.SymbolPath.CIRCLE,
 								scale: scale,
