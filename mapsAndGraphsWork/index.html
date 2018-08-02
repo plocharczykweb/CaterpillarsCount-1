@@ -698,7 +698,7 @@
 				var max = 0;
 				var min = false;
 				for(var i = 0; i < sitesArray.length; i++){
-					var data = Number(sitesArray[i]["Weight"].replace(/[^0-9.-]/g, ""));
+					var data = Number(sitesArray[i]["Weight"].toString().replace(/[^0-9.-]/g, ""));
 					var isExampleSite = (Number(sitesArray[i]["ID"]) == 2);
 					if(min === false && !isExampleSite){min = data;}
 					if(data > max && !isExampleSite){
@@ -710,7 +710,7 @@
 				}
 				var arrToReturn = [];
 				for(var i = 0; i < sitesArray.length; i++){
-					var data = Number(sitesArray[i]["Weight"].replace(/[^0-9.-]/g, ""));
+					var data = Number(sitesArray[i]["Weight"].toString().replace(/[^0-9.-]/g, ""));
 					var minMaxedData = min;
 					if(max > min){
 						minMaxedData = (data - min) / (max - min);
