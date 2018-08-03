@@ -829,7 +829,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = arthropod.replace("%", "All Arthropods") " on " + plantSpecies.replace("%", "All Trees");
+						$("#mapTitle")[0].innerHTML = arthropod.replace("%", "All Arthropods") + " on " + plantSpecies.replace("%", "All Trees");
 					}
 				})
 				.fail(function(){
@@ -908,6 +908,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
+						$("#mapTitle")[0].innerHTML = "Caterpillars on All Trees";
 					}
 				})
 				.fail(function(){
