@@ -316,8 +316,11 @@
 				margin:0px -100px;
 				text-align:right;
 				border-bottom:2px solid rgba(0,0,0,0.05);
-				width:100%;
+			}
+			
+			#mapBar>div{
 				display:table;
+				width:100%;
 			}
 			
 			#mapFiltersToggleButton{
@@ -345,6 +348,7 @@
 				vertical-align:middle;
 				padding:0px 20px;
 				border-right:1px solid rgba(0,0,0,0.05);
+				color:#666;
 				
 			}
 			
@@ -1242,9 +1246,11 @@
 				<h2>Explore Sites</h2>
 				<div class="tagline">Click the sites on the map below to explore their statistics.</div>
 				<div id="mapBar">
-					<div id="mapTitle"></div>
-					<div id="mapScale"></div>
-					<div id="mapFiltersToggleButton"><div></div></div>
+					<div>
+						<div id="mapTitle"></div>
+						<div id="mapScale"></div>
+						<div id="mapFiltersToggleButton"><div></div></div>
+					</div>
 				</div>
 				<div id="map"></div>
 				<div id="mapSpace"></div>
