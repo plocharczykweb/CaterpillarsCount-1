@@ -345,15 +345,17 @@
 				display:table-cell;
 				vertical-align:middle;
 				padding:0px 20px;
-				border-right:1px solid rgba(0,0,0,0.05);
+				border-right:2px solid rgba(0,0,0,0.05);
 				color:#666;
+				white-space: pre;
 			}
 			
 			#mapScale{
 				display:table-cell;
 				vertical-align:middle;
 				padding:0px 20px;
-				border-right:1px solid rgba(0,0,0,0.05);
+				border-right:2px solid rgba(0,0,0,0.05);
+				white-space: pre;
 			}
 			
 			#mapScale .scaleCircle, #mapScale .smallScaleCircle{
@@ -362,12 +364,14 @@
 				border-radius:9999px;
 				border:1px solid #000;
 				margin:10px;
+				opacity:.9;
 			}
 			
 			#mapScale .smallScaleCircle{
 				width:10px;
 				height:10px;
 				background:#bbb;
+				margin-bottom:15px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -863,8 +867,8 @@
 				});
 			}
 			function initializeMap() {
-				for(var i = 0; i < $("scaleCircle").length; i++){
-					$("scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($("scaleCircle").length - 1)))});
+				for(var i = 0; i < $(".scaleCircle").length; i++){
+					$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($("scaleCircle").length - 1)))});
 				}
 				
 				map = new google.maps.Map($('#map')[0], {
