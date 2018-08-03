@@ -310,15 +310,16 @@
 				padding-left:21px;
 			}
 			
+			#mapBar{
+				padding:10px;
+				background:rgba(0,0,0,0.05);
+			}
+			
 			#mapFiltersToggleButton{
 				width:30px;
 				height:30px;
 				border-radius:5px;
 				background:#fff;
-				position:absolute;
-				z-index:1;
-				right:14px;
-				margin-top:10px;
 				background-image:url('../images/filterIcon.png');
 				background-size:contain;
 				background-position:center;
@@ -1210,7 +1211,9 @@
 			<div class="panel" style="padding-bottom:10px;">
 				<h2>Explore Sites</h2>
 				<div class="tagline">Click the sites on the map below to explore their statistics.</div>
-				<div id="mapFiltersToggleButton"></div>
+				<div id="mapBar">
+					<div id="mapFiltersToggleButton"></div>
+				</div>
 				<div id="map"></div>
 				<div id="mapSpace"></div>
 			</div>
