@@ -735,9 +735,9 @@
 				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurranceInsteadOfDensity=" + occurranceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
 					//success
 					//clear old markers
-					for (var marker in markers) {
-						if (markers.hasOwnProperty(marker)) {
-							marker.setMap(null);
+					for (var siteID in markers) {
+						if (markers.hasOwnProperty(siteID)) {
+							markers[siteID].setMap(null);
 						}
 					}
 					markers = {};
