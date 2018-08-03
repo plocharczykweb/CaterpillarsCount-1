@@ -722,6 +722,78 @@
 			}
 			
 			var markers = {};
+			function filterMap(){
+				var includeWetLeaves = true;
+				var occurranceInsteadOfDensity = false;
+				var monthStart = Number(1);
+				var monthEnd = Number(12);
+				var yearStart = Number(2018);
+				var yearEnd = Number(2018);
+				var arthropod = "beetle";
+				var minSize = Number(0);
+				var plantSpecies = "%";
+				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurranceInsteadOfDensity=" + occurranceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
+					//success
+					//clear old markers
+					for (var marker in markers) {
+						if (markers.hasOwnProperty(marker)) {
+							marker.setMap(null);
+						}
+					}
+					markers = {};
+					
+					//set new markers
+					var sites = JSON.parse(data);
+					var normalizedWeights = getNormalizedWeights(sites);
+					for(var i = 0; i < sites.length; i++){
+						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
+						var color = mapPercentToColor(normalizedWeights[i]);
+						var scale = 7;
+						var zIndex = Math.round(normalizedWeights[i] * 100);
+						if(sites[i]["Weight"] == 0){
+							scale = 5;
+							color = "#bbb";
+							zIndex = -1;
+						}
+						var marker = new google.maps.Marker({
+							map: map,
+							position: latlng,
+							title: sites[i]["Name"],
+							zIndex: zIndex,
+							icon: {
+								path: google.maps.SymbolPath.CIRCLE,
+								scale: scale,
+								strokeWeight: 1,
+								defaultFillColor: color,
+								fillColor: color,
+								fillOpacity: .9
+							},
+							animation: google.maps.Animation.DROP,
+							siteInformation: {
+								ID: sites[i]["ID"],
+								Name: sites[i]["Name"],
+								Description: sites[i]["Description"],
+								UserCount: sites[i]["UserCount"],
+								ArthropodGroupCount: sites[i]["ArthropodGroupCount"],
+								ArthropodCount: sites[i]["ArthropodCount"],
+								CaterpillarCount: sites[i]["CaterpillarCount"],
+								SurveyCount: sites[i]["SurveyCount"],
+								MostRecentDateTime: sites[i]["MostRecentDateTime"]
+							}
+						});
+						marker.addListener('click', physicalMarkerClick);
+						markers[sites[i]["ID"] + ""] = marker;
+						//marker.setMap(map);
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+			}
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
 					center: {lat: 37.068427, lng: -80.089019},
@@ -755,7 +827,7 @@
 						var color = mapPercentToColor(normalizedWeights[i]);
 						var scale = 7;
 						var zIndex = Math.round(normalizedWeights[i] * 100);
-						if(sites[i]["SurveyCount"] == 0){
+						if(sites[i]["Weight"] == 0){
 							scale = 5;
 							color = "#bbb";
 							zIndex = -1;
