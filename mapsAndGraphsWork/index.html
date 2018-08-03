@@ -365,6 +365,7 @@
 				border:1px solid #000;
 				margin:10px;
 				opacity:.9;
+				display:inline-block;
 			}
 			
 			#mapScale .smallScaleCircle{
@@ -868,7 +869,7 @@
 			}
 			function initializeMap() {
 				for(var i = 0; i < $(".scaleCircle").length; i++){
-					$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($("scaleCircle").length - 1)))});
+					$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
 				}
 				
 				map = new google.maps.Map($('#map')[0], {
