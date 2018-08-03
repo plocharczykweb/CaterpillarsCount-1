@@ -312,16 +312,19 @@
 			
 			#mapBar{
 				padding:10px;
-				background:#444;
+				background:#eee;
 				margin:0px -100px;
 				text-align:right;
+				border-bottom:2px solid rgba(0,0,0,0.05);
+				width:100%;
+				display:table;
 			}
 			
 			#mapFiltersToggleButton{
-				background:rgba(0,0,0,0.2);
 				margin:-10px;
-				padding:10px;
+				padding:20px;
 				display:inline-block;
+				cursor:pointer;
 			}
 			
 			#mapFiltersToggleButton>div{
@@ -331,7 +334,18 @@
 				background-size:contain;
 				background-position:center;
 				background-repeat:no-repeat;
-				opacity:.2;
+				opacity:.5;
+			}
+			
+			#mapTitle{
+				text-transform:uppercase;
+				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-size:14px;
+				display:table-cell;
+				vertical-align:middle;
+				padding:0px 20px;
+				border-right:1px solid rgba(0,0,0,0.05);
+				
 			}
 			
 			@media screen and (max-width: 600px){
@@ -815,6 +829,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
+						$("#mapTitle")[0].innerHTML = arthropod.replace("%", "All Arthropods") " on " + plantSpecies.replace("%", "All Trees");
 					}
 				})
 				.fail(function(){
@@ -1226,6 +1241,8 @@
 				<h2>Explore Sites</h2>
 				<div class="tagline">Click the sites on the map below to explore their statistics.</div>
 				<div id="mapBar">
+					<div id="mapTitle"></div>
+					<div id="mapScale"></div>
 					<div id="mapFiltersToggleButton"><div></div></div>
 				</div>
 				<div id="map"></div>
