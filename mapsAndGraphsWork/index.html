@@ -323,9 +323,20 @@
 				max-height:0px;
 			}
 			
+			#mapFilters>div{
+				padding:20px;
+			}
+			
 			#mapBar>div{
 				display:table;
 				width:100%;
+			}
+			
+			#mapBar>div>div .title{
+				font-size:10px;
+				margin-bottom:5px;
+				text-align:left;
+				font-weight:bold;
 			}
 			
 			#mapFiltersToggleButton{
@@ -888,7 +899,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = arthropod.replace("%", "All Arthropods") + " on " + plantSpecies.replace("%", "All Trees");
+						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Showing:</div>" + arthropod.replace("%", "All Arthropods") + " on " + plantSpecies.replace("%", "All Trees");
 					}
 				})
 				.fail(function(){
@@ -953,7 +964,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "Caterpillars on All Trees";
+						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Showing:</div>Caterpillars on All Trees";
 					}
 				})
 				.fail(function(){
@@ -1289,13 +1300,17 @@
 				<div id="mapBar">
 					<div>
 						<div id="mapTitle"></div>
-						<div id="mapScale"><div class="smallScaleCircle"></div><div class="scaleCircle"></div><div class="scaleCircle"></div><div class="scaleCircle"></div></div>
+						<div id="mapScale">
+							<div class="title">Scale:</div>
+							<div class="smallScaleCircle"></div><div class="scaleCircle"></div><div class="scaleCircle"></div><div class="scaleCircle"></div></div>
 						<div style="display:table-cell;width:100%;"></div>
 						<div id="mapFiltersToggleButton" onclick="toggleHeight($('#mapFilters'), function(){$('#mapFilters')[0].style.borderBottom = '2px solid rgba(0,0,0,0.05)';}, function(){$('#mapFilters')[0].style.borderBottom = '0px none transparent';});"><div></div></div>
 					</div>
 				</div>
 				<div id="mapFilters">
-					<input type="text"/>
+					<div>
+						<input type="text"/>
+					</div>
 				</div>
 				<div id="map"></div>
 				<div id="mapSpace"></div>
