@@ -337,6 +337,7 @@
 				margin-bottom:5px;
 				text-align:left;
 				font-weight:bold;
+				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 			}
 			
 			#mapFiltersToggleButton{
@@ -372,6 +373,8 @@
 				vertical-align:middle;
 				padding:0px 20px;
 				border-right:2px solid rgba(0,0,0,0.05);
+			}
+			#mapScale>div{
 				white-space: pre;
 			}
 			
@@ -1302,7 +1305,13 @@
 						<div id="mapTitle"></div>
 						<div id="mapScale">
 							<div class="title">Scale:</div>
-							<div class="smallScaleCircle"></div><div class="scaleCircle"></div><div class="scaleCircle"></div><div class="scaleCircle"></div></div>
+							<div>
+								<div class="smallScaleCircle"></div>
+								<div class="scaleCircle"></div>
+								<div class="scaleCircle"></div>
+								<div class="scaleCircle"></div>
+							</div>
+						</div>
 						<div style="display:table-cell;width:100%;"></div>
 						<div id="mapFiltersToggleButton" onclick="toggleHeight($('#mapFilters'), function(){$('#mapFilters')[0].style.borderBottom = '2px solid rgba(0,0,0,0.05)';}, function(){$('#mapFilters')[0].style.borderBottom = '0px none transparent';});"><div></div></div>
 					</div>
