@@ -340,6 +340,7 @@
 				margin-bottom:5px;
 				text-align:left;
 				font-weight:bold;
+				color:#888;
 			}
 			
 			#mapFiltersToggleButton{
@@ -365,7 +366,6 @@
 				padding:0px 20px;
 				border-right:2px solid rgba(0,0,0,0.05);
 				white-space: pre;
-				color:#888;
 			}
 			
 			#mapScale{
@@ -379,8 +379,8 @@
 			}
 			
 			#mapScale .scaleCircle, #mapScale .smallScaleCircle{
-				width:20px;
-				height:20px;
+				width:15px;
+				height:15px;
 				border-radius:9999px;
 				border:1px solid #000;
 				margin-right:10px;
@@ -393,10 +393,10 @@
 			}
 			
 			#mapScale .smallScaleCircle{
-				width:10px;
-				height:10px;
+				width:7px;
+				height:7px;
 				background:#bbb;
-				margin-bottom:5px;
+				margin-bottom:4px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -906,7 +906,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Showing:</div>" + arthropod.replace("%", "All Arthropods") + " on " + plantSpecies.replace("%", "All Trees");
+						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div>" + arthropod.replace("%", "All Arthropods") + " on " + plantSpecies.replace("%", "All Trees");
 					}
 				})
 				.fail(function(){
@@ -971,7 +971,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Showing:</div>Caterpillars on All Trees";
+						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div>Caterpillars on All Trees";
 					}
 				})
 				.fail(function(){
