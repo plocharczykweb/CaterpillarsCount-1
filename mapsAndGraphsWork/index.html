@@ -317,6 +317,12 @@
 				border-bottom:2px solid rgba(0,0,0,0.05);
 			}
 			
+			#mapFilters{
+				background:#eee;
+				margin:0px -100px;
+				max-height:0px;
+			}
+			
 			#mapBar>div{
 				display:table;
 				width:100%;
@@ -457,6 +463,32 @@
 				var ampm = "am";
 				if(hours >= 12){ampm = "pm";}
 				return formattedHours + ":" + minutes + ampm;
+			}
+			
+			function toggleHeight(ele, openFunction, closeFunction){
+				closeFunction = closeFunction || function(){};
+				if(!openHeight(ele, openFunction)){
+					closeHeight(ele, closeFunction);
+				}
+			}
+			function closeHeight(ele, closeFunction){
+				ele = $(ele)[0];
+				closeFunction = closeFunction || function(){};
+				if(ele.style.maxHeight != "0px" && ele.style.maxHeight != ""){
+					ele.style.maxHeight = ele.clientHeight + "px";
+					$(ele).stop().animate({maxHeight:"0px"}, 300, closeFunction);
+					return true;
+				}
+				return false;
+			}
+			function openHeight(ele, openFunction){
+				ele = $(ele)[0];
+				if(ele.style.maxHeight == "0px" || ele.style.maxHeight == ""){
+					openFunction();
+					$(ele).stop().animate({maxHeight:"99999999px"}, 259999);
+					return true;
+				}
+				return false;
 			}
 			
 			function resizeSuperHeader(){
@@ -1259,8 +1291,11 @@
 						<div id="mapTitle"></div>
 						<div id="mapScale"><div class="smallScaleCircle"></div><div class="scaleCircle"></div><div class="scaleCircle"></div><div class="scaleCircle"></div></div>
 						<div style="display:table-cell;width:100%;"></div>
-						<div id="mapFiltersToggleButton"><div></div></div>
+						<div id="mapFiltersToggleButton" onclick="toggleHeight(ele, function(){$('#mapFilters')[0].style.borderBottom = '2px solid rgba(0,0,0,0.05)';}, function(){$('#mapFilters')[0].style.borderBottom = '0px none transparent';});"><div></div></div>
 					</div>
+				</div>
+				<div id="mapFilters">
+					<input type="text"/>
 				</div>
 				<div id="map"></div>
 				<div id="mapSpace"></div>
