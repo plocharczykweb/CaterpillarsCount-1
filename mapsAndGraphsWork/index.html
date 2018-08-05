@@ -329,7 +329,19 @@
 			}
 			
 			#mapFilters>div{
+				display:table;
+				width:100%;
+			}
+			
+			#mapFilters>div>div{
 				padding:20px;
+				width:25%;
+				box-sizing:border-box;
+				border-right:2px solid rgba(0,0,0,0.05);
+				display:table-cell;
+			}
+			#mapFilters>div:last-of-type{
+				border-right:0px none transparent;
 			}
 			
 			#mapBar>div{
@@ -415,8 +427,6 @@
 				box-sizing:border-box;
 				margin-top:5px;
 				cursor:pointer;
-			}
-			.select{
 				padding:0px;
 				color:#aaa;
 				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -481,6 +491,22 @@
 				font-size:14px;
 				font-family: 'Roboto Slab', serif;
 				cursor:pointer;
+			}
+			
+			#densityOccurrenceArrow{
+				pointer-events:none;
+				cursor: pointer;
+				height: 34px;
+				width: 34px;
+				background-image:url('../images/selectIcons/notselected.png');
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
+				display: inline-block;
+				opacity: .4;
+				position: absolute;
+				right: 20px;
+				top: 10px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -1466,22 +1492,6 @@
 					}, 1);
 				}
 			}
-			
-			var densityOccurrenceSelectIsOpen = false;
-			var arrowFadeIn = null;
-			function toggleDensityOccurrenceArrow(selectElement){
-				clearTimeout(arrowFadeIn);
-				densityOccurrenceSelectIsOpen = !densityOccurrenceSelectIsOpen;
-				if(densityOccurrenceSelectIsOpen){
-					$(selectElement).find(".image").eq(1).stop().fadeOut(0);
-				}
-				else{
-					arrowFadeIn = setTimeout(function(){
-						$(selectElement).find(".image").eq(1).stop().fadeIn(200);
-					}, 300);
-				}
-				
-			}
 		</script>
 	</head>
 	<body>
@@ -1612,44 +1622,51 @@
 				</div>
 				<div id="mapFilters">
 					<div>
-						<table class="checkboxTable">
-							<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
-								<td><div class="checkbox checked" id="includeWetLeavesCheckbox"></div></td>
-								<td>Include surveys with wet leaves</td>
-								<td onclick="event.stopPropagation();queueNotice('alert', 'If checked, surveys where the user marked that the leaves on the tree were wet will be included with the data shown on the map. Otherwise, those surveys will be excluded.');"><img src="../images/question.png"/></td>
-							<tr>
-						</table>
-						
-						<div class="select" id="densityOccurrence" onclick="toggleDensityOccurrenceArrow(this);">
-							<div class="option selected" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Density</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Occurrence</div></div></div>
+						<div>
+							<div class="select" id="densityOccurrence" style="position:relative;">
+								<div id="densityOccurrenceArrow"></div>
+								<div class="option selected" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Density</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Occurrence</div></div></div>
+							</div>
 						</div>
-						
-						MONTH
-						YEAR
-						
-						<div class="select" id="arthropod">
-							<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All Arthropods</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
+						<div>
+							<div class="select" id="arthropod">
+								<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All Arthropods</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
+							</div>
+
+							<input type="number" id="minLength" placeholder="1mm - 300mm" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 300, 1)"/>
 						</div>
-				
-						<input type="number" id="minLength" placeholder="1mm - 300mm" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 300, 1)"/>
-						
-						<input type="text" id="plantSpecies" autocomplete="off"/>
+						<div>
+							<input type="text" id="plantSpecies" autocomplete="off"/>
+
+							<table class="checkboxTable">
+								<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
+									<td><div class="checkbox checked" id="includeWetLeavesCheckbox"></div></td>
+									<td>Include surveys with wet leaves</td>
+									<td onclick="event.stopPropagation();queueNotice('alert', 'If checked, surveys where the user marked that the leaves on the tree were wet will be included with the data shown on the map. Otherwise, those surveys will be excluded.');"><img src="../images/question.png"/></td>
+								<tr>
+							</table>
+						</div>
+						<div>
+							MONTH
+							YEAR
+						</div>
 					</div>
+					<button onclick="filterMap();">Apply Filters</button>
 				</div>
 				<div id="map"></div>
 				<div id="mapSpace"></div>
