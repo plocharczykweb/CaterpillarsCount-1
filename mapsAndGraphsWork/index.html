@@ -615,6 +615,29 @@
 				return false;
 			}
 			
+			function toggleMaxHeight(elements){
+				//switch the max height of all elements specified as "elements" between 0px and 250px
+				elements = $(elements);
+				for(var i = 0; i < elements.length; i++){
+					if(elements.eq(i)[0].style.maxHeight != "250px"){
+						elements.eq(i).stop().animate({maxHeight:"250px"});
+					}
+					else{
+						elements.eq(i).stop().animate({maxHeight:"0px"});
+					}
+				}
+			}
+			
+			function getYPosition(element) {
+				element = $(element)[0];
+    				var yPosition = 0;
+    				while(element) {
+        				yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+        				element = element.offsetParent;
+    				}
+				return yPosition;
+			}
+			
 			var selectToggling = false;
 			function autoOpenSelect(selectElement){
 				if(!selectToggling){
