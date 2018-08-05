@@ -520,7 +520,12 @@
 				});
 				attachAutoCompleteToInput($("#plantSpecies"), plantSpeciesList);
 			});
-			
+			function getWordAtIndex(str, index){
+				var left = str.slice(0, index + 1).search(/\S+$/);
+				var right = str.slice(index).search(/\s/);
+				if (right < 0) {return str.slice(left);}
+				return str.slice(left, right + index);
+			}
 			function attachAutoCompleteToInput(inputElement, sourceList){
 				$(inputElement).autocomplete({
 					minLength: 2,
@@ -1434,6 +1439,18 @@
 					}, 1);
 				}
 			}
+			
+			var densityOccurrenceSelectIsOpen = false;
+			function toggleDensityOccurrenceArrow(selectElement){
+				densityOccurrenceSelectIsOpen = !densityOccurrenceSelectIsOpen;
+				if(densityOccurrenceSelectIsOpen){
+					$(selectElement).find(".image").eq(1).stop().fadeOut(0);
+				}
+				else{
+					$(selectElement).find(".image").eq(1).stop().fadeIn(0);
+				}
+				
+			}
 		</script>
 	</head>
 	<body>
@@ -1572,9 +1589,9 @@
 							<tr>
 						</table>
 						
-						<div class="select" id="densityOccurrence">
+						<div class="select" id="densityOccurrence" onclick="toggleDensityOccurrenceArrow(this);">
 							<div class="option selected" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Density</div></div></div>
-							<div class="option" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown">			<div class="text">Occurrence</div></div></div>
+							<div class="option" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Occurrence</div></div></div>
 						</div>
 						
 						MONTH
