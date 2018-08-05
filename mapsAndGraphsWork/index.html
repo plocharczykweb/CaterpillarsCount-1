@@ -340,8 +340,23 @@
 				border-right:2px solid rgba(0,0,0,0.05);
 				display:table-cell;
 			}
+			
 			#mapFilters>div:last-of-type{
 				border-right:0px none transparent;
+			}
+			
+			#mapFilters>div>div .inputTitle{
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				color:#666;
+				text-transform:uppercase;
+				font-size:14px;
+			}
+			
+			#mapFilters>button{
+				margin: 0px;
+				width: 100%;
+				border-radius: 0px;
+				background: rgba(0,0,0,0.09);
 			}
 			
 			#mapBar>div{
@@ -1623,6 +1638,7 @@
 				<div id="mapFilters">
 					<div>
 						<div>
+							<div class="inputTitle">Comparison metric:</div>
 							<div class="select" id="densityOccurrence" style="position:relative;">
 								<div id="densityOccurrenceArrow"></div>
 								<div class="option selected" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Density</div></div></div>
@@ -1630,6 +1646,7 @@
 							</div>
 						</div>
 						<div>
+							<div class="inputTitle">Arthropod:</div>
 							<div class="select" id="arthropod">
 								<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All Arthropods</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
@@ -1648,9 +1665,11 @@
 								<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
 							</div>
 
-							<input type="number" id="minLength" placeholder="1mm - 300mm" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 1, 300, 1)"/>
+							<div class="inputTitle">Minimum length:</div>
+							<input type="number" id="minLength" placeholder="0mm - 300mm" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 0, 300, 1)"/>
 						</div>
 						<div>
+							<div class="inputTitle">Plant species</div>
 							<input type="text" id="plantSpecies" autocomplete="off"/>
 
 							<table class="checkboxTable">
@@ -1662,7 +1681,9 @@
 							</table>
 						</div>
 						<div>
+							<div class="inputTitle">Months:</div>
 							MONTH
+							<div class="inputTitle">Years:</div>
 							YEAR
 						</div>
 					</div>
