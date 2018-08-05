@@ -456,6 +456,33 @@
 				display:inline-block;
 			}
 			
+			ul.ui-autocomplete{
+				width:753px;
+				box-sizing:border-box;
+				padding:0px;
+			}
+			ul.ui-autocomplete>li{
+				background:#888;/*#a1c3ff;*/
+				color:#fff;
+				font-size:18px;
+				padding:5px 25px;
+				box-sizing:border-box;
+				list-style-type:none;
+			}
+			ul.ui-autocomplete>li:last-of-type{
+				border-radius:0px 0px 4px 4px;
+				overflow:hidden;
+				border-bottom:2px solid rgba(0,0,0,.2);
+			}
+			.ui-helper-hidden-accessible{
+				display:none;
+			}
+			.ui-menu-item{
+				font-size:14px;
+				font-family: 'Roboto Slab', serif;
+				cursor:pointer;
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -1441,13 +1468,17 @@
 			}
 			
 			var densityOccurrenceSelectIsOpen = false;
+			var arrowFadeIn = null;
 			function toggleDensityOccurrenceArrow(selectElement){
+				clearTimeout(arrowFadeIn);
 				densityOccurrenceSelectIsOpen = !densityOccurrenceSelectIsOpen;
 				if(densityOccurrenceSelectIsOpen){
 					$(selectElement).find(".image").eq(1).stop().fadeOut(0);
 				}
 				else{
-					$(selectElement).find(".image").eq(1).stop().fadeIn(0);
+					arrowFadeIn = setTimeout(function(){
+						$(selectElement).find(".image").eq(1).stop().fadeIn(200);
+					}, 300);
 				}
 				
 			}
