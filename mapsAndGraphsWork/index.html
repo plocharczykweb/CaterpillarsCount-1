@@ -1260,11 +1260,24 @@
 				filtering = true;
 				$("#mapFilters button").eq(0)[0].innerHTML = "<img src=\"../images/rolling.svg\" alt=\"loading...\"/>";
 				var includeWetLeaves = checkboxIsChecked($("#includeWetLeavesCheckbox"));
+				var readableIncludeWetLeaves = "not including surveys with wet leaves";
+				if(includeWetLeaves){
+					readableIncludeWetLeaves = "including surveys with wet leaves";
+				}
+				var readableOccurrenceDensity = getSelectText($("#densityOccurrence");
 				var occurrenceInsteadOfDensity = (getSelectValue($("#densityOccurrence")) == "occurrence");
 				var readableArthropod = getSelectText($("#arthropod"));
 				var arthropod = getSelectValue($("#arthropod"));
 				var minSize = Number($("#minLength")[0].value);
 				var plantSpecies = $("#plantSpecies")[0].value;
+				var months = "during " + monthStart;
+				if(monthStart != monthEnd){
+					months = "from " + monthStart + " to " + monthEnd;
+				}
+				var years = yearStart;
+				if(yearStart != yearEnd){
+					years = yearStart + " through " + yearEnd;
+				}
 				if(plantSpecies.replace(/ /g, "") == ""){plantSpecies = "%";}
 				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
 					//success
@@ -1318,7 +1331,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div>" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees");
+						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip'>" + readableOccurrenceDensity + " of " + readableArthropod.toLowerCase() + " (>" + minSize + "mm) on " + plantSpecies.replace("%", "All Trees").toLowerCase() + "(" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow'></div></div></div>";
 						closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});});
 					}
 				})
