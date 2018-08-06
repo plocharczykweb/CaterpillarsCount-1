@@ -525,7 +525,7 @@
 				top: 10px;
 			}
 			
-			#months{
+			#months, #years{
 				text-align:center;
 				font-size:12px;
 				margin-top:5px;
@@ -535,7 +535,6 @@
 			}
 			
 			.rangeSlider{
-				width:200px;
 				margin:20px;
 				height:2px;
 				border:0px none transparent;
@@ -701,8 +700,8 @@
 			}
 			
 			function toggleMapFilters(openFunction, closeFunction){
-				if(!openHeight($("#mapFilters"), function(){$('#mapFilters')[0].style.borderBottom = '2px solid rgba(0,0,0,0.05)';})){
-					closeHeight($("#mapFilters"), function(){$('#mapFilters')[0].style.borderBottom = '0px none transparent';});
+				if(!openHeight($("#mapFilters"), function(){})){
+					closeHeight($("#mapFilters"), function(){});
 				}
 			}
 			function closeHeight(ele, closeFunction){
@@ -874,6 +873,18 @@
 						$("#months")[0].innerHTML = months[ui.values[0] - 1] + " - " + months[ui.values[1] - 1];
 					}
 				});
+				var date = new Date();
+				var currentYear = date.getFullYear();
+				$("#yearsSlider").slider({
+					range: true,
+					min: 1980,
+					max: currentYear,
+					values: [1980, currentYear],
+					slide: function(event, ui){
+						$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
+					}
+				});
+				$("#years").innerHTML = "1980 - " + currentYear;
 			}
 			
 			function resizeSuperHeader(){
@@ -1692,9 +1703,9 @@
 						<div>
 							<div class="inputTitle">Comparison metric:</div>
 							<div class="select" id="densityOccurrence" style="position:relative;">
-								<div id="densityOccurrenceArrow"></div>
 								<div class="option selected" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown">			<div class="text">Density</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown">			<div class="text">Occurrence</div></div></div>
+								<div id="densityOccurrenceArrow"></div>
 							</div>
 						</div>
 						<div>
@@ -1723,7 +1734,8 @@
 						<div>
 							<div class="inputTitle">Plant species:</div>
 							<input type="text" id="plantSpecies" placeholder="All Trees" autocomplete="off"/>
-
+							
+							<div class="inputTitle" style="margin-top:20px;">Wet leaves:</div>
 							<table class="checkboxTable">
 								<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
 									<td><div class="checkbox checked" id="includeWetLeavesCheckbox"></div></td>
@@ -1738,7 +1750,8 @@
 							<div id="months">Jan - Dec</div>
 							
 							<div class="inputTitle" style="margin-top:20px;">Years:</div>
-							YEAR
+							<div id="yearsSlider" class="rangeSlider"></div>
+							<div id="years">Jan - Dec</div>
 						</div>
 					</div>
 					<button onclick="filterMap();">Apply Filters</button>
