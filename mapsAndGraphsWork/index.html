@@ -326,6 +326,7 @@
 			#mapFilters{
 				margin:0px -100px;
 				max-height:0px;
+				background:#eee;
 			}
 			
 			#mapFilters>div{
@@ -534,14 +535,15 @@
 				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 			}
 			
-			.rangeSlider{
+			#monthsSlider.rangeSlider, #yearsSlider.rangeSlider{
 				margin:20px;
 				height:2px;
 				border:0px none transparent;
 				background:rgba(0,0,0,0.1);
+				cursor:pointer;
 			}
 			.rangeSlider .ui-slider-range{
-				background:#fed136;
+				background:#777;
 				border-radius:0px;
 			}
 			.rangeSlider .ui-slider-handle{
@@ -552,12 +554,15 @@
 				height:16px;
 				width:16px;
 				border-radius:9999px;
-				top:-9px;
+				top:-8px;
 				margin-left:-8px;
 				border:1px solid #ddd;
 				-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
 				-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
 				box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
+			}
+			.rangeSlider .ui-slider-handle:active{
+				cursor: -webkit-grabbing; cursor: grabbing;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -700,8 +705,8 @@
 			}
 			
 			function toggleMapFilters(openFunction, closeFunction){
-				if(!openHeight($("#mapFilters"), function(){})){
-					closeHeight($("#mapFilters"), function(){});
+				if(!openHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="2px solid #888";})){
+					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";});
 				}
 			}
 			function closeHeight(ele, closeFunction){
@@ -884,7 +889,7 @@
 						$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
 					}
 				});
-				$("#years").innerHTML = "1980 - " + currentYear;
+				$("#years")[0].innerHTML = "1980 - " + currentYear;
 			}
 			
 			function resizeSuperHeader(){
@@ -1728,8 +1733,8 @@
 								<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
 							</div>
 
-							<div class="inputTitle" style="margin-top:20px;">Minimum length:</div>
-							<input type="number" id="minLength" placeholder="0mm - 300mm" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 0, 300, 1)"/>
+							<div class="inputTitle" style="margin-top:20px;">Minimum length (mm):</div>
+							<input type="number" id="minLength" placeholder="0" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 0, 300, 1)"/>
 						</div>
 						<div>
 							<div class="inputTitle">Plant species:</div>
