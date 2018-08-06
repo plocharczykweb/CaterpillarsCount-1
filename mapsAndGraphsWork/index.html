@@ -1283,7 +1283,7 @@
 					years = yearStart + " through " + yearEnd;
 				}
 				if(plantSpecies.replace(/ /g, "") == ""){plantSpecies = "%";}
-				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
+				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves.toString() + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
 					//success
 					//clear old markers
 					for (var siteID in markers) {
