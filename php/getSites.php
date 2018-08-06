@@ -5,7 +5,7 @@
 	$dbconn = (new Keychain)->getDatabaseConnection();
 
 	$includeWetLeaves = filter_var($_GET["includeWetLeaves"], FILTER_VALIDATE_BOOLEAN);
-	$occurranceInsteadOfDensity = filter_var($_GET["occurranceInsteadOfDensity"], FILTER_VALIDATE_BOOLEAN);
+	$occurrenceInsteadOfDensity = filter_var($_GET["occurrenceInsteadOfDensity"], FILTER_VALIDATE_BOOLEAN);
 	$monthStart = sprintf('%02d', intval($_GET["monthStart"]));
 	$monthEnd = sprintf('%02d', intval($_GET["monthEnd"]));
 	$yearStart = intval($_GET["yearStart"]);
@@ -60,7 +60,7 @@
 		$sitesArray[strval($row["SiteFK"])]["MostRecentDateTime"] = $row["MostRecentDateTime"];
 	}
 
-	if($occurranceInsteadOfDensity){
+	if($occurrenceInsteadOfDensity){
 		$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS Arthropods FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE MONTH(Survey.LocalDate)>=$monthStart AND MONTH(Survey.LocalDate)<=$monthEnd AND YEAR(Survey.LocalDate)>=$yearStart AND YEAR(Survey.LocalDate)<=$yearEnd AND ArthropodSighting.Group LIKE '$arthropod' AND (Plant.Species LIKE '$plantSpecies' OR (Plant.Species='N/A' AND Survey.PlantSpecies LIKE '$plantSpecies')) AND Survey.WetLeaves IN (0, $includeWetLeaves) AND ArthropodSighting.Length>=$minSize GROUP BY Plant.SiteFK");
 		while($row = mysqli_fetch_assoc($query)){
 			$sitesArray[strval($row["SiteFK"])]["Weight"] = round(((floatval($row["Arthropods"]) / floatval($sitesArray[strval($row["SiteFK"])]["SurveyCount"])) * 100), 2);// . "%";
