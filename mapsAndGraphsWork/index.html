@@ -1351,7 +1351,7 @@
 			}
 			function initializeMap() {
 				for(var i = 0; i < $(".scaleCircle").length; i++){
-					$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"bottomToolTip\" style=\"width:45px;text-align:center;right:5px;\"><div class=\"arrow\"></div>" + Math.round((i * (1/($(".scaleCircle").length - 1))) * 100) + "%</div>";
+					$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"bottomToolTip\" style=\"width:45px;text-align:center;right:-14px;\"><div class=\"arrow\" style=\"position:absolute;margin:0px;top:-7px;right:17px;\"></div>" + Math.round((i * (1/($(".scaleCircle").length - 1))) * 100) + "%</div>";
 					$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
 				}
 				
@@ -1743,7 +1743,9 @@
 						<div id="mapScale">
 							<div class="title">Scale:</div>
 							<div>
-								<div class="smallScaleCircle"></div>
+								<div class="smallScaleCircle">
+									<div class="bottomToolTip" style="width:140px;text-align:center;right:-14px;"><div class=\"arrow\" style="position:absolute;margin:0px;top:-7px;right:17px;"></div>No surveys</div>
+								</div>
 								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
 								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
 								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
