@@ -543,6 +543,9 @@
 				background:rgba(0,0,0,0.1);
 				cursor:pointer;
 			}
+			#yearsSlider.rangeSlider{
+				display:none;
+			}
 			.rangeSlider .ui-slider-range{
 				background:#777;
 				border-radius:0px;
@@ -873,6 +876,8 @@
 			var yearStart = 1980;
 			var yearEnd = (new Date()).getFullYear();
 			function setSliders(){
+				$("#years")[0].innerHTML = "Loading...";
+				
 				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
 				$("#monthsSlider").slider({
 					range: true,
@@ -885,20 +890,32 @@
 						$("#months")[0].innerHTML = months[ui.values[0] - 1] + " - " + months[ui.values[1] - 1];
 					}
 				});
-				var date = new Date();
-				var currentYear = date.getFullYear();
-				$("#yearsSlider").slider({
-					range: true,
-					min: 1980,
-					max: currentYear,
-					values: [1980, currentYear],
-					slide: function(event, ui){
-						yearStart = ui.values[0];
-						yearEnd = ui.values[1];
-						$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
-					}
+				$.get("../php/getEarliestYear.php", function(data){
+					//success
+					var date = new Date();
+					var currentYear = date.getFullYear();
+					var earliestYear = Number(data);
+					$("#yearsSlider").slider({
+						range: true,
+						min: earliestYear,
+						max: currentYear,
+						values: [earliestYear, currentYear],
+						slide: function(event, ui){
+							yearStart = ui.values[0];
+							yearEnd = ui.values[1];
+							$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
+						}
+					});
+					$("#years")[0].innerHTML = earliestYear + " - " + currentYear;
+					$("#yearsSlider").fadeIn();
+				})
+				.fail(function(){
+					//error
+					$("#years")[0].innerHTML = "Could not load year filter.";
+				})
+				.always(function() {
+					//complete
 				});
-				$("#years")[0].innerHTML = "1980 - " + currentYear;
 			}
 			
 			function resizeSuperHeader(){
@@ -1189,7 +1206,8 @@
 				//var colors = [hexToRgb("#000dff"), hexToRgb("#ff00ee")];//royalblue, hotpink
 				//var colors = [hexToRgb("#000dff"), hexToRgb("#22ff00")];//royalblue, limegreen
 				//var colors = [hexToRgb("#0022ff"), hexToRgb("#0dfa30"), hexToRgb("#f7ff00"), hexToRgb("#ff0000")];//blue, green, yellow, red
-				var colors = [hexToRgb("#2d5227"), hexToRgb("#22ff00")];//darkgreen, limegreen
+				//var colors = [hexToRgb("#2d5227"), hexToRgb("#22ff00")];//darkgreen, limegreen
+				var colors = [hexToRgb("#000000"), hexToRgb("#22ff00")];//black, limegreen
 				//var colors = [hexToRgb("#000787"), hexToRgb("#ff00ff")];//midnightblue, hotpink
 				for(var i = 0; i < colors.length; i++){
 					if(percent == (i/(colors.length - 1))) return "rgb(" + colors[i].join(", ") + ")";
@@ -1248,7 +1266,6 @@
 				var minSize = Number($("#minLength")[0].value);
 				var plantSpecies = $("#plantSpecies")[0].value;
 				if(plantSpecies.replace(/ /g, "") == ""){plantSpecies = "%";}
-				alert("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies));
 				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
 					//success
 					//clear old markers
@@ -1267,7 +1284,7 @@
 						var color = mapPercentToColor(normalizedWeights[i]);
 						var scale = 7;
 						var zIndex = Math.round(normalizedWeights[i] * 100);
-						if(sites[i]["Weight"] == 0){
+						if(sites[i]["SurveyCount"] == 0){
 							scale = 5;
 							color = "#bbb";
 							zIndex = -1;
@@ -1334,7 +1351,7 @@
 						var color = mapPercentToColor(normalizedWeights[i]);
 						var scale = 7;
 						var zIndex = Math.round(normalizedWeights[i] * 100);
-						if(sites[i]["Weight"] == 0){
+						if(sites[i]["SurveyCount"] == 0){
 							scale = 5;
 							color = "#bbb";
 							zIndex = -1;
@@ -1721,22 +1738,22 @@
 				<div id="mapFilters">
 					<div>
 						<div>
-							<div class="inputTitle">Comparison metric:</div>
+							<div class="inputTitle">Comparison metric: <img src="../images/question.png" style="float:right;height:12px;cursor:pointer;opacity:.2;" onclick="queueNotice('alert', 'Density shows the <span class='italic'>average arthropod quantity</span> per survey, while occurrence shows the <span class='italic'>proportion of surveys</span> that contain the arthropod. The key difference between these two comparison metrics is that when a large quantity of arthropods is found in a single survey, density takes into account the large quantity, but occurrence does not.');"/></div>
 							<div class="select" id="densityOccurrence" style="position:relative;">
-								<div class="option selected" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown">			<div class="text">Density</div></div></div>
-								<div class="option" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown">			<div class="text">Occurrence</div></div></div>
+								<div class="option selected" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown">			<div class="text">Occurrence</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown">			<div class="text">Density</div></div></div>
 								<div id="densityOccurrenceArrow"></div>
 							</div>
 						</div>
 						<div>
 							<div class="inputTitle">Arthropod Group:</div>
 							<div class="select" id="arthropod">
-								<div class="option selected" onclick="selectOption(this);">	<div class="value">%</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All Arthropods</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">%</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All Arthropods</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
-								<div class="option" onclick="selectOption(this);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
+								<div class="option selected" onclick="selectOption(this);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
@@ -1759,7 +1776,7 @@
 							<table class="checkboxTable">
 								<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
 									<td><div class="checkbox checked" id="includeWetLeavesCheckbox"></div></td>
-									<td>Include surveys with wet leaves</td>
+									<td style="color:#aaa;">Include surveys with wet leaves</td>
 									<td onclick="event.stopPropagation();queueNotice('alert', 'If checked, surveys where the user marked that the leaves on the tree were wet will be included with the data shown on the map. Otherwise, those surveys will be excluded.');"><img src="../images/question.png"/></td>
 								<tr>
 							</table>
