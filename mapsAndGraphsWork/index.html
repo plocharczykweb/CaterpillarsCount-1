@@ -330,6 +330,7 @@
 			#mapFilters>div{
 				display:table;
 				width:100%;
+				background:rgba(0,0,0,0.01);
 			}
 			
 			#mapFilters>div>div{
@@ -523,6 +524,41 @@
 				top: 10px;
 			}
 			
+			#months{
+				text-align:center;
+				font-size:12px;
+				margin-top:5px;
+				color:#bbb;
+				text-transform:uppercase;
+			}
+			
+			.rangeSlider{
+				width:200px;
+				margin:20px;
+				height:2px;
+				border:0px none transparent;
+				background:rgba(0,0,0,0.1);
+			}
+			.rangeSlider .ui-slider-range{
+				background:#fed136;
+				border-radius:0px;
+			}
+			.rangeSlider .ui-slider-handle{
+				cursor: -webkit-grab; cursor: grab;
+				background:#eee;
+				outline:none;
+				border:0px none transparent;
+				height:16px;
+				width:16px;
+				border-radius:9999px;
+				top:-9px;
+				margin-left:-8px;
+				border:1px solid #ddd;
+				-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
+				-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
+				box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -585,6 +621,7 @@
 					lockInMapHeight();
 					resizeSuperHeader();
 				});
+				setSliders();
 				attachAutoCompleteToInput($("#plantSpecies"), plantSpeciesList);
 			});
 			function getWordAtIndex(str, index){
@@ -672,7 +709,7 @@
 				if(ele.style.maxHeight != "0px" && ele.style.maxHeight != ""){
 					ele.style.maxHeight = ele.clientHeight + "px";
 					$(ele).stop().animate({maxHeight:"0px"}, 300, closeFunction);
-					$("#mapBar").animate({backgroundColor:"#eee"});
+					//$("#mapBar").animate({backgroundColor:"#eee"});
 					return true;
 				}
 				return false;
@@ -682,7 +719,7 @@
 				if(ele.style.maxHeight == "0px" || ele.style.maxHeight == ""){
 					openFunction();
 					$(ele).stop().animate({maxHeight:"99999999px"}, 259999);
-					$("#mapBar").animate({backgroundColor:"#ddd"});
+					//$("#mapBar").animate({backgroundColor:"#ddd"});
 					return true;
 				}
 				return false;
@@ -822,6 +859,19 @@
 					ele.value=max;
 					//queueNotice("alert", "Value must be between " + min + " and " + max + ".");
 				}
+			}
+			
+			function setSliders(){
+				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+				$("#monthsSlider").slider({
+					range: true,
+					min: 1,
+					max: 12,
+					values: [1, 12],
+					slide: function(event, ui){
+						$("#months")[0].innerHTML = months[ui.values[0] - 1] + " - " + months[ui.values[1] - 1];
+					}
+				});
 			}
 			
 			function resizeSuperHeader(){
@@ -1665,7 +1715,7 @@
 								<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
 							</div>
 
-							<div class="inputTitle" style="margin-top:5px;">Minimum length:</div>
+							<div class="inputTitle" style="margin-top:20px;">Minimum length:</div>
 							<input type="number" id="minLength" placeholder="0mm - 300mm" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 0, 300, 1)"/>
 						</div>
 						<div>
@@ -1682,8 +1732,10 @@
 						</div>
 						<div>
 							<div class="inputTitle">Months:</div>
-							MONTH
-							<div class="inputTitle" style="margin-top:5px;">Years:</div>
+							<div id="monthsSlider"></div>
+							<div id="months">Jan - Dec</div>
+							
+							<div class="inputTitle" style="margin-top:20px;">Years:</div>
 							YEAR
 						</div>
 					</div>
