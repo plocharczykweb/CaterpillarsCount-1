@@ -947,8 +947,14 @@
 			}
 			
 			var map;
+			var markers = {};
 			var lastMarker = null;
 			function activate(marker){
+				for (var siteID in markers) {
+					if (markers.hasOwnProperty(siteID)) {
+						markers[siteID].setZIndex(markers[siteID]["defaultZIndex"]);
+					}
+				}
 				marker.setIcon({
 					path: google.maps.SymbolPath.CIRCLE,
 					scale: marker.icon.scale,
@@ -957,6 +963,7 @@
 					fillColor: "#fed136",
 					fillOpacity: marker.icon.fillOpacity
 				});
+				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 				marker.setAnimation(google.maps.Animation.BOUNCE);
 				setTimeout(function(){marker.setAnimation(null);}, 750);
 			}
@@ -967,13 +974,11 @@
 					strokeWeight: marker.icon.strokeWeight,
 					defaultFillColor: marker.icon.defaultFillColor,
 					fillColor: marker.icon.defaultFillColor,
-					fillOpacity: marker.icon.fillOpacity
+					fillOpacity: marker.icon.fillOpacity,
+					zIndex: marker.icon.defaultZIndex
 				});
 			}
 			function toggleMarker(marker){
-				if(lastMarker !== null){
-					lastMarker.setZIndex();
-				}
 				if(marker.icon.defaultFillColor == marker.icon.fillColor){
 					if(lastMarker !== null){
 						deactivate(lastMarker);
@@ -984,7 +989,6 @@
 					deactivate(marker);
 				}
 				lastMarker = marker;
-				marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 			}
 			function physicalMarkerClick(){
 				markerClick(this);
@@ -1256,7 +1260,6 @@
 				return arrToReturn;
 			}
 			
-			var markers = {};
 			var filtering = false;
 			function filterMap(){
 				if(filtering){return false;}
@@ -1283,7 +1286,7 @@
 					years = yearStart + " through " + yearEnd;
 				}
 				if(plantSpecies.replace(/ /g, "") == ""){plantSpecies = "%";}
-				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves.toString() + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
+				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
 					//success
 					//clear old markers
 					for (var siteID in markers) {
@@ -1310,6 +1313,7 @@
 							map: map,
 							position: latlng,
 							title: sites[i]["Name"],
+							defaultZIndex: zIndex,
 							zIndex: zIndex,
 							icon: {
 								path: google.maps.SymbolPath.CIRCLE,
