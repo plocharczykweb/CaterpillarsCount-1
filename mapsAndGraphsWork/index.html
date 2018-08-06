@@ -1349,6 +1349,7 @@
 			}
 			function initializeMap() {
 				for(var i = 0; i < $(".scaleCircle").length; i++){
+					$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"bottomToolTip\"><div class=\"arrow\"></div>" + Math.round((i * (1/($(".scaleCircle").length - 1))) * 100) + "</div>";
 					$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
 				}
 				
@@ -1741,9 +1742,9 @@
 							<div class="title">Scale:</div>
 							<div>
 								<div class="smallScaleCircle"></div>
-								<div class="scaleCircle"></div>
-								<div class="scaleCircle"></div>
-								<div class="scaleCircle"></div>
+								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
+								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
+								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
 							</div>
 						</div>
 						<div style="display:table-cell;width:100%;"></div>
