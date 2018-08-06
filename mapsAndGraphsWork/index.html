@@ -894,7 +894,7 @@
 					//success
 					var date = new Date();
 					var currentYear = date.getFullYear();
-					var earliestYear = Number(data);
+					var earliestYear = Math.min(Number(data), (currentYear - 1));
 					$("#yearsSlider").slider({
 						range: true,
 						min: earliestYear,
