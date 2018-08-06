@@ -323,7 +323,6 @@
 			}
 			
 			#mapFilters{
-				background:#eee;
 				margin:0px -100px;
 				max-height:0px;
 			}
@@ -662,10 +661,9 @@
 				return formattedHours + ":" + minutes + ampm;
 			}
 			
-			function toggleHeight(ele, openFunction, closeFunction){
-				closeFunction = closeFunction || function(){};
-				if(!openHeight(ele, openFunction)){
-					closeHeight(ele, closeFunction);
+			function toggleMapFilters(openFunction, closeFunction){
+				if(!openHeight($("#mapFilters"), function(){$('#mapFilters')[0].style.borderBottom = '2px solid rgba(0,0,0,0.05)';})){
+					closeHeight($("#mapFilters"), function(){$('#mapFilters')[0].style.borderBottom = '0px none transparent';});
 				}
 			}
 			function closeHeight(ele, closeFunction){
@@ -674,6 +672,7 @@
 				if(ele.style.maxHeight != "0px" && ele.style.maxHeight != ""){
 					ele.style.maxHeight = ele.clientHeight + "px";
 					$(ele).stop().animate({maxHeight:"0px"}, 300, closeFunction);
+					$("#mapBar").animate({backgroundColor:"#eee"});
 					return true;
 				}
 				return false;
@@ -683,6 +682,7 @@
 				if(ele.style.maxHeight == "0px" || ele.style.maxHeight == ""){
 					openFunction();
 					$(ele).stop().animate({maxHeight:"99999999px"}, 259999);
+					$("#mapBar").animate({backgroundColor:"#ddd"});
 					return true;
 				}
 				return false;
@@ -1632,7 +1632,7 @@
 							</div>
 						</div>
 						<div style="display:table-cell;width:100%;"></div>
-						<div id="mapFiltersToggleButton" onclick="toggleHeight($('#mapFilters'), function(){$('#mapFilters')[0].style.borderBottom = '2px solid rgba(0,0,0,0.05)';}, function(){$('#mapFilters')[0].style.borderBottom = '0px none transparent';});"><div></div></div>
+						<div id="mapFiltersToggleButton" onclick="toggleMapFilters();"><div></div></div>
 					</div>
 				</div>
 				<div id="mapFilters">
@@ -1641,12 +1641,12 @@
 							<div class="inputTitle">Comparison metric:</div>
 							<div class="select" id="densityOccurrence" style="position:relative;">
 								<div id="densityOccurrenceArrow"></div>
-								<div class="option selected" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Density</div></div></div>
-								<div class="option" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>			<div class="text">Occurrence</div></div></div>
+								<div class="option selected" onclick="selectOption(this);">		<div class="value">density</div>		<div class="shown">			<div class="text">Density</div></div></div>
+								<div class="option" onclick="selectOption(this);">		<div class="value">occurrence</div>		<div class="shown">			<div class="text">Occurrence</div></div></div>
 							</div>
 						</div>
 						<div>
-							<div class="inputTitle">Arthropod:</div>
+							<div class="inputTitle">Arthropod Group:</div>
 							<div class="select" id="arthropod">
 								<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All Arthropods</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
@@ -1665,12 +1665,12 @@
 								<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
 							</div>
 
-							<div class="inputTitle">Minimum length:</div>
+							<div class="inputTitle" style="margin-top:5px;">Minimum length:</div>
 							<input type="number" id="minLength" placeholder="0mm - 300mm" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 0, 300, 1)"/>
 						</div>
 						<div>
-							<div class="inputTitle">Plant species</div>
-							<input type="text" id="plantSpecies" autocomplete="off"/>
+							<div class="inputTitle">Plant species:</div>
+							<input type="text" id="plantSpecies" placeholder="All Trees" autocomplete="off"/>
 
 							<table class="checkboxTable">
 								<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
@@ -1683,7 +1683,7 @@
 						<div>
 							<div class="inputTitle">Months:</div>
 							MONTH
-							<div class="inputTitle">Years:</div>
+							<div class="inputTitle" style="margin-top:5px;">Years:</div>
 							YEAR
 						</div>
 					</div>
