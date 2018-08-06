@@ -1244,7 +1244,7 @@
 				var includeWetLeaves = checkboxIsChecked($("#includeWetLeavesCheckbox"));
 				var occurrenceInsteadOfDensity = (getSelectValue($("#densityOccurrence")) == "occurrence");
 				var readableArthropod = getSelectText($("#arthropod"));
-				var arthropod = getSelectValue($("#arthropod")).replace("All Arthropods", "%");
+				var arthropod = getSelectValue($("#arthropod"));
 				var minSize = Number($("#minLength")[0].value);
 				var plantSpecies = $("#plantSpecies")[0].value;
 				if(plantSpecies.replace(/ /g, "") == ""){plantSpecies = "%";}
@@ -1731,7 +1731,7 @@
 						<div>
 							<div class="inputTitle">Arthropod Group:</div>
 							<div class="select" id="arthropod">
-								<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All Arthropods</div></div></div>
+								<div class="option selected" onclick="selectOption(this);">	<div class="value">%</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All Arthropods</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
 								<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
