@@ -358,7 +358,7 @@
 				margin: 0px;
 				width: 100%;
 				border-radius: 0px;
-				background: rgba(0,0,0,0.09);
+				background: rgba(0,0,0,0.15);
 			}
 			
 			#mapBar>div{
@@ -705,8 +705,8 @@
 			}
 			
 			function toggleMapFilters(openFunction, closeFunction){
-				if(!openHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="2px solid #888";})){
-					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";});
+				if(!openHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="2px solid #aaa";$("#mapTitle").animate({opacity:"0"});$("#mapScale").animate({opacity:"0"});})){
+					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});});
 				}
 			}
 			function closeHeight(ele, closeFunction){
@@ -867,6 +867,10 @@
 				}
 			}
 			
+			var monthStart = 1;
+			var monthEnd = 12;
+			var yearStart = 1980;
+			var yearEnd = (new Date()).getFullYear();
 			function setSliders(){
 				var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
 				$("#monthsSlider").slider({
@@ -875,6 +879,8 @@
 					max: 12,
 					values: [1, 12],
 					slide: function(event, ui){
+						monthStart = ui.values[0];
+						monthEnd = ui.values[1];
 						$("#months")[0].innerHTML = months[ui.values[0] - 1] + " - " + months[ui.values[1] - 1];
 					}
 				});
@@ -886,6 +892,8 @@
 					max: currentYear,
 					values: [1980, currentYear],
 					slide: function(event, ui){
+						yearStart = ui.values[0];
+						yearEnd = ui.values[1];
 						$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
 					}
 				});
@@ -1227,17 +1235,19 @@
 			}
 			
 			var markers = {};
+			var filtering = false;
 			function filterMap(){
-				var includeWetLeaves = true;
-				var occurranceInsteadOfDensity = false;
-				var monthStart = Number(1);
-				var monthEnd = Number(12);
-				var yearStart = Number(2018);
-				var yearEnd = Number(2018);
-				var arthropod = "beetle";
-				var minSize = Number(0);
-				var plantSpecies = "%";
-				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurranceInsteadOfDensity=" + occurranceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
+				if(filtering){return false;}
+				filtering = true;
+				$("#mapFilters button").eq(0)[0].innerHTML = "<img src=\"../images/rolling.svg\" alt=\"loading...\"/>";
+				var includeWetLeaves = checkboxIsChecked($("#includeWetLeavesCheckbox"));
+				var occurrenceInsteadOfDensity = (getSelectValue($("#densityOccurrence")) == "occurrence");
+				var readableArthropod = getSelectText($("#arthropod"));
+				var arthropod = getSelectValue($("#arthropod")).replace("All Arthropods", "%");
+				var minSize = Number($("#minLength")[0].value);
+				var plantSpecies = $("#plantSpecies")[0].value;
+				if(plantSpecies.replace(/ /g, "") == ""){plantSpecies = "%";}
+				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
 					//success
 					//clear old markers
 					for (var siteID in markers) {
@@ -1289,7 +1299,8 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div>" + arthropod.replace("%", "All Arthropods") + " on " + plantSpecies.replace("%", "All Trees");
+						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div>" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees");
+						closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});});
 					}
 				})
 				.fail(function(){
@@ -1298,6 +1309,8 @@
 				})
 				.always(function() {
 					//complete
+					$("#mapFilters button").eq(0)[0].innerHTML = "Apply Filters";
+					filtering = false;
 				});
 			}
 			function initializeMap() {
@@ -1310,7 +1323,7 @@
 					zoom: 5
 				});
 				
-				$.get("../php/getSites.php?includeWetLeaves=true&occurranceInsteadOfDensity=true&monthStart=1&monthEnd=12&yearStart=0&yearEnd=99999&arthropod=caterpillar&minSize=0&plantSpecies=" + encodeURIComponent("%"), function(data){
+				$.get("../php/getSites.php?includeWetLeaves=true&occurrenceInsteadOfDensity=true&monthStart=1&monthEnd=12&yearStart=0&yearEnd=99999&arthropod=caterpillar&minSize=0&plantSpecies=" + encodeURIComponent("%"), function(data){
 					//success
 					var sites = JSON.parse(data);
 					var normalizedWeights = getNormalizedWeights(sites);
