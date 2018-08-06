@@ -321,6 +321,8 @@
 				text-transform:uppercase;
 				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 				color:#666;
+				position:relative;
+				z-index:1;
 			}
 			
 			#mapFilters{
@@ -1349,7 +1351,7 @@
 			}
 			function initializeMap() {
 				for(var i = 0; i < $(".scaleCircle").length; i++){
-					$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"bottomToolTip\"><div class=\"arrow\"></div>" + Math.round((i * (1/($(".scaleCircle").length - 1))) * 100) + "</div>";
+					$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"bottomToolTip\" style=\"width:45px;text-align:center;right:5px;\"><div class=\"arrow\"></div>" + Math.round((i * (1/($(".scaleCircle").length - 1))) * 100) + "%</div>";
 					$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
 				}
 				
