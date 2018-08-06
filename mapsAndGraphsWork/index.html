@@ -326,6 +326,7 @@
 			#mapFilters{
 				margin:0px -100px;
 				max-height:0px;
+				overflow:hidden;
 				background:#eee;
 			}
 			
@@ -1247,6 +1248,7 @@
 				var minSize = Number($("#minLength")[0].value);
 				var plantSpecies = $("#plantSpecies")[0].value;
 				if(plantSpecies.replace(/ /g, "") == ""){plantSpecies = "%";}
+				alert("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies));
 				$.get("../php/getSites.php?includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
 					//success
 					//clear old markers
