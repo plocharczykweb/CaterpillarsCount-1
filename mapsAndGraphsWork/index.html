@@ -362,6 +362,21 @@
 				background: rgba(0,0,0,0.15);
 			}
 			
+			#mapFilters .bottomTooltip{
+				white-space:normal;
+				width:300px;
+				left:55px;
+				right:auto;
+				font-size:10px;
+				text-transform:none;
+			}
+			#mapFilters .bottomTooltip .arrow{
+				position:absolute;
+				top:-7px;
+				left:20px;
+				margin:0px;
+			}
+			
 			#mapBar>div{
 				display:table;
 				width:100%;
@@ -895,6 +910,7 @@
 					var date = new Date();
 					var currentYear = date.getFullYear();
 					var earliestYear = Math.min(Number(data), (currentYear - 1));
+					yearStart = earliestYear;
 					$("#yearsSlider").slider({
 						range: true,
 						min: earliestYear,
@@ -1270,9 +1286,10 @@
 				var arthropod = getSelectValue($("#arthropod"));
 				var minSize = Number($("#minLength")[0].value);
 				var plantSpecies = $("#plantSpecies")[0].value;
-				var months = "during " + monthStart;
+				var monthAbbrs = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+				var months = "during " + monthAbbrs[monthStart - 1];
 				if(monthStart != monthEnd){
-					months = "from " + monthStart + " to " + monthEnd;
+					months = "from " + monthAbbrs[monthStart - 1] + " to " + monthAbbrs[monthEnd - 1];
 				}
 				var years = yearStart;
 				if(yearStart != yearEnd){
