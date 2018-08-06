@@ -4,7 +4,7 @@
 	
 	$dbconn = (new Keychain)->getDatabaseConnection();
 
-	$includeWetLeaves = filter_var($_GET["includeWetLeaves"], FILTER_VALIDATE_BOOLEAN);
+	$includeWetLeaves = filter_var($_GET["includeWetLeaves"], FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
 	$occurrenceInsteadOfDensity = filter_var($_GET["occurrenceInsteadOfDensity"], FILTER_VALIDATE_BOOLEAN);
 	$monthStart = sprintf('%02d', intval($_GET["monthStart"]));
 	$monthEnd = sprintf('%02d', intval($_GET["monthEnd"]));
