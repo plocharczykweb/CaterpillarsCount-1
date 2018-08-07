@@ -20,8 +20,8 @@
 			$dateParts = explode("-", $row["LocalDate"]);
 			$month = $dateParts[1];
 			$day = $dateParts[2];
-			julianDay = gregoriantojd($month, $day, $year);
-			$dateWeights[strval(julianDay)] = array(julianDay, 0, intval($row["DailySurveyCount"]));
+			$julianDay = gregoriantojd($month, $day, $year);
+			$dateWeights[strval($julianDay)] = array($julianDay, 0, intval($row["DailySurveyCount"]));
 		}
     
 		if($densityOrOccurraece == "occurrence"){//occurrence
@@ -31,8 +31,8 @@
 				$dateParts = explode("-", $row["LocalDate"]);
 				$month = $dateParts[1];
 				$day = $dateParts[2];
-				julianDay = gregoriantojd($month, $day, $year);
-				$dateWeights[strval(julianDay)][1] = intval($row["SurveysWithArthropodsCount"]);
+				$julianDay = gregoriantojd($month, $day, $year);
+				$dateWeights[strval($julianDay)][1] = intval($row["SurveysWithArthropodsCount"]);
 			}
 		}
 		else{//density
@@ -42,8 +42,8 @@
 				$dateParts = explode("-", $row["LocalDate"]);
 				$month = $dateParts[1];
 				$day = $dateParts[2];
-				julianDay = gregoriantojd($month, $day, $year);
-				$dateWeights[strval(julianDay)][1] = intval($row["DailyArthropodSightings"]);
+				$julianDay = gregoriantojd($month, $day, $year);
+				$dateWeights[strval($julianDay)][1] = intval($row["DailyArthropodSightings"]);
 			}
 		}
     
