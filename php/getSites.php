@@ -82,6 +82,9 @@
 		if(!array_key_exists("SurveyCount", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["SurveyCount"] = 0;
 		}
+		if(!array_key_exists("FilteredSurveyCount", $sitesArray[strval($sites[$i]->getID())])){
+			$sitesArray[strval($sites[$i]->getID())]["FilteredSurveyCount"] = 0;
+		}
 		if(!array_key_exists("UserCount", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["UserCount"] = 0;
 		}
