@@ -36,7 +36,7 @@
 				height:30px;
 			}
 			
-			#rankingsSwitch{
+			#rankingsSwitch, #graphSwitch{
 				color:#666;
 				background:#eee;
 				display:inline-block;
@@ -47,7 +47,10 @@
 				margin-bottom:20px;
 				display:none;
 			}
-			#rankingsSwitch button{
+			#graphSwitch{
+				display:inline-block;
+			}
+			#rankingsSwitch button, #graphSwitch button{
 				color:inherit;
 				cursor:pointer;
 				outline:none;
@@ -62,10 +65,10 @@
 				width:70px;
 			}
 			
-			#rankingsSwitch button:last-of-type{
+			#rankingsSwitch button:last-of-type, #graphSwitch button:last-of-type{
 				margin-left:-4px;
 			}
-			#rankingsSwitch .active{
+			#rankingsSwitch .active, #graphSwitch .active{
 				background:rgba(0,0,0,.1);
 				-webkit-box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
 				-moz-box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
@@ -570,6 +573,10 @@
 			}
 			.rangeSlider .ui-slider-handle:active{
 				cursor: -webkit-grabbing; cursor: grabbing;
+			}
+			
+			#barGraph{
+				display:none;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -1370,7 +1377,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:300px;left:55px;right:auto;font-size:10px;text-transform:none;\">" + readableOccurrenceDensity + " of " + readableArthropod.toLowerCase() + " that are at least " + minSize + "mm long on " + plantSpecies.replace("%", "All Trees").toLowerCase() + " (" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
+						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">" + readableOccurrenceDensity + " of " + readableArthropod.toLowerCase() + " that are at least " + minSize + "mm long on " + plantSpecies.replace("%", "All Trees").toLowerCase() + " (" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
 						closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});});
 					}
 				})
@@ -1439,7 +1446,7 @@
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">Caterpillars on all trees<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:300px;left:55px;right:auto;font-size:10px;text-transform:none;\">Occurrence of caterpillars that are at least 0mm long on all trees (including surveys with wet leaves) from January to December over the period of all time<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
+						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">Caterpillars on all trees<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">Occurrence of caterpillars that are at least 0mm long on all trees (including surveys with wet leaves) from January to December over the period of all time<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
 					}
 				})
 				.fail(function(){
@@ -1660,6 +1667,15 @@
 					}, 1);
 				}
 			}
+			
+			function switchGraphTo(graphType){
+				$("#barGraphSwitchButton")[0].className = "";
+				$("#lineGraphSwitchButton")[0].className = "";
+				$("#" + graphType + "GraphSwitchButton")[0].className = "active";
+				$("#lineGraph")[0].style.display = "none";
+				$("#barGraph")[0].style.display = "none";
+				$("#" + graphType + "Graph")[0].style.display = "block";
+			}
 		</script>
 	</head>
 	<body>
@@ -1872,6 +1888,14 @@
 						<div id="siteUserLeaderboard"></div>
 						<div id="showMoreSiteUserRankings"><div onclick="showMoreSiteUserRankings();">Show more</div></div>
 						<h3>Graphs</h3>
+						<div class="centeredText">
+							<div id="graphSwitch">
+								<button id="lineGraphSwitchButton" class="active" onclick="switchGraphTo('line');">Phenology</button>
+								<button id="barGraphSwitchButton" onclick="switchGraphTo('bar');">Arthropod Density</button>
+							</div>
+							<div id="lineGraph">phenology graph...</div>
+							<div id="barGraph">arthropod density graph...</div>
+						</div>
 					</div>
 				</div>
 			</div>
