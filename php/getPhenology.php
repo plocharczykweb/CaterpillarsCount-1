@@ -3,7 +3,7 @@
 	
 	$dbconn = (new Keychain)->getDatabaseConnection();
   
-  	$lines = json_decode($_GET["lines"]);
+  	$lines = json_decode($_GET["lines"], true);
   
   	$weightedLines = array();
   	for($i = 0; $i < count($lines); $i++){
