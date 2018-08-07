@@ -77,6 +77,7 @@
 			$sitesArray[strval($row["SiteFK"])]["Weight"] = round(((floatval($row["Arthropods"]) / floatval($sitesArray[strval($row["SiteFK"])]["SurveyCount"])) * 100), 2);// . "%";
 		}
 	}
+	mysqli_close($dbconn);
 
 	for($i = 0; $i < count($sites); $i++){
 		if(!array_key_exists("SurveyCount", $sitesArray[strval($sites[$i]->getID())])){
