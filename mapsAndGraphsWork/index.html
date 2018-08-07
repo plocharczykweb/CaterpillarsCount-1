@@ -1346,7 +1346,7 @@
 						var color = mapPercentToColor(normalizedWeights[i]);
 						var scale = 7;
 						var zIndex = Math.round(normalizedWeights[i] * 100);
-						if(sites[i]["SurveyCount"] == 0){
+						if(sites[i]["FilteredSurveyCount"] == 0){
 							scale = 5;
 							color = "#bbb";
 							zIndex = -1;
@@ -1415,7 +1415,7 @@
 						var color = mapPercentToColor(normalizedWeights[i]);
 						var scale = 7;
 						var zIndex = Math.round(normalizedWeights[i] * 100);
-						if(sites[i]["SurveyCount"] == 0){
+						if(sites[i]["FilteredSurveyCount"] == 0){
 							scale = 5;
 							color = "#bbb";
 							zIndex = -1;
