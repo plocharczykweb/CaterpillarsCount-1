@@ -49,8 +49,8 @@
     
 		//divide
 		$dateWeights = array_values($dateWeights);
-		for($j = 0; $j < count($dateWeights); j++){
-			$dateWeights[j] = array($dateWeights[j][0], (($dateWeights[j][1] / $dateWeights[j][2]) * 100));
+		for($j = 0; $j < count($dateWeights); $j++){
+			$dateWeights[$j] = array($dateWeights[$j][0], (($dateWeights[$j][1] / $dateWeights[$j][2]) * 100));
 		}
     
     		$weightedLines[] = $dateWeights;
