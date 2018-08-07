@@ -484,6 +484,7 @@
 			}
 			.select .option .shown .text{
 				display:inline-block;
+				padding-right:40px;
 			}
 			
 			ul.ui-autocomplete{
@@ -618,6 +619,31 @@
 			@media screen and (max-width: 770px){
 				#mapBar{
 					margin:0px -20px;
+				}
+			}
+			
+			@media screen and (max-width: 900px){
+				#mapFiltersToggleButton{
+					display:none;
+				}
+				
+				#mapBar>div{
+					min-height:70px;
+				}
+			}
+			
+			@media screen and (max-width: 530px){
+				#mapScale{
+					border-right:0px none transparent;
+				}
+			}
+			
+			@media screen and (max-width: 400px){
+				#mapTitle{
+					font-size:10px;
+				}
+				#mapScale .scaleCircle, #mapScale .smallScaleCircle {
+					margin-right:2px;
 				}
 			}
 		</style>
@@ -984,9 +1010,12 @@
 						deactivate(lastMarker);
 					}
 					activate(marker);
+					return "new";
 				}
 				else{
-					deactivate(marker);
+					marker.setAnimation(google.maps.Animation.BOUNCE);
+					setTimeout(function(){marker.setAnimation(null);}, 750);
+					return "same";
 				}
 				lastMarker = marker;
 			}
@@ -994,8 +1023,10 @@
 				markerClick(this);
 			}
 			function markerClick(marker){
+				if(toggleMarker(marker) == "same"){
+					return false
+				}
 				showSiteUserLeaderboard(marker.siteInformation["ID"]);
-				toggleMarker(marker);
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
 				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
 				if(marker.siteInformation["MostRecentDateTime"] == "Never"){
