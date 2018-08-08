@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <script src="http://www.chartjs.org/dist/2.7.2/Chart.bundle.js"></script>
+        <script>
+            function chart(){
+            	new Chart(document.getElementById("bar-chart"), {
+                	type: 'line',
+                    data: {
+						datasets: [{
+							label: '',
+							backgroundColor: "rgba(200,200,200,0)",
+							borderColor: "rgba(200,200,200,0)",
+							fill: false,
+							data: [{
+								x: "2018-01-01T17:22:02-04:00",
+								y: 0
+                            }]
+						},
+                        {
+							label: 'Example Site (2018)',
+							backgroundColor: "rgba(255, 99, 132, 0.5)",
+							borderColor: "rgb(255, 99, 132)",
+							fill: false,
+							data: [{
+								x: "2018-04-01T17:22:02-04:00",
+								y: 72
+							}, {
+								x: "2018-05-18T17:22:02-04:00",
+								y: 12
+                            }, {
+                                x: "2018-06-09T17:22:02-04:00",
+                                y: 30
+                            }, {
+                                x: "2018-07-29T17:22:02-04:00",
+                                y: 9
+                            }]
+						},
+                        {
+							label: 'Example Site (2019)',
+							backgroundColor: "rgba(254, 209, 54, 0.5)",
+							borderColor: "#fed136",
+							fill: false,
+							data: [{
+								x: "2018-02-08T17:22:02-04:00",
+								y: 9
+							}, {
+								x: "2018-04-12T17:22:02-04:00",
+								y: 17
+                            }, {
+                                x: "2018-05-11T17:22:02-04:00",
+                                y: 70
+                            }, {
+                                x: "2018-06-21T17:22:02-04:00",
+                                y: 2
+                            }]
+						}, 
+                        {
+							label: '',
+							backgroundColor: "rgba(200,200,200,0)",
+							borderColor: "rgba(200,200,200,0)",
+							fill: false,
+							data: [{
+								x: "2018-12-31T17:22:02-04:00",
+								y: 100
+                            }]
+						}]
+                	},
+			options: {
+				responsive: true,
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        boxWidth: 13,
+                        fontColor: '#666'
+                    }
+                },
+				title: {
+					display: true,
+					text: 'Phenology'
+				},
+				scales: {
+					xAxes: [{
+						type: 'time',
+                        time: {
+                            tooltipFormat: "MMM D",
+                            displayFormats: {
+                        		quarter: 'MMM'
+                    		}
+                        },
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Date',
+                            fontColor: "#666"
+						},
+						ticks: {
+                            callback: function(value, index, values) {
+                        		return value.replace(/[0-9 ]/g, '');
+                    		},
+							major: {
+								fontStyle: 'bold',
+								fontColor: '#FF0000'
+							}
+						},
+                        gridLines: {color: "rgba(0,0,0,0.05)"}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Occurrence',
+                            fontColor: "#666"
+						},
+                        ticks: {
+                        	callback: function(value, index, values) {
+                        		return value + '%';
+                    		}
+                        },
+                        gridLines: {color: "rgba(0,0,0,0.05)"}
+					}]
+				}
+			}
+                });
+            }
+        </script>
+    </head>
+    <body onload="chart();">
+        <canvas id="bar-chart" width="0" height="0"></canvas>
+    </body>
+</html>
