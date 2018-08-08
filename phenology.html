@@ -79,6 +79,15 @@
 					display: true,
 					text: 'Phenology'
 				},
+                tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label: function(tooltipItems, data) { 
+                            return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';
+                        }
+                    }
+                },
 				scales: {
 					xAxes: [{
 						type: 'time',
@@ -109,14 +118,14 @@
 						display: true,
 						scaleLabel: {
 							display: true,
-							labelString: 'Occurrence',
+							labelString: 'Occurrence (%)',
                             fontColor: "#666"
-						},
+						},/*
                         ticks: {
                         	callback: function(value, index, values) {
                         		return value + '%';
                     		}
-                        },
+                        },*/
                         gridLines: {color: "rgba(0,0,0,0.05)"}
 					}]
 				}
@@ -126,6 +135,8 @@
         </script>
     </head>
     <body onload="chart();">
+        <div style="height:500px;width:800px;margin:20px auto;">
         <canvas id="bar-chart" width="0" height="0"></canvas>
+        </div>
     </body>
 </html>
