@@ -1820,9 +1820,10 @@
 					htmlToAdd += "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + 
 							labels[i][0] + 
-							" <span style=\"color:#aaa;font-size:20px;cursor:pointer;\">&times;</span>" + 
+							" <span style=\"color:#bbb;font-size:20px;cursor:pointer;margin:0px 0px -1px 3px;\">&times;</span>" + 
 						"</div>";
 				}
+				htmlToAdd += "<span style=\"color:#bbb;font-size:12px;cursor:pointer;margin:0px 0px -1px 3px;\">Add new</span>";
 				document.getElementById("phenologyLegend").innerHTML = htmlToAdd;
 			}
 
