@@ -135,7 +135,7 @@
             
             function addSets(sets){
             	for(var label in sets){
-                    if(obj.hasOwnProperty(label)){
+                    if(sets.hasOwnProperty(label)){
                     	addSet(label, sets[label]);
                     }
                 }
@@ -143,11 +143,9 @@
             
             function addSetsFromFilters(){
                 var filters = [{densityOrOccurrence: "density", arthropod:"%", siteID: 77, year: 2018}];
-                document.write("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify(filters)));
-            	$.get("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify(filters)), function(data){
+                $.get("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify(filters)), function(data){
                     //success
-                    document.write(data);
-			addSets(JSON.parse(data));
+                    addSets(JSON.parse(data));
                 })
                 .fail(function(){
                     //error
