@@ -1,142 +1,177 @@
 <html>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://www.chartjs.org/dist/2.7.2/Chart.bundle.js"></script>
+        <style>
+            #phenologyLegend{
+            	text-align:center;
+            }
+            #phenologyLegend .label{
+            	display:inline-block;
+                font-size:12px;
+                color:#666;
+                font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+                margin:3px;
+            }
+            #phenologyLegend .label .box{
+            	display:inline-block;
+                width:10px;
+                height:10px;
+                margin:0px 3px -4px 0px;
+            }
+        </style>
         <script>
-            function chart(){
-            	new Chart(document.getElementById("bar-chart"), {
-                	type: 'line',
-                    data: {
-						datasets: [{
-							label: '',
-							backgroundColor: "rgba(200,200,200,0)",
-							borderColor: "rgba(200,200,200,0)",
-							fill: false,
-							data: [{
-								x: "2018-01-01T17:22:02-04:00",
-								y: 0
-                            }]
-						},
-                        {
-							label: 'Example Site (2018)',
-							backgroundColor: "rgba(255, 99, 132, 0.5)",
-							borderColor: "rgb(255, 99, 132)",
-							fill: false,
-							data: [{
-								x: "2018-04-01T17:22:02-04:00",
-								y: 72
-							}, {
-								x: "2018-05-18T17:22:02-04:00",
-								y: 12
-                            }, {
-                                x: "2018-06-09T17:22:02-04:00",
-                                y: 30
-                            }, {
-                                x: "2018-07-29T17:22:02-04:00",
-                                y: 9
-                            }]
-						},
-                        {
-							label: 'Example Site (2019)',
-							backgroundColor: "rgba(254, 209, 54, 0.5)",
-							borderColor: "#fed136",
-							fill: false,
-							data: [{
-								x: "2018-02-08T17:22:02-04:00",
-								y: 9
-							}, {
-								x: "2018-04-12T17:22:02-04:00",
-								y: 17
-                            }, {
-                                x: "2018-05-11T17:22:02-04:00",
-                                y: 70
-                            }, {
-                                x: "2018-06-21T17:22:02-04:00",
-                                y: 2
-                            }]
-						}, 
-                        {
-							label: '',
-							backgroundColor: "rgba(200,200,200,0)",
-							borderColor: "rgba(200,200,200,0)",
-							fill: false,
-							data: [{
-								x: "2018-12-31T17:22:02-04:00",
-								y: 100
-                            }]
-						}]
-                	},
-			options: {
-				responsive: true,
-                legend: {
-                    display: true,
-                    position: 'top',
-                    labels: {
-                        boxWidth: 13,
-                        fontColor: '#666'
-                    }
+            var LINE_TENSION = 0.1;
+            var colors = ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"];
+            var endpoints = [getClearPoint(formatDate("2000-01-01"), 0), getClearPoint(formatDate("2000-12-31"), 100)];
+            var config = {
+                type: 'line',
+                data: {
+                    datasets: [
+                        endpoints[0],
+                        endpoints[1]
+                    ]
                 },
-				title: {
-					display: true,
-					text: 'Phenology'
-				},
-                tooltips: {
-                    enabled: true,
-                    mode: 'single',
-                    callbacks: {
-                        label: function(tooltipItems, data) { 
-                            return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';
-                        }
+                options: {
+                    responsive: true,
+                    legend: {display:false},
+                    tooltips: {callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {tooltipFormat: "MMM D",},
+                            scaleLabel: {display: true,labelString: 'Date'},
+                            ticks: {callback: function(value, index, values) {return value.replace(/[0-9 ]/g, '');}},
+                            gridLines: {color: "rgba(0,0,0,0.05)"}
+                        }],
+                        yAxes: [{
+                            scaleLabel: {display: true,labelString: 'Percent',},
+                            gridLines: {color: "rgba(0,0,0,0.05)"}
+                        }]
                     }
-                },
-				scales: {
-					xAxes: [{
-						type: 'time',
-                        time: {
-                            tooltipFormat: "MMM D",
-                            displayFormats: {
-                        		quarter: 'MMM'
-                    		}
-                        },
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Date',
-                            fontColor: "#666"
-						},
-						ticks: {
-                            callback: function(value, index, values) {
-                        		return value.replace(/[0-9 ]/g, '');
-                    		},
-							major: {
-								fontStyle: 'bold',
-								fontColor: '#FF0000'
-							}
-						},
-                        gridLines: {color: "rgba(0,0,0,0.05)"}
-					}],
-					yAxes: [{
-						display: true,
-						scaleLabel: {
-							display: true,
-							labelString: 'Occurrence (%)',
-                            fontColor: "#666"
-						},/*
-                        ticks: {
-                        	callback: function(value, index, values) {
-                        		return value + '%';
-                    		}
-                        },*/
-                        gridLines: {color: "rgba(0,0,0,0.05)"}
-					}]
-				}
-			}
+                }
+            };
+            
+            function getClearPoint(x, y){
+                var background = "rgba(230,230,230,0)";
+                var border = "rgba(200,200,200,0)";
+            	return {label: '', backgroundColor: background, borderColor: border, data: [{x: x, y: y}]};
+            }
+            function formatColor(colorString){
+                colorString = colorString.toLowerCase().trim()
+            	if(colorString.indexOf("rgb") == 0){
+                    var rgb = colorString.replace(/\D/g, " ").replace(/\s\s+/g, ' ').trim().split(" ");
+                	return "rgba(" + rgb[0] + ", " + rgb[1] + ", " + rgb[2] + ", 1)";
+                }
+                colorString = colorString.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, function(m, r, g, b){return r + r + g + g + b + b;});
+				var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(colorString);
+                return "rgba(" + parseInt(result[1], 16) + ", " + parseInt(result[2], 16) + ", " + parseInt(result[3], 16) + ", 1)";
+            }
+            function transluscent(color){
+            	return formatColor(color).replace("1)", "0.5)");
+            }
+            function opaque(color){
+            	return formatColor(color);
+            }
+            function formatDate(dateString){//YYYY-MM-DD
+            	return "2000" + dateString.substring(4) + "T12:00:00-00:00";
+            }
+            function getLine(label, color, points){
+                var line = {
+                    label: label,
+                    backgroundColor: transluscent(color),
+                    borderColor: opaque(color),
+                    lineTension: LINE_TENSION,
+                    fill: false,
+                    data: []
+                };
+                for(var i = 0; i < points.length; i++){
+                	line.data[line.data.length] = {x: formatDate(points[i][0]), y: Number(points[i][1])};
+                }
+                return line;
+            }
+            function getLines(label, color, points){
+            	points = points.sort(function(a, b) {
+                    return (new Date(a[0]).getTime()) - (new Date(b[0]).getTime());
+				});
+                var pointSets = [];
+                var DAY = 86400000;
+                var lastDatesTime = -1;
+                for(var i = 0; i < points.length; i++){
+                    var thisDatesTime = new Date(points[i][0]).getTime();
+                    if(i == 0 || Math.abs(thisDatesTime - lastDatesTime) > (DAY * 30)){
+                    	pointSets[pointSets.length] = [];
+                    }
+                    lastDatesTime = thisDatesTime;
+                    pointSets[pointSets.length - 1][pointSets[pointSets.length - 1].length] = points[i];
+                }
+                var lines = [];
+                for(var i = 0; i < pointSets.length; i++){
+                	lines[lines.length] = getLine(label, color, pointSets[i]);
+                }
+                return lines;
+            }
+            
+            var labels = [];
+            function addSet(label, points){
+            	var color = colors[labels.length];
+                labels[labels.length] = [label, color];
+                var lines = getLines(label, color, points);
+                config.data.datasets.splice(-1,1);
+                for(var i = 0; i < lines.length; i++){
+                	config.data.datasets[config.data.datasets.length] = lines[i];
+                }
+                config.data.datasets[config.data.datasets.length] = endpoints[1];
+                window.phenology.update();
+                updatePhenologyLegend();
+            }
+            function updatePhenologyLegend(){
+                var htmlToAdd = "";
+                for(var i = 0; i < labels.length; i++){
+            		htmlToAdd += "<div class=\"label\"><div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + labels[i][0] + "</div>";
+                }
+                document.getElementById("phenologyLegend").innerHTML = htmlToAdd;
+            }
+            
+            function addSets(sets){
+            	for(var label in sets){
+                    if(obj.hasOwnProperty(label)){
+                    	addSet(label, sets[label]);
+                    }
+                }
+            }
+            
+            function addSetsFromFilters(){
+                var filters = [{densityOrOccurrence: "density", arthropod:"%", siteID: 77, year: 2018}];
+                document.write("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify(filters)));
+            	$.get("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify(filters)), function(data){
+                    //success
+                    document.write(data);
+			addSets(JSON.parse(data));
+                })
+                .fail(function(){
+                    //error
+                    document.write("Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+                })
+                .always(function() {
+                    //complete
                 });
+            }
+            
+            
+            
+            
+            function chart(){
+            	window.phenology = new Chart(document.getElementById("phenologyChart"), config);
+                addSet('Example Site (2018)', [["2018-04-01", 72], ["2018-05-18", 12], ["2018-06-09", 30], ["2018-07-29", 9]]);
+                addSetsFromFilters();
             }
         </script>
     </head>
     <body onload="chart();">
+        <div id="phenologyLegend"></div>
         <div style="height:500px;width:800px;margin:20px auto;">
-        <canvas id="bar-chart" width="0" height="0"></canvas>
+        	<canvas id="phenologyChart" width="0" height="0"></canvas>
         </div>
     </body>
 </html>
