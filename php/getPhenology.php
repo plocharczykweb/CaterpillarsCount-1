@@ -64,5 +64,5 @@
     		$weightedLines[ucfirst($densityOrOccurrence) . " of " . $readableArthropods[$arthropod] . " at " . $site->getName() . " in " . $year] = $dateWeights;
   	}
   	mysqli_close($dbconn);
-  	die(json_encode($weightedLines));//in the form of: [LABEL: [[LOCAL_DATE, PERCENT]]] //example: ["Density of all arthropods at Example Site in 2018": [[2018-08-09, 30], [2018-08-12, 25]], [[2018-08-15, 21.3], [2018-09-02, 70]]]
+  	die("true|" . json_encode($weightedLines));//in the form of: [LABEL: [[LOCAL_DATE, PERCENT]]] //example: ["Density of all arthropods at Example Site in 2018": [[2018-08-09, 30], [2018-08-12, 25]], [[2018-08-15, 21.3], [2018-09-02, 70]]]
 ?>
