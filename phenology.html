@@ -113,7 +113,10 @@
             }
             
             var labels = [];
-            function addSet(label, points){
+            function addSet(label, points, update){
+		if(update !== false){
+			update = true;
+		}
             	var color = colors[labels.length];
                 labels[labels.length] = [label, color];
                 var lines = getLines(label, color, points);
@@ -122,8 +125,10 @@
                 	config.data.datasets[config.data.datasets.length] = lines[i];
                 }
                 config.data.datasets[config.data.datasets.length] = endpoints[1];
-                window.phenology.update();
-                updatePhenologyLegend();
+		if(update){
+                	window.phenology.update();
+                	updatePhenologyLegend();
+		}
             }
             function updatePhenologyLegend(){
                 var htmlToAdd = "";
@@ -132,20 +137,31 @@
                 }
                 document.getElementById("phenologyLegend").innerHTML = htmlToAdd;
             }
+		
+		function clearSets(){
+			labels = [];
+			config.data.datasets = [endpoints[0], endpoints[1]];
+			window.phenology.update();
+                	updatePhenologyLegend();
+		}
             
-            function addSets(sets){
+            function setSets(sets){
+		labels = [];
+		config.data.datasets = [endpoints[0], endpoints[1]];
             	for(var label in sets){
                     if(sets.hasOwnProperty(label)){
-                    	addSet(label, sets[label]);
+                    	addSet(label, sets[label], false);
                     }
                 }
+		window.phenology.update();
+                updatePhenologyLegend();
             }
             
-            function addSetsFromFilters(){
+            function setSetsFromFilters(){
                 var filters = [{densityOrOccurrence: "density", arthropod:"%", siteID: 77, year: 2018}];
                 $.get("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify(filters)), function(data){
                     //success
-                    addSets(JSON.parse(data));
+                    setSets(JSON.parse(data));
                 })
                 .fail(function(){
                     //error
