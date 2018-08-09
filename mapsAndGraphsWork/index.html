@@ -1841,11 +1841,16 @@
 				var filters = [{densityOrOccurrence: "density", arthropod:"%", siteID: 77, year: 2018}];
 				$.get("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify(filters)), function(data){
 					//success
-					setSets(JSON.parse(data));
+					if(data.indexOf("true|") == 0){
+						setSets(JSON.parse(data.replace("true|", "")));
+					}
+					else{
+						queueNotice("error", data);
+					}
 				})
 				.fail(function(){
 					//error
-					document.write("Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
 				})
 				.always(function() {
 					//complete
