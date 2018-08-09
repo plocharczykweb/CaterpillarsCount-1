@@ -1035,7 +1035,7 @@
 				});
 			}
 			function toggleMarker(marker){
-				if(marker.icon.defaultFillColor == marker.icon.fillColor){
+				if(opaque(marker.icon.defaultFillColor) == opaque(marker.icon.fillColor)){
 					if(lastMarker !== null){
 						deactivate(lastMarker);
 					}
@@ -1054,7 +1054,8 @@
 			}
 			function markerClick(marker){
 				if(toggleMarker(marker) == "same"){
-					return false
+					scrollToPanel(3);
+					return false;
 				}
 				showSiteUserLeaderboard(marker.siteInformation["ID"]);
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
