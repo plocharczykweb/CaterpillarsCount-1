@@ -1035,19 +1035,18 @@
 				});
 			}
 			function toggleMarker(marker){
-				if(opaque(marker.icon.defaultFillColor) == opaque(marker.icon.fillColor)){
+				if(marker.icon.defaultFillColor == marker.icon.fillColor){
 					if(lastMarker !== null){
 						deactivate(lastMarker);
 					}
 					activate(marker);
+					lastMarker = marker;
 					return "new";
 				}
-				else{
-					marker.setAnimation(google.maps.Animation.BOUNCE);
-					setTimeout(function(){marker.setAnimation(null);}, 750);
-					return "same";
-				}
+				marker.setAnimation(google.maps.Animation.BOUNCE);
+				setTimeout(function(){marker.setAnimation(null);}, 750);
 				lastMarker = marker;
+				return "same";
 			}
 			function physicalMarkerClick(){
 				markerClick(this);
