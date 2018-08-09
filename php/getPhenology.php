@@ -26,7 +26,7 @@
   	$weightedLines = array();
   	for($i = 0; $i < count($lines); $i++){
 		$siteID = intval($lines[$i]["siteID"]);
-		$site = Site::findByID(siteID);
+		$site = Site::findByID($siteID);
 		if(!is_object($site) || get_class($site) != "Site"){continue;}
     		$densityOrOccurrence = $lines[$i]["densityOrOccurrence"];
 		$arthropod = mysqli_real_escape_string($dbconn, $lines[$i]["arthropod"]);
