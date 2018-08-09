@@ -17,33 +17,21 @@
 		//get survey counts each day
 		$query = mysqli_query($dbconn, "SELECT Survey.LocalDate, COUNT(*) AS DailySurveyCount FROM `Survey` JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' AND YEAR(Survey.LocalDate)='$year' GROUP BY Survey.LocalDate ORDER BY Survey.LocalDate");
 		while($row = mysqli_fetch_assoc($query)){
-			$dateParts = explode("-", $row["LocalDate"]);
-			$month = $dateParts[1];
-			$day = $dateParts[2];
-			$julianDay = gregoriantojd($month, $day, $year);
-			$dateWeights[strval($julianDay)] = array($julianDay, 0, intval($row["DailySurveyCount"]));
+			$dateWeights[$row["LocalDate"]] = array($row["LocalDate"], 0, intval($row["DailySurveyCount"]));
 		}
     
 		if($densityOrOccurrence == "occurrence"){//occurrence
 			//get [survey with specified arthropod] counts each day
 			$query = mysqli_query($dbconn, "SELECT Survey.LocalDate, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS SurveysWithArthropodsCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' AND ArthropodSighting.Group LIKE '$arthropod' AND YEAR(Survey.LocalDate)='$year' GROUP BY Survey.LocalDate ORDER BY Survey.LocalDate");
 			while($row = mysqli_fetch_assoc($query)){
-				$dateParts = explode("-", $row["LocalDate"]);
-				$month = $dateParts[1];
-				$day = $dateParts[2];
-				$julianDay = gregoriantojd($month, $day, $year);
-				$dateWeights[strval($julianDay)][1] = intval($row["SurveysWithArthropodsCount"]);
+				$dateWeights[$row["LocalDate"]][1] = intval($row["SurveysWithArthropodsCount"]);
 			}
 		}
 		else{//density
 			//get arthropod counts each day
 			$query = mysqli_query($dbconn, "SELECT Survey.LocalDate, SUM(ArthropodSighting.Quantity) AS DailyArthropodSightings FROM `ArthropodSighting` JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' AND ArthropodSighting.Group LIKE '$arthropod' AND YEAR(Survey.LocalDate)='$year' GROUP BY Survey.LocalDate ORDER BY Survey.LocalDate");
 			while($row = mysqli_fetch_assoc($query)){
-				$dateParts = explode("-", $row["LocalDate"]);
-				$month = $dateParts[1];
-				$day = $dateParts[2];
-				$julianDay = gregoriantojd($month, $day, $year);
-				$dateWeights[strval($julianDay)][1] = intval($row["DailyArthropodSightings"]);
+				$dateWeights[$row["LocalDate"]][1] = intval($row["DailyArthropodSightings"]);
 			}
 		}
     
@@ -56,5 +44,5 @@
     		$weightedLines[] = $dateWeights;
   	}
   	mysqli_close($dbconn);
-  	die(json_encode($weightedLines));//in the form of: [[[JULIAN DAY, PERCENT]]] //example: [[[2458336.5, 30], [2458337.5, 25]], [[2458336.5, 21.3], [2458337.5, 70]]]
+  	die(json_encode($weightedLines));//in the form of: [[[LOCAL_DATE, PERCENT]]] //example: [[[2018-08-09, 30], [2018-08-12, 25]], [[2018-08-15, 21.3], [2018-09-02, 70]]]
 ?>
