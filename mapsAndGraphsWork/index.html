@@ -1817,7 +1817,11 @@
 			function updatePhenologyLegend(){
 				var htmlToAdd = "";
 				for(var i = 0; i < labels.length; i++){
-					htmlToAdd += "<div class=\"label\"><div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + labels[i][0] + "</div>";
+					htmlToAdd += "<div class=\"label\">" + 
+							"<div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + 
+							labels[i][0] + 
+							" <span style=\"color:#aaa;font-size:20px;cursor:pointer;\">&times;</span>" + 
+						"</div>";
 				}
 				document.getElementById("phenologyLegend").innerHTML = htmlToAdd;
 			}
