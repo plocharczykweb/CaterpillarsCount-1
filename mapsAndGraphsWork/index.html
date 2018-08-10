@@ -1839,12 +1839,20 @@
 							" <div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\">&times;</div>" + 
 						"</div><br/>";
 				}
-				htmlToAdd += 	"<div class=\"label\">" + 
+				htmlToAdd += 	"<div class=\"label\" id=\"addNewLineLabel\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#333") + ";border:3px solid #333;\"></div>" + 
-							"<span class=\"underline pointer\">Add new line</span>" + 
+							"<span class=\"underline pointer\" onclick=\"showAddNewLineOptions();\">Add new line</span>" + 
 						"</div>";
 				htmlToAdd += "</div>";
-				document.getElementById("phenologyLegend").innerHTML = htmlToAdd;
+				$("#phenologyLegend")[0].innerHTML = htmlToAdd;
+			}
+			
+			function showAddNewLineOptions(){
+				$("#addNewLineLabel")[0].outerHTML = "<div class=\"label\">" + 
+							"<div class=\"box\" style=\"background:" + transluscent("#333") + ";border:3px solid #333;\"></div>" + 
+							"<span>Occurrance of all arthropods at Not Selected in 2018</span>" + 
+						"</div>";
+					+ $("#addNewLineLabel")[0].outerHTML;
 			}
 
 			function clearSets(){
@@ -2097,11 +2105,6 @@
 							</div>
 							<div id="lineGraph">
 								<div id="phenologyLegend"></div>
-								<div id="addNewLine">
-									<div>
-										<input type="text"/>
-									</div>
-								</div>
 								<div style="height:500px;">
 									<canvas id="phenologyChart" width="0" height="0"></canvas>
 								</div>
