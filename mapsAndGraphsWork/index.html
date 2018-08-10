@@ -1911,7 +1911,6 @@
 				}
 				$("#addNewLineLabel")[0].outerHTML = "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#333") + ";border:3px solid #333;\"></div>" + 
-							"<span>" + 
 							"<div class=\"smallSelect\">" + 
 								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">Occurrence</div>" + 
 								"<div class=\"options\">" + 
@@ -1922,7 +1921,7 @@
 							" of " + 
 							"<div class=\"smallSelect\">" + //ARTHROPODS
 								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">all arthropods</div>" + 
-								"<div class=\"options\">" + 
+								"<div class=\"options\" style=\"min-width:153px;\">" + 
 									"<div onclick=\"smallSelectOption(this);\">all arthropods</div>" + 
 									"<div onclick=\"smallSelectOption(this);\">ants</div>" + 
 									"<div onclick=\"smallSelectOption(this);\">aphids and psyllids</div>" + 
@@ -1954,7 +1953,8 @@
 									yearOptions + 
 								"</div>" + 
 							"</div>" + 
-							"</span>" + 
+							"<img src=\"../images/inputCheckIcon.png\" style=\"height:20px;\"/>" + 
+							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\">&times;</div>";
 						"</div><br/>" + 
 					$("#addNewLineLabel")[0].outerHTML;
 			}
