@@ -617,6 +617,40 @@
 				box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
 			}
 			
+			.smallSelect{
+				position:relative;
+				display:inline-block;
+				text-decoration:inherit;
+			}
+			.smallSelect .selected{
+				border-radius:4px;
+				text-decoration:inherit;
+				cursor:pointer;
+				background:rgba(0,0,0,0.1);
+				padding:0px 2px;
+			}
+			.smallSelect .options{
+				position:absolute;
+				top:0px;
+				left:-5px;
+				background:#fff;
+				min-width:100%;
+				border-radius:5px;
+				overflow:hidden;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				font-size:12px;
+				display:none;
+				z-index:1;
+			}
+			.smallSelect .options>div{
+				padding:5px;
+				cursor:pointer;
+			}
+			.smallSelect .options>div:hover{
+				background:#ebfeff;
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -708,6 +742,11 @@
 				attachAutoCompleteToInput($("#plantSpecies"), plantSpeciesList);
 				window.phenology = new Chart(document.getElementById('phenologyChart'), config);
 			});
+			
+			$(document).click(function(){
+				$(".smallSelect .options").fadeOut(0);
+			});
+			
 			function getWordAtIndex(str, index){
 				var left = str.slice(0, index + 1).search(/\S+$/);
 				var right = str.slice(index).search(/\s/);
@@ -925,6 +964,15 @@
 						//TODO: remove this line. "
 					}
 				}
+			}
+			
+			function showSmallSelectOptions(selectedOption){
+				setTimeout(function(){
+					$(selectedOption).parent().find('.options').eq(0).css({display:"block"});
+				}, 1);
+			}
+			function smallSelectOption(option){
+				$(option).parent().parent().find('.selected').eq(0)[0].innerHTML = option.innerHTML.replace("<br/>", " ").replace("<br>", " ");
 			}
 			
 			function enforceRange(ele, min, max, step){
@@ -1434,6 +1482,8 @@
 					filtering = false;
 				});
 			}
+			var siteNames = [];
+			var siteIDs = [];
 			function initializeMap() {
 				for(var i = 0; i < $(".scaleCircle").length; i++){
 					$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"bottomToolTip\" style=\"width:45px;text-align:center;right:-14px;\"><div class=\"arrow\" style=\"position:absolute;margin:0px;top:-7px;right:17px;\"></div>" + Math.round((i * (1/($(".scaleCircle").length - 1))) * 100) + "%</div>";
@@ -1450,6 +1500,8 @@
 					var sites = JSON.parse(data);
 					var normalizedWeights = getNormalizedWeights(sites);
 					for(var i = 0; i < sites.length; i++){
+						siteNames[siteNames.length] = sites[i]["Name"];
+						siteIDs[siteIDs.length] = sites[i]["ID"];
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var color = mapPercentToColor(normalizedWeights[i]);
 						var scale = 7;
@@ -1848,10 +1900,62 @@
 			}
 			
 			function showAddNewLineOptions(){
+				var siteSelectOptions = "";
+				for(var i = 0; i < siteNames.length; i++){
+					siteSelectOptions += "<div onclick=\"smallSelectOption(this);\">" + siteNames[i] + "</div>";
+				}
+				
+				var yearOptions = "";
+				for(var i = yearEnd; i >= yearStart; i--){
+					yearOptions += "<div onclick=\"smallSelectOption(this);\">" + i + "</div>";
+				}
 				$("#addNewLineLabel")[0].outerHTML = "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#333") + ";border:3px solid #333;\"></div>" + 
-							"<span>Occurrance of all arthropods at Not Selected in 2018</span>" + 
-						"</div>" + 
+							"<span>" + 
+							"<div class=\"smallSelect\">" + 
+								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">Occurrance</div>" + 
+								"<div class=\"options\">" + 
+									"<div onclick=\"smallSelectOption(this);\">Occurrance</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Density</div>" + 
+								"</div>" + 
+							"</div>" + 
+							" of " + 
+							"<div class=\"smallSelect\">" + //ARTHROPODS
+								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">all arthropods</div>" + 
+								"<div class=\"options\">" + 
+									"<div onclick=\"smallSelectOption(this);\">all arthropods</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">ants</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">aphids and psyllids</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">bees and wasps</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">beetles</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">caterpillars</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">daddy longlegs</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">flies</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">grasshoppers and crickets</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">leaf hoppers and cicadas</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">moths and butterflies</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">spiders</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">true bugs</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">other arthropods</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">unidentified arthropods</div>" + 
+								"</div>" + 
+							"</div>" + 
+							" at " + 
+							"<div class=\"smallSelect\">" + //SITE
+								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">" + siteNames[0] + "</div>" + 
+								"<div class=\"options\">" + 
+									siteSelectOptions + 
+								"</div>" + 
+							"</div>" + 
+							" in " + 
+							"<div class=\"smallSelect\">" + //YEAR
+								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">" + yearEnd + "</div>" + 
+								"<div class=\"options\">" + 
+									yearOptions
+								"</div>" + 
+							"</div>" + 
+							"</span>" + 
+						"</div><br/>" + 
 					$("#addNewLineLabel")[0].outerHTML;
 			}
 
