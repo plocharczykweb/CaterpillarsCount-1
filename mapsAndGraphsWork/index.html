@@ -602,6 +602,21 @@
 				margin:0px 3px -4px 0px;
 			}
 			
+			#addNewLine{
+				border-top:1px solid #ddd;
+				border-bottom:1px solid #ddd;
+				margin:20px 0px;
+			}
+			
+			#addNewLine>div{
+				margin:0px 20px;
+				padding:20px;
+				background:rgba(0,0,0,0.05);
+				-webkit-box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
+				-moz-box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
+				box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.17);
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -1821,10 +1836,13 @@
 					htmlToAdd += "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + 
 							labels[i][0] + 
-							" <span style=\"color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;\">&times;</span>" + 
+							" <div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\">&times;</div>" + 
 						"</div><br/>";
 				}
-				htmlToAdd += 	"<span style=\"color:#bbb;font-size:12px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\" class=\"underline pointer\">Add new</span>";
+				htmlToAdd += 	"<div class=\"label\">" + 
+							"<div class=\"box\" style=\"background:" + transluscent("#333") + ";border:3px solid #333;\"></div>" + 
+							"<span class=\"underline pointer\">Add new line</span>" + 
+						"</div>";
 				htmlToAdd += "</div>";
 				document.getElementById("phenologyLegend").innerHTML = htmlToAdd;
 			}
@@ -2079,6 +2097,11 @@
 							</div>
 							<div id="lineGraph">
 								<div id="phenologyLegend"></div>
+								<div id="addNewLine">
+									<div>
+										<input type="text"/>
+									</div>
+								</div>
 								<div style="height:500px;">
 									<canvas id="phenologyChart" width="0" height="0"></canvas>
 								</div>
