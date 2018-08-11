@@ -602,13 +602,13 @@
 				margin:0px 3px -4px 0px;
 			}
 			
-			#addNewLine{
+			#addNewSet{
 				border-top:1px solid #ddd;
 				border-bottom:1px solid #ddd;
 				margin:20px 0px;
 			}
 			
-			#addNewLine>div{
+			#addNewSet>div{
 				margin:0px 20px;
 				padding:20px;
 				background:rgba(0,0,0,0.05);
@@ -1897,10 +1897,10 @@
 					htmlToAdd += "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + 
 							labels[i][0] + 
-							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"removeLine(this.parentNode)\">&times;</div>" + 
+							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"removeSet(this.parentNode)\">&times;</div>" + 
 						"</div><br/>";
 				}
-				htmlToAdd += 	"<div class=\"label\" id=\"addNewLineLabel\">" + 
+				htmlToAdd += 	"<div class=\"label\" id=\"addNewSetLabel\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#ccc") + ";border:3px solid #ccc;\"></div>" + 
 							"<span class=\"underline pointer\" onclick=\"showAddNewLineOptions();\">Add new line</span>" + 
 							"<div style=\"display:inline-block;color:transparent;font-size:20px;margin-bottom:-1px;\">&times;</div>" + 
@@ -1919,7 +1919,7 @@
 				for(var i = yearEnd; i >= yearStart; i--){
 					yearOptions += "<div onclick=\"smallSelectOption(this);\">" + i + "</div>";
 				}
-				$("#addNewLineLabel")[0].outerHTML = "<div class=\"label\">" + 
+				$("#addNewSetLabel")[0].outerHTML = "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#ccc") + ";border:3px solid #ccc;\"></div>" + 
 							"<div class=\"smallSelect\">" + 
 								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">Occurrence</div>" + 
@@ -1963,12 +1963,12 @@
 									yearOptions + 
 								"</div>" + 
 							"</div>" + 
-							"<img src=\"../images/skinnyCheck.png\" style=\"height:10px;opacity:.7;cursor:pointer;margin-left:3px;\" onclick=\"addNewLine(this.parentNode);\"/>" + 
+							"<img src=\"../images/skinnyCheck.png\" style=\"height:10px;opacity:.7;cursor:pointer;margin-left:3px;\" onclick=\"addNewSet(this.parentNode);\"/>" + 
 							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"updatePhenologyLegend();\">&times;</div>" + 
 						"</div>";
 			}
 			
-			function addNewLine(labelDiv){
+			function addNewSet(labelDiv){
 				var options = $(labelDiv).find(".smallSelect .selected");
 				var arthropod = options.eq(1)[0].innerHTML;
 				var readableAndUnreadableArthropods = [["all arthropods", "%"], ["ants", "ant"], ["aphids and psyllids", "aphid"], ["bees and wasps", "bee"], ["beetles", "beetle"], ["caterpillars", "caterpillar"], ["daddy longlegs", "daddylonglegs"], ["flies", "fly"], ["grasshoppers and crickets", "grasshopper"], ["leaf hoppers and cicadas", "leafhopper"], ["moths and butterflies", "moths"], ["spiders", "spider"], ["true bugs", "truebugs"], ["other arthropods", "other"], ["unidentified arthropods", "unidentified"]];
@@ -1990,16 +1990,20 @@
 				labelDiv.outerHTML = "";
 			}
 			
-			function removeLine(labelDiv){
+			function removeSet(labelDiv){
 				var lineColor = opaque($(labelDiv).find(".box").eq(0)[0].style.background);
-				for(var i = 0; i < config.data.datasets.length; i++){
+				for(var i = (config.data.datasets.length - 1); i >= 0; i--){
 					if(lineColor == opaque(config.data.datasets[i].backgroundColor)){
 						config.data.datasets.splice(i, 1);
-						window.phenology.update();
-						updatePhenologyLegend();
-						break;
 					}
 				}
+				for(var i = (labels.length - 1); i >=0; i--){
+					if(lineColor == opaque(labels[i][1])){
+						labels.splice(i, 1);
+					}
+				}
+				window.phenology.update();
+				updatePhenologyLegend();
 			}
 
 			function clearSets(){
