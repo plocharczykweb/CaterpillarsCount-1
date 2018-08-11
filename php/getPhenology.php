@@ -19,7 +19,7 @@
 		"moths" => "butterflies and moths",
 		"spider" => "spiders",
 		"truebugs" => "true bugs",
-		"other" => "\"other\" arthropods",
+		"other" => "other arthropods",
 		"unidentified" => "unidentified arthropods"
 	);
   
