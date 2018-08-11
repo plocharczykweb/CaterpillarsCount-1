@@ -1482,8 +1482,7 @@
 					filtering = false;
 				});
 			}
-			var siteNames = [];
-			var siteIDs = [];
+			var siteNamesAndIDs = [];
 			function initializeMap() {
 				for(var i = 0; i < $(".scaleCircle").length; i++){
 					$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"bottomToolTip\" style=\"width:45px;text-align:center;right:-14px;\"><div class=\"arrow\" style=\"position:absolute;margin:0px;top:-7px;right:17px;\"></div>" + Math.round((i * (1/($(".scaleCircle").length - 1))) * 100) + "%</div>";
@@ -1500,8 +1499,7 @@
 					var sites = JSON.parse(data);
 					var normalizedWeights = getNormalizedWeights(sites);
 					for(var i = 0; i < sites.length; i++){
-						siteNames[siteNames.length] = sites[i]["Name"];
-						siteIDs[siteIDs.length] = sites[i]["ID"];
+						siteNamesAndIDs[siteNamesAndIDs.length] = [sites[i]["Name"], sites[i]["ID"]];
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var color = mapPercentToColor(normalizedWeights[i]);
 						var scale = 7;
@@ -1543,6 +1541,11 @@
 						//marker.setMap(map);
 						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">Caterpillars on all trees<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">Occurrence of caterpillars that are at least 0mm long on all trees (including surveys with wet leaves) from January to December over the period of all time<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
 					}
+					siteNamesAndIDs.sort(function(a, b){
+						if(a[0] < b[0]) return -1;
+						if(a[0] > b[0]) return 1;
+						return 0;
+					});
 				})
 				.fail(function(){
 					//error
@@ -1902,8 +1905,8 @@
 			
 			function showAddNewLineOptions(){
 				var siteSelectOptions = "";
-				for(var i = 0; i < siteNames.length; i++){
-					siteSelectOptions += "<div onclick=\"smallSelectOption(this);\">" + siteNames[i] + "</div>";
+				for(var i = 0; i < siteNamesAndIDs.length; i++){
+					siteSelectOptions += "<div onclick=\"smallSelectOption(this);\">" + siteNamesAndIDs[i][0] + "</div>";
 				}
 				
 				var yearOptions = "";
@@ -1942,7 +1945,7 @@
 							"</div>" + 
 							" at " + 
 							"<div class=\"smallSelect\">" + //SITE
-								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">" + siteNames[0] + "</div>" + 
+								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">" + siteNamesAndIDs[0][0] + "</div>" + 
 								"<div class=\"options\" style=\"min-width:250px;\">" + 
 									siteSelectOptions + 
 								"</div>" + 
@@ -1954,10 +1957,32 @@
 									yearOptions + 
 								"</div>" + 
 							"</div>" + 
-							"<img src=\"../images/skinnyCheck.png\" style=\"height:10px;opacity:.7;cursor:pointer;margin-left:3px;\"/>" + 
+							"<img src=\"../images/skinnyCheck.png\" style=\"height:10px;opacity:.7;cursor:pointer;margin-left:3px;\" onclick=\"addNewLine(this.parentNode);\"/>" + 
 							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\">&times;</div>" + 
 						"</div><br/>" + 
 					$("#addNewLineLabel")[0].outerHTML;
+			}
+			
+			function addNewLine(labelDiv){
+				var options = $(labelDiv).find(".smallSelect .selected");
+				var arthropod = options.eq(1)[0].innerHTML;
+				var readableAndUnreadableArthropods = [["all arthropods", "%"], ["ants", "ant"], ["aphids and psyllids", "aphid"], ["bees and wasps", "bee"], ["beetles", "beetle"], ["caterpillars", "caterpillar"], ["daddy longlegs", "daddylonglegs"], ["flies", "fly"], ["grasshoppers and crickets", "grasshopper"], ["leaf hoppers and cicadas", "leafhopper"], ["moths and butterflies", "moths"], ["spiders", "spider"], ["true bugs", "truebugs"], ["other arthropods", "other"], ["unidentified arthropods", "unidentified"]];
+				for(var i = 0; i < readableAndUnreadableArthropods.length; i++){
+					if(readableAndUnreadableArthropods[i][0] == arthropod){
+						arthropod = readableAndUnreadableArthropods[i][1];
+						break;
+					}
+				}
+				var siteName = options.eq(2)[0].innerHTML;
+				var siteID = -1;
+				for(var i = 0; i < siteNamesAndIDs.length; i++){
+					if(siteNamesAndIDs[i][0] == siteName){
+						siteID = Number(siteNamesAndIDs[i][1]);
+						break;
+					}
+				}
+				addSetFromFilters({densityOrOccurrence: options.eq(0)[0].innerHTML.toLowerCase(), arthropod: arthropod, siteID: siteID, year: Number(options.eq(3)[0].innerHTML)});
+				labelDiv.outerHTML = "";
 			}
 
 			function clearSets(){
