@@ -244,6 +244,7 @@
 				border-bottom:7px solid #444;
 				width:0px;
 			}
+			
 			#selectedSitePanel .bottomTooltip{
 				text-align:center;
 			}
@@ -252,6 +253,13 @@
 				right:30px;
 				margin:0px;
 				top:-7px;
+			}
+			
+			#selectedSitePanel h3{
+				margin-top:40px;
+			}
+			#selectedSitePanel h3:first-of-type{
+				margin-top:20px;
 			}
 			
 			#rankings .underText, #siteUserLeaderboard .underText{
@@ -2268,7 +2276,7 @@
 								<button id="barGraphSwitchButton" onclick="switchGraphTo('bar');">Arthropod Density</button>
 							</div>
 							<div id="lineGraph">
-								<div style="height:500px;">
+								<div style="height:500px;margin-top:20px;">
 									<canvas id="phenologyChart" width="0" height="0"></canvas>
 								</div>
 								<div id="phenologyLegend"></div>
