@@ -1897,13 +1897,13 @@
 					htmlToAdd += "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + 
 							labels[i][0] + 
-							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\">&times;</div>" + 
+							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"removeLine(this.parentNode)\">&times;</div>" + 
 						"</div><br/>";
 				}
 				htmlToAdd += 	"<div class=\"label\" id=\"addNewLineLabel\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#ccc") + ";border:3px solid #ccc;\"></div>" + 
 							"<span class=\"underline pointer\" onclick=\"showAddNewLineOptions();\">Add new line</span>" + 
-							"<div style=\"display:inline-block;color:transparent;font-size:20px;margin-bottom:-1px;\" onclick=\"removeLine(this.parentNode)\">&times;</div>" + 
+							"<div style=\"display:inline-block;color:transparent;font-size:20px;margin-bottom:-1px;\">&times;</div>" + 
 						"</div>";
 				htmlToAdd += "</div>";
 				$("#phenologyLegend")[0].innerHTML = htmlToAdd;
@@ -1964,9 +1964,8 @@
 								"</div>" + 
 							"</div>" + 
 							"<img src=\"../images/skinnyCheck.png\" style=\"height:10px;opacity:.7;cursor:pointer;margin-left:3px;\" onclick=\"addNewLine(this.parentNode);\"/>" + 
-							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"this.parentNode.outerHTML = '';\">&times;</div>" + 
-						"</div><br/>" + 
-					$("#addNewLineLabel")[0].outerHTML;
+							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"updatePhenologyLegend();\">&times;</div>" + 
+						"</div>";
 			}
 			
 			function addNewLine(labelDiv){
