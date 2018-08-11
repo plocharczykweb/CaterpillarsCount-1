@@ -1506,7 +1506,7 @@
 					zoom: 5
 				});
 				
-				$.get("../php/getSites.php?includeWetLeaves=true&occurrenceInsteadOfDensity=true&monthStart=1&monthEnd=12&yearStart=0&yearEnd=99999&arthropod=caterpillar&minSize=0&plantSpecies=" + encodeURIComponent("%"), function(data){
+				$.get("../php/getSites.php?observationMethod=" + encodeURIComponent("%") + "&includeWetLeaves=true&occurrenceInsteadOfDensity=true&monthStart=1&monthEnd=12&yearStart=0&yearEnd=99999&arthropod=caterpillar&minSize=0&plantSpecies=" + encodeURIComponent("%"), function(data){
 					//success
 					var sites = JSON.parse(data);
 					var normalizedWeights = getNormalizedWeights(sites);
