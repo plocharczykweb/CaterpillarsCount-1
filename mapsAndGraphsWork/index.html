@@ -1112,10 +1112,12 @@
 				lastMarker = marker;
 				return "same";
 			}
+			var activeSite = "Example Site";
 			function physicalMarkerClick(){
 				markerClick(this);
 			}
 			function markerClick(marker){
+				activeSite = marker.siteInformation["Name"];
 				if(toggleMarker(marker) == "same"){
 					scrollToPanel(3);
 					return false;
@@ -1777,7 +1779,7 @@
 			
 			//PHENOLOGY CHART STUFF
 			var LINE_TENSION = 0.1;
-			var colors = ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "rgb(201, 203, 207)"];
+			var colors = ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "#333", "#00067d", "#4efc85", "#4efcfc", "#fc4ef0", "#9e6400"];
 			var endpoints = [getClearPoint(formatDate("2000-01-01"), 0), getClearPoint(formatDate("2000-12-31"), 100)];
 			var config = {
 				type: 'line',
@@ -1872,6 +1874,10 @@
 				if(update !== false){
 					update = true;
 				}
+				if(labels.length >= colors.length){
+					queueNotice("error", "You have too many lines on your phenology chart. Please remove at least one of them before adding more.");
+					return false;
+				}
 				var color = colors[labels.length];
 				labels[labels.length] = [label, color];
 				var lines = getLines(label, color, points);
@@ -1897,7 +1903,7 @@
 				htmlToAdd += 	"<div class=\"label\" id=\"addNewLineLabel\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#ccc") + ";border:3px solid #ccc;\"></div>" + 
 							"<span class=\"underline pointer\" onclick=\"showAddNewLineOptions();\">Add new line</span>" + 
-							"<div style=\"display:inline-block;color:transparent;font-size:20px;margin-bottom:-1px;\">&times;</div>" + 
+							"<div style=\"display:inline-block;color:transparent;font-size:20px;margin-bottom:-1px;\" onclick=\"removeLine(this.parentNode)\">&times;</div>" + 
 						"</div>";
 				htmlToAdd += "</div>";
 				$("#phenologyLegend")[0].innerHTML = htmlToAdd;
@@ -1945,7 +1951,7 @@
 							"</div>" + 
 							" at " + 
 							"<div class=\"smallSelect\">" + //SITE
-								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">" + siteNamesAndIDs[0][0] + "</div>" + 
+								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">" + activeSite + "</div>" + 
 								"<div class=\"options\" style=\"min-width:250px;\">" + 
 									siteSelectOptions + 
 								"</div>" + 
@@ -1958,7 +1964,7 @@
 								"</div>" + 
 							"</div>" + 
 							"<img src=\"../images/skinnyCheck.png\" style=\"height:10px;opacity:.7;cursor:pointer;margin-left:3px;\" onclick=\"addNewLine(this.parentNode);\"/>" + 
-							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\">&times;</div>" + 
+							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"this.parentNode.outerHTML = '';\">&times;</div>" + 
 						"</div><br/>" + 
 					$("#addNewLineLabel")[0].outerHTML;
 			}
@@ -1983,6 +1989,18 @@
 				}
 				addSetFromFilters({densityOrOccurrence: options.eq(0)[0].innerHTML.toLowerCase(), arthropod: arthropod, siteID: siteID, year: Number(options.eq(3)[0].innerHTML)});
 				labelDiv.outerHTML = "";
+			}
+			
+			function removeLine(labelDiv){
+				var lineColor = opaque($(labelDiv).find(".box").eq(0)[0].style.background);
+				for(var i = 0; i < config.data.datasets.length; i++){
+					if(lineColor == opaque(config.data.datasets[i].backgroundColor)){
+						config.data.datasets.splice(i, 1);
+						window.phenology.update();
+						updatePhenologyLegend();
+						break;
+					}
+				}
 			}
 
 			function clearSets(){
