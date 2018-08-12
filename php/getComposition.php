@@ -90,7 +90,7 @@
       //for each year, get arthropod occurrences
       $arthropodOccurrences = array();
       for($i = 0; $i < count($years); $i++){
-        $arthropodOccurrences[strval($years[$i])] = getArthropodOccurrence($dbconn, $readableArthropods, $siteID, "YEAR(Survey.LocalDate)='" . $years[$i] . "'");
+        $arthropodOccurrences[strval($years[$i])] = getArthropodOccurrence($dbconn, $readableArthropods, $siteID, " AND YEAR(Survey.LocalDate)='" . $years[$i] . "'");
       }
       die(json_encode($arthropodOccurrences));
     }
@@ -113,7 +113,7 @@
       //for each species, get arthropod occurrences
       $arthropodOccurrences = array();
       for($i = 0; $i < count($species); $i++){
-        $arthropodOccurrences[strval($species[$i])] = getArthropodOccurrence($dbconn, $readableArthropods, $siteID, "Plant.Species='" . $species[$i] . "'");
+        $arthropodOccurrences[strval($species[$i])] = getArthropodOccurrence($dbconn, $readableArthropods, $siteID, " AND Plant.Species='" . $species[$i] . "'");
       }
       die(json_encode($arthropodOccurrences));
     }
