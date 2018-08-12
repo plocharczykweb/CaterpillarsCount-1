@@ -1920,21 +1920,25 @@
 					htmlToAdd += "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + 
 							"<span class=\"description\">" + labels[i][0] + "</span>" + 
-							"<img src=\"../images/clearPencil.png\" class=\"editIcon\" style=\"height:10px;opacity:.3;cursor:pointer;margin-left:3px;\" onclick=\"editSet(this.parentNode);\"/>" + 
-							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"removeSet(this.parentNode)\">&times;</div>" + 
+							"<span style=\"color:#bbb;\" class=\"editDeleteSpan\">" + 
+								"( " + 
+								"<span class=\"underline pointer\" onclick=\"editSet(this.parentNode);\"/>" + 
+								" | " + 
+								"<span class=\"underline pointer\" onclick=\"removeSet(this.parentNode)\">delete</span>" + 
+								" )" + 
+							"</span>" + 
 						"</div><br/>";
 				}
 				htmlToAdd += 	"<div class=\"label\" id=\"addNewSetLabel\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#ccc") + ";border:3px solid #ccc;\"></div>" + 
 							"<span class=\"underline pointer\" onclick=\"showAddNewLineOptions();\">Add new line</span>" + 
-							"<div style=\"display:inline-block;color:transparent;font-size:20px;margin-bottom:-1px;\">&times;</div>" + 
 						"</div>";
 				htmlToAdd += "</div>";
 				$("#phenologyLegend")[0].innerHTML = htmlToAdd;
 			}
 			
 			function showAddNewLineOptions(){
-				$(".editIcon").fadeOut(0);
+				$(".editDeleteSpan").fadeOut(0);
 				var siteSelectOptions = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
 					siteSelectOptions += "<div onclick=\"smallSelectOption(this);\">" + siteNamesAndIDs[i][0] + "</div>";
@@ -1988,8 +1992,13 @@
 									yearOptions + 
 								"</div>" + 
 							"</div>" + 
-							"<img src=\"../images/skinnyCheck.png\" style=\"height:10px;opacity:.7;cursor:pointer;margin-left:3px;\" onclick=\"addNewSet(this.parentNode);\"/>" + 
-							"<div class=\"cancel\" style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"updatePhenologyLegend();\">&times;</div>" + 
+							"<span style=\"color:#bbb;\">" + 
+								"( " + 
+								"<span onclick=\"addNewSet(this.parentNode);\" class=\"underline pointer\">confirm and add</span>" + 
+								" | " + 
+								"<span class=\"cancel underline pointer\" onclick=\"updatePhenologyLegend();\">cancel</span>" + 
+								" )" + 
+							"</span>" + 
 						"</div>";
 			}
 			
