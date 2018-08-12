@@ -57,7 +57,7 @@
       }
       die(json_encode($arthropodOccurrences));
     }
-    else if($comparisonMetric == "absoluteDensity"){//multi site absolute denity
+    else if($comparisonMetric == "absoluteDensity"){//multi site absolute density
       for($i = 0; $i < count($siteIDs); $i++){
         $siteID = intval($siteIDs[$i]);
         $site = Site::findByID($siteID);
