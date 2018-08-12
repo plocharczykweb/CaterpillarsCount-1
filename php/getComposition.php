@@ -82,7 +82,7 @@
     if($comparisonMetric == "occurrence"){//multi year occurrence
       //get years
       $years = array();
-      $query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteFK'");
+      $query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'");
       while($row = mysqli_fetch_assoc($query)){
         $years[] = $row["Year"];
       }
