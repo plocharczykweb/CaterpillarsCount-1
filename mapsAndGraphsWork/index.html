@@ -2094,11 +2094,11 @@
 			}
 			
 			function addSetFromFilters(filters){
-				if(labels.length >= colors.length){
+				if(labels.length >= colors.length){alert("here");
 					queueNotice("error", "You have too many lines on your phenology chart. Please remove at least one of them before adding more.");
 					updatePhenologyLegend();
 					return false;
-				}
+				}alert("past");
 				var color = "";
 				for(var i = 0; i < colors.length; i++){
 					var colorIsInUse = false;
