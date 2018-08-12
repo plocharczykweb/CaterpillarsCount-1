@@ -58,7 +58,7 @@
 		//divide
 		$dateWeights = array_values($dateWeights);
 		for($j = 0; $j < count($dateWeights); $j++){
-			$dateWeights[$j] = array($dateWeights[$j][0], (($dateWeights[$j][1] / $dateWeights[$j][2]) * 100));
+			$dateWeights[$j] = array($dateWeights[$j][0], round((($dateWeights[$j][1] / $dateWeights[$j][2]) * 100), 2));
 		}
     
     		$weightedLines[ucfirst($densityOrOccurrence) . " of " . $readableArthropods[$arthropod] . " at " . $site->getName() . " in " . $year] = $dateWeights;
