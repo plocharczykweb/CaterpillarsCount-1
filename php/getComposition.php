@@ -105,7 +105,7 @@
     if($comparisonMetric == "occurrence"){//multi species occurrence
       //get species
       $species = array();
-      $query = mysqli_query($dbconn, "SELECT DISTINCT Species FROM Plant WHERE SiteFK='77'");
+      $query = mysqli_query($dbconn, "SELECT DISTINCT Species FROM Plant WHERE SiteFK='$siteID'");
       while($row = mysqli_fetch_assoc($query)){
         $species[] = $row["Species"];
       }
