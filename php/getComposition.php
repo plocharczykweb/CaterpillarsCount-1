@@ -78,7 +78,7 @@
       }
     }
   }
-  else($breakdown == "year"){
+  else if($breakdown == "year"){
     if($comparisonMetric == "occurrence"){//multi year occurrence
       //get years
       $years = array();
