@@ -2096,6 +2096,7 @@
 			function addSetFromFilters(filters){
 				if(labels.length >= colors.length){
 					queueNotice("error", "You have too many lines on your phenology chart. Please remove at least one of them before adding more.");
+					updatePhenologyLegend();
 					return false;
 				}
 				var color = "";
