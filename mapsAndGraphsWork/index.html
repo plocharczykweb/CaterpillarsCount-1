@@ -1932,7 +1932,7 @@
 							"</span>" + 
 						"</div><br/>";
 				}
-				htmlToAdd += 	"<div id=\"loadingLine\">" + 
+				htmlToAdd += 	"<div id=\"loadingLine\" style=\"display:none;\">" + 
 							"<div class=\"colorBlock\"></div> Loading..." + 
 						"</div>" + 
 						"<div class=\"label\" id=\"addNewSetLabel\">" + 
@@ -2005,7 +2005,7 @@
 							"</div>" + 
 							"<span style=\"color:#bbb;\">" + 
 								" ( " + 
-								"<span onclick=\"addNewSet(this.parentNode.parentNode);\" class=\"underline pointer\">confirm and add</span>" + 
+								"<span onclick=\"addNewSet(this.parentNode.parentNode);\" class=\"underline pointer\">confirm</span>" + 
 								" | " + 
 								"<span class=\"cancel underline pointer\" onclick=\"updatePhenologyLegend();\">cancel</span>" + 
 								" )" + 
@@ -2099,12 +2099,6 @@
 			}
 			
 			function addSetFromFilters(filters){
-				if(labels.length >= colors.length){
-					updatePhenologyLegend();
-					$("#loadingLine")[0].style.display = "none";
-					queueNotice("error", "You have too many lines on your phenology chart. Please delete at least one of them before adding more.");
-					return false;
-				}
 				var color = "";
 				for(var i = 0; i < colors.length; i++){
 					var colorIsInUse = false;
