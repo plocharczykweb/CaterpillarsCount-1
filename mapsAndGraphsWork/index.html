@@ -596,14 +596,17 @@
 				text-align:center;
 				margin:20px 0px;
 			}
-			#phenologyLegend .label{
+			#loadingLine{
+				display:none;
+			}
+			#phenologyLegend .label, #loadingLine{
 				display:inline-block;
 				font-size:12px;
 				color:#666;
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 				margin-bottom:10px;
 			}
-			#phenologyLegend .label .box{
+			#phenologyLegend .label .box, #loadingLine .colorBlock{
 				display:inline-block;
 				width:10px;
 				height:10px;
@@ -1929,7 +1932,10 @@
 							"</span>" + 
 						"</div><br/>";
 				}
-				htmlToAdd += 	"<div class=\"label\" id=\"addNewSetLabel\">" + 
+				htmlToAdd += 	"<div id=\"loadingLine\">" + 
+							"<div class=\"colorBlock\"></div> Loading..." + 
+						"</div>" + 
+						"<div class=\"label\" id=\"addNewSetLabel\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#ccc") + ";border:3px solid #ccc;\"></div>" + 
 							"<span class=\"underline pointer\" onclick=\"showAddNewLineOptions();\">Add new line</span>" + 
 						"</div>";
@@ -2088,6 +2094,29 @@
 			}
 			
 			function addSetFromFilters(filters){
+				if(labels.length >= colors.length){
+					queueNotice("error", "You have too many lines on your phenology chart. Please remove at least one of them before adding more.");
+					return false;
+				}
+				var color = "";
+				for(var i = 0; i < colors.length; i++){
+					var colorIsInUse = false;
+					for(var j = 0; j < labels.length; j++){
+						if(opaque(labels[j][1]) == opaque(colors[i])){
+							colorIsInUse = true;
+						}
+					}
+					if(!colorIsInUse){
+						color = colors[i];
+						break;
+					}
+				}
+				
+				$("#loadingLine .colorBlock")[0].style.background = transluscent(color);
+				$("#loadingLine .colorBlock")[0].style.border= "3px solid " + opaque(color);
+				$("#loadingLine")[0].style.display = "block";
+				
+				
 				$.get("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify([filters])), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
@@ -2108,6 +2137,7 @@
 				})
 				.always(function() {
 					//complete
+					$("#loadingLine")[0].style.display = "none";
 				});
 			}
 			//END OF PHENOLOGY CHART STUFF
