@@ -1919,8 +1919,8 @@
 				for(var i = 0; i < labels.length; i++){
 					htmlToAdd += "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent(labels[i][1]) + ";border:3px solid " + opaque(labels[i][1]) + ";\"></div>" + 
-							labels[i][0] + 
-							"<img src=\"../images/clearPencil.png\" style=\"height:10px;opacity:.3;cursor:pointer;margin-left:3px;\" onclick=\"alert('edit')\"/>" + 
+							"<span class=\"description\">" + labels[i][0] + "</span>" + 
+							"<img src=\"../images/clearPencil.png\" class=\"editIcon\" style=\"height:10px;opacity:.3;cursor:pointer;margin-left:3px;\" onclick=\"editSet(this.parentNode);\"/>" + 
 							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"removeSet(this.parentNode)\">&times;</div>" + 
 						"</div><br/>";
 				}
@@ -1934,6 +1934,7 @@
 			}
 			
 			function showAddNewLineOptions(){
+				$(".editIcon").fadeOut(0);
 				var siteSelectOptions = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
 					siteSelectOptions += "<div onclick=\"smallSelectOption(this);\">" + siteNamesAndIDs[i][0] + "</div>";
@@ -1988,8 +1989,47 @@
 								"</div>" + 
 							"</div>" + 
 							"<img src=\"../images/skinnyCheck.png\" style=\"height:10px;opacity:.7;cursor:pointer;margin-left:3px;\" onclick=\"addNewSet(this.parentNode);\"/>" + 
-							"<div style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"updatePhenologyLegend();\">&times;</div>" + 
+							"<div class=\"cancel\" style=\"display:inline-block;color:#bbb;font-size:20px;cursor:pointer;margin-left:3px;margin-bottom:-1px;\" onclick=\"updatePhenologyLegend();\">&times;</div>" + 
 						"</div>";
+			}
+			
+			function editSet(labelDiv){
+				//get options
+				var optionsString = $(labelDiv).find(".description").eq(0)[0].innerHTML;
+				var densityOrOccurrence = optionsString.split(" ")[0];
+				var arthropod = optionsString.substring(optionsString.indexOf(" of ") + 4);
+				var arthropods = ["all arthropods", "ants", "aphids and psyllids", "bees and wasps", "beetles", "caterpillars", "daddy longlegs", "flies", "grasshoppers and crickets", "leaf hoppers and cicadas", "moths and butterflies", "spiders", "true bugs", "other arthropods", "unidentified arthropods"];
+				for(var i = 0; i < arthropods.length; i++){
+					if(arthropod.indexOf(arthropods[i]) == 0){
+						arthropod = arthropods[i];
+						break;
+					}
+				}
+				var siteName = optionsString.substring(0, optionsString.lastIndexOf(" in")).replace(densityOrOccurrence + " of " + arthropod + " at ", "");
+				var year = Number(optionsString.substring(optionsString.lastIndexOf(" in")).replace(/\D/g, ""));
+				
+				//Remove line
+				removeSet(labelDiv);
+				
+				//Add new line with same presets
+				showAddNewLineOptions();
+				var labelDivs = $("#phenologyLegend .label");
+				var addNewLineLabel = labelDivs.eq(labelDivs.length - 1);
+				var selectedOptions = addNewLineLabel.find(".selected");
+				selectedOptions.eq(0)[0].innerHTML = densityOrOccurrence;
+				selectedOptions.eq(1)[0].innerHTML = arthropod;
+				selectedOptions.eq(2)[0].innerHTML = siteName;
+				selectedOptions.eq(3)[0].innerHTML = year;
+				
+				//Change x icon to cancel(presets)
+				var cancelFunction = function(){
+					selectedOptions.eq(0)[0].innerHTML = densityOrOccurrence;
+					selectedOptions.eq(1)[0].innerHTML = arthropod;
+					selectedOptions.eq(2)[0].innerHTML = siteName;
+					selectedOptions.eq(3)[0].innerHTML = year;
+					addNewSet(labelDiv);
+				}
+				addNewLineLabel.find(".cancel").eq(0)[0].onclick = cancelFunction;
 			}
 			
 			function addNewSet(labelDiv){
