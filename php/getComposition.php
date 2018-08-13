@@ -104,7 +104,7 @@
 				$arthropodPercents[strval($siteName)] = getArthropodRelativeProportion($dbconn, $readableArthropods, $siteID, "");
 			}
 		}
-		die(json_encode($arthropodPercents));
+		die("true|" . json_encode($arthropodPercents));
 	}
 	else if($breakdown == "year"){
 		//get years
@@ -127,7 +127,7 @@
 				$arthropodPercents[strval($years[$i])] = getArthropodRelativeProportion($dbconn, $readableArthropods, $siteID, " AND YEAR(Survey.LocalDate)='" . $years[$i] . "'");
 			}
 		}
-		die(json_encode($arthropodPercents));
+		die("true|" . json_encode($arthropodPercents));
 	}
 	else{//species
 		//get species
@@ -150,6 +150,6 @@
 				$arthropodPercents[strval($species[$i])] = getArthropodRelativeProportion($dbconn, $readableArthropods, $siteID, " AND Plant.Species='" . $species[$i] . "'");
 			}
 		}
-		die(json_encode($arthropodPercents));
+		die("true|" . json_encode($arthropodPercents));
 	}
 ?>
