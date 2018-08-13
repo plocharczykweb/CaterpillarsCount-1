@@ -2197,7 +2197,7 @@
 						var i = 0;
 						for(var arthropodName in datasets){
 							if(datasets.hasOwnProperty(arthropodName)){
-								if(i > (colors.length - 2)){
+								if(i > (colors.length - 1)){
 								   	queueNotice("error", "When trying to set up your composition chart, we encountered more arthropods than we have colors on record to label them with! We need to add more colors before we will be able to make this chart for you.");
 									return false;
 								}
