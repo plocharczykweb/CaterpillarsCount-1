@@ -751,7 +751,8 @@
 				});
 				setSliders();
 				attachAutoCompleteToInput($("#plantSpecies"), plantSpeciesList);
-				window.phenology = new Chart(document.getElementById('phenologyChart'), config);
+				window.phenology = new Chart(document.getElementById('phenologyChart'), lineConfig);
+				window.composition = new Chart($('#compositionChart')[0].getContext('2d'), barConfig);
 			});
 			
 			$(document).click(function(){
@@ -1192,7 +1193,8 @@
 				}
 				
 				clearSets();
-				addSetFromFilters({densityOrOccurrence: "occurrence", arthropod:"%", siteID: marker.siteInformation["ID"], year: 2018});
+				addSetFromFilters({densityOrOccurrence: "occurrence", arthropod:"%", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
+				setComposition("site", "occurrence" [marker.siteInformation["ID"]]);
 				
 				$("#selectedSitePanel")[0].style.display = "block";
 				scrollToPanel(3);
@@ -1793,9 +1795,9 @@
 			
 			//PHENOLOGY CHART STUFF
 			var LINE_TENSION = 0.1;
-			var colors = ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "#333", "#00067d", "#4efc85", "#4efcfc", "#fc4ef0", "#9e6400"];
+			var colors = ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "#333", "#00067d", "#4efc85", "#4efcfc", "#fc4ef0", "#9e6400", "#ff0000", "#006b10"];
 			var endpoints = [getClearPoint(formatDate("2000-01-01"), 0), getClearPoint(formatDate("2000-12-31"), 100)];
-			var config = {
+			var lineConfig = {
 				type: 'line',
 				data: {
 					datasets: [
@@ -1816,6 +1818,28 @@
 							gridLines: {color: "rgba(0,0,0,0.05)"}
 						}],
 						yAxes: [{
+							scaleLabel: {display: true,labelString: 'Percent',},
+							gridLines: {color: "rgba(0,0,0,0.05)"}
+						}]
+					}
+				}
+			};
+			
+			var barConfig = {
+				type: 'bar',
+				data: {},
+				options: {
+					legend: {position: "bottom",labels: {boxWidth: 13}},
+					title: {display: false,},
+					tooltips: {mode: 'index', intersect: false, callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+							gridLines: {color: "rgba(0,0,0,0.05)"}
+						}],
+						yAxes: [{
+							stacked: true,
 							scaleLabel: {display: true,labelString: 'Percent',},
 							gridLines: {color: "rgba(0,0,0,0.05)"}
 						}]
@@ -1907,11 +1931,11 @@
 				}
 				labels[labels.length] = [label, color];
 				var lines = getLines(label, color, points);
-				config.data.datasets.splice(-1,1);
+				lineConfig.data.datasets.splice(-1,1);
 				for(var i = 0; i < lines.length; i++){
-					config.data.datasets[config.data.datasets.length] = lines[i];
+					lineConfig.data.datasets[lineConfig.data.datasets.length] = lines[i];
 				}
-				config.data.datasets[config.data.datasets.length] = endpoints[1];
+				lineConfig.data.datasets[lineConfig.data.datasets.length] = endpoints[1];
 				if(update){
 					window.phenology.update();
 					updatePhenologyLegend();
@@ -2077,9 +2101,9 @@
 			
 			function removeSet(labelDiv){
 				var lineColor = opaque($(labelDiv).find(".box").eq(0)[0].style.background);
-				for(var i = (config.data.datasets.length - 1); i >= 0; i--){
-					if(lineColor == opaque(config.data.datasets[i].backgroundColor)){
-						config.data.datasets.splice(i, 1);
+				for(var i = (lineConfig.data.datasets.length - 1); i >= 0; i--){
+					if(lineColor == opaque(lineConfig.data.datasets[i].backgroundColor)){
+						lineConfig.data.datasets.splice(i, 1);
 					}
 				}
 				for(var i = (labels.length - 1); i >=0; i--){
@@ -2093,7 +2117,7 @@
 
 			function clearSets(){
 				labels = [];
-				config.data.datasets = [endpoints[0], endpoints[1]];
+				lineConfig.data.datasets = [endpoints[0], endpoints[1]];
 				window.phenology.update();
 				updatePhenologyLegend();
 			}
@@ -2142,6 +2166,69 @@
 				});
 			}
 			//END OF PHENOLOGY CHART STUFF
+			
+			//COMPOSITION CHART STUFF
+			function setComposition(xAxis, yAxis, siteIDs){
+				$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify(siteIDs) + "&breakdown=" + xAxis + "&comparisonMetric=" + yAxis, function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						var data = JSON.parse(data.replace("true|", ""));
+						var barTitles = [];
+						var datasets = {};
+						for(var barTitle in data){
+							if(data.hasOwnProperty(barTitle)){
+								barTitles[barTitles.length] = barTitle;
+								var arthropodData = data[barTitle];
+								var 
+								for(var arthropodName in arthropodData){
+									if(arthropodData.hasOwnProperty(arthropodName)){
+										var percent = arthropodData[arthropodName];
+										if(Array.isArray(datasets[arthropodName])){
+										   	datasets[arthropodName][datasets[arthropodName].length] = [percent];
+										}
+										else{
+										   datasets[arthropodName] = [percent];
+										}
+									}
+								}
+								
+							}
+						}
+						var formattedDatasets = [];
+						var i = 0;
+						for(var arthropodName in datasets){
+							if(datasets.hasOwnProperty(arthropodName)){
+								if(i > (colors.length - 2)){
+								   	queueNotice("error", "When trying to set up your composition chart, we encountered more arthropods than we have colors on record to label them with! We need to add more colors before we will be able to make this chart for you.");
+									return false;
+								}
+								formattedDatasets[formattedDatasets.length] = {
+									label: arthropodName,
+									backgroundColor: colors[i++],
+									data: datasets[arthropodName]
+								};
+							}
+						}
+						
+						barConfig.data = {
+							labels: barTitles,
+							datasets: formattedDatasets
+						}
+						window.composition.update();
+					}
+					else{
+						queueNotice("error", data);
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+				});
+			}
+			//END OF COMPOSITION CHART STUFF
 		</script>
 	</head>
 	<body>
@@ -2372,7 +2459,11 @@
 								</div>
 								<div id="phenologyLegend"></div>
 							</div>
-							<div id="barGraph">arthropod density graph...</div>
+							<div id="barGraph">
+								<div style="height:500px;margin-top:20px;">
+									<canvas id="compositionChart" width="0" height="0"></canvas>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
