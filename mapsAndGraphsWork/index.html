@@ -1807,7 +1807,6 @@
 			}
 			
 			//PHENOLOGY CHART STUFF
-			var yAxis = "occurrence";
 			var LINE_TENSION = 0.1;
 			var colors = ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "#333", "#00067d", "#4efc85", "#4efcfc", "#fc4ef0", "#9e6400", "#ff0000", "#006b10"];
 			var barColors = ["rgb(235, 85, 85)","rgb(235, 85, 200)","rgb(197, 85, 235)","rgb(150, 85, 235)","rgb(85, 97, 235)","rgb(85, 165, 235)","rgb(85, 217, 235)","rgb(85, 235, 180)","rgb(85, 235, 90)","rgb(200, 235, 85)","rgb(235, 215, 85)","rgb(235, 167, 85)","rgb(235, 145, 85)","rgb(194, 126, 24)"];
@@ -2011,14 +2010,6 @@
 				}
 				$("#addNewSetLabel")[0].outerHTML = "<div class=\"label\">" + 
 							"<div class=\"box\" style=\"background:" + transluscent("#ccc") + ";border:3px solid #ccc;\"></div>" + 
-							"<div class=\"smallSelect\">" + 
-								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">Occurrence</div>" + 
-								"<div class=\"options\">" + 
-									"<div onclick=\"smallSelectOption(this);\">Occurrence</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">Density</div>" + 
-								"</div>" + 
-							"</div>" + 
-							" of " + 
 							"<div class=\"smallSelect\">" + //ARTHROPODS
 								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">all arthropods</div>" + 
 								"<div class=\"options\" style=\"min-width:153px;\">" + 
@@ -2105,7 +2096,7 @@
 			
 			function addNewSet(labelDiv){
 				var options = $(labelDiv).find(".smallSelect .selected");
-				var arthropod = options.eq(1)[0].innerHTML;
+				var arthropod = options.eq(0)[0].innerHTML;
 				var readableAndUnreadableArthropods = [["all arthropods", "%"], ["ants", "ant"], ["aphids and psyllids", "aphid"], ["bees and wasps", "bee"], ["beetles", "beetle"], ["caterpillars", "caterpillar"], ["daddy longlegs", "daddylonglegs"], ["flies", "fly"], ["grasshoppers and crickets", "grasshopper"], ["leaf hoppers and cicadas", "leafhopper"], ["moths and butterflies", "moths"], ["spiders", "spider"], ["true bugs", "truebugs"], ["other arthropods", "other"], ["unidentified arthropods", "unidentified"]];
 				for(var i = 0; i < readableAndUnreadableArthropods.length; i++){
 					if(readableAndUnreadableArthropods[i][0] == arthropod){
@@ -2113,7 +2104,7 @@
 						break;
 					}
 				}
-				var siteName = options.eq(2)[0].innerHTML;
+				var siteName = options.eq(1)[0].innerHTML;
 				var siteID = -1;
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
 					if(siteNamesAndIDs[i][0] == siteName){
@@ -2121,7 +2112,7 @@
 						break;
 					}
 				}
-				addSetFromFilters({densityOrOccurrence: options.eq(0)[0].innerHTML.toLowerCase(), arthropod: arthropod, siteID: siteID, year: Number(options.eq(3)[0].innerHTML)});
+				addSetFromFilters({densityOrOccurrence: $("#lineGraph .yAxisLabel .smallSelect .selected").eq(0)[0].innerHTML, arthropod: arthropod, siteID: siteID, year: Number(options.eq(2)[0].innerHTML)});
 				labelDiv.outerHTML = "";
 			}
 			
@@ -2196,10 +2187,11 @@
 			
 			function centerYAxisLabels(){
 				var yAxisLabels = $(".yAxisLabel");
+				var X_AXIS_LABEL_OFFSET = -21;
 				for(var i = 0; i < yAxisLabels.length; i++){
 					yAxisLabels.eq(i)[0].style.display = "inline-block";
 					yAxisLabels.eq(i)[0].style.marginLeft = (-.5 * yAxisLabels.eq(i)[0].clientWidth) + (.5 * yAxisLabels.eq(i)[0].clientHeight);
-					yAxisLabels.eq(i)[0].style.marginTop = -.5 * yAxisLabels.eq(i)[0].clientHeight;
+					yAxisLabels.eq(i)[0].style.marginTop = -.5 * yAxisLabels.eq(i)[0].clientHeight + X_AXIS_LABEL_OFFSET;
 				}
 			}
 			//END OF PHENOLOGY CHART STUFF
