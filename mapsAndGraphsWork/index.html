@@ -2183,13 +2183,13 @@
 								barTitles[barTitles.length] = barTitle;
 								var arthropodData = data[barTitle];
 								for(var i = 0; i < readableArthropods.length; i++){
-									var perecent = Number(arthropodData[readableArthropods[i]]);
-									if(isNaN(perecent)){
-										perecent = 0;
+									var percent = Number(arthropodData[readableArthropods[i]]);
+									if(isNaN(percent)){
+										percent = 0;
 									}
 									
 									if(Array.isArray(datasets[readableArthropods[i]])){
-										datasets[readableArthropods[i]][datasets[readableArthropods[i]].length] = perecent;
+										datasets[readableArthropods[i]][datasets[readableArthropods[i]].length] = percent;
 									}
 									else{
 										datasets[readableArthropods[i]] = percent;
