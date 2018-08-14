@@ -1813,7 +1813,7 @@
 					scales: {
 						xAxes: [{
 							type: 'time',
-							time: {tooltipFormat: "MMM D",},
+							time: {unit: 'month',unitStepSize: 1,tooltipFormat: "MMM D",},
 							scaleLabel: {display: true,labelString: 'Date'},
 							ticks: {callback: function(value, index, values) {return value.replace(/[0-9 ]/g, '');}},
 							gridLines: {color: "rgba(0,0,0,0.05)"}
