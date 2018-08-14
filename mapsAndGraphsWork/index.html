@@ -2175,34 +2175,39 @@
 					//success
 					if(data.indexOf("true|") == 0){
 						var data = JSON.parse(data.replace("true|", ""));
+						var readableArthropods = ["Ants", "Aphids and Psyllids", "Bees and Wasps", "Beetles", "Caterpillars", "Daddy Longlegs", "Flies", "Grasshoppers and Crickets", "Leaf Hoppers and Cicadas", "Butterflies and Moths", "Spiders", "True Bugs", "Other", "Unidentified"];
 						var barTitles = [];
 						var datasets = {};
 						for(var barTitle in data){
 							if(data.hasOwnProperty(barTitle)){
 								barTitles[barTitles.length] = barTitle;
 								var arthropodData = data[barTitle];
-								for(var arthropodName in arthropodData){
-									if(arthropodData.hasOwnProperty(arthropodName)){
-										var percent = arthropodData[arthropodName];
-										if(Array.isArray(datasets[arthropodName])){
-										   	datasets[arthropodName][datasets[arthropodName].length] = [percent];
-										}
-										else{
-										   datasets[arthropodName] = [percent];
-										}
+								for(var i = 0; i < readableArthropods.length; i++){
+									var perecent = Number(arthropodData[readableArthropods[i]]);
+									if(isNaN(perecent)){
+										perecent = 0;
+									}
+									
+									if(Array.isArray(datasets[readableArthropods[i]])){
+										datasets[readableArthropods[i]][datasets[readableArthropods[i]].length] = perecent;
+									}
+									else{
+										datasets[readableArthropods[i]] = percent;
 									}
 								}
-								
 							}
 						}
+						
+						
+						if(readableArthropods.length > barColors.length){
+							queueNotice("error", "When trying to set up your composition chart, we encountered more arthropods than we have colors on record to label them with! We need to add more colors before we will be able to make this chart for you.");
+							return false;
+						}
+						
 						var formattedDatasets = [];
 						var i = 0;
 						for(var arthropodName in datasets){
 							if(datasets.hasOwnProperty(arthropodName)){
-								if(i > (barColors.length - 1)){
-								   	queueNotice("error", "When trying to set up your composition chart, we encountered more arthropods than we have colors on record to label them with! We need to add more colors before we will be able to make this chart for you.");
-									return false;
-								}
 								formattedDatasets[formattedDatasets.length] = {
 									label: arthropodName,
 									backgroundColor: barColors[i++],
@@ -2215,9 +2220,6 @@
 							labels: barTitles,
 							datasets: formattedDatasets
 						};
-						alert(JSON.stringify(barTitles));
-						alert(JSON.stringify(formattedDatasets));
-						alert(JSON.stringify(barConfig.data));
 						window.composition.update();
 					}
 					else{
