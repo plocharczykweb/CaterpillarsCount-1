@@ -1933,7 +1933,7 @@
 				}
 				labels[labels.length] = [label, color];
 				var lines = getLines(label, color, points);
-				if(lineConfig.data.datasets == [endpoints[0], endpoints[1]]){
+				if(lineConfig.data.datasets.length == 2 && opaque(lineConfig.data.datasets[0].backgroundColor) == opaque(endpoints[0].backgroundColor) && opaque(lineConfig.data.datasets[1].backgroundColor) == opaque(endpoints[0].backgroundColor)){
 					lineConfig.data.datasets = [];
 				}
 				for(var i = 0; i < lines.length; i++){
