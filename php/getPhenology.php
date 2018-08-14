@@ -39,13 +39,15 @@
 		while($row = mysqli_fetch_assoc($query)){
 			$dateWeights[$row["LocalDate"]] = array($row["LocalDate"], 0, intval($row["DailySurveyCount"]));
 		}
-    
+    		
+		$FACTOR = 1;
 		if($densityOrOccurrence == "occurrence"){//occurrence
 			//get [survey with specified arthropod] counts each day
 			$query = mysqli_query($dbconn, "SELECT Survey.LocalDate, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS SurveysWithArthropodsCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' AND ArthropodSighting.Group LIKE '$arthropod' AND YEAR(Survey.LocalDate)='$year' GROUP BY Survey.LocalDate ORDER BY Survey.LocalDate");
 			while($row = mysqli_fetch_assoc($query)){
 				$dateWeights[$row["LocalDate"]][1] = intval($row["SurveysWithArthropodsCount"]);
 			}
+			$FACTOR = 100;// to show percent
 		}
 		else{//density
 			//get arthropod counts each day
@@ -58,7 +60,7 @@
 		//divide
 		$dateWeights = array_values($dateWeights);
 		for($j = 0; $j < count($dateWeights); $j++){
-			$dateWeights[$j] = array($dateWeights[$j][0], round((($dateWeights[$j][1] / $dateWeights[$j][2]) * 100), 2));
+			$dateWeights[$j] = array($dateWeights[$j][0], round((($dateWeights[$j][1] / $dateWeights[$j][2]) * $FACTOR), 2));
 		}
     
     		$weightedLines[ucfirst($densityOrOccurrence) . " of " . $readableArthropods[$arthropod] . " at " . $site->getName() . " in " . $year] = $dateWeights;
