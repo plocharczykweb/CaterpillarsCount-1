@@ -1894,8 +1894,9 @@
 			function formatDate(dateString){//YYYY-MM-DD
 				return "2000" + dateString.substring(4) + "T12:00:00-00:00";
 			}
+			var chartedSets = {};
 			function getLine(label, color, points){
-				var line = {
+				var occurrenceLine = {
 					label: label,
 					backgroundColor: transluscent(color),
 					borderColor: opaque(color),
@@ -1904,9 +1905,22 @@
 					data: []
 				};
 				for(var i = 0; i < points.length; i++){
-					line.data[line.data.length] = {x: formatDate(points[i][0]), y: Number(points[i][1])};
+					occurrenceLine.data[occurrenceLine.data.length] = {x: formatDate(points[i][0]), y: Number(points[i][1])};
 				}
-				return line;
+				
+				var densityLine = {
+					label: label,
+					backgroundColor: transluscent(color),
+					borderColor: opaque(color),
+					lineTension: LINE_TENSION,
+					fill: false,
+					data: []
+				};
+				for(var i = 0; i < points.length; i++){
+					densityLine.data[densityLine.data.length] = {x: formatDate(points[i][0]), y: Number(points[i][1])};
+				}
+				
+				return [occurrenceLine, densityLine];
 			}
 			function getLines(label, color, points){
 				points = points.sort(function(a, b) {
@@ -1927,7 +1941,20 @@
 				for(var i = 0; i < pointSets.length; i++){
 					lines[lines.length] = getLine(label, color, pointSets[i]);
 				}
-				return lines;
+				chartedSets[label] = lines;
+				
+				if($("#lineGraph .yAxisLabel .smallSelect .selected").eq(0)[0].innerHTML == $("#lineGraph .yAxisLabel .smallSelect .options>div").eq(0)[0].innerHTML){
+					var occurrenceLines = [];
+					for(var i = 0; i < lines.length; i++){
+						occurrenceLines[occurrenceLines.length] = lines[i][0];
+					}
+					return occurrenceLines;
+				}
+				var densityLines = [];
+				for(var i = 0; i < lines.length; i++){
+					densityLines[densityLines.length] = lines[i][0];
+				}
+				return densityLines;
 			}
 
 			var labels = [];
@@ -2128,6 +2155,7 @@
 						labels.splice(i, 1);
 					}
 				}
+				delete chartedSets[$(labelDiv).find(".description").eq(0)[0].innerHTML];
 				window.phenology.update();
 				centerYAxisLabels();
 				updatePhenologyLegend();
@@ -2135,6 +2163,7 @@
 
 			function clearSets(){
 				labels = [];
+				chartedSets = {};
 				lineConfig.data.datasets = [endpoints[0], endpoints[1]];
 				window.phenology.update();
 				centerYAxisLabels();
@@ -2183,6 +2212,10 @@
 					//complete
 					$("#loadingLine")[0].style.display = "none";
 				});
+			}
+			
+			function switchLinesTo(yAxisLabel){
+				//chartedSets
 			}
 			
 			function centerYAxisLabels(){
