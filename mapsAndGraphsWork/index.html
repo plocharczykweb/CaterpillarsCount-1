@@ -1193,8 +1193,10 @@
 				}
 				
 				clearSets();
-				addSetFromFilters({densityOrOccurrence: "occurrence", arthropod:"%", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
-				setComposition("site", "occurrence", [marker.siteInformation["ID"]]);
+				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
+					addSetFromFilters({densityOrOccurrence: "occurrence", arthropod:"%", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
+					setComposition("site", "occurrence", [marker.siteInformation["ID"]]);
+				}
 				
 				$("#selectedSitePanel")[0].style.display = "block";
 				scrollToPanel(3);
