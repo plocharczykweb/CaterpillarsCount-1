@@ -666,11 +666,11 @@
 				position:absolute;
 				top:50%;
 				left:0px;
-				display:inline-block;
 				font-size:12px;
 				color:#666;
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 				transform:rotate(270deg);
+				display:none;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -764,7 +764,6 @@
 				attachAutoCompleteToInput($("#plantSpecies"), plantSpeciesList);
 				window.phenology = new Chart(document.getElementById('phenologyChart'), lineConfig);
 				window.composition = new Chart($('#compositionChart')[0].getContext('2d'), barConfig);
-				centerYAxisLabels();
 			});
 			
 			$(document).click(function(){
@@ -1830,9 +1829,12 @@
 							type: 'time',
 							time: {unit: 'month',unitStepSize: 1,tooltipFormat: "MMM D",},
 							scaleLabel: {display: true,labelString: 'Date'},
-							ticks: {callback: function(value, index, values) {return value.replace(/[0-9 ]/g, '');}},
-							gridLines: {color: "rgba(0,0,0,0.05)"},
-							maxRotation: 0
+							ticks: {
+								callback: function(value, index, values) {return value.replace(/[0-9 ]/g, '');},
+								autoSkip: false,
+								maxRotation: 0
+							},
+							gridLines: {color: "rgba(0,0,0,0.05)"}
 						}],
 						yAxes: [{
 							scaleLabel: {display: true,labelString: '',},
@@ -1854,8 +1856,11 @@
 						xAxes: [{
 							stacked: true,
 							gridLines: {color: "rgba(0,0,0,0.05)"},
-							maxRotation: 0,
-							barPercentage: 0.2
+							barPercentage: 0.2,
+							ticks: {
+								autoSkip: false,
+								maxRotation: 0
+							}
 						}],
 						yAxes: [{
 							stacked: true,
@@ -1958,6 +1963,7 @@
 				}
 				if(update){
 					window.phenology.update();
+					centerYAxisLabels();
 					updatePhenologyLegend();
 				}
 			}
@@ -2132,6 +2138,7 @@
 					}
 				}
 				window.phenology.update();
+				centerYAxisLabels();
 				updatePhenologyLegend();
 			}
 
@@ -2139,6 +2146,7 @@
 				labels = [];
 				lineConfig.data.datasets = [endpoints[0], endpoints[1]];
 				window.phenology.update();
+				centerYAxisLabels();
 				updatePhenologyLegend();
 			}
 			
@@ -2189,6 +2197,7 @@
 			function centerYAxisLabels(){
 				var yAxisLabels = $(".yAxisLabel");
 				for(var i = 0; i < yAxisLabels.length; i++){
+					yAxisLabels.eq(i)[0].style.display = "inline-block";
 					yAxisLabels.eq(i)[0].style.marginLeft = (-.5 * yAxisLabels.eq(i)[0].clientWidth) + (.5 * yAxisLabels.eq(i)[0].clientHeight);
 					yAxisLabels.eq(i)[0].style.marginTop = -.5 * yAxisLabels.eq(i)[0].clientHeight;
 				}
@@ -2491,8 +2500,8 @@
 										<div class="smallSelect">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Occurrence</div>
 											<div class="options">
-												<div onclick="smallSelectOption(this);">Occurrence</div>
-												<div onclick="smallSelectOption(this);">Density</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();">Occurrence</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();">Density</div>
 											</div>
 										</div>
 									</div>
