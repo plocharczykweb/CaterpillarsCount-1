@@ -1831,7 +1831,8 @@
 							time: {unit: 'month',unitStepSize: 1,tooltipFormat: "MMM D",},
 							scaleLabel: {display: true,labelString: 'Date'},
 							ticks: {callback: function(value, index, values) {return value.replace(/[0-9 ]/g, '');}},
-							gridLines: {color: "rgba(0,0,0,0.05)"}
+							gridLines: {color: "rgba(0,0,0,0.05)"},
+							maxRotation: 0
 						}],
 						yAxes: [{
 							scaleLabel: {display: true,labelString: '',},
@@ -1853,6 +1854,7 @@
 						xAxes: [{
 							stacked: true,
 							gridLines: {color: "rgba(0,0,0,0.05)"},
+							maxRotation: 0,
 							barPercentage: 0.2
 						}],
 						yAxes: [{
