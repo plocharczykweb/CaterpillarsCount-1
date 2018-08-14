@@ -2485,7 +2485,15 @@
 							</div>
 							<div id="lineGraph">
 								<div style="height:500px;margin-top:20px;position:relative;">
-									<div class="yAxisLabel">y axis label</div>
+									<div class="yAxisLabel">
+										<div class="smallSelect">
+											<div class="selected" onclick="showSmallSelectOptions(this);">Occurrence</div>
+											<div class="options">
+												<div onclick="smallSelectOption(this);">Occurrence</div>
+												<div onclick="smallSelectOption(this);">Density</div>
+											</div>
+										</div>
+									</div>
 									<canvas id="phenologyChart" width="0" height="0"></canvas>
 								</div>
 								<div id="phenologyLegend"></div>
