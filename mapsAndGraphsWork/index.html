@@ -2040,21 +2040,21 @@
 							"<div class=\"smallSelect\">" + //ARTHROPODS
 								"<div class=\"selected\" onclick=\"showSmallSelectOptions(this);\">all arthropods</div>" + 
 								"<div class=\"options\" style=\"min-width:153px;\">" + 
-									"<div onclick=\"smallSelectOption(this);\">all arthropods</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">ants</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">aphids and psyllids</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">bees and wasps</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">beetles</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">caterpillars</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">daddy longlegs</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">flies</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">grasshoppers and crickets</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">leaf hoppers and cicadas</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">moths and butterflies</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">spiders</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">true bugs</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">other arthropods</div>" + 
-									"<div onclick=\"smallSelectOption(this);\">unidentified arthropods</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">All arthropods</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Ants</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Aphids and psyllids</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Bees and wasps</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Beetles</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Caterpillars</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Daddy longlegs</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Flies</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Grasshoppers and crickets</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Leaf hoppers and cicadas</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Moths and butterflies</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Spiders</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">True bugs</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Other arthropods</div>" + 
+									"<div onclick=\"smallSelectOption(this);\">Unidentified arthropods</div>" + 
 								"</div>" + 
 							"</div>" + 
 							" at " + 
@@ -2084,16 +2084,15 @@
 			function editSet(labelDiv){
 				//get options
 				var optionsString = $(labelDiv).find(".description").eq(0)[0].innerHTML;
-				var densityOrOccurrence = optionsString.split(" ")[0];
-				var arthropod = optionsString.substring(optionsString.indexOf(" of ") + 4);
-				var arthropods = ["all arthropods", "ants", "aphids and psyllids", "bees and wasps", "beetles", "caterpillars", "daddy longlegs", "flies", "grasshoppers and crickets", "leaf hoppers and cicadas", "moths and butterflies", "spiders", "true bugs", "other arthropods", "unidentified arthropods"];
+				var arthropod = optionsString;
+				var arthropods = ["All arthropods", "Ants", "Aphids and psyllids", "Bees and wasps", "Beetles", "Caterpillars", "Daddy longlegs", "Flies", "Grasshoppers and crickets", "Leaf hoppers and cicadas", "Moths and butterflies", "Spiders", "True bugs", "Other arthropods", "Unidentified arthropods"];
 				for(var i = 0; i < arthropods.length; i++){
 					if(arthropod.indexOf(arthropods[i]) == 0){
 						arthropod = arthropods[i];
 						break;
 					}
 				}
-				var siteName = optionsString.substring(0, optionsString.lastIndexOf(" in")).replace(densityOrOccurrence + " of " + arthropod + " at ", "");
+				var siteName = optionsString.substring(0, optionsString.lastIndexOf(" in")).replace(arthropod + " at ", "");
 				var year = Number(optionsString.substring(optionsString.lastIndexOf(" in")).replace(/\D/g, ""));
 				
 				//Remove line
@@ -2104,18 +2103,16 @@
 				var labelDivs = $("#phenologyLegend .label");
 				var addNewLineLabel = labelDivs.eq(labelDivs.length - 1);
 				var selectedOptions = addNewLineLabel.find(".selected");
-				selectedOptions.eq(0)[0].innerHTML = densityOrOccurrence;
-				selectedOptions.eq(1)[0].innerHTML = arthropod;
-				selectedOptions.eq(2)[0].innerHTML = siteName;
-				selectedOptions.eq(3)[0].innerHTML = year;
+				selectedOptions.eq(0)[0].innerHTML = arthropod;
+				selectedOptions.eq(1)[0].innerHTML = siteName;
+				selectedOptions.eq(2)[0].innerHTML = year;
 				
 				//Change x icon to cancel(presets)
 				var cancelFunction = function(){
 					addNewLineLabel[0].style.display = "none";
-					selectedOptions.eq(0)[0].innerHTML = densityOrOccurrence;
-					selectedOptions.eq(1)[0].innerHTML = arthropod;
-					selectedOptions.eq(2)[0].innerHTML = siteName;
-					selectedOptions.eq(3)[0].innerHTML = year;
+					selectedOptions.eq(0)[0].innerHTML = arthropod;
+					selectedOptions.eq(1)[0].innerHTML = siteName;
+					selectedOptions.eq(2)[0].innerHTML = year;
 					addNewSet(addNewLineLabel);
 				};
 				addNewLineLabel.find(".cancel").eq(0)[0].onclick = cancelFunction;
@@ -2124,7 +2121,7 @@
 			function addNewSet(labelDiv){
 				var options = $(labelDiv).find(".smallSelect .selected");
 				var arthropod = options.eq(0)[0].innerHTML;
-				var readableAndUnreadableArthropods = [["all arthropods", "%"], ["ants", "ant"], ["aphids and psyllids", "aphid"], ["bees and wasps", "bee"], ["beetles", "beetle"], ["caterpillars", "caterpillar"], ["daddy longlegs", "daddylonglegs"], ["flies", "fly"], ["grasshoppers and crickets", "grasshopper"], ["leaf hoppers and cicadas", "leafhopper"], ["moths and butterflies", "moths"], ["spiders", "spider"], ["true bugs", "truebugs"], ["other arthropods", "other"], ["unidentified arthropods", "unidentified"]];
+				var readableAndUnreadableArthropods = [["All arthropods", "%"], ["Ants", "ant"], ["Aphids and psyllids", "aphid"], ["Bees and wasps", "bee"], ["Beetles", "beetle"], ["Caterpillars", "caterpillar"], ["Daddy longlegs", "daddylonglegs"], ["Flies", "fly"], ["Grasshoppers and crickets", "grasshopper"], ["Leaf hoppers and cicadas", "leafhopper"], ["Moths and butterflies", "moths"], ["Spiders", "spider"], ["True bugs", "truebugs"], ["Other arthropods", "other"], ["Unidentified arthropods", "unidentified"]];
 				for(var i = 0; i < readableAndUnreadableArthropods.length; i++){
 					if(readableAndUnreadableArthropods[i][0] == arthropod){
 						arthropod = readableAndUnreadableArthropods[i][1];
