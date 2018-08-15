@@ -393,22 +393,6 @@
 				color:#888;
 			}
 			
-			#mapFiltersToggleButton{
-				padding:20px;
-				display:inline-block;
-				cursor:pointer;
-			}
-			
-			#mapFiltersToggleButton>div{
-				width:30px;
-				height:30px;
-				background-image:url('../images/filterIcon.png');
-				background-size:contain;
-				background-position:center;
-				background-repeat:no-repeat;
-				opacity:.5;
-			}
-			
 			#mapTitle{
 				font-size:14px;
 				display:table-cell;
@@ -673,8 +657,36 @@
 				display:none;
 			}
 			
-			#selectedSitePanel canvas{
-				background:#fff;
+			#mapFiltersToggleButton{
+				background:#fed136;
+				display:table;
+				padding:10px;
+				color:#fff;
+				font-family:'Roboto Slab', serif;
+				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-weight:bold;
+				text-transform:uppercase;
+				border-radius:4px;
+				overflow:hidden;
+				border-bottom:2px solid rgba(0,0,0,0.1);
+				cursor:pointer;
+			}
+			#mapFiltersToggleButton>div{
+				display:table-cell;
+				vertical-align:middle;
+			}
+			#mapFiltersToggleButton #mapFiltersImage{
+				height:23px;
+				width:23px;
+				background-position:center;
+				background-size:contain;
+				background-repeat:no-repeat;
+			}
+			#mapFiltersToggleButton #mapFiltersText{
+				padding-left:10px;
+				padding-right:3px;
+				font-size:17px;
+				padding-top:2px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -2457,7 +2469,10 @@
 							</div>
 						</div>
 						<div style="display:table-cell;width:100%;"></div>
-						<div id="mapFiltersToggleButton" onclick="toggleMapFilters();"><div></div></div>
+						<div id="mapFiltersToggleButton" onclick="toggleMapFilters();">
+							<div id="mapFiltersImage" style="background-image:url('https://caterpillarscount.unc.edu/images/filterIconWhite.png');"></div>
+							<div id="mapFiltersText">Map Filters</div>
+						</div>
 					</div>
 				</div>
 				<div id="mapFilters">
