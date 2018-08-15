@@ -2212,20 +2212,34 @@
 			}
 			
 			function matchLinesWithYAxisLabel(){
-				//chartedSets
+				if(lineConfig.data.datasets.length == 2 && opaque(lineConfig.data.datasets[0].backgroundColor) == opaque(endpoints[0].backgroundColor) && opaque(lineConfig.data.datasets[1].backgroundColor) == opaque(endpoints[0].backgroundColor)){
+					return true;
+				}
+				
+				var newData = [];
 				if($("#lineGraph .yAxisLabel .smallSelect .selected").eq(0)[0].innerHTML == $("#lineGraph .yAxisLabel .smallSelect .options>div").eq(0)[0].innerHTML){
 					//occurrence
-					for(var i = 0; i < lineConfig.data.datasets.length; i++){
-						lineConfig.data.datasets[i] = chartedSets[lineConfig.data.datasets[i].label][0];
+					for (var setLabel in chartedSets) {
+						if (chartedSets.hasOwnProperty(setLabel)) {
+							var setLines = chartedSets[setLabel];
+							for(var i = 0; i < setLines.length; i++){
+								newData[newData.length] = setLines[i][0];
+							}
+						}
 					}
-					
 				}
 				else{
 					//density
-					for(var i = 0; i < lineConfig.data.datasets.length; i++){
-						lineConfig.data.datasets[i] = chartedSets[lineConfig.data.datasets[i].label][1];
+					for (var setLabel in chartedSets) {
+						if (chartedSets.hasOwnProperty(setLabel)) {
+							var setLines = chartedSets[setLabel];
+							for(var i = 0; i < setLines.length; i++){
+								newData[newData.length] = setLines[i][1];
+							}
+						}
 					}
 				}
+				lineConfig.data.datasets = newData;
 				window.phenology.update();
 			}
 			
