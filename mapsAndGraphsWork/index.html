@@ -2154,9 +2154,7 @@
 						labels.splice(i, 1);
 					}
 				}
-				if(typeof chartedSets[$(labelDiv).find(".description").eq(0)[0].innerHTML] === 'object'){
-					delete chartedSets[$(labelDiv).find(".description").eq(0)[0].innerHTML];
-				}
+				delete chartedSets[$(labelDiv).find(".description").eq(0)[0].innerHTML];
 				setXAxisMinAndMax();
 				window.phenology.update();
 				centerYAxisLabels();
@@ -2266,12 +2264,8 @@
 			function setXAxisMinAndMax(){
 				//if we just have the invisible endpoints loaded on an empty chart, just delete min and max
 				if(lineConfig.data.datasets.length == 2 && opaque(lineConfig.data.datasets[0].backgroundColor) == opaque(endpoints[0].backgroundColor) && opaque(lineConfig.data.datasets[1].backgroundColor) == opaque(endpoints[0].backgroundColor)){
-					if(typeof lineConfig.options.scales.xAxes.time.min === 'object'){
-						delete lineConfig.options.scales.xAxes.time.min;
-					}
-					if(typeof lineConfig.options.scales.xAxes.time.max === 'object'){
-						delete lineConfig.options.scales.xAxes.time.max;
-					}
+					delete lineConfig.options.scales.xAxes[0].time.min;
+					delete lineConfig.options.scales.xAxes[0].time.max;
 					return true;
 				}
 				var minTime = -1;
@@ -2290,12 +2284,12 @@
 				
 				var minDate = new Date(minTime);
 				minDate.setFullYear(2000);
-				lineConfig.options.scales.xAxes.time.min = minDate.setDate(1);
+				lineConfig.options.scales.xAxes[0].time.min = minDate.setDate(1);
 				
 				var maxDate = new Date(maxTime);
 				maxDate.setFullYear(2000);
 				maxDate.setDate(1);
-				lineConfig.options.scales.xAxes.time.max = maxDate.setMonth(maxDate.getMonth() + 1);
+				lineConfig.options.scales.xAxes[0].time.max = maxDate.setMonth(maxDate.getMonth() + 1);
 			}
 			//END OF PHENOLOGY CHART STUFF
 			
