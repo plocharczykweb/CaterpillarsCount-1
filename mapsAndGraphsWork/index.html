@@ -2211,8 +2211,22 @@
 				});
 			}
 			
-			function switchLinesTo(yAxisLabel){
+			function matchLinesWithYAxisLabel(){
 				//chartedSets
+				if($("#lineGraph .yAxisLabel .smallSelect .selected").eq(0)[0].innerHTML == $("#lineGraph .yAxisLabel .smallSelect .options>div").eq(0)[0].innerHTML){
+					//occurrence
+					for(var i = 0; i < lineConfig.data.datasets.length; i++){
+						lineConfig.data.datasets[i] = chartedSets[lineConfig.data.datasets[i].label][0];
+					}
+					
+				}
+				else{
+					//density
+					for(var i = 0; i < lineConfig.data.datasets.length; i++){
+						lineConfig.data.datasets[i] = chartedSets[lineConfig.data.datasets[i].label][1];
+					}
+				}
+				window.phenology.update();
 			}
 			
 			function centerYAxisLabels(){
@@ -2522,8 +2536,8 @@
 										<div class="smallSelect">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Occurrence</div>
 											<div class="options">
-												<div onclick="smallSelectOption(this);centerYAxisLabels();">Occurrence</div>
-												<div onclick="smallSelectOption(this);centerYAxisLabels();">Density</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();matchLinesWithYAxisLabel();">Occurrence</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();matchLinesWithYAxisLabel();">Density</div>
 											</div>
 										</div>
 									</div>
