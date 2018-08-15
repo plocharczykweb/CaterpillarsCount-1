@@ -57,7 +57,7 @@
 		//divide
 		$dateWeights = array_values($dateWeights);
 		for($j = 0; $j < count($dateWeights); $j++){
-			$dateWeights[$j] = array($dateWeights[$j][0], round((($dateWeights[$j][1] / $dateWeights[$j][3]) * 100), 2), round(($dateWeights[$j][1] / $dateWeights[$j][3]), 2));
+			$dateWeights[$j] = array($dateWeights[$j][0], round((($dateWeights[$j][1] / $dateWeights[$j][3]) * 100), 2), round(($dateWeights[$j][2] / $dateWeights[$j][3]), 2));
 		}
     
     		$weightedLines[$readableArthropods[$arthropod] . " at " . $site->getName() . " in " . $year] = $dateWeights;
