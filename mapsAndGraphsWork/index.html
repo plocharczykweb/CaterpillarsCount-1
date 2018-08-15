@@ -2283,13 +2283,17 @@
 				}
 				
 				var minDate = new Date(minTime);
-				minDate.setFullYear(2000);
-				lineConfig.options.scales.xAxes[0].time.min = minDate.setDate(1);
+				var minMonth = minDate.getMonth() + 1;
+				if(minMonth < 10){minMonth = "0" + minMonth;}
+				lineConfig.options.scales.xAxes[0].time.min = "2000-" + minMonth +  "-01T12:00:00-00:00";
 				
 				var maxDate = new Date(maxTime);
 				maxDate.setFullYear(2000);
 				maxDate.setDate(1);
-				lineConfig.options.scales.xAxes[0].time.max = maxDate.setMonth(maxDate.getMonth() + 1);
+				maxDate.setMonth(maxDate.getMonth() + 1);
+				var maxMonth = maxDate.getMonth() + 1;
+				if(maxMonth < 10){maxMonth = "0" + maxMonth;}
+				lineConfig.options.scales.xAxes[0].time.max = maxDate.getFullYear() + "-" + maxMonth +  "-01T12:00:00-00:00";
 			}
 			//END OF PHENOLOGY CHART STUFF
 			
