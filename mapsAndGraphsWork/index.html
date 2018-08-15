@@ -2212,34 +2212,38 @@
 			}
 			
 			function matchLinesWithYAxisLabel(){
+				//if we just have the invisible endpoints loaded on an empty chart, don't bother doing anything
 				if(lineConfig.data.datasets.length == 2 && opaque(lineConfig.data.datasets[0].backgroundColor) == opaque(endpoints[0].backgroundColor) && opaque(lineConfig.data.datasets[1].backgroundColor) == opaque(endpoints[0].backgroundColor)){
 					return true;
 				}
 				
+				//otherwise, set lines to match metric
+				var occurrenceInsteadOfDensity = ($("#lineGraph .yAxisLabel .smallSelect .selected").eq(0)[0].innerHTML == $("#lineGraph .yAxisLabel .smallSelect .options>div").eq(0)[0].innerHTML);
 				var newData = [];
-				if($("#lineGraph .yAxisLabel .smallSelect .selected").eq(0)[0].innerHTML == $("#lineGraph .yAxisLabel .smallSelect .options>div").eq(0)[0].innerHTML){
-					//occurrence
-					for (var setLabel in chartedSets) {
-						if (chartedSets.hasOwnProperty(setLabel)) {
-							var setLines = chartedSets[setLabel];
-							for(var i = 0; i < setLines.length; i++){
+				for (var setLabel in chartedSets) {
+					if (chartedSets.hasOwnProperty(setLabel)) {
+						var setLines = chartedSets[setLabel];
+						for(var i = 0; i < setLines.length; i++){
+							if(occurrenceInsteadOfDensity){
 								newData[newData.length] = setLines[i][0];
 							}
-						}
-					}
-				}
-				else{
-					//density
-					for (var setLabel in chartedSets) {
-						if (chartedSets.hasOwnProperty(setLabel)) {
-							var setLines = chartedSets[setLabel];
-							for(var i = 0; i < setLines.length; i++){
+							else{
 								newData[newData.length] = setLines[i][1];
 							}
 						}
 					}
 				}
 				lineConfig.data.datasets = newData;
+				
+				//set tooltip to match units
+				if(occurrenceInsteadOfDensity){
+					lineConfig.options.tooltips.callbacks.label = function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';};
+				}
+				else{
+					lineConfig.options.tooltips.callbacks.label = function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel;};
+				}
+				
+				//update
 				window.phenology.update();
 			}
 			
