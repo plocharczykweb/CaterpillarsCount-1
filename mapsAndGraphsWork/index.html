@@ -1917,7 +1917,7 @@
 					data: []
 				};
 				for(var i = 0; i < points.length; i++){
-					densityLine.data[densityLine.data.length] = {x: formatDate(points[i][0]), y: Number(points[i][1])};
+					densityLine.data[densityLine.data.length] = {x: formatDate(points[i][0]), y: Number(points[i][2])};
 				}
 				
 				return [occurrenceLine, densityLine];
