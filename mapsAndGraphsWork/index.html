@@ -1837,7 +1837,8 @@
 						}],
 						yAxes: [{
 							scaleLabel: {display: true,labelString: '',},
-							gridLines: {color: "rgba(0,0,0,0.05)"}
+							gridLines: {color: "rgba(0,0,0,0.05)"},
+							ticks:{beginAtZero: true}
 						}]
 					}
 				}
@@ -2491,7 +2492,7 @@
 								<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
 							</div>
 
-							<div class="inputTitle" style="margin-top:20px;">Minimum length (mm):</div>
+							<div class="inputTitle" style="margin-top:20px;">Minimum length (mm): <img src="../images/question.png" style="float:right;height:18px;cursor:pointer;opacity:.2;" onclick="queueNotice('alert', 'Specify the minimum length for arthropods to be included in the density or occurrence estimate.');"/></div>
 							<input type="number" id="minLength" placeholder="0" onclick="this.select();" pattern="\d*" oninput="this.value = this.value.replace(/\D/g, '');" onblur="enforceRange(this, 0, 300, 1)"/>
 						</div>
 						<div>
