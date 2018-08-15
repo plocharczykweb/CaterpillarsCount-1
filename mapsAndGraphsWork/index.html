@@ -1205,7 +1205,7 @@
 				
 				clearSets();
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
-					addSetFromFilters({densityOrOccurrence: "occurrence", arthropod:"%", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
+					addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
 					setComposition("site", "occurrence", [marker.siteInformation["ID"]]);
 				}
 				
@@ -2138,7 +2138,7 @@
 						break;
 					}
 				}
-				addSetFromFilters({densityOrOccurrence: $("#lineGraph .yAxisLabel .smallSelect .selected").eq(0)[0].innerHTML, arthropod: arthropod, siteID: siteID, year: Number(options.eq(2)[0].innerHTML)});
+				addSetFromFilters({arthropod: arthropod, siteID: siteID, year: Number(options.eq(2)[0].innerHTML)});
 				labelDiv.outerHTML = "";
 			}
 			
@@ -2556,8 +2556,8 @@
 										<div class="smallSelect">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Occurrence</div>
 											<div class="options">
-												<div onclick="smallSelectOption(this);centerYAxisLabels();matchLinesWithYAxisLabel();">Occurrence</div>
-												<div onclick="smallSelectOption(this);centerYAxisLabels();matchLinesWithYAxisLabel();">Density</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();matchLinesWithYAxisLabel();">Percent of Surveys</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();matchLinesWithYAxisLabel();">Arthropods Per Survey</div>
 											</div>
 										</div>
 									</div>
