@@ -1833,6 +1833,7 @@
 								autoSkip: false,
 								maxRotation: 0
 							},
+							bounds: "ticks",
 							gridLines: {color: "rgba(0,0,0,0.05)"}
 						}],
 						yAxes: [{
@@ -1943,7 +1944,7 @@
 					lines[lines.length] = getLine(label, color, pointSets[i]);
 				}
 				chartedSets[label] = lines;
-				setXAxisMinAndMax();
+				//setXAxisMinAndMax();
 				
 				if($("#lineGraph .yAxisLabel .smallSelect .selected").eq(0)[0].innerHTML == $("#lineGraph .yAxisLabel .smallSelect .options>div").eq(0)[0].innerHTML){
 					var occurrenceLines = [];
@@ -2155,7 +2156,7 @@
 					}
 				}
 				delete chartedSets[$(labelDiv).find(".description").eq(0)[0].innerHTML];
-				setXAxisMinAndMax();
+				//setXAxisMinAndMax();
 				window.phenology.update();
 				centerYAxisLabels();
 				updatePhenologyLegend();
@@ -2165,7 +2166,7 @@
 				labels = [];
 				chartedSets = {};
 				lineConfig.data.datasets = [endpoints[0], endpoints[1]];
-				setXAxisMinAndMax();
+				//setXAxisMinAndMax();
 				window.phenology.update();
 				centerYAxisLabels();
 				updatePhenologyLegend();
