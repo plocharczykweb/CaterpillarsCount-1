@@ -1924,11 +1924,16 @@
 						xAxes: [{
 							type: 'time',
 							time: {unit: 'month',unitStepSize: 1,tooltipFormat: "MMM D",},
-							scaleLabel: {display: true,labelString: 'Date'},
+							scaleLabel: {
+								display: true,
+								labelString: 'Date',
+								fontSize: 14
+							},
 							ticks: {
 								callback: function(value, index, values) {return value.replace(/[0-9 ]/g, '');},
 								autoSkip: false,
-								maxRotation: 0
+								maxRotation: 0,
+								fontSize: 14
 							},
 							bounds: "ticks",
 							gridLines: {color: "rgba(0,0,0,0.05)"}
@@ -1936,7 +1941,10 @@
 						yAxes: [{
 							scaleLabel: {display: true,labelString: '',},
 							gridLines: {color: "rgba(0,0,0,0.05)"},
-							ticks:{beginAtZero: true}
+							ticks:{
+								beginAtZero: true,
+								fontSize: 14
+							}
 						}]
 					}
 				}
