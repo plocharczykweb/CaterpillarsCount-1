@@ -1597,7 +1597,7 @@
 						return 0;
 					});
 					var selectedSiteIDFromURL = window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace(/\D/g, "");
-					markers[selectedSiteIDFromURL].click();
+					markerClick(markers[selectedSiteIDFromURL]);
 				})
 				.fail(function(){
 					//error
