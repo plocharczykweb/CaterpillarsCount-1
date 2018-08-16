@@ -65,7 +65,8 @@
 	while($row = mysqli_fetch_assoc($query)){
 		$sitesArray[strval($row["SiteFK"])]["MostRecentDateTime"] = $row["MostRecentDateTime"];
 	}
-
+	
+	$minLoggedDensity = 9999;
 	if($occurrenceInsteadOfDensity){
 		$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS Arthropods FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE MONTH(Survey.LocalDate)>=$monthStart AND MONTH(Survey.LocalDate)<=$monthEnd AND YEAR(Survey.LocalDate)>=$yearStart AND YEAR(Survey.LocalDate)<=$yearEnd AND ArthropodSighting.Group LIKE '$arthropod' AND (Plant.Species LIKE '$plantSpecies' OR (Plant.Species='N/A' AND Survey.PlantSpecies LIKE '$plantSpecies')) AND Survey.WetLeaves IN (0, $includeWetLeaves) AND ArthropodSighting.Length>=$minSize AND Survey.ObservationMethod LIKE '$observationMethod' GROUP BY Plant.SiteFK");
 		while($row = mysqli_fetch_assoc($query)){
@@ -77,7 +78,11 @@
 		$query = mysqli_query($dbconn, "SELECT Plant.SiteFK, SUM(ArthropodSighting.Quantity) AS Arthropods FROM `Survey` JOIN Plant ON Survey.PlantFK=Plant.ID JOIN ArthropodSighting ON Survey.ID=ArthropodSighting.SurveyFK WHERE MONTH(Survey.LocalDate)>=$monthStart AND MONTH(Survey.LocalDate)<=$monthEnd AND YEAR(Survey.LocalDate)>=$yearStart AND YEAR(Survey.LocalDate)<=$yearEnd AND ArthropodSighting.Group LIKE '$arthropod' AND (Plant.Species LIKE '$plantSpecies' OR (Plant.Species='N/A' AND Survey.PlantSpecies LIKE '$plantSpecies')) AND Survey.WetLeaves IN (0, $includeWetLeaves) AND ArthropodSighting.Length>=$minSize AND Survey.ObservationMethod LIKE '$observationMethod' GROUP BY Plant.SiteFK");
 		while($row = mysqli_fetch_assoc($query)){
 			$sitesArray[strval($row["SiteFK"])]["RawValue"] = round(((floatval($row["Arthropods"]) / floatval($sitesArray[strval($row["SiteFK"])]["SurveyCount"])) * 1), 2);
-			$sitesArray[strval($row["SiteFK"])]["Weight"] = round(log10(((floatval($row["Arthropods"]) / floatval($sitesArray[strval($row["SiteFK"])]["SurveyCount"])) + 0.000000000000000000000000000000000000000000000000001)), 2);
+			$loggedDensity = round(log10(((floatval($row["Arthropods"]) / floatval($sitesArray[strval($row["SiteFK"])]["SurveyCount"])) + 0.000000000000000000000000000000000000000000000000001)), 2);
+			$sitesArray[strval($row["SiteFK"])]["Weight"] = $loggedDensity;
+			if($loggedDensity < $minLoggedDensity || $minLoggedDensity == 9999){
+				$minLoggedDensity = $loggedDensity;
+			}
 		}
 	}
 	mysqli_close($dbconn);
@@ -123,7 +128,7 @@
 				$sitesArray[strval($sites[$i]->getID())]["Weight"] = 0;
 			}
 			else{
-				$sitesArray[strval($sites[$i]->getID())]["Weight"] = round(log10(0.000000000000000000000000000000000000000000000000001), 2);
+				$sitesArray[strval($sites[$i]->getID())]["Weight"] = $minLoggedDensity * .99;
 			}
 		}
 	}
