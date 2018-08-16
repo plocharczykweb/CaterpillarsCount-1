@@ -426,6 +426,16 @@
 				margin-right:0px;
 			}
 			
+			#mapScale .scaleCircle .scaleLabel{
+				position:absolute;
+				top:100%;
+				margin-top:5px;
+				left:-14px;
+				width:45px;
+				text-align:center;
+				color:rgba(0,0,0,0.15);
+			}
+			
 			#mapScale .smallScaleCircle{
 				width:7px;
 				height:7px;
@@ -795,6 +805,11 @@
 			$(document).click(function(){
 				$(".smallSelect .options").fadeOut(0);
 			});
+			
+			function roundTo(number, decimalPlace){
+				var tenFactor = Math.pow(10, decimalPlace);
+				return Math.round(number * tenFactor) / tenFactor;
+			}
 			
 			function getWordAtIndex(str, index){
 				var left = str.slice(0, index + 1).search(/\S+$/);
@@ -1485,6 +1500,8 @@
 					//set new markers
 					var sites = JSON.parse(data);
 					var normalizedWeights = getNormalizedWeights(sites);
+					var minRawValue = -1;
+					var maxRawValue = -1;
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var color = mapPercentToColor(normalizedWeights[i]);
@@ -1524,10 +1541,26 @@
 						});
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
-						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">" + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().charAt(0).toUpperCase() + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().slice(1) + " of " + readableArthropod.toLowerCase() + " that are at least " + minSize + " mm long on " + plantSpecies.replace("%", "All Trees").toLowerCase() + " (" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
-						closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});});
+						var rawValueNumber = Number("0" + sites[i]["RawValue"].replace(/\D/g, ""));
+						if(rawValueNumber < minRawValue || minRawValue == -1){
+							minRawValue = rawValueNumber;
+						}
+						if(rawValueNumber > maxRawValue){
+							maxRawValue = rawValueNumber;
+						}
 					}
+					for(var i = 0; i < $(".scaleCircle").length; i++){
+						var unit = "";
+						var roundToPlace = 2;
+						if(occurrenceInsteadOfDensity){
+							unit = "%";
+							roundToPlace = 0;
+						}
+						$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"scaleLabel\">" + roundTo(minRawValue + ((maxRawValue - minRawValue) * (i * (1/($(".scaleCircle").length - 1)))), roundToPlace) + unit + "</div>";
+						$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
+					}
+					$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">" + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().charAt(0).toUpperCase() + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().slice(1) + " of " + readableArthropod.toLowerCase() + " that are at least " + minSize + " mm long on " + plantSpecies.replace("%", "All Trees").toLowerCase() + " (" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
+					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});});
 				})
 				.fail(function(){
 					//error
@@ -1541,11 +1574,6 @@
 			}
 			var siteNamesAndIDs = [];
 			function initializeMap() {
-				for(var i = 0; i < $(".scaleCircle").length; i++){
-					$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"bottomToolTip\" style=\"width:45px;text-align:center;right:-14px;\"><div class=\"arrow\" style=\"position:absolute;margin:0px;top:-7px;right:17px;\"></div>" + Math.round((i * (1/($(".scaleCircle").length - 1))) * 100) + "%</div>";
-					$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
-				}
-				
 				map = new google.maps.Map($('#map')[0], {
 					center: {lat: 37.068427, lng: -80.089019},
 					zoom: 5
@@ -1555,6 +1583,8 @@
 					//success
 					var sites = JSON.parse(data);
 					var normalizedWeights = getNormalizedWeights(sites);
+					var minRawValue = -1;
+					var maxRawValue = -1;
 					for(var i = 0; i < sites.length; i++){
 						siteNamesAndIDs[siteNamesAndIDs.length] = [sites[i]["Name"], sites[i]["ID"]];
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
@@ -1592,13 +1622,22 @@
 								SurveyCount: sites[i]["SurveyCount"],
 								MostRecentDateTime: sites[i]["MostRecentDateTime"]
 							}
-							
 						});
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
-						//marker.setMap(map);
-						$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">Caterpillars on all trees<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">Occurrence of caterpillars that are at least 0 mm long on all trees (including surveys with wet leaves) from January to December over the period of all time<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
+						var rawValueNumber = Number("0" + sites[i]["RawValue"].replace(/\D/g, ""));
+						if(rawValueNumber < minRawValue || minRawValue == -1){
+							minRawValue = rawValueNumber;
+						}
+						if(rawValueNumber > maxRawValue){
+							maxRawValue = rawValueNumber;
+						}
 					}
+					for(var i = 0; i < $(".scaleCircle").length; i++){
+						$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"scaleLabel\">" + Math.round(minRawValue + ((maxRawValue - minRawValue) * (i * (1/($(".scaleCircle").length - 1))))) + "%</div>";
+						$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
+					}
+					$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">Caterpillars on all trees<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">Occurrence of caterpillars that are at least 0 mm long on all trees (including surveys with wet leaves) from January to December over the period of all time<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
 					siteNamesAndIDs.sort(function(a, b){
 						if(a[0] < b[0]) return -1;
 						if(a[0] > b[0]) return 1;
@@ -2481,9 +2520,9 @@
 								<div class="smallScaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;">
 									<div class="bottomToolTip" style="width:109px;text-align:center;right:-18px;"><div class="arrow" style="position:absolute;margin:0px;top:-7px;right:17px;"></div>No surveys</div>
 								</div>
-								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
-								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
-								<div class="scaleCircle" onmouseenter="$(this).find('.bottomToolTip').stop().fadeIn(200);" onmouseleave="$(this).find('.bottomToolTip').stop().fadeOut(200);" style="position:relative;"></div>
+								<div class="scaleCircle" style="position:relative;"></div>
+								<div class="scaleCircle" style="position:relative;"></div>
+								<div class="scaleCircle" style="position:relative;"></div>
 							</div>
 						</div>
 						<div style="display:table-cell;width:100%;"></div>
