@@ -433,8 +433,8 @@
 				left:-14px;
 				width:45px;
 				text-align:center;
-				color:rgba(0,0,0,0.2);
-				font-size:12px;
+				color:rgba(0,0,0,0.4);
+				font-size:10px;
 			}
 			
 			#mapScale .smallScaleCircle{
@@ -1542,7 +1542,7 @@
 						});
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
-						var rawValueNumber = Number("0" + sites[i]["RawValue"].replace(/[^0-9.]/g, ""));
+						var rawValueNumber = Number("0" + sites[i]["RawValue"].toString().replace(/[^0-9.]/g, ""));
 						if(rawValueNumber < minRawValue || minRawValue == -1){
 							minRawValue = rawValueNumber;
 						}
@@ -1626,7 +1626,7 @@
 						});
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
-						var rawValueNumber = Number("0" + sites[i]["RawValue"].replace(/[^0-9.]/g, ""));
+						var rawValueNumber = Number("0" + sites[i]["RawValue"].toString().replace(/[^0-9.]/g, ""));
 						if(rawValueNumber < minRawValue || minRawValue == -1){
 							minRawValue = rawValueNumber;
 						}
