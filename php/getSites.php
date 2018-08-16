@@ -119,7 +119,12 @@
 			}
 		}
 		if(!array_key_exists("Weight", $sitesArray[strval($sites[$i]->getID())])){
-			$sitesArray[strval($sites[$i]->getID())]["Weight"] = 0;
+			if($occurrenceInsteadOfDensity){
+				$sitesArray[strval($sites[$i]->getID())]["Weight"] = 0;
+			}
+			else{
+				$sitesArray[strval($sites[$i]->getID())]["Weight"] = round(log10(0.000000000000000000000000000000000000000000000000001), 2);
+			}
 		}
 	}
 	die(json_encode(array_values($sitesArray)));
