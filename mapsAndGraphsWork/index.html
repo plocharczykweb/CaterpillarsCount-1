@@ -1490,7 +1490,7 @@
 						var marker = new google.maps.Marker({
 							map: map,
 							position: latlng,
-							title: sites[i]["Name"],
+							title: (sites[i]["Name"] + ": " + sites[i]["RawValue"]),
 							defaultZIndex: zIndex,
 							zIndex: zIndex,
 							icon: {
@@ -1561,7 +1561,7 @@
 						var marker = new google.maps.Marker({
 							map: map,
 							position: latlng,
-							title: sites[i]["Name"],
+							title: (sites[i]["Name"] + ": " + sites[i]["RawValue"]),
 							zIndex: zIndex,
 							defaultZIndex: zIndex,
 							icon: {
@@ -1596,8 +1596,13 @@
 						if(a[0] > b[0]) return 1;
 						return 0;
 					});
-					var selectedSiteIDFromURL = window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace(/\D/g, "");
-					markerClick(markers[selectedSiteIDFromURL]);
+					
+					if(window.location.toString().indexOf("#") > -1){
+						var selectedSiteIDFromURL = window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace(/\D/g, "");
+						if(selectedSiteIDFromURL.length > 0){
+							markerClick(markers[selectedSiteIDFromURL]);
+						}
+					}
 				})
 				.fail(function(){
 					//error
