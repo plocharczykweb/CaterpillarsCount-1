@@ -1571,8 +1571,8 @@
 							else if(i == $(".scaleCircle").length - 1){
 								scaleNumber = maxRawValue;
 							}
-							else if(minWeight == maxWeight){
-								scaleNumber = maxWeight;
+							else if(minRawValue == maxRawValue){
+								scaleNumber = maxRawValue;
 							}
 							$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"scaleLabel\">" + roundTo(scaleNumber, 2) + "</div>";
 						}
