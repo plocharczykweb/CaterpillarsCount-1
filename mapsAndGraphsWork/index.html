@@ -1503,6 +1503,8 @@
 					var normalizedWeights = getNormalizedWeights(sites);
 					var minRawValue = -1;
 					var maxRawValue = -1;
+					var minWeight = -100;
+					var maxWeight = -100;
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var color = mapPercentToColor(normalizedWeights[i]);
@@ -1549,15 +1551,29 @@
 						if(rawValueNumber > maxRawValue){
 							maxRawValue = rawValueNumber;
 						}
+						
+						if(sites[i]["Weight"] < minWeight || minWeight == -100){
+							minWeight = sites[i]["Weight"];
+						}
+						if(sites[i]["Weight"] > maxWeight){
+							maxWeight = sites[i]["Weight"];
+						}
 					}
 					for(var i = 0; i < $(".scaleCircle").length; i++){
-						var unit = "";
-						var roundToPlace = 2;
 						if(occurrenceInsteadOfDensity){
-							unit = "%";
-							roundToPlace = 0;
+							$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"scaleLabel\">" + roundTo(minRawValue + ((maxRawValue - minRawValue) * (i * (1/($(".scaleCircle").length - 1)))), 0) + "%</div>";
 						}
-						$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"scaleLabel\">" + roundTo(minRawValue + ((maxRawValue - minRawValue) * (i * (1/($(".scaleCircle").length - 1)))), roundToPlace) + unit + "</div>";
+						else{
+							var scaleNumber = Math.pow(10, minWeight + ((maxWeight - minWeight) * (i * (1/($(".scaleCircle").length - 1)))));
+							if(i == 0){
+								scaleNumber = minRawValue;
+							}
+							else if(i == $(".scaleCircle").length - 1){
+								scaleNumber = maxRawValue;
+							}
+							$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"scaleLabel\">" + roundTo(scaleNumber, 2) + "</div>";
+						}
+						
 						$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
 					}
 					$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">" + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().charAt(0).toUpperCase() + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().slice(1) + " of " + readableArthropod.toLowerCase() + " that are at least " + minSize + " mm long on " + plantSpecies.replace("%", "All Trees").toLowerCase() + " (" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
