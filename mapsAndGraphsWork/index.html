@@ -1541,7 +1541,7 @@
 						});
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
-						var rawValueNumber = Number("0" + sites[i]["RawValue"].replace(/\D/g, ""));
+						var rawValueNumber = Number("0" + sites[i]["RawValue"].replace(/[^0-9.]/g, ""));
 						if(rawValueNumber < minRawValue || minRawValue == -1){
 							minRawValue = rawValueNumber;
 						}
@@ -1625,7 +1625,7 @@
 						});
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
-						var rawValueNumber = Number("0" + sites[i]["RawValue"].replace(/\D/g, ""));
+						var rawValueNumber = Number("0" + sites[i]["RawValue"].replace(/[^0-9.]/g, ""));
 						if(rawValueNumber < minRawValue || minRawValue == -1){
 							minRawValue = rawValueNumber;
 						}
