@@ -780,6 +780,14 @@
 				});
 				setSliders();
 				attachAutoCompleteToInput($("#plantSpecies"), plantSpeciesList);
+				var backgroundColor = 'white';
+				Chart.plugins.register({
+					beforeDraw: function(c) {
+						var ctx = c.chart.ctx;
+						ctx.fillStyle = backgroundColor;
+						ctx.fillRect(0, 0, c.chart.width, c.chart.height);
+					}
+				});
 				window.phenology = new Chart(document.getElementById('phenologyChart'), lineConfig);
 				window.composition = new Chart($('#compositionChart')[0].getContext('2d'), barConfig);
 			});
