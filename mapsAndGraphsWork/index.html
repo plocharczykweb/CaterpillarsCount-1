@@ -702,6 +702,10 @@
 				padding-top:2px;
 			}
 			
+			#lineGraph, #barGraph{
+				font-size:14px;
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -1965,13 +1969,15 @@
 							barPercentage: 0.2,
 							ticks: {
 								autoSkip: false,
-								maxRotation: 0
+								maxRotation: 0,
+								fontSize: 14
 							}
 						}],
 						yAxes: [{
 							stacked: true,
 							scaleLabel: {display: true,labelString: 'Percent',},
-							gridLines: {color: "rgba(0,0,0,0.05)"}
+							gridLines: {color: "rgba(0,0,0,0.05)"},
+							ticks: {fontSize: 14}
 						}]
 					}
 				}
