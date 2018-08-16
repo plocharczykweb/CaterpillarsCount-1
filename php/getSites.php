@@ -108,7 +108,12 @@
 			$sitesArray[strval($sites[$i]->getID())]["MostRecentDateTime"] = "Never";
 		}
 		if(!array_key_exists("RawValue", $sitesArray[strval($sites[$i]->getID())])){
-			$sitesArray[strval($sites[$i]->getID())]["RawValue"] = 0;
+			if($sitesArray[strval($sites[$i]->getID())]["MostRecentDateTime"] == "Never"){
+				$sitesArray[strval($sites[$i]->getID())]["RawValue"] = "No Surveys";
+			}
+			else{
+				$sitesArray[strval($sites[$i]->getID())]["RawValue"] = "0%";
+			}
 		}
 		if(!array_key_exists("Weight", $sitesArray[strval($sites[$i]->getID())])){
 			$sitesArray[strval($sites[$i]->getID())]["Weight"] = 0;
