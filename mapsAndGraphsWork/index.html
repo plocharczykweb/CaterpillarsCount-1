@@ -670,6 +670,8 @@
 				overflow:hidden;
 				border-bottom:2px solid rgba(0,0,0,0.1);
 				cursor:pointer;
+				margin:20px 40px 20px 20px;
+				width:160px;
 			}
 			#mapFiltersToggleButton>div{
 				display:table-cell;
@@ -1156,6 +1158,7 @@
 				markerClick(this);
 			}
 			function markerClick(marker){
+				window.location = "#selected" + marker.siteInformation["ID"];
 				activeSite = marker.siteInformation["Name"];
 				if(toggleMarker(marker) == "same"){
 					scrollToPanel(3);
@@ -1593,6 +1596,8 @@
 						if(a[0] > b[0]) return 1;
 						return 0;
 					});
+					var selectedSiteIDFromURL = window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace(/\D/g, "");
+					markers[selectedSiteIDFromURL].click();
 				})
 				.fail(function(){
 					//error
