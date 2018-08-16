@@ -1515,6 +1515,10 @@
 							color = "#bbb";
 							zIndex = -1;
 						}
+						var currentColor = color;
+						if($("#selectedSitePanel h2").eq(0)[0].innerHTML == sites[i]["Name"]){
+							currentColor = "#fed136";
+						}
 						var marker = new google.maps.Marker({
 							map: map,
 							position: latlng,
@@ -1526,7 +1530,7 @@
 								scale: scale,
 								strokeWeight: 1,
 								defaultFillColor: color,
-								fillColor: color,
+								fillColor: currentColor,
 								fillOpacity: .9
 							},
 							animation: google.maps.Animation.DROP,
