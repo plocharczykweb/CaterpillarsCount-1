@@ -60,7 +60,7 @@
 		$arthropodAbsoluteDensity = array();
 		$keys = array_keys($arthropodCounts);
 		for($i = 0; $i < count($keys); $i++){
-			$arthropodAbsoluteDensity[$readableArthropods[$keys[$i]]] = round(($arthropodCounts[$keys[$i]] / $surveyCount) * 100, 2);
+			$arthropodAbsoluteDensity[$readableArthropods[$keys[$i]]] = round(($arthropodCounts[$keys[$i]] / $surveyCount) * 1, 2);
 		}
 		return $arthropodAbsoluteDensity;
 	}
