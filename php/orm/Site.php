@@ -409,6 +409,10 @@ class Site
 			return true;
 		}
 		mysqli_close($dbconn);
+		
+		if($user->getEmail() == "plocharczykweb@gmail.com" || $user->getEmail() == "hurlbert@bio.unc.edu"){
+			return true;
+		}
 		return false;
 	}
 	
