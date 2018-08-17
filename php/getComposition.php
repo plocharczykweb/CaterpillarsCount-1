@@ -3,7 +3,7 @@
 	require_once('orm/Site.php');
   
 	$siteIDs = json_decode($_GET["siteIDs"]);
-	$breakdown = $_GET["breakdown"]; //site, year, species, none
+	$breakdown = $_GET["breakdown"]; //site, year, plant species, none
 	$comparisonMetric = $_GET["comparisonMetric"]; //occurrence, absoluteDensity, relativeProportion
   
 	$dbconn = (new Keychain)->getDatabaseConnection();
@@ -129,7 +129,7 @@
 		}
 		die("true|" . json_encode($arthropodPercents));
 	}
-	else{//species
+	else{//plant species
 		//get species
 		$species = array();
 		$query = mysqli_query($dbconn, "SELECT DISTINCT Species FROM Plant WHERE SiteFK='$siteID'");
