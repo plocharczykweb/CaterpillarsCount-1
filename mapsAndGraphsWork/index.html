@@ -657,6 +657,10 @@
 				background:#ebfeff;
 			}
 			
+			.xAxisLabel{
+				text-align:center;
+			}
+			
 			.yAxisLabel{
 				position:absolute;
 				top:50%;
@@ -1182,12 +1186,14 @@
 				return "same";
 			}
 			var activeSite = "Example Site";
+			var activeSiteID = -1;
 			function physicalMarkerClick(){
 				markerClick(this);
 			}
 			function markerClick(marker){
 				window.location = "#selected" + marker.siteInformation["ID"];
 				activeSite = marker.siteInformation["Name"];
+				activeSiteID = marker.siteInformation["ID"];
 				if(toggleMarker(marker) == "same"){
 					scrollToPanel(3);
 					return false;
@@ -1253,7 +1259,9 @@
 				clearSets();
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
 					addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
-					setComposition("site", "occurrence", [marker.siteInformation["ID"]]);
+					clearCompositionSites();
+					addCompositionSite(marker.siteInformation["ID"]);
+					setComposition();
 				}
 				
 				$("#selectedSitePanel")[0].style.display = "block";
@@ -1958,7 +1966,7 @@
 				type: 'bar',
 				data: {},
 				options: {
-					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 14}},
+					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 14}, display: false},
 					title: {display: false,},
 					tooltips: {mode: 'index', intersect: false, callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
 					responsive: true,
@@ -1975,7 +1983,7 @@
 						}],
 						yAxes: [{
 							stacked: true,
-							scaleLabel: {display: true,labelString: 'Percent', fontSize: 14},
+							scaleLabel: {display: true,labelString: '', fontSize: 14},
 							gridLines: {color: "rgba(0,0,0,0.05)"},
 							ticks: {fontSize: 14}
 						}]
@@ -2372,7 +2380,21 @@
 			//END OF PHENOLOGY CHART STUFF
 			
 			//COMPOSITION CHART STUFF
-			function setComposition(xAxis, yAxis, siteIDs){
+			var compositionSiteIDs = [];
+			function clearCompositionSites(){
+				compositionSiteIDs = [];
+			}
+			function addCompositionSite(siteID){
+				compositionSiteIDs[compositionSiteIDs.length] = siteID;
+			}
+			function setComposition(){
+				xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
+				yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
+				var siteIDs = compositionSiteIDs;
+				if(xAxis !== "site"){
+					siteIDs = [activeSiteID];
+				}
+				
 				$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify(siteIDs) + "&breakdown=" + xAxis + "&comparisonMetric=" + yAxis, function(data){
 					//success
 					if(data.indexOf("true|") == 0){
@@ -2682,7 +2704,27 @@
 							</div>
 							<div id="barGraph">
 								<div style="height:500px;margin-top:20px;">
+									<div class="yAxisLabel">
+										<div class="smallSelect">
+											<div class="selected" onclick="showSmallSelectOptions(this);">Percent of Arthropods</div>
+											<div class="options">
+												<div onclick="smallSelectOption(this);centerYAxisLabels();setComposition();">Percent of Arthropods</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();setComposition();">Percent of Surveys</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();setComposition();">Arthropods Per Survey</div>
+											</div>
+										</div>
+									</div>
 									<canvas id="compositionChart" width="0" height="0"></canvas>
+								</div>
+								<div class="xAxisLabel">
+									<div class="smallSelect">
+										<div class="selected" onclick="showSmallSelectOptions(this);">Site</div>
+										<div class="options">
+											<div onclick="smallSelectOption(this);setComposition();">Site</div>
+											<div onclick="smallSelectOption(this);setComposition();">Year</div>
+											<div onclick="smallSelectOption(this);setComposition();">Plant Species</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
