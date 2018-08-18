@@ -617,6 +617,7 @@
 				width:10px;
 				height:10px;
 				border:1px solid rgba(0,0,0,0.2);
+				margin-bottom:-1px;
 			}
 			
 			#addNewSet{
@@ -673,6 +674,7 @@
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 				font-size:14px;
 				color:#666;
+				margin:10px 0px;
 			}
 			
 			.yAxisLabel{
@@ -2466,7 +2468,7 @@
 						}
 						for(var i = (i % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
 							legendHTML += "<div class=\"label\">";
-							legendHTML += 	"<div class=\"box\" style=\"background:transparent;\"></div>";
+							legendHTML += 	"<div class=\"box\" style=\"background:transparent;border-color:transparent;\"></div>";
 							legendHTML += 	"<span class=\"description\"> </span>";
 							legendHTML += "</div><br>";
 						}
