@@ -2439,7 +2439,7 @@
 							}
 						}
 						
-						barConfig.options.scales.xAxes.barPercentage = Math.min((.2 * formattedDatasets.length), .8);
+						barConfig.options.scales.xAxes[0].barPercentage = Math.min((.2 * formattedDatasets.length), .8);
 						
 						barConfig.data = {
 							labels: barTitles,
