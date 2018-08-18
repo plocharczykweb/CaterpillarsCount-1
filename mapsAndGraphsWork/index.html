@@ -824,7 +824,9 @@
 					}
 				});
 				window.phenology = new Chart(document.getElementById('phenologyChart'), lineConfig);
-				window.composition = new Chart($('#compositionChart')[0].getContext('2d'), barConfig);
+				window.siteComposition = new Chart($('#compositionSiteChart')[0].getContext('2d'), normalBarConfig);
+				window.yearComposition = new Chart($('#compositionYearChart')[0].getContext('2d'), normalBarConfig);
+				window.speciesComposition = new Chart($('#compositionSpeciesChart')[0].getContext('2d'), speciesBarConfig);
 			});
 			
 			$(document).click(function(){
@@ -1979,7 +1981,7 @@
 				}
 			};
 			
-			var barConfig = {
+			var normalBarConfig = {
 				type: 'bar',
 				data: {},
 				options: {
@@ -1995,6 +1997,34 @@
 							ticks: {
 								autoSkip: false,
 								fontSize: 14
+							}
+						}],
+						yAxes: [{
+							stacked: true,
+							scaleLabel: {display: true,labelString: '', fontSize: 14},
+							gridLines: {color: "rgba(0,0,0,0.05)"},
+							ticks: {fontSize: 14}
+						}]
+					}
+				}
+			};
+			
+			var speciesBarConfig = {
+				type: 'bar',
+				data: {},
+				options: {
+					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 14}, display: false},
+					title: {display: false,},
+					tooltips: {mode: 'index', intersect: false, callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+							gridLines: {color: "rgba(0,0,0,0.05)"},
+							barPercentage: 0.2,
+							ticks: {
+								autoSkip: false,
+								fontSize: 11
 							}
 						}],
 						yAxes: [{
@@ -2404,11 +2434,27 @@
 				compositionSiteIDs[compositionSiteIDs.length] = siteID;
 			}
 			function setComposition(){
-				xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
-				yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
+				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
+				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
 				var siteIDs = compositionSiteIDs;
 				if(xAxis !== "site"){
 					siteIDs = [activeSiteID];
+				}
+				
+				if(xAxis == "site"){
+					$("#compositionYearChart")[0].style.display = "none";
+					$("#compositionSpeciesChart")[0].style.display = "none";
+					$("#compositionSiteChart")[0].style.display = "block";
+				}
+				else if(xAxis == "year"){
+					$("#compositionSiteChart")[0].style.display = "none";
+					$("#compositionSpeciesChart")[0].style.display = "none";
+					$("#compositionYearChart")[0].style.display = "block";
+				}
+				else{
+					$("#compositionSiteChart")[0].style.display = "none";
+					$("#compositionYearChart")[0].style.display = "none";
+					$("#compositionSpeciesChart")[0].style.display = "block";
 				}
 				
 				$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify(siteIDs) + "&breakdown=" + xAxis + "&comparisonMetric=" + yAxis, function(data){
@@ -2475,6 +2521,10 @@
 						legendHTML += "</div>";
 						$("#compositionLegend")[0].innerHTML = legendHTML;
 						
+						var barConfig = normalBarConfig;
+						if(xAxis == "plant species"){
+							barConfig = speciesBarConfig;
+						}
 						
 						if(yAxis == "absoluteDensity"){
 							barConfig.options.tooltips.callbacks.label = function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel;};
@@ -2485,15 +2535,20 @@
 						
 						barConfig.options.scales.xAxes[0].barPercentage = Math.min((.2 + (barTitles.length * .1)), .6);
 						
-						if(barTitles.length > 24){
-							barConfig.options.scales.xAxes[0].ticks.fontSize = Math.round(14 - (barTitles.length * .074074));
-						}
-						
 						barConfig.data = {
 							labels: barTitles,
 							datasets: formattedDatasets
 						};
-						window.composition.update();
+						
+						if(xAxis == "site"){
+							window.siteComposition.update();
+						}
+						else if(xAxis == "year"){
+							window.yearComposition.update();
+						}
+						else{
+							window.speciesComposition.update();
+						}
 						centerYAxisLabels();
 					}
 					else{
@@ -2764,7 +2819,9 @@
 											</div>
 										</div>
 									</div>
-									<canvas id="compositionChart" width="0" height="0"></canvas>
+									<canvas id="compositionSiteChart" width="0" height="0"></canvas>
+									<canvas id="compositionYearChart" width="0" height="0"></canvas>
+									<canvas id="compositionSpeciesChart" width="0" height="0"></canvas>
 								</div>
 								<div class="xAxisLabel">
 									<div class="smallSelect">
