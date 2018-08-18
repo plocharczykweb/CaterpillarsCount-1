@@ -2433,6 +2433,45 @@
 			function addCompositionSite(siteID){
 				compositionSiteIDs[compositionSiteIDs.length] = siteID;
 			}
+			
+			var compositions = {};
+			function loadDefaultCompositions(){
+				var xAxes = ["site", "year", "plant species"];
+				var yAxes = ["relativeProportion", "occurrence", "absoluteDensity"];
+				
+				for(var i = 0; i < xAxes.length; i++){
+					for(var j = 0; j < yAxes.length; j++){
+						if(!(activeSiteID.toString() in preloadedCompositions)){
+							preloadedCompositions[activeSiteID.toString()] = {};
+						}
+						if(!(xAxes[i] in preloadedCompositions[activeSiteID.toString()])){
+							preloadedCompositions[activeSiteID.toString()][xAxes[i]] = {};
+						}
+						if(!(yAxes[j] in preloadedCompositions[activeSiteID.toString()][xAxes[i]])){
+							preloadedCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]] = "loading";
+							$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify(siteIDs) + "&breakdown=" + xAxis + "&comparisonMetric=" + yAxis, function(data){
+								if(data.indexOf("true|") == 0){
+									preloadedCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]] = JSON.parse(data.replace("true|", ""));
+								}
+								else{
+									delete preloadedCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]];
+								}
+							})
+							.fail(function(){
+								//error
+								delete preloadedCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]];
+							});
+						}
+					}
+				}
+			}
+			
+			function showComposition(xAxis, yAxis, siteIDs){
+				//setinterval to get data
+					//ajax again if data fails to load
+					//show otherwise
+			}
+			
 			function setComposition(){
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
