@@ -2452,17 +2452,19 @@
 						}
 						if(!(yAxes[j] in yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[i]])){
 							yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]] = "loading";
+							var savedi = i;
+							var savedj = j;
 							$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify([activeSiteID]) + "&breakdown=" + xAxes[i] + "&comparisonMetric=" + yAxes[j], function(data){
 								if(data.indexOf("true|") == 0){
-									yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]] = JSON.parse(data.replace("true|", ""));
+									yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[savedi]][yAxes[savedj]] = JSON.parse(data.replace("true|", ""));
 								}
 								else{
-									delete yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]];
+									delete yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[savedi]][yAxes[savedj]];
 								}
 							})
 							.fail(function(){
 								//error
-								delete yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]];
+								delete yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[savedi]][yAxes[savedj]];
 							});
 						}
 					}
@@ -2477,25 +2479,26 @@
 					}
 					if(!(yAxes[i] in siteCompositions[siteID.toString()])){
 						siteCompositions[siteID.toString()][yAxes[i]] = "loading";
+						var savedi = i;
 						$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify([siteID]) + "&breakdown=site&comparisonMetric=" + yAxes[i], function(data){
 							if(data.indexOf("true|") == 0){
-								siteCompositions[siteID.toString()][yAxes[i]] = JSON.parse(data.replace("true|", ""));
+								siteCompositions[siteID.toString()][yAxes[savedi]] = JSON.parse(data.replace("true|", ""));
 							}
 							else{
-								delete siteCompositions[siteID.toString()][yAxes[i]];
+								delete siteCompositions[siteID.toString()][yAxes[savedi]];
 							}
 						})
 						.fail(function(){
 							//error
-							delete siteCompositions[siteID.toString()][yAxes[i]];
+							delete siteCompositions[siteID.toString()][yAxes[savedi]];
 						});
 					}
 				}
 			}
 			
 			function loadCompositionData(){
-				xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
-				yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
+				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
+				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
 				var siteIDs = compositionSiteIDs;
 				
 				var loadingSites = [];
