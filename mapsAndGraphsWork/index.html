@@ -2448,6 +2448,9 @@
 						for(var arthropodName in datasets){
 							if(datasets.hasOwnProperty(arthropodName)){
 								var thisColor = barColors[i++];
+								if(i % 5 == 0){
+									legendHTML += "</div><div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
+								}
 								legendHTML += "<div class=\"label\">";
 								legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
 								legendHTML += 	"<span class=\"description\">" + arthropodName + "</span>";
