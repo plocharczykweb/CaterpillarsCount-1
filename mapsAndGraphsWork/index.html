@@ -610,12 +610,12 @@
 			}
 			
 			#compositionLegend{
-				margin:20px 0px;
+				margin-top:20px;
 			}
 			
 			#compositionLegend .label .box{
-				width:12px;
-				height:12px;
+				width:10px;
+				height:10px;
 				border:1px solid rgba(0,0,0,0.2);
 			}
 			
@@ -2444,11 +2444,12 @@
 						
 						var formattedDatasets = [];
 						var legendHTML = "<div style=\"text-align:left;display:inline-block;\">";
+						var LABELS_IN_EACH_COLUMN = 5;
 						var i = 0;
 						for(var arthropodName in datasets){
 							if(datasets.hasOwnProperty(arthropodName)){
 								var thisColor = barColors[i++];
-								if(i % 5 == 0){
+								if((i - 1) % LABELS_IN_EACH_COLUMN == 0){
 									legendHTML += "</div><div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
 								}
 								legendHTML += "<div class=\"label\">";
@@ -2462,6 +2463,12 @@
 									data: datasets[arthropodName]
 								};
 							}
+						}
+						for(var i = (i % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
+							legendHTML += "<div class=\"label\">";
+							legendHTML += 	"<div class=\"box\" style=\"background:transparent;\"></div>";
+							legendHTML += 	"<span class=\"description\"> </span>";
+							legendHTML += "</div><br>";
 						}
 						legendHTML += "</div>";
 						$("#compositionLegend")[0].innerHTML = legendHTML;
