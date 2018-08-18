@@ -609,6 +609,16 @@
 				margin:0px 3px -4px 0px;
 			}
 			
+			#compositionLegend{
+				margin:20px 0px;
+			}
+			
+			#compositionLegend .label .box{
+				width:12px;
+				height:12px;
+				border:1px solid rgba(0,0,0,0.2);
+			}
+			
 			#addNewSet{
 				border-top:1px solid #ddd;
 				border-bottom:1px solid #ddd;
@@ -2433,15 +2443,15 @@
 						}
 						
 						var formattedDatasets = [];
-						var legendHTML = "";
+						var legendHTML = "<div style=\"text-align:left;display:inline-block;\">";
 						var i = 0;
 						for(var arthropodName in datasets){
 							if(datasets.hasOwnProperty(arthropodName)){
 								var thisColor = barColors[i++];
 								legendHTML += "<div class=\"label\">";
-								legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";border:3px solid " + transluscent(thisColor) + ";\"></div>";
+								legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
 								legendHTML += 	"<span class=\"description\">" + arthropodName + "</span>";
-								legendHTML += "</div>";
+								legendHTML += "</div><br>";
 								
 								formattedDatasets[formattedDatasets.length] = {
 									label: arthropodName,
@@ -2450,6 +2460,7 @@
 								};
 							}
 						}
+						legendHTML += "</div>";
 						$("#compositionLegend")[0].innerHTML = legendHTML;
 						
 						
