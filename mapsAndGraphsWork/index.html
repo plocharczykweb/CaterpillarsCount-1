@@ -585,6 +585,7 @@
 			
 			#barGraph{
 				display:none;
+				font-size:14px;
 			}
 			
 			#phenologyLegend{
@@ -659,13 +660,16 @@
 			
 			.xAxisLabel{
 				text-align:center;
+				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+				font-size:14px;
+				color:#666;
 			}
 			
 			.yAxisLabel{
 				position:absolute;
 				top:50%;
 				left:0px;
-				font-size:12px;
+				font-size:14px;
 				color:#666;
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 				transform:rotate(270deg);
@@ -2439,13 +2443,14 @@
 							}
 						}
 						
-						barConfig.options.scales.xAxes[0].barPercentage = Math.min((.2 * barTitles.length), .6);
+						barConfig.options.scales.xAxes[0].barPercentage = Math.min((.2 + (barTitles.length * .1)), .6);
 						
 						barConfig.data = {
 							labels: barTitles,
 							datasets: formattedDatasets
 						};
 						window.composition.update();
+						centerYAxisLabels();
 					}
 					else{
 						queueNotice("error", data);
