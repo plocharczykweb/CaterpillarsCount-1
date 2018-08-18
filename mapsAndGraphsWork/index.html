@@ -1279,7 +1279,8 @@
 					addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
 					clearCompositionSites();
 					addCompositionSite(marker.siteInformation["ID"]);
-					setComposition();
+					loadDefaultCompositions();
+					loadCompositionData();
 				}
 				
 				$("#selectedSitePanel")[0].style.display = "block";
@@ -2498,6 +2499,7 @@
 				var siteIDs = compositionSiteIDs;
 				
 				var loadingSites = [];
+				var retriedYearOrSpecies = false;
 				var dataPreloadReadyCheck = setInterval(function(){
 					if(xAxis == "site"){
 						var data = [];
@@ -2507,7 +2509,12 @@
 								if(siteData != "loading"){
 									data[data.length] = siteData;
 									if(data.length == siteIDs.length){
-										showCompositionData(data);//data is not in the right format
+										var formattedData = {}
+										for(var j = 0; j < data.length; j++){
+											var siteName = data[j][Object.keys(data[j])[0]];
+											formattedData[siteName] = data[j][siteName];
+										}
+										showCompositionData(formattedData);//data is not in the right format
 										clearInterval(dataPreloadReadyCheck);
 									}
 								}
@@ -2531,9 +2538,14 @@
 							}
 						}
 						else{
-							//fail because default data should have always started loading already
-							queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
-							clearInterval(dataPreloadReadyCheck);
+							if(retriedYearOrSpecies){
+								queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+								clearInterval(dataPreloadReadyCheck);
+							}
+							else{
+								loadDefaultCompositions();
+								retriedYearOrSpecies = true;
+							}
 						}
 					}
 				}, 100);
@@ -3011,9 +3023,9 @@
 										<div class="smallSelect">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Percent of Arthropods</div>
 											<div class="options">
-												<div onclick="smallSelectOption(this);centerYAxisLabels();setComposition();">Percent of Arthropods</div>
-												<div onclick="smallSelectOption(this);centerYAxisLabels();setComposition();">Percent of Surveys</div>
-												<div onclick="smallSelectOption(this);centerYAxisLabels();setComposition();">Arthropods Per Survey</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();loadCompositionData();">Percent of Arthropods</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();loadCompositionData();">Percent of Surveys</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();loadCompositionData();">Arthropods Per Survey</div>
 											</div>
 										</div>
 									</div>
@@ -3025,9 +3037,9 @@
 									<div class="smallSelect">
 										<div class="selected" onclick="showSmallSelectOptions(this);">Site</div>
 										<div class="options">
-											<div onclick="smallSelectOption(this);setComposition();">Site</div>
-											<div onclick="smallSelectOption(this);setComposition();">Year</div>
-											<div onclick="smallSelectOption(this);setComposition();">Plant Species</div>
+											<div onclick="smallSelectOption(this);loadCompositionData();">Site</div>
+											<div onclick="smallSelectOption(this);loadCompositionData();">Year</div>
+											<div onclick="smallSelectOption(this);loadCompositionData();">Plant Species</div>
 										</div>
 									</div>
 								</div>
