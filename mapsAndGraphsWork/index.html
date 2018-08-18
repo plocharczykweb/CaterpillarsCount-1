@@ -1994,7 +1994,7 @@
 							barPercentage: 0.2,
 							ticks: {
 								autoSkip: false,
-								fontSize: 11
+								fontSize: 14
 							}
 						}],
 						yAxes: [{
@@ -2484,6 +2484,10 @@
 						}
 						
 						barConfig.options.scales.xAxes[0].barPercentage = Math.min((.2 + (barTitles.length * .1)), .6);
+						
+						if(barTitles.length > 24){
+							barConfig.options.scales.xAxes.ticks.fontSize = Math.round(14 - (barTitles.length * .074074));
+						}
 						
 						barConfig.data = {
 							labels: barTitles,
