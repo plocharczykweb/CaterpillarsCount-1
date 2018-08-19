@@ -2532,8 +2532,8 @@
 				lastActiveSiteID = activeSiteID;
 				compositionQueue = [];
 				
-				normalBarConfig.data = {};
-				speciesBarConfig.data = {};
+				normalBarConfig.data = {labels: [], datasets: {}};
+				speciesBarConfig.data = {labels: [], datasets: {}};
 				window.siteComposition.update();
 				window.yearComposition.update();
 				window.speciesComposition.update();
