@@ -2561,8 +2561,11 @@
 						clearInterval(compositionDataIsReadyCheck);
 						var formattedData = {};
 						for(var i = 0; i < data.length; i++){
-							var barTitle = Object.keys(data[0])[0];
-							formattedData[barTitle] = data[i][barTitle];
+							for(var barTitle in data){
+								if(data.hasOwnProperty(barTitle)){
+									formattedData[barTitle] = data[i][barTitle];
+								}
+							}
 						}
 						populateCompositionChart(xAxis, yAxis, formattedData);
 					}
@@ -2651,12 +2654,21 @@
 
 				if(xAxis == "site"){
 					window.siteComposition.update();
+					$("#compositionYearChart")[0].style.display = "none";
+					$("#compositionSpeciesChart")[0].style.display = "none";
+					$("#compositionSiteChart")[0].style.display = "block";
 				}
 				else if(xAxis == "year"){
 					window.yearComposition.update();
+					$("#compositionSiteChart")[0].style.display = "none";
+					$("#compositionSpeciesChart")[0].style.display = "none";
+					$("#compositionYearChart")[0].style.display = "block";
 				}
 				else{
 					window.speciesComposition.update();
+					$("#compositionSiteChart")[0].style.display = "none";
+					$("#compositionYearChart")[0].style.display = "none";
+					$("#compositionSpeciesChart")[0].style.display = "block";
 				}
 				centerYAxisLabels();
 			}
@@ -2917,8 +2929,8 @@
 										</div>
 									</div>
 									<canvas id="compositionSiteChart" width="0" height="0"></canvas>
-									<canvas id="compositionYearChart" width="0" height="0"></canvas>
-									<canvas id="compositionSpeciesChart" width="0" height="0"></canvas>
+									<canvas id="compositionYearChart" width="0" height="0" style="display:none;"></canvas>
+									<canvas id="compositionSpeciesChart" width="0" height="0" style="display:none;"></canvas>
 								</div>
 								<div class="xAxisLabel">
 									<div class="smallSelect">
