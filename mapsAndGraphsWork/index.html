@@ -2562,7 +2562,7 @@
 						alert("unformatted: " + JSON.stringify(data));
 						var formattedData = {};
 						for(var i = 0; i < data.length; i++){
-							var barTitle = data[i][Object.keys(data[i])[0]];
+							var barTitle = Object.keys(data[0])[0];
 							formattedData[barTitle] = data[i][barTitle];
 						}
 						alert("formatted: " + JSON.stringify(formattedData));
