@@ -693,7 +693,6 @@
 				display:table;
 				padding:10px;
 				color:#fff;
-				font-family:'Roboto Slab', serif;
 				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 				font-weight:bold;
 				text-transform:uppercase;
@@ -743,6 +742,19 @@
 				top:50%;
 				margin-left:-15px;
 				margin-top:-15px;
+			}
+			#reloadComposition{
+				position:absolute;
+				left:50%;
+				top:50%;
+				font-size:14px;
+				padding:10px;
+				background:#666;
+				color:#fff;
+				text-decoration:underline;
+				cursor:pointer;
+				margin-top:-17px;
+				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -2375,6 +2387,7 @@
 				$("#loadingLine .colorBlock")[0].style.border= "3px solid " + opaque(color);
 				$("#loadingLine")[0].style.display = "block";
 				
+				console.log("Force phenology chart to front of composition queue: " + JSON.stringify(filters););
 				pauseCompositionLoads(loadSetFromFilters(filters, function(){callback();resumeCompositionLoads();}));
 				
 			}
@@ -2382,6 +2395,7 @@
 			function loadSetFromFilters(filters, callback){
 				$.get("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify([filters])), function(data){
 					//success
+					console.log("Successfully loaded phenology chart: " + JSON.stringify(filters));
 					if(data.indexOf("true|") == 0){
 						var sets = JSON.parse(data.replace("true|", ""));
 						for(var label in sets){
@@ -2398,9 +2412,11 @@
 				.fail(function(){
 					//error
 					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+					updatePhenologyLegend();
 				})
 				.always(function() {
 					//complete
+					console.log("Done loading phenology chart: " + JSON.stringify(filters));
 					$("#loadingLine")[0].style.display = "none";
 				});
 			}
@@ -2499,7 +2515,7 @@
 					var inQueue = false;
 					for(var i = (compositionQueue.length - 1); i >= 0; i--){
 						if(compositionQueue[i][0] == xAxis && compositionQueue[i][1] == yAxis && compositionQueue[i][2].toString() == siteID.toString()){
-							console.log("bump to front: " + xAxis + " " + yAxis + " " + siteID);
+							console.log("Bump to front: " + xAxis + " " + yAxis + " " + siteID);
 							//if already queued, bump it to the front of the line
 							compositionQueue.splice(i, 1);
 							compositionQueue[compositionQueue.length] = [xAxis, yAxis, siteID];
@@ -2595,6 +2611,7 @@
 			var compositionDataIsReadyCheck = null;
 			function showComposition(){
 				clearInterval(compositionDataIsReadyCheck);
+				$("#reloadComposition")[0].style.display = "none";
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
 				var siteIDs = compositionSiteIDs;
@@ -2618,7 +2635,8 @@
 					for(var i = 0; i < siteIDs.length; i++){
 						if(!compositionIsOnRecord(xAxis, yAxis, siteIDs[i])){
 							clearInterval(compositionDataIsReadyCheck);
-							queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+							queueNotice("error", "Our server is tired from loading so much chart data. Please give it a minute to breathe and then try again.");
+							$("#reloadComposition")[0].style.display = "block";
 						}
 						else if(getComposition(xAxis, yAxis, siteIDs[i]) !== null){
 							data[data.length] = getComposition(xAxis, yAxis, siteIDs[i]);
@@ -2986,6 +3004,7 @@
 								<div style="height:500px;margin-top:20px;position:relative;">
 									<div id="compositionLoadingCover">
 										<img src="../images/rollingBlack.svg" alt="Loading..."/>
+										<div id="reloadComposition" onclick="showComposition();">Reload</div>
 									</div>
 									<div class="yAxisLabel">
 										<div class="smallSelect">
