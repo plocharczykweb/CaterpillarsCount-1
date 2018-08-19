@@ -2464,14 +2464,14 @@
 			}
 			
 			function queueCompositionLoad(xAxis, yAxis, siteID){
-				if(!compositionIsOnRecord(xAxis, yAxis, siteID)){
+				if(!compositionIsOnRecord(xAxis, yAxis, siteID)){console.log("queue: " + xAxis + " " + yAxis + " " + siteID);
 					//if not in progress or complete, queue it.
 					compositionQueue[compositionQueue.length] = [xAxis, yAxis, siteID];
 					if(loadingComposition === null){
 						loadNextComposition();
 					}
 				}
-				else if(compositionQueue.indexOf([xAxis, yAxis, siteID]) > -1){
+				else if(compositionQueue.indexOf([xAxis, yAxis, siteID]) > -1){console.log("bump to front: " + xAxis + " " + yAxis + " " + siteID);
 					//if already queued, bump it to the front of the line
 					compositionQueue.splice(compositionQueue.indexOf([xAxis, yAxis, siteID]), 1);
 					compositionQueue[compositionQueue.length] = [xAxis, yAxis, siteID];
@@ -2489,12 +2489,14 @@
 				
 				$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify([loadingComposition[2]]) + "&breakdown=" + loadingComposition[0] + "&comparisonMetric=" + loadingComposition[1], function(data){
 					if(data.indexOf("true|") == 0){
+						console.log("Successfully loaded: " + loadingComposition[0] + " " + loadingComposition[1] + " " + loadingComposition[2]);
 						data = JSON.parse(data.replace("true|", ""));
 						setComposition(loadingComposition[0], loadingComposition[1], loadingComposition[2], data);
 					}
 				})
 				.always(function(){
 					//complete
+					console.log("Done loading: " + loadingComposition[0] + " " + loadingComposition[1] + " " + loadingComposition[2]);
 					loadNextComposition();
 				});
 			}
