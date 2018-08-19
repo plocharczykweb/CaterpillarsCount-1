@@ -2561,8 +2561,8 @@
 						clearInterval(compositionDataIsReadyCheck);
 						var formattedData = {};
 						for(var i = 0; i < data.length; i++){
-							for(var barTitle in data){
-								if(data.hasOwnProperty(barTitle)){
+							for(var barTitle in data[i]){
+								if(data[i].hasOwnProperty(barTitle)){
 									formattedData[barTitle] = data[i][barTitle];
 								}
 							}
