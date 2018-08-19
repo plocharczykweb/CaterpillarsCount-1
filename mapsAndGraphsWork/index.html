@@ -1309,12 +1309,11 @@
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
 					clearSets();
 					clearCompositionSites();
-					showSiteUserLeaderboard(siteID, function(){
-						addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])}, function(){
-							addCompositionSite(marker.siteInformation["ID"]);
-							loadNewActiveSiteCompositionDefaults();
-							showComposition();
-						});
+					showSiteUserLeaderboard(marker.siteInformation["ID"], function(){
+						addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
+						addCompositionSite(marker.siteInformation["ID"]);
+						loadNewActiveSiteCompositionDefaults();
+						showComposition();
 					});
 				}
 				
