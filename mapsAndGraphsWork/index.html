@@ -843,8 +843,7 @@
 					}
 				});
 				window.phenology = new Chart(document.getElementById('phenologyChart'), lineConfig);
-				window.siteComposition = new Chart($('#compositionSiteChart')[0].getContext('2d'), normalBarConfig);
-				window.yearComposition = new Chart($('#compositionYearChart')[0].getContext('2d'), normalBarConfig);
+				window.normalComposition = new Chart($('#compositionNormalChart')[0].getContext('2d'), normalBarConfig);
 				window.speciesComposition = new Chart($('#compositionSpeciesChart')[0].getContext('2d'), speciesBarConfig);
 			});
 			
@@ -2536,8 +2535,7 @@
 				
 				normalBarConfig.data = {labels: [], datasets: {}};
 				speciesBarConfig.data = {labels: [], datasets: {}};
-				window.siteComposition.update();
-				window.yearComposition.update();
+				window.normalComposition.update();
 				window.speciesComposition.update();
 				
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
@@ -2579,19 +2577,12 @@
 				
 				$("#compositionLoadingCover").stop().fadeIn(300);
 				
-				if(xAxis == "site"){
-					$("#compositionYearChart")[0].style.display = "none";
+				if(xAxis == "site" || xAxis == "year"){
 					$("#compositionSpeciesChart")[0].style.display = "none";
-					$("#compositionSiteChart")[0].style.display = "block";
-				}
-				else if(xAxis == "year"){
-					$("#compositionSpeciesChart")[0].style.display = "none";
-					$("#compositionSiteChart")[0].style.display = "none";
-					$("#compositionYearChart")[0].style.display = "block";
+					$("#compositionNormalChart")[0].style.display = "block";
 				}
 				else{
-					$("#compositionYearChart")[0].style.display = "none";
-					$("#compositionSiteChart")[0].style.display = "none";
+					$("#compositionNormalChart")[0].style.display = "none";
 					$("#compositionSpeciesChart")[0].style.display = "block";
 				}
 				
@@ -2708,10 +2699,10 @@
 				$("#compositionLoadingCover").stop().fadeOut(200);
 				
 				if(xAxis == "site"){
-					window.siteComposition.update();
+					window.normalComposition.update();
 				}
 				else if(xAxis == "year"){
-					window.yearComposition.update();
+					window.normalComposition.update();
 				}
 				else{
 					window.speciesComposition.update();
@@ -2977,8 +2968,7 @@
 											</div>
 										</div>
 									</div>
-									<canvas id="compositionSiteChart" width="0" height="0"></canvas>
-									<canvas id="compositionYearChart" width="0" height="0" style="display:none;"></canvas>
+									<canvas id="compositionNormalChart" width="0" height="0"></canvas>
 									<canvas id="compositionSpeciesChart" width="0" height="0" style="display:none;"></canvas>
 								</div>
 								<div class="xAxisLabel">
