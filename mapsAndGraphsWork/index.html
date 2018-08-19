@@ -2387,7 +2387,7 @@
 				$("#loadingLine .colorBlock")[0].style.border= "3px solid " + opaque(color);
 				$("#loadingLine")[0].style.display = "block";
 				
-				console.log("Force phenology chart to front of composition queue: " + JSON.stringify(filters););
+				console.log("Force phenology chart to front of composition queue: " + JSON.stringify(filters));
 				pauseCompositionLoads(loadSetFromFilters(filters, function(){callback();resumeCompositionLoads();}));
 				
 			}
