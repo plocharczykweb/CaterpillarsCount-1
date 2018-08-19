@@ -2448,7 +2448,6 @@
 			var loadingComposition = null;
 			var compositionQueue = [];
 			function compositionIsOnRecord(xAxis, yAxis, siteID){
-				var inQueue = false;
 				for(var i = (compositionQueue.length - 1); i >= 0; i--){
 					if(compositionQueue[i][0] == xAxis && compositionQueue[i][1] == yAxis && compositionQueue[i][2].toString() == siteID.toString()){
 						return true;
@@ -2471,10 +2470,17 @@
 						loadNextComposition();
 					}
 				}
-				else if(compositionQueue.indexOf([xAxis, yAxis, siteID]) > -1){console.log("bump to front: " + xAxis + " " + yAxis + " " + siteID);
-					//if already queued, bump it to the front of the line
-					compositionQueue.splice(compositionQueue.indexOf([xAxis, yAxis, siteID]), 1);
-					compositionQueue[compositionQueue.length] = [xAxis, yAxis, siteID];
+				else{
+					var inQueue = false;
+					for(var i = (compositionQueue.length - 1); i >= 0; i--){
+						if(compositionQueue[i][0] == xAxis && compositionQueue[i][1] == yAxis && compositionQueue[i][2].toString() == siteID.toString()){
+							console.log("bump to front: " + xAxis + " " + yAxis + " " + siteID);
+							//if already queued, bump it to the front of the line
+							compositionQueue.splice(i, 1);
+							compositionQueue[compositionQueue.length] = [xAxis, yAxis, siteID];
+							break;
+						}
+					}
 				}
 			}
 			
