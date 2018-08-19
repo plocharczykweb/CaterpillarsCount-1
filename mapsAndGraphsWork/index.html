@@ -1247,7 +1247,6 @@
 					scrollToPanel(3);
 					return false;
 				}
-				showSiteUserLeaderboard(marker.siteInformation["ID"]);
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
 				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
 				if(marker.siteInformation["MostRecentDateTime"] == "Never"){
@@ -1305,14 +1304,16 @@
 						"</div>";
 				}
 				
-				clearSets();
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
-					addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])}, function(){
-						addCompositionSite(marker.siteInformation["ID"]);
-						loadNewActiveSiteCompositionDefaults();
-						showComposition();
-					});
+					clearSets();
 					clearCompositionSites();
+					showSiteUserLeaderboard(siteID, function(){
+						addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])}, function(){
+							addCompositionSite(marker.siteInformation["ID"]);
+							loadNewActiveSiteCompositionDefaults();
+							showComposition();
+						});
+					});
 				}
 				
 				$("#selectedSitePanel")[0].style.display = "block";
@@ -1321,9 +1322,10 @@
 			
 			var currentSiteUserLeaderboardSiteID = -1;
 			var siteUserRankings = [];
-			function showSiteUserLeaderboard(siteID){
+			function showSiteUserLeaderboard(siteID, callback){
 				if(siteID == currentSiteUserLeaderboardSiteID){return false;}
 				currentSiteUserLeaderboardSiteID = siteID;
+				callback = callback || function(){};
 				
 				$("#showMoreSiteUserRankings")[0].style.display = "none";
 				$("#siteUserSuperHeader")[0].style.display = "none";
@@ -1343,6 +1345,7 @@
 				})
 				.always(function() {
 					//complete
+					callback();
 				});
 			}
 			
@@ -2404,7 +2407,6 @@
 								addSet(label, sets[label]);
 							}
 						}
-						callback();
 					}
 					else{
 						queueNotice("error", data);
@@ -2418,6 +2420,7 @@
 				.always(function() {
 					//complete
 					$("#loadingLine")[0].style.display = "none";
+					callback();
 				});
 			}
 			
