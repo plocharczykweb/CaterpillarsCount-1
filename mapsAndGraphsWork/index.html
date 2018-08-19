@@ -1277,6 +1277,7 @@
 				clearSets();
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
 					addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
+					
 					clearCompositionSites();
 					addCompositionSite(marker.siteInformation["ID"]);
 					loadNewActiveSiteCompositionDefaults();
@@ -2447,11 +2448,21 @@
 			var loadingComposition = null;
 			var compositionQueue = [];
 			function compositionIsOnRecord(xAxis, yAxis, siteID){
-				if(compositionQueue.indexOf([xAxis, yAxis, siteID]) > -1 || loadingComposition == [xAxis, yAxis, siteID] || getComposition(xAxis, yAxis, siteID) !== null){
+				var inQueue = false;
+				for(var i = (compositionQueue.length - 1); i >= 0; i--){
+					if(compositionQueue[i][0] == xAxis && compositionQueue[i][1] == yAxis && compositionQueue[i][2].toString() == siteID.toString()){
+						return true;
+					}
+				}
+				if(loadingComposition !== null && loadingComposition[0] == xAxis && loadingComposition[1] == yAxis && loadingComposition[2].toString() == siteID.toString()){
+					return true;
+				}
+				if(getComposition(xAxis, yAxis, siteID) !== null){
 					return true;
 				}
 				return false;
 			}
+			
 			function queueCompositionLoad(xAxis, yAxis, siteID){
 				if(!compositionIsOnRecord(xAxis, yAxis, siteID)){
 					//if not in progress or complete, queue it.
