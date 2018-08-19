@@ -730,13 +730,14 @@
 				position:absolute;
 				top:0px;
 				width:100%;
-				bottom:-20px;
+				bottom:0px;
 				background:rgba(255,255,255,0.5);
+				display:none;
 			}
 			#compositionLoadingCover>img{
 				width:30px;
 				height:30px;
-				opacity:.9;
+				opacity:.25;
 				position:absolute;
 				left:50%;
 				top:50%;
@@ -2568,6 +2569,24 @@
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
 				var siteIDs = compositionSiteIDs;
 				
+				$("#compositionLoadingCover").stop().fadeIn(300);
+				
+				if(xAxis == "site"){
+					$("#compositionYearChart")[0].style.display = "none";
+					$("#compositionSpeciesChart")[0].style.display = "none";
+					$("#compositionSiteChart")[0].style.display = "block";
+				}
+				else if(xAxis == "year"){
+					$("#compositionSpeciesChart")[0].style.display = "none";
+					$("#compositionSiteChart")[0].style.display = "none";
+					$("#compositionYearChart")[0].style.display = "block";
+				}
+				else{
+					$("#compositionYearChart")[0].style.display = "none";
+					$("#compositionSiteChart")[0].style.display = "none";
+					$("#compositionSpeciesChart")[0].style.display = "block";
+				}
+				
 				for(var i = 0; i < siteIDs.length; i++){
 					queueCompositionLoad(xAxis, yAxis, siteIDs[i]);
 				}
@@ -2677,24 +2696,17 @@
 					labels: barTitles,
 					datasets: formattedDatasets
 				};
-
+				
+				$("#compositionLoadingCover").stop().fadeOut(200);
+				
 				if(xAxis == "site"){
 					window.siteComposition.update();
-					$("#compositionYearChart")[0].style.display = "none";
-					$("#compositionSpeciesChart")[0].style.display = "none";
-					$("#compositionSiteChart")[0].style.display = "block";
 				}
 				else if(xAxis == "year"){
 					window.yearComposition.update();
-					$("#compositionSiteChart")[0].style.display = "none";
-					$("#compositionSpeciesChart")[0].style.display = "none";
-					$("#compositionYearChart")[0].style.display = "block";
 				}
 				else{
 					window.speciesComposition.update();
-					$("#compositionSiteChart")[0].style.display = "none";
-					$("#compositionYearChart")[0].style.display = "none";
-					$("#compositionSpeciesChart")[0].style.display = "block";
 				}
 				centerYAxisLabels();
 			}
