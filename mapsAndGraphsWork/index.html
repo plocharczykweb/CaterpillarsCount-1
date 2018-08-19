@@ -1295,12 +1295,12 @@
 				
 				clearSets();
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
-					addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
-					
+					addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])}, function(){
+						addCompositionSite(marker.siteInformation["ID"]);
+						loadNewActiveSiteCompositionDefaults();
+						showComposition();
+					});
 					clearCompositionSites();
-					addCompositionSite(marker.siteInformation["ID"]);
-					loadNewActiveSiteCompositionDefaults();
-					showComposition();
 				}
 				
 				$("#selectedSitePanel")[0].style.display = "block";
@@ -2355,7 +2355,8 @@
 				updatePhenologyLegend();
 			}
 			
-			function addSetFromFilters(filters){
+			function addSetFromFilters(filters, callback){
+				callback = callback || function(){};
 				var color = "";
 				for(var i = 0; i < colors.length; i++){
 					var colorIsInUse = false;
@@ -2384,6 +2385,7 @@
 								addSet(label, sets[label]);
 							}
 						}
+						callback();
 					}
 					else{
 						queueNotice("error", data);
