@@ -1331,9 +1331,11 @@
 				$("#siteUserSuperHeader")[0].style.display = "none";
 				$("#siteUserLeaderboard")[0].innerHTML = "<div class=\"loading\"><img src=\"../images/rolling.svg\"/></div>";
 				
+				console.log("Loading site user leaderbard.");
 				$.get("../php/getUserRankings.php?siteID=" + siteID, function(data){
 					//success
 					if(siteID == currentSiteUserLeaderboardSiteID){
+						console.log("Loaded site user leaderbard.");
 						siteUserRankings = JSON.parse(data);
 						populateSiteUserLeaderboard("Year", false);
 					}
@@ -1345,7 +1347,9 @@
 				})
 				.always(function() {
 					//complete
-					callback();
+					if(siteID == currentSiteUserLeaderboardSiteID){
+						callback();
+					}
 				});
 			}
 			
