@@ -726,6 +726,24 @@
 				font-size:14px;
 			}
 			
+			#compositionLoadingCover{
+				position:absolute;
+				top:0px;
+				width:100%;
+				bottom:-20px;
+				background:rgba(255,255,255,0.5);
+			}
+			#compositionLoadingCover>img{
+				width:30px;
+				height:30px;
+				opacity:.9;
+				position:absolute;
+				left:50%;
+				top:50%;
+				margin-left:-15px;
+				margin-top:-15px;
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -2926,6 +2944,9 @@
 							</div>
 							<div id="barGraph">
 								<div style="height:500px;margin-top:20px;position:relative;">
+									<div id="compositionLoadingCover">
+										<img src="../images/rollingBlack.svg" alt="Loading..."/>
+									</div>
 									<div class="yAxisLabel">
 										<div class="smallSelect">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Percent of Arthropods</div>
