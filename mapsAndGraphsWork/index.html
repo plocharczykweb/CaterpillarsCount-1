@@ -2559,17 +2559,19 @@
 					if(data.length == siteIDs.length){
 						//chart data
 						clearInterval(compositionDataIsReadyCheck);
+						alert("unformatted: " + data);
 						var formattedData = {}
 						for(var i = 0; i < data.length; i++){
 							var barTitle = data[i][Object.keys(data[i])[0]];
 							formattedData[barTitle] = data[i][barTitle];
 						}
+						alert("formatted: " + formattedData);
 						populateCompositionChart(formattedData);
 					}
 				}, 100);
 			}
 			
-			function populateCompositionChart(data){
+			function populateCompositionChart(data){alert("official: " + data);
 				var readableArthropods = ["Ants", "Aphids and Psyllids", "Bees and Wasps", "Beetles", "Caterpillars", "Daddy Longlegs", "Flies", "Grasshoppers and Crickets", "Leaf Hoppers and Cicadas", "Butterflies and Moths", "Spiders", "True Bugs", "Other", "Unidentified"];
 				var barTitles = [];
 				var datasets = {};
