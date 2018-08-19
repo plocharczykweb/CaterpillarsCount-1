@@ -2388,14 +2388,15 @@
 				$("#loadingLine")[0].style.display = "block";
 				
 				console.log("Force phenology chart to front of composition queue: " + JSON.stringify(filters));
-				pauseCompositionLoads(loadSetFromFilters(filters, function(){callback();resumeCompositionLoads();}));
+				pauseCompositionLoads(function(){loadSetFromFilters(filters, function(){callback();resumeCompositionLoads();})});
 				
 			}
 			
 			function loadSetFromFilters(filters, callback){
+				console.log("Loading phenology: " + JSON.stringify(filters));
 				$.get("https://caterpillarscount.unc.edu/php/getPhenology.php?lines=" + encodeURIComponent(JSON.stringify([filters])), function(data){
 					//success
-					console.log("Successfully loaded phenology chart: " + JSON.stringify(filters));
+					console.log("Loaded phenology: " + JSON.stringify(filters));
 					if(data.indexOf("true|") == 0){
 						var sets = JSON.parse(data.replace("true|", ""));
 						for(var label in sets){
@@ -2416,7 +2417,6 @@
 				})
 				.always(function() {
 					//complete
-					console.log("Done loading phenology chart: " + JSON.stringify(filters));
 					$("#loadingLine")[0].style.display = "none";
 				});
 			}
@@ -2553,16 +2553,16 @@
 				loadingComposition = compositionQueue[nextIndex];
 				compositionQueue.splice(nextIndex, 1);
 				
+				console.log("Loading composition: " + loadingComposition[0] + " " + loadingComposition[1] + " " + loadingComposition[2]);
 				$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify([loadingComposition[2]]) + "&breakdown=" + loadingComposition[0] + "&comparisonMetric=" + loadingComposition[1], function(data){
 					if(data.indexOf("true|") == 0){
-						console.log("Successfully loaded: " + loadingComposition[0] + " " + loadingComposition[1] + " " + loadingComposition[2]);
+						console.log("Loaded composition: " + loadingComposition[0] + " " + loadingComposition[1] + " " + loadingComposition[2]);
 						data = JSON.parse(data.replace("true|", ""));
 						setComposition(loadingComposition[0], loadingComposition[1], loadingComposition[2], data);
 					}
 				})
 				.always(function(){
 					//complete
-					console.log("Done loading: " + loadingComposition[0] + " " + loadingComposition[1] + " " + loadingComposition[2]);
 					loadNextComposition();
 				});
 			}
