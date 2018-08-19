@@ -2530,8 +2530,14 @@
 			function loadNewActiveSiteCompositionDefaults(){
 				if(lastActiveSiteID == activeSiteID){return false;}
 				lastActiveSiteID = activeSiteID;
-				
 				compositionQueue = [];
+				
+				normalBarConfig.data = {};
+				speciesBarConfig.data = {};
+				window.siteComposition.update();
+				window.yearComposition.update();
+				window.speciesComposition.update();
+				
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
 				
@@ -2649,7 +2655,7 @@
 
 				var formattedDatasets = [];
 				var legendHTML = "<div style=\"text-align:left;display:inline-block;\">";
-				var LABELS_IN_EACH_COLUMN = 5;
+				var LABELS_IN_EACH_COLUMN = 4;
 				var i = 0;
 				for(var arthropodName in datasets){
 					if(datasets.hasOwnProperty(arthropodName)){
