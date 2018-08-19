@@ -2532,7 +2532,7 @@
 				loadCompositionsIsPaused = true;
 				loadCompositionsPauseCallback = callback;
 				if(compositionQueue.length == 0 && loadingComposition === null){
-					callback();
+					loadNextComposition();
 				}
 			}
 			function resumeCompositionLoads(){
