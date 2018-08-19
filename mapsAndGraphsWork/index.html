@@ -1279,8 +1279,8 @@
 					addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
 					clearCompositionSites();
 					addCompositionSite(marker.siteInformation["ID"]);
-					loadDefaultCompositions();
-					loadCompositionData();
+					loadNewActiveSiteCompositionDefaults();
+					showComposition();
 				}
 				
 				$("#selectedSitePanel")[0].style.display = "block";
@@ -2427,6 +2427,89 @@
 			//END OF PHENOLOGY CHART STUFF
 			
 			//COMPOSITION CHART STUFF
+			var compositions = {}
+			function getComposition(xAxis, yAxis, siteID){
+				if(siteID.toString() in compositions && xAxis in compositions[siteID.toString()] && yAxis in compositions[siteID.toString()][xAxis]){
+					return compositions[siteID.toString()][xAxis][yAxis];
+				}
+				return null;
+			}
+			function setComposition(xAxis, yAxis, siteID, data){
+				if(!(siteID.toString() in compositions)){
+					compositions[siteID.toString()] = {};
+				}
+				if(!(xAxis in compositions[siteID.toString()])){
+					compositions[siteID.toString()][xAxis] = {};
+				}
+				compositions[siteID.toString()][xAxis][yAxis] = data;
+			}
+			
+			var loadingComposition = null;
+			var compositionQueue = [];
+			function compositionIsOnRecord(xAxis, yAxis, siteID){
+				if(compositionQueue.indexOf([xAxis, yAxis, siteID]) > -1 || loadingComposition == [xAxis, yAxis, siteID] || getComposition(xAxis, yAxis, siteID) !== null){
+					return true;
+				}
+				return false;
+			}
+			function queueCompositionLoad(xAxis, yAxis, siteID){
+				if(!compositionIsOnRecord(xAxis, yAxis, siteID)){
+					//if not in progress or complete, queue it.
+					compositionQueue[compositionQueue.length] = [xAxis, yAxis, siteID];
+					if(loadingComposition === null){
+						loadNextComposition();
+					}
+				}
+				else if(compositionQueue.indexOf([xAxis, yAxis, siteID]) > -1){
+					//if already queued, bump it to the front of the line
+					compositionQueue.splice(compositionQueue.indexOf([xAxis, yAxis, siteID]), 1);
+					compositionQueue[compositionQueue.length] = [xAxis, yAxis, siteID];
+				}
+			}
+			
+			function loadNextComposition(){
+				if(compositionQueue.length == 0){
+					loadingComposition = null;
+					return false;
+				}
+				var nextIndex = (compositionQueue.length - 1);
+				loadingComposition = compositionQueue[nextIndex];
+				compositionQueue.splice(nextIndex, 1);
+				
+				$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify([loadingComposition[2]]) + "&breakdown=" + loadingComposition[0] + "&comparisonMetric=" + loadingComposition[1], function(data){
+					if(data.indexOf("true|") == 0){
+						data = JSON.parse(data.replace("true|", ""));
+						setComposition(loadingComposition[0], loadingComposition[1], loadingComposition[2], data);
+					}
+				})
+				.always(function(){
+					//complete
+					loadNextComposition();
+				});
+			}
+			
+			var lastActiveSiteID = -1;
+			function loadNewActiveSiteCompositionDefaults(){
+				if(lastActiveSiteID == activeSiteID){return false;}
+				lastActiveSiteID = activeSiteID;
+				
+				compositionQueue = [];
+				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
+				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
+				
+				queueCompositionLoad(xAxis, yAxis, activeSiteID);
+				
+				var xAxes = ["site", "year", "plantSpecies"];
+				var yAxes = ["relativeProportion", "occurrence", "absoluteDensity"];
+				for(var i = (xAxes.length - 1); i >= 0; i--){
+					for(var j = (yAxes.length - 1); j >= 0; j--){
+						if(xAxes[i] != xAxis || yAxes[j] != yAxis){
+							queueCompositionLoad(xAxes[i], yAxes[j], activeSiteID);
+						}
+					}
+				}
+			}
+			
 			var compositionSiteIDs = [];
 			function clearCompositionSites(){
 				compositionSiteIDs = [];
@@ -2434,127 +2517,48 @@
 			function addCompositionSite(siteID){
 				compositionSiteIDs[compositionSiteIDs.length] = siteID;
 			}
-			
-			var siteCompositions = {};
-			var yearOrSpeciesCompositions = {};
-			function loadDefaultCompositions(){
-				var xAxes = ["year", "plant species"];
-				var yAxes = ["relativeProportion", "occurrence", "absoluteDensity"];
-				
-				loadSiteCompositions(activeSiteID);
-				for(var i = 0; i < xAxes.length; i++){
-					for(var j = 0; j < yAxes.length; j++){
-						if(!(activeSiteID.toString() in yearOrSpeciesCompositions)){
-							yearOrSpeciesCompositions[activeSiteID.toString()] = {};
-						}
-						if(!(xAxes[i] in yearOrSpeciesCompositions[activeSiteID.toString()])){
-							yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[i]] = {};
-						}
-						if(!(yAxes[j] in yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[i]])){
-							yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[i]][yAxes[j]] = "loading";
-							var savedi = i;
-							var savedj = j;
-							$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify([activeSiteID]) + "&breakdown=" + xAxes[i] + "&comparisonMetric=" + yAxes[j], function(data){
-								if(data.indexOf("true|") == 0){
-									yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[savedi]][yAxes[savedj]] = JSON.parse(data.replace("true|", ""));
-								}
-								else{
-									delete yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[savedi]][yAxes[savedj]];
-								}
-							})
-							.fail(function(){
-								//error
-								delete yearOrSpeciesCompositions[activeSiteID.toString()][xAxes[savedi]][yAxes[savedj]];
-							});
-						}
-					}
+			function removeCompositionSite(siteID){
+				var index = compositionSiteIDs.indexOf(siteID);
+				if(index > -1){
+					compositionSiteIDs.splice(index, 1);
 				}
 			}
 			
-			function loadSiteCompositions(siteID){
-				var yAxes = ["relativeProportion", "occurrence", "absoluteDensity"];
-				for(var i = 0; i < yAxes.length; i++){
-					if(!(siteID.toString() in siteCompositions)){
-						siteCompositions[siteID.toString()] = {};
-					}
-					if(!(yAxes[i] in siteCompositions[siteID.toString()])){
-						siteCompositions[siteID.toString()][yAxes[i]] = "loading";
-						var savedi = i;
-						$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify([siteID]) + "&breakdown=site&comparisonMetric=" + yAxes[i], function(data){
-							if(data.indexOf("true|") == 0){
-								siteCompositions[siteID.toString()][yAxes[savedi]] = JSON.parse(data.replace("true|", ""));
-							}
-							else{
-								delete siteCompositions[siteID.toString()][yAxes[savedi]];
-							}
-						})
-						.fail(function(){
-							//error
-							delete siteCompositions[siteID.toString()][yAxes[savedi]];
-						});
-					}
-				}
-			}
-			
-			function loadCompositionData(){
+			var compositionDataIsReadyCheck = null;
+			function showComposition(){
+				clearInterval(compositionDataIsReadyCheck);
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
 				var siteIDs = compositionSiteIDs;
 				
-				var loadingSites = [];
-				var retriedYearOrSpecies = false;
-				var dataPreloadReadyCheck = setInterval(function(){
-					if(xAxis == "site"){
-						var data = [];
-						for(var i = 0; i < siteIDs.length; i++){
-							if(siteIDs[i].toString() in siteCompositions && yAxis in siteCompositions[siteIDs[i].toString()]){
-								var siteData = siteCompositions[siteIDs[i].toString()][yAxis];
-								if(siteData != "loading"){
-									data[data.length] = siteData;
-									if(data.length == siteIDs.length){
-										var formattedData = {}
-										for(var j = 0; j < data.length; j++){
-											var siteName = data[j][Object.keys(data[j])[0]];
-											formattedData[siteName] = data[j][siteName];
-										}
-										showCompositionData(formattedData);//data is not in the right format
-										clearInterval(dataPreloadReadyCheck);
-									}
-								}
-							}
-							else if(loadingSites.indexOf(siteIDs[i]) > -1){
-								queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
-								clearInterval(dataPreloadReadyCheck);
-							}
-							else{
-								loadingSites[loadingSites.length] = siteIDs[i];
-								loadSiteCompositions(siteIDs[i]);
-							}
+				for(var i = 0; i < siteIDs.length; i++){
+					queueCompositionLoad(xAxis, yAxis, siteIDs[i]);
+				}
+				compositionDataIsReadyCheck = setInterval(function(){
+					var data = [];
+					for(var i = 0; i < siteIDs.length; i++){
+						if(!compositionIsOnRecord(xAxis, yAxis, siteIDs[i])){
+							clearInterval(compositionDataIsReadyCheck);
+							queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+						}
+						else if(getComposition(xAxis, yAxis, siteIDs[i]) !== null){
+							data[data.length] = getComposition(xAxis, yAxis, siteIDs[i]);
 						}
 					}
-					else{
-						if(activeSiteID.toString() in yearOrSpeciesCompositions && xAxis in yearOrSpeciesCompositions[activeSiteID.toString()] && yAxis in yearOrSpeciesCompositions[activeSiteID.toString()][xAxis]){
-							var data = yearOrSpeciesCompositions[activeSiteID.toString()][xAxis][yAxis];
-							if(data != "loading"){
-								showCompositionData(data);
-								clearInterval(dataPreloadReadyCheck);
-							}
+					if(data.length == siteIDs.length){
+						//chart data
+						clearInterval(compositionDataIsReadyCheck);
+						var formattedData = {}
+						for(var i = 0; i < data.length; i++){
+							var barTitle = data[i][Object.keys(data[i])[0]];
+							formattedData[barTitle] = data[i][barTitle];
 						}
-						else{
-							if(retriedYearOrSpecies){
-								queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
-								clearInterval(dataPreloadReadyCheck);
-							}
-							else{
-								loadDefaultCompositions();
-								retriedYearOrSpecies = true;
-							}
-						}
+						populateCompositionChart(formattedData);
 					}
 				}, 100);
 			}
 			
-			function showCompositionData(data){
+			function populateCompositionChart(data){
 				var readableArthropods = ["Ants", "Aphids and Psyllids", "Bees and Wasps", "Beetles", "Caterpillars", "Daddy Longlegs", "Flies", "Grasshoppers and Crickets", "Leaf Hoppers and Cicadas", "Butterflies and Moths", "Spiders", "True Bugs", "Other", "Unidentified"];
 				var barTitles = [];
 				var datasets = {};
@@ -2644,137 +2648,6 @@
 					window.speciesComposition.update();
 				}
 				centerYAxisLabels();
-			}
-			
-			function setComposition(){
-				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
-				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
-				var siteIDs = compositionSiteIDs;
-				if(xAxis !== "site"){
-					siteIDs = [activeSiteID];
-				}
-				
-				if(xAxis == "site"){
-					$("#compositionYearChart")[0].style.display = "none";
-					$("#compositionSpeciesChart")[0].style.display = "none";
-					$("#compositionSiteChart")[0].style.display = "block";
-				}
-				else if(xAxis == "year"){
-					$("#compositionSiteChart")[0].style.display = "none";
-					$("#compositionSpeciesChart")[0].style.display = "none";
-					$("#compositionYearChart")[0].style.display = "block";
-				}
-				else{
-					$("#compositionSiteChart")[0].style.display = "none";
-					$("#compositionYearChart")[0].style.display = "none";
-					$("#compositionSpeciesChart")[0].style.display = "block";
-				}
-				
-				$.get("https://caterpillarscount.unc.edu/php/getComposition.php?siteIDs=" + JSON.stringify(siteIDs) + "&breakdown=" + xAxis + "&comparisonMetric=" + yAxis, function(data){
-					//success
-					if(data.indexOf("true|") == 0){
-						var data = JSON.parse(data.replace("true|", ""));
-						var readableArthropods = ["Ants", "Aphids and Psyllids", "Bees and Wasps", "Beetles", "Caterpillars", "Daddy Longlegs", "Flies", "Grasshoppers and Crickets", "Leaf Hoppers and Cicadas", "Butterflies and Moths", "Spiders", "True Bugs", "Other", "Unidentified"];
-						var barTitles = [];
-						var datasets = {};
-						for(var barTitle in data){
-							if(data.hasOwnProperty(barTitle)){
-								barTitles[barTitles.length] = barTitle;
-								var arthropodData = data[barTitle];
-								for(var i = 0; i < readableArthropods.length; i++){
-									var percent = Number(arthropodData[readableArthropods[i]]);
-									if(isNaN(percent)){
-										percent = 0;
-									}
-									
-									if(Array.isArray(datasets[readableArthropods[i]])){
-										datasets[readableArthropods[i]][datasets[readableArthropods[i]].length] = percent;
-									}
-									else{
-										datasets[readableArthropods[i]] = [percent];
-									}
-								}
-							}
-						}
-						
-						
-						if(readableArthropods.length > barColors.length){
-							queueNotice("error", "When trying to set up your composition chart, we encountered more arthropods than we have colors on record to label them with! We need to add more colors before we will be able to make this chart for you.");
-							return false;
-						}
-						
-						var formattedDatasets = [];
-						var legendHTML = "<div style=\"text-align:left;display:inline-block;\">";
-						var LABELS_IN_EACH_COLUMN = 5;
-						var i = 0;
-						for(var arthropodName in datasets){
-							if(datasets.hasOwnProperty(arthropodName)){
-								var thisColor = barColors[i++];
-								if((i - 1) % LABELS_IN_EACH_COLUMN == 0){
-									legendHTML += "</div><div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
-								}
-								legendHTML += "<div class=\"label\">";
-								legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
-								legendHTML += 	"<span class=\"description\">" + arthropodName + "</span>";
-								legendHTML += "</div><br>";
-								
-								formattedDatasets[formattedDatasets.length] = {
-									label: arthropodName,
-									backgroundColor: thisColor,
-									data: datasets[arthropodName]
-								};
-							}
-						}
-						for(var i = (i % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
-							legendHTML += "<div class=\"label\">";
-							legendHTML += 	"<div class=\"box\" style=\"background:transparent;border-color:transparent;\"></div>";
-							legendHTML += 	"<span class=\"description\"> </span>";
-							legendHTML += "</div><br>";
-						}
-						legendHTML += "</div>";
-						$("#compositionLegend")[0].innerHTML = legendHTML;
-						
-						var barConfig = normalBarConfig;
-						if(xAxis == "plant species"){
-							barConfig = speciesBarConfig;
-						}
-						
-						if(yAxis == "absoluteDensity"){
-							barConfig.options.tooltips.callbacks.label = function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel;};
-						}
-						else{
-							barConfig.options.tooltips.callbacks.label = function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';};
-						}
-						
-						barConfig.options.scales.xAxes[0].barPercentage = Math.min((.2 + (barTitles.length * .1)), .6);
-						
-						barConfig.data = {
-							labels: barTitles,
-							datasets: formattedDatasets
-						};
-						
-						if(xAxis == "site"){
-							window.siteComposition.update();
-						}
-						else if(xAxis == "year"){
-							window.yearComposition.update();
-						}
-						else{
-							window.speciesComposition.update();
-						}
-						centerYAxisLabels();
-					}
-					else{
-						queueNotice("error", data);
-					}
-				})
-				.fail(function(){
-					//error
-					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
-				})
-				.always(function() {
-					//complete
-				});
 			}
 			//END OF COMPOSITION CHART STUFF
 		</script>
@@ -3026,9 +2899,9 @@
 										<div class="smallSelect">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Percent of Arthropods</div>
 											<div class="options">
-												<div onclick="smallSelectOption(this);centerYAxisLabels();loadCompositionData();">Percent of Arthropods</div>
-												<div onclick="smallSelectOption(this);centerYAxisLabels();loadCompositionData();">Percent of Surveys</div>
-												<div onclick="smallSelectOption(this);centerYAxisLabels();loadCompositionData();">Arthropods Per Survey</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();showComposition();">Percent of Arthropods</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();showComposition();">Percent of Surveys</div>
+												<div onclick="smallSelectOption(this);centerYAxisLabels();showComposition();">Arthropods Per Survey</div>
 											</div>
 										</div>
 									</div>
@@ -3040,9 +2913,9 @@
 									<div class="smallSelect">
 										<div class="selected" onclick="showSmallSelectOptions(this);">Site</div>
 										<div class="options">
-											<div onclick="smallSelectOption(this);loadCompositionData();">Site</div>
-											<div onclick="smallSelectOption(this);loadCompositionData();">Year</div>
-											<div onclick="smallSelectOption(this);loadCompositionData();">Plant Species</div>
+											<div onclick="smallSelectOption(this);showComposition();">Site</div>
+											<div onclick="smallSelectOption(this);showComposition();">Year</div>
+											<div onclick="smallSelectOption(this);showComposition();">Plant Species</div>
 										</div>
 									</div>
 								</div>
