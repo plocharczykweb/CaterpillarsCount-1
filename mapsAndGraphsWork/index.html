@@ -2560,12 +2560,12 @@
 						//chart data
 						clearInterval(compositionDataIsReadyCheck);
 						alert("unformatted: " + JSON.stringify(data));
-						var formattedData = {}
+						var formattedData = {};
 						for(var i = 0; i < data.length; i++){
 							var barTitle = data[i][Object.keys(data[i])[0]];
 							formattedData[barTitle] = data[i][barTitle];
 						}
-						alert("formatted: " + formattedData);
+						alert("formatted: " + JSON.stringify(formattedData));
 						populateCompositionChart(JSON.stringify(formattedData));
 					}
 				}, 100);
