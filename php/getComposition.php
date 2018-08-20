@@ -193,12 +193,12 @@
 		$totalDensity = array();
 		$query = mysqli_query($dbconn, "SELECT Plant.Species, COUNT(*) AS SurveyCount FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY Plant.Species");
 		while($row = mysqli_fetch_assoc($query)){
-			$totalDensity[$row["Species"]] = array($row["Species"], floatval($row["SurveyCount"]));
+			$totalDensity[$row["Species"]] = floatval($row["SurveyCount"]);
 		}
 		$query = mysqli_query($dbconn, "SELECT Plant.Species, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY Plant.Species");
 		while($row = mysqli_fetch_assoc($query)){
 			if($totalDensity[$row["Species"]] > 0){
-				$totalDensity[$row["Species"]][1] = floatval($row["ArthropodCount"]) / $totalDensity[$row["Species"]][1];
+				$totalDensity[$row["Species"]] = floatval($row["ArthropodCount"]) / $totalDensity[$row["Species"]];
 			}
 		}
 		asort($totalDensity, SORT_NUMERIC);
