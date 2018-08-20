@@ -853,6 +853,7 @@
 				$(window).resize(function(){
 					lockInMapHeight();
 					resizeSuperHeader();
+					updateCompositionLegend();
 				});
 				setSliders();
 				attachAutoCompleteToInput($("#plantSpecies"), plantSpeciesList);
@@ -2761,8 +2762,6 @@
 			}
 			
 			function updateCompositionLegend(){
-				alert("hi");
-				/*
 				var compositionLabels = $("#compositionLegend .label");
 				var LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 3);
 				if($(window).width() < 500){
@@ -2794,7 +2793,6 @@
 				}
 				legendHTML += "</div>";
 				$("#compositionLegend")[0].innerHTML = legendHTML;
-				*/
 			}
 			//END OF COMPOSITION CHART STUFF
 		</script>
