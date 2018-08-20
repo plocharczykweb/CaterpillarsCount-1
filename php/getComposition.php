@@ -201,7 +201,7 @@
 				$totalDensity[$row["Species"]] = floatval($row["ArthropodCount"]) / $totalDensity[$row["Species"]];
 			}
 		}
-		//sort($totalDensity);
+		asort($totalDensity);
 		
  		if($comparisonMetric == "occurrence"){
  			$arthropodOccurrencesSet = array();
