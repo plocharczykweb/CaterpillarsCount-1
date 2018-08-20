@@ -193,7 +193,7 @@
 		$totalDensity = array();
 		$query = mysqli_query($dbconn, "SELECT Plant.Species, COUNT(*) AS SurveyCount, COUNT(DISTINCT Plant.ID) AS Branches FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY Plant.Species");
 		while($row = mysqli_fetch_assoc($query)){
-			$totalDensity[$row["Species"] . " (" . $row["Branches"] . ")"] = floatval($row["SurveyCount"]);
+			$totalDensity[$row["Species"]] = floatval($row["SurveyCount"]);
 		}
 		$query = mysqli_query($dbconn, "SELECT Plant.Species, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY Plant.Species");
 		while($row = mysqli_fetch_assoc($query)){
@@ -235,7 +235,7 @@
 				$arthropodOccurrencesSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodOccurrences;
 			}
  			uksort($arthropodOccurrencesSet, function($a, $b){
-				return array_search($a, $order) - array_search($b, $order);
+				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
 			});
  			die("true|" . json_encode($arthropodOccurrencesSet));
  		}
@@ -270,7 +270,7 @@
 				$arthropodDensitiesSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodDensities;
 			}
  			uksort($arthropodOccurrencesSet, function($a, $b){
-				return array_search($a, $order) - array_search($b, $order);
+				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
 			});
  			die("true|" . json_encode($arthropodDensitiesSet));
  		}
@@ -305,9 +305,9 @@
 				$arthropodRelativeProportionsSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodRelativeProportions;
 			}
  			uksort($arthropodOccurrencesSet, function($a, $b){
-				return array_search($a, $order) - array_search($b, $order);
+				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
 			});
- 			die("true|" . json_encode($arthropodRelativeProportionsSet) . "<br/><br/>" . json_encode(array_keys($totalDensity)));
+ 			die("true|" . json_encode($arthropodRelativeProportionsSet) . "<br/><br/>" . json_encode($totalDensity));
  		}
  	}
  ?>
