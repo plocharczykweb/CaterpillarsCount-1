@@ -169,9 +169,13 @@
 			$speciesKeys = array_keys($arthropodSurveyCounts);
 			foreach($speciesKeys as $species) {
 				$arthropodOccurrences = array();
-				$arthropodKeys = array_keys($arthropodSurveyCounts[$species]);
-				foreach($arthropodKeys as $arthropod){
-					$arthropodOccurrences[$arthropod] = round(($arthropodSurveyCounts[$species][$arthropod] / $surveyCounts[$species]) * 100, 2);
+				for($i = 0; $i < count($readableArthropods); $i++){
+					if(array_key_exists($readableArthropods[$i], $arthropodSurveyCounts[$species])){
+						$arthropodOccurrences[$arthropod] = round(($arthropodSurveyCounts[$species][$arthropod] / $surveyCounts[$species]) * 100, 2);
+					}
+					else{
+						$arthropodOccurrences[$arthropod] = 0;
+					}
 				}
 				$arthropodOccurrencesSet[$species] = $arthropodOccurrences;
 			}
@@ -203,9 +207,13 @@
 			$speciesKeys = array_keys($arthropodCounts);
 			foreach($speciesKeys as $species) {
 				$arthropodDensities = array();
-				$arthropodKeys = array_keys($arthropodCounts[$species]);
-				foreach($arthropodKeys as $arthropod){
-					$arthropodDensities[$arthropod] = round($arthropodCounts[$species][$arthropod] / $surveyCounts[$species], 2);
+				for($i = 0; $i < count($readableArthropods); $i++){
+					if(array_key_exists($readableArthropods[$i], $arthropodCounts[$species])){
+						$arthropodDensities[$arthropod] = round($arthropodCounts[$species][$arthropod] / $surveyCounts[$species], 2);
+					}
+					else{
+						$arthropodDensities[$arthropod] = 0;
+					}
 				}
 				$arthropodDensitiesSet[$species] = $arthropodDensities;
 			}
@@ -237,9 +245,13 @@
 			$speciesKeys = array_keys($arthropodCounts);
 			foreach($speciesKeys as $species) {
 				$arthropodRelativeProportions = array();
-				$arthropodKeys = array_keys($arthropodCounts[$species]);
-				foreach($arthropodKeys as $arthropod){
-					$arthropodRelativeProportions[$arthropod] = round(($arthropodCounts[$species][$arthropod] / $allArthropodCounts[$species]) * 100, 2);
+				for($i = 0; $i < count($readableArthropods); $i++){
+					if(array_key_exists($readableArthropods[$i], $arthropodCounts[$species])){
+						$arthropodRelativeProportions[$arthropod] = round(($arthropodCounts[$species][$arthropod] / $allArthropodCounts[$species]) * 100, 2);
+					}
+					else{
+						$arthropodRelativeProportions[$arthropod] = 0;
+					}
 				}
 				$arthropodRelativeProportionsSet[$species] = $arthropodRelativeProportions;
 			}
