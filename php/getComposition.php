@@ -24,66 +24,6 @@
  		"unidentified" => "Unidentified"
  	);
  	$siteID = intval($siteIDs[0]);
- 
- 	function getArthropodOccurrence($dbconn, $readableArthropods, $siteID, $extraSQL){
- 		//surveys with arthropod at site
- 		$arthropodSurveys = array();
- 		$query = mysqli_query($dbconn, "SELECT ArthropodSighting.Group, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS SurveysWithArthropodCount FROM `ArthropodSighting` JOIN Survey ON ArthropodSighting.SurveyFK = Survey.ID JOIN Plant ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK = '$siteID'" . $extraSQL . " GROUP BY ArthropodSighting.Group");
- 		while($row = mysqli_fetch_assoc($query)){
- 			$arthropodSurveys[$row["Group"]] = floatval($row["SurveysWithArthropodCount"]);
- 		}
- 		
- 		//surveys at site
- 		$query = mysqli_query($dbconn, "SELECT COUNT(*) AS TotalSurveyCount FROM `Survey` JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL);
- 		$totalSurveyCount = floatval(mysqli_fetch_assoc($query)["TotalSurveyCount"]);
- 
- 		$arthropodOccurrence = array();
- 		$keys = array_keys($arthropodSurveys);
- 		for($i = 0; $i < count($keys); $i++){
- 			$arthropodOccurrence[$readableArthropods[$keys[$i]]] = round(($arthropodSurveys[$keys[$i]] / $totalSurveyCount) * 100, 2);
- 		}
- 		return $arthropodOccurrence;
- 	}
- 
- 	function getArthropodAbsoluteDensity($dbconn, $readableArthropods, $siteID, $extraSQL){
- 		//sum of each arthropod at site
- 		$arthropodCounts = array();
- 		$query = mysqli_query($dbconn, "SELECT ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL . " GROUP BY ArthropodSighting.Group");
- 		while($row = mysqli_fetch_assoc($query)){
- 			$arthropodCounts[$row["Group"]] = floatval($row["ArthropodCount"]);
- 		}
- 		
- 		//total survey count at site
- 		$query = mysqli_query($dbconn, "SELECT COUNT(*) AS SurveyCount FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL);
- 		$surveyCount = floatval(mysqli_fetch_assoc($query)["SurveyCount"]);
- 		
- 		$arthropodAbsoluteDensity = array();
- 		$keys = array_keys($arthropodCounts);
- 		for($i = 0; $i < count($keys); $i++){
- 			$arthropodAbsoluteDensity[$readableArthropods[$keys[$i]]] = round(($arthropodCounts[$keys[$i]] / $surveyCount) * 1, 2);
- 		}
- 		return $arthropodAbsoluteDensity;
- 	}
- 
- 	function getArthropodRelativeProportion($dbconn, $readableArthropods, $siteID, $extraSQL){
- 		//sum of each arthropod at site
- 		$arthropodCounts = array();
- 		$query = mysqli_query($dbconn, "SELECT ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL . " GROUP BY ArthropodSighting.Group");
- 		while($row = mysqli_fetch_assoc($query)){
- 			$arthropodCounts[$row["Group"]] = floatval($row["ArthropodCount"]);
- 		}
- 		
- 		//total survey count at site
- 		$query = mysqli_query($dbconn, "SELECT SUM(ArthropodSighting.Quantity) AS AllArthropodsCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL);
- 		$allArthropodsCount = floatval(mysqli_fetch_assoc($query)["AllArthropodsCount"]);
- 		
- 		$arthropodRelativeProportion = array();
- 		$keys = array_keys($arthropodCounts);
- 		for($i = 0; $i < count($keys); $i++){
- 			$arthropodRelativeProportion[$readableArthropods[$keys[$i]]] = round(($arthropodCounts[$keys[$i]] / $allArthropodsCount) * 100, 2);
- 		}
- 		return $arthropodRelativeProportion;
- 	}
    
  	if($breakdown == "site" || $breakdown == "none"){
  		//get percents
@@ -95,13 +35,61 @@
  			$siteName = $site->getName();
  			
  			if($comparisonMetric == "occurrence"){
- 				$arthropodPercents[strval($siteName)] = getArthropodOccurrence($dbconn, $readableArthropods, $siteID, "");
+				//surveys with arthropod at site
+				$arthropodSurveys = array();
+				$query = mysqli_query($dbconn, "SELECT ArthropodSighting.Group, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS SurveysWithArthropodCount FROM `ArthropodSighting` JOIN Survey ON ArthropodSighting.SurveyFK = Survey.ID JOIN Plant ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK = '$siteID'" . $extraSQL . " GROUP BY ArthropodSighting.Group");
+				while($row = mysqli_fetch_assoc($query)){
+					$arthropodSurveys[$row["Group"]] = floatval($row["SurveysWithArthropodCount"]);
+				}
+
+				//surveys at site
+				$query = mysqli_query($dbconn, "SELECT COUNT(*) AS TotalSurveyCount FROM `Survey` JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL);
+				$totalSurveyCount = floatval(mysqli_fetch_assoc($query)["TotalSurveyCount"]);
+
+				$arthropodOccurrence = array();
+				$keys = array_keys($arthropodSurveys);
+				for($i = 0; $i < count($keys); $i++){
+					$arthropodOccurrence[$readableArthropods[$keys[$i]]] = round(($arthropodSurveys[$keys[$i]] / $totalSurveyCount) * 100, 2);
+				}
+ 				$arthropodPercents[strval($siteName)] = $arthropodOccurrence;
  			}
  			else if($comparisonMetric == "absoluteDensity"){
- 				$arthropodPercents[strval($siteName)] = getArthropodAbsoluteDensity($dbconn, $readableArthropods, $siteID, "");
+				//sum of each arthropod at site
+				$arthropodCounts = array();
+				$query = mysqli_query($dbconn, "SELECT ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL . " GROUP BY ArthropodSighting.Group");
+				while($row = mysqli_fetch_assoc($query)){
+					$arthropodCounts[$row["Group"]] = floatval($row["ArthropodCount"]);
+				}
+
+				//total survey count at site
+				$query = mysqli_query($dbconn, "SELECT COUNT(*) AS SurveyCount FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL);
+				$surveyCount = floatval(mysqli_fetch_assoc($query)["SurveyCount"]);
+
+				$arthropodAbsoluteDensity = array();
+				$keys = array_keys($arthropodCounts);
+				for($i = 0; $i < count($keys); $i++){
+					$arthropodAbsoluteDensity[$readableArthropods[$keys[$i]]] = round(($arthropodCounts[$keys[$i]] / $surveyCount) * 1, 2);
+				}
+ 				$arthropodPercents[strval($siteName)] = $arthropodAbsoluteDensity;
  			}
  			else{//relativeProportion
- 				$arthropodPercents[strval($siteName)] = getArthropodRelativeProportion($dbconn, $readableArthropods, $siteID, "");
+				//sum of each arthropod at site
+				$arthropodCounts = array();
+				$query = mysqli_query($dbconn, "SELECT ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL . " GROUP BY ArthropodSighting.Group");
+				while($row = mysqli_fetch_assoc($query)){
+					$arthropodCounts[$row["Group"]] = floatval($row["ArthropodCount"]);
+				}
+
+				//total survey count at site
+				$query = mysqli_query($dbconn, "SELECT SUM(ArthropodSighting.Quantity) AS AllArthropodsCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'" . $extraSQL);
+				$allArthropodsCount = floatval(mysqli_fetch_assoc($query)["AllArthropodsCount"]);
+
+				$arthropodRelativeProportion = array();
+				$keys = array_keys($arthropodCounts);
+				for($i = 0; $i < count($keys); $i++){
+					$arthropodRelativeProportion[$readableArthropods[$keys[$i]]] = round(($arthropodCounts[$keys[$i]] / $allArthropodsCount) * 100, 2);
+				}
+ 				$arthropodPercents[strval($siteName)] = $arthropodRelativeProportion;
  			}
  		}
  		die("true|" . json_encode($arthropodPercents));
@@ -110,30 +98,30 @@
 		if($comparisonMetric == "occurrence"){
  			$arthropodOccurrencesSet = array();
  			$arthropodSurveyCounts = array();
- 			$query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey WHERE SiteFK='$siteID'");
+ 			$query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE SiteFK='$siteID'");
  			while($row = mysqli_fetch_assoc($query)){
-				$arthropodSurveyCounts[$row["Year"]] = array();
-				$arthropodOccurrencesSet[$row["Year"]] = array();
+				$arthropodSurveyCounts[strval($row["Year"])] = array();
+				$arthropodOccurrencesSet[strval($row["Year"])] = array();
  			}
  			$query = mysqli_query($dbconn, "SELECT YEAR(Survey.LocalDate) AS Year, ArthropodSighting.Group, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS ArthropodSurveyCounts FROM `ArthropodSighting` JOIN Survey ON ArthropodSighting.SurveyFK = Survey.ID JOIN Plant ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK = '$siteID' GROUP BY CONCAT(YEAR(Survey.LocalDate), '-', ArthropodSighting.Group)");
  			while($row = mysqli_fetch_assoc($query)){
- 				$arthropodSurveyCounts[$row["Year"]][$row["Group"]] = $row["ArthropodSurveyCounts"];
+ 				$arthropodSurveyCounts[strval($row["Year"])][$row["Group"]] = $row["ArthropodSurveyCounts"];
  			}
  
  			$surveyCounts = array();
  			$query = mysqli_query($dbconn, "SELECT YEAR(Survey.LocalDate) AS Year, COUNT(Survey.ID) AS SurveyCount FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY YEAR(Survey.LocalDate)");
  			while($row = mysqli_fetch_assoc($query)){
- 				$surveyCounts[$row["Year"]] = $row["SurveyCount"];
+ 				$surveyCounts[strval($row["Year"])] = $row["SurveyCount"];
  			}
  
- 			$speciesKeys = array_keys($arthropodSurveyCounts);
- 			foreach($speciesKeys as $species) {
+ 			$yearKeys = array_keys($arthropodSurveyCounts);
+ 			foreach($yearKeys as $year) {
 				$arthropodOccurrences = array();
-				$arthropodKeys = array_keys($arthropodSurveyCounts[$species]);
+				$arthropodKeys = array_keys($arthropodSurveyCounts[$year]);
 				foreach($arthropodKeys as $arthropod){
-					$arthropodOccurrences[$readableArthropods[$arthropod]] = round(($arthropodSurveyCounts[$species][$arthropod] / $surveyCounts[$species]) * 100, 2);
+					$arthropodOccurrences[$readableArthropods[$arthropod]] = round(($arthropodSurveyCounts[$year][$arthropod] / $surveyCounts[$year]) * 100, 2);
 				}
-				$arthropodOccurrencesSet[$species] = $arthropodOccurrences;
+				$arthropodOccurrencesSet[$year] = $arthropodOccurrences;
 			}
  
  			die("true|" . json_encode($arthropodOccurrencesSet));
@@ -141,30 +129,30 @@
  		else if($comparisonMetric == "absoluteDensity"){
  			$arthropodDensitiesSet = array();
  			$arthropodCounts = array();
- 			$query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey WHERE SiteFK='$siteID'");
+ 			$query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE SiteFK='$siteID'");
  			while($row = mysqli_fetch_assoc($query)){
-				$arthropodCounts[$row["Year"]] = array();
-				$arthropodDensitiesSet[$row["Year"]] = array();
+				$arthropodCounts[strval($row["Year"])] = array();
+				$arthropodDensitiesSet[strval($row["Year"])] = array();
  			}
  			$query = mysqli_query($dbconn, "SELECT YEAR(Survey.LocalDate) AS Year, ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY CONCAT(YEAR(Survey.LocalDate), '-', ArthropodSighting.Group)");
  			while($row = mysqli_fetch_assoc($query)){
- 				$arthropodCounts[$row["Year"]][$row["Group"]] = $row["ArthropodCount"];
+ 				$arthropodCounts[strval($row["Year"])][$row["Group"]] = $row["ArthropodCount"];
  			}
  
  			$surveyCounts = array();
  			$query = mysqli_query($dbconn, "SELECT YEAR(Survey.LocalDate) AS Year, COUNT(Survey.ID) AS SurveyCount FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY YEAR(Survey.LocalDate)");
  			while($row = mysqli_fetch_assoc($query)){
- 				$surveyCounts[$row["Year"]] = $row["SurveyCount"];
+ 				$surveyCounts[strval($row["Year"])] = $row["SurveyCount"];
  			}
  
- 			$speciesKeys = array_keys($arthropodCounts);
- 			foreach($speciesKeys as $species) {
+ 			$yearKeys = array_keys($arthropodCounts);
+ 			foreach($yearKeys as $year) {
 				$arthropodDensities = array();
-				$arthropodKeys = array_keys($arthropodCounts[$species]);
+				$arthropodKeys = array_keys($arthropodCounts[$year]);
 				foreach($arthropodKeys as $arthropod){
-					$arthropodDensities[$readableArthropods[$arthropod]] = round($arthropodCounts[$species][$arthropod] / $surveyCounts[$species], 2);
+					$arthropodDensities[$readableArthropods[$arthropod]] = round($arthropodCounts[$year][$arthropod] / $surveyCounts[$year], 2);
 				}
-				$arthropodDensitiesSet[$species] = $arthropodDensities;
+				$arthropodDensitiesSet[$year] = $arthropodDensities;
 			}
  
  			die("true|" . json_encode($arthropodDensitiesSet));
@@ -172,57 +160,34 @@
  		else{//relative proportion
 			$arthropodRelativeProportionsSet = array();
  			$arthropodCounts = array();
- 			$query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey WHERE SiteFK='$siteID'");
+ 			$query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE SiteFK='$siteID'");
  			while($row = mysqli_fetch_assoc($query)){
-				$arthropodCounts[$row["Year"]] = array();
-				$arthropodRelativeProportionsSet[$row["Year"]] = array();
+				$arthropodCounts[strval($row["Year"])] = array();
+				$arthropodRelativeProportionsSet[strval($row["Year"])] = array();
  			}
  			$query = mysqli_query($dbconn, "SELECT YEAR(Survey.LocalDate) AS Year, ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY CONCAT(YEAR(Survey.LocalDate), '-', ArthropodSighting.Group)");
  			while($row = mysqli_fetch_assoc($query)){
- 				$arthropodCounts[$row["Year"]][$row["Group"]] = $row["ArthropodCount"];
+ 				$arthropodCounts[strval($row["Year"])][$row["Group"]] = $row["ArthropodCount"];
  			}
  
  			$allArthropodCounts = array();
  			$query = mysqli_query($dbconn, "SELECT YEAR(Survey.LocalDate) AS Year, SUM(ArthropodSighting.Quantity) AS AllArthropodsCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY YEAR(Survey.LocalDate)");
  			while($row = mysqli_fetch_assoc($query)){
- 				$allArthropodCounts[$row["Year"]] = $row["AllArthropodsCount"];
+ 				$allArthropodCounts[strval($row["Year"])] = $row["AllArthropodsCount"];
  			}
  
- 			$speciesKeys = array_keys($arthropodCounts);
- 			foreach($speciesKeys as $species) {
+ 			$yearKeys = array_keys($arthropodCounts);
+ 			foreach($yearKeys as $year) {
 				$arthropodRelativeProportions = array();
-				$arthropodKeys = array_keys($arthropodCounts[$species]);
+				$arthropodKeys = array_keys($arthropodCounts[$year]);
 				foreach($arthropodKeys as $arthropod){
-					$arthropodRelativeProportions[$readableArthropods[$arthropod]] = round(($arthropodCounts[$species][$arthropod] / $allArthropodCounts[$species]) * 100, 2);
+					$arthropodRelativeProportions[$readableArthropods[$arthropod]] = round(($arthropodCounts[$year][$arthropod] / $allArthropodCounts[$year]) * 100, 2);
 				}
-				$arthropodRelativeProportionsSet[$species] = $arthropodRelativeProportions;
+				$arthropodRelativeProportionsSet[$year] = $arthropodRelativeProportions;
 			}
  
  			die("true|" . json_encode($arthropodRelativeProportionsSet));
  		}
- 		/*
-		//get years
- 		$years = array();
- 		$query = mysqli_query($dbconn, "SELECT DISTINCT YEAR(LocalDate) AS Year FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID'");
- 		while($row = mysqli_fetch_assoc($query)){
- 			$years[] = $row["Year"];
- 		}
- 		
- 		//get percents
- 		$arthropodPercents = array();
- 		for($i = 0; $i < count($years); $i++){
- 			if($comparisonMetric == "occurrence"){
- 				$arthropodPercents[strval($years[$i])] = getArthropodOccurrence($dbconn, $readableArthropods, $siteID, " AND YEAR(Survey.LocalDate)='" . $years[$i] . "'");
- 			}
- 			else if($comparisonMetric == "absoluteDensity"){
- 				$arthropodPercents[strval($years[$i])] = getArthropodAbsoluteDensity($dbconn, $readableArthropods, $siteID, " AND YEAR(Survey.LocalDate)='" . $years[$i] . "'");
- 			}
- 			else{//relative proportion
- 				$arthropodPercents[strval($years[$i])] = getArthropodRelativeProportion($dbconn, $readableArthropods, $siteID, " AND YEAR(Survey.LocalDate)='" . $years[$i] . "'");
- 			}
- 		}
- 		die("true|" . json_encode($arthropodPercents));
-		*/
  	}
  	else{//plant species
  		if($comparisonMetric == "occurrence"){
