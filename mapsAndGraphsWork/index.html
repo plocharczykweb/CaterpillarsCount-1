@@ -433,7 +433,7 @@
 				left:-14px;
 				width:45px;
 				text-align:center;
-				color:rgba(0,0,0,0.3);
+				color:rgba(0,0,0,0.55);
 				font-size:10px;
 			}
 			
@@ -585,7 +585,7 @@
 			
 			#barGraph{
 				display:none;
-				font-size:14px;
+				font-size:16px;
 			}
 			
 			#phenologyLegend{
@@ -672,7 +672,7 @@
 			.xAxisLabel{
 				text-align:center;
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-				font-size:14px;
+				font-size:16px;
 				color:#666;
 				margin:10px 0px;
 			}
@@ -681,7 +681,7 @@
 				position:absolute;
 				top:50%;
 				left:0px;
-				font-size:14px;
+				font-size:16px;
 				color:#666;
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 				transform:rotate(270deg);
@@ -722,7 +722,7 @@
 			}
 			
 			#lineGraph .yAxisLabel, #lineGraph .label, #barGraph .yAxisLabel, #barGraph .label{
-				font-size:14px;
+				font-size:16px;
 			}
 			
 			#compositionLoadingCover{
@@ -757,6 +757,13 @@
 				margin-left:-32px;
 				border-radius:4px;
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+			}
+			
+			.chartExplanation{
+				font-size:12px;
+				font-family:'Roboto Slab', serif;
+				color:#999;
+				margin:10px 0px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -1999,23 +2006,23 @@
 							scaleLabel: {
 								display: true,
 								labelString: 'Date',
-								fontSize: 14
+								fontSize: 16
 							},
 							ticks: {
 								callback: function(value, index, values) {return value.replace(/[0-9 ]/g, '');},
 								autoSkip: false,
 								maxRotation: 0,
-								fontSize: 14
+								fontSize: 16
 							},
 							bounds: "ticks",
 							gridLines: {color: "rgba(0,0,0,0.05)"}
 						}],
 						yAxes: [{
-							scaleLabel: {display: true,labelString: '', fontSize: 14},
+							scaleLabel: {display: true,labelString: '', fontSize: 16},
 							gridLines: {color: "rgba(0,0,0,0.05)"},
 							ticks:{
 								beginAtZero: true,
-								fontSize: 14
+								fontSize: 16
 							}
 						}]
 					}
@@ -2026,7 +2033,7 @@
 				type: 'bar',
 				data: {},
 				options: {
-					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 14}, display: false},
+					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 16}, display: false},
 					title: {display: false,},
 					tooltips: {mode: 'index', intersect: false, callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
 					responsive: true,
@@ -2037,14 +2044,14 @@
 							barPercentage: 0.2,
 							ticks: {
 								autoSkip: false,
-								fontSize: 14
+								fontSize: 16
 							}
 						}],
 						yAxes: [{
 							stacked: true,
-							scaleLabel: {display: true,labelString: '', fontSize: 14},
+							scaleLabel: {display: true,labelString: '', fontSize: 16},
 							gridLines: {color: "rgba(0,0,0,0.05)"},
-							ticks: {fontSize: 14}
+							ticks: {fontSize: 16}
 						}]
 					}
 				}
@@ -2054,7 +2061,7 @@
 				type: 'bar',
 				data: {},
 				options: {
-					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 14}, display: false},
+					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 16}, display: false},
 					title: {display: false,},
 					tooltips: {mode: 'index', intersect: false, callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
 					responsive: true,
@@ -2070,9 +2077,9 @@
 						}],
 						yAxes: [{
 							stacked: true,
-							scaleLabel: {display: true,labelString: '', fontSize: 14},
+							scaleLabel: {display: true,labelString: '', fontSize: 16},
 							gridLines: {color: "rgba(0,0,0,0.05)"},
-							ticks: {fontSize: 14}
+							ticks: {fontSize: 16}
 						}]
 					}
 				}
@@ -2994,6 +3001,7 @@
 								<button id="barGraphSwitchButton" onclick="switchGraphTo('bar');">Composition</button>
 							</div>
 							<div id="lineGraph">
+								<div class="chartExplanation">Click on the y-axis label to change the phenology metric.</div>
 								<div style="height:500px;margin-top:20px;position:relative;">
 									<div class="yAxisLabel">
 										<div class="smallSelect">
@@ -3009,6 +3017,7 @@
 								<div id="phenologyLegend"></div>
 							</div>
 							<div id="barGraph">
+								<div class="chartExplanation">Click on the y-axis label to change the composition metric. You can get a breakdown of arthropod composition by year or plant species by clicking the "Site" x-axis label.</div>
 								<div style="height:500px;margin-top:20px;position:relative;">
 									<div id="compositionLoadingCover">
 										<img src="../images/rollingBlack.svg" alt="Loading..."/>
