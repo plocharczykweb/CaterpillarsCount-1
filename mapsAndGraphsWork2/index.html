@@ -2692,10 +2692,10 @@
 				var legendHTML = "";
 				var LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 3);
 				if($(window).width() < 500){
-					LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 2);
+					LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 1);
 				}
 				else if($(window).width() < 800){
-					LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 1);
+					LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 2);
 				}
 				var i = 0;
 				for(var arthropodName in datasets){
@@ -2710,7 +2710,7 @@
 						legendHTML += "<div class=\"label\">";
 						legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
 						legendHTML += 	"<span class=\"description\">" + arthropodName + "</span>";
-						legendHTML += "</div><br>";
+						legendHTML += "</div><br/>";
 						formattedDatasets[formattedDatasets.length] = {
 							label: arthropodName,
 							backgroundColor: thisColor,
@@ -2722,7 +2722,7 @@
 					legendHTML += "<div class=\"label\">";
 					legendHTML += 	"<div class=\"box\" style=\"background:transparent;border-color:transparent;\"></div>";
 					legendHTML += 	"<span class=\"description\"> </span>";
-					legendHTML += "</div><br>";
+					legendHTML += "</div><br/>";
 				}
 				legendHTML += "</div>";
 				$("#compositionLegend")[0].innerHTML = legendHTML;
@@ -2765,10 +2765,10 @@
 				var compositionLabels = $("#compositionLegend .label");
 				var LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 3);
 				if($(window).width() < 500){
-					LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 2);
+					LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 1);
 				}
 				else if($(window).width() < 800){
-					LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 1);
+					LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 2);
 				}
 				var compositionLabels = $("#compositionLegend .label");
 				if(compositionLabels.length == 0 || $("#compositionLegend>div").eq(0).find(".label").length == LABELS_IN_EACH_COLUMN){
@@ -2783,13 +2783,13 @@
 						}
 						legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
 					}
-					legendHTML += compositionLabels.eq(i)[0].outerHTML;
+					legendHTML += compositionLabels.eq(i)[0].outerHTML + "<br/>";
 				}
 				for(var i = (compositionLabels.length % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
 					legendHTML += "<div class=\"label\">";
 					legendHTML += 	"<div class=\"box\" style=\"background:transparent;border-color:transparent;\"></div>";
 					legendHTML += 	"<span class=\"description\"> </span>";
-					legendHTML += "</div><br>";
+					legendHTML += "</div><br/>";
 				}
 				legendHTML += "</div>";
 				$("#compositionLegend")[0].innerHTML = legendHTML;
