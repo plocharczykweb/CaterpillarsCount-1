@@ -2707,7 +2707,7 @@
 							}
 							legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
 						}
-						legendHTML += "<div class=\"label\">";
+						legendHTML += "<div class=\"label shownLabel\">";
 						legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
 						legendHTML += 	"<span class=\"description\">" + arthropodName + "</span>";
 						legendHTML += "</div><br/>";
@@ -2762,7 +2762,7 @@
 			}
 			
 			function updateCompositionLegend(){
-				var compositionLabels = $("#compositionLegend .label");
+				var compositionLabels = $("#compositionLegend .shownLabel");
 				var LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 3);
 				if($(window).width() < 500){
 					LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 1);
@@ -2770,7 +2770,6 @@
 				else if($(window).width() < 800){
 					LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 2);
 				}
-				var compositionLabels = $("#compositionLegend .label");
 				if(compositionLabels.length == 0 || $("#compositionLegend>div").eq(0).find(".label").length == LABELS_IN_EACH_COLUMN){
 					return false;
 				}
