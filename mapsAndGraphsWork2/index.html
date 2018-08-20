@@ -1578,6 +1578,7 @@
 					var maxRawValue = -1;
 					var minWeight = -100;
 					var maxWeight = -100;
+					var alreadyActiveMarker = null;
 					for(var i = 0; i < sites.length; i++){
 						var latlng = {lat:Number(sites[i]["Coordinates"].split(",")[0]), lng:Number(sites[i]["Coordinates"].split(",")[1])};
 						var color = mapPercentToColor(normalizedWeights[i]);
@@ -1621,6 +1622,7 @@
 						});
 						if(currentColor == "#fed136"){
 							lastMarker = marker;
+							alreadyActiveMarker = marker;
 						}
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
@@ -1638,6 +1640,9 @@
 						if(sites[i]["Weight"] > maxWeight){
 							maxWeight = sites[i]["Weight"];
 						}
+					}
+					if(alreadyActiveMarker !== null){
+						alreadyActiveMarker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
 					}
 					for(var i = 0; i < $(".scaleCircle").length; i++){
 						if(occurrenceInsteadOfDensity){
