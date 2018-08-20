@@ -242,7 +242,7 @@
 			}
  			uksort($arthropodOccurrencesSet, function($a, $b){
 				global $order;
-				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
+				return array_search(substr($b, 0, strrpos($b, " (")), $order) - array_search(substr($a, 0, strrpos($a, " (")), $order);
 			});
  			die("true|" . json_encode($arthropodOccurrencesSet));
  		}
@@ -278,7 +278,7 @@
 			}
  			uksort($arthropodDensitiesSet, function($a, $b){
 				global $order;
-				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
+				return array_search(substr($b, 0, strrpos($b, " (")), $order) - array_search(substr($a, 0, strrpos($a, " (")), $order);
 			});
  			die("true|" . json_encode($arthropodDensitiesSet));
  		}
@@ -314,7 +314,7 @@
 			}
  			uksort($arthropodRelativeProportionsSet, function($a, $b){
 				global $order;
-				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
+				return array_search(substr($b, 0, strrpos($b, " (")), $order) - array_search(substr($a, 0, strrpos($a, " (")), $order);
 			});
  			die("true|" . json_encode($arthropodRelativeProportionsSet));
  		}
