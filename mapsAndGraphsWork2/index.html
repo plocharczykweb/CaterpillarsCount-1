@@ -1619,6 +1619,9 @@
 								MostRecentDateTime: sites[i]["MostRecentDateTime"]
 							}
 						});
+						if(currentColor == "#fed136"){
+							lastMarker = marker;
+						}
 						marker.addListener('click', physicalMarkerClick);
 						markers[sites[i]["ID"] + ""] = marker;
 						var rawValueNumber = Number("0" + sites[i]["RawValue"].toString().replace(/[^0-9.]/g, ""));
