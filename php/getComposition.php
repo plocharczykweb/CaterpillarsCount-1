@@ -193,10 +193,12 @@
  		if($comparisonMetric == "occurrence"){
  			$arthropodOccurrencesSet = array();
  			$arthropodSurveyCounts = array();
- 			$query = mysqli_query($dbconn, "SELECT DISTINCT Species FROM Plant WHERE SiteFK='$siteID'");
+ 			$branchCount = array();
+ 			$query = mysqli_query($dbconn, "SELECT Species, COUNT(*) AS Branches FROM Plant WHERE SiteFK='$siteID' GROUP BY Species");
  			while($row = mysqli_fetch_assoc($query)){
 				$arthropodSurveyCounts[$row["Species"]] = array();
-				$arthropodOccurrencesSet[$row["Species"]] = array();
+				$arthropodOccurrencesSet[$row["Species"] . " (" . $row["Branches"] . ")"] = array();
+				$branchCount[$row["Species"]] = $row["Branches"];
  			}
  			$query = mysqli_query($dbconn, "SELECT Plant.Species, ArthropodSighting.Group, COUNT(DISTINCT ArthropodSighting.SurveyFK) AS ArthropodSurveyCounts FROM `ArthropodSighting` JOIN Survey ON ArthropodSighting.SurveyFK = Survey.ID JOIN Plant ON Survey.PlantFK = Plant.ID WHERE Plant.SiteFK = '$siteID' GROUP BY CONCAT(Plant.Species, '-', ArthropodSighting.Group)");
  			while($row = mysqli_fetch_assoc($query)){
@@ -216,7 +218,7 @@
 				foreach($arthropodKeys as $arthropod){
 					$arthropodOccurrences[$readableArthropods[$arthropod]] = round(($arthropodSurveyCounts[$species][$arthropod] / $surveyCounts[$species]) * 100, 2);
 				}
-				$arthropodOccurrencesSet[$species] = $arthropodOccurrences;
+				$arthropodOccurrencesSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodOccurrences;
 			}
  
  			die("true|" . json_encode($arthropodOccurrencesSet));
@@ -224,10 +226,12 @@
  		else if($comparisonMetric == "absoluteDensity"){
  			$arthropodDensitiesSet = array();
  			$arthropodCounts = array();
- 			$query = mysqli_query($dbconn, "SELECT DISTINCT Species FROM Plant WHERE SiteFK='$siteID'");
+ 			$branchCount = array();
+ 			$query = mysqli_query($dbconn, "SELECT Species, COUNT(*) AS Branches FROM Plant WHERE SiteFK='$siteID' GROUP BY Species");
  			while($row = mysqli_fetch_assoc($query)){
 				$arthropodCounts[$row["Species"]] = array();
-				$arthropodDensitiesSet[$row["Species"]] = array();
+				$arthropodDensitiesSet[$row["Species"] . " (" . $row["Branches"] . ")"] = array();
+				$branchCount[$row["Species"]] = $row["Branches"];
  			}
  			$query = mysqli_query($dbconn, "SELECT Plant.Species, ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY CONCAT(Plant.Species, '-', ArthropodSighting.Group)");
  			while($row = mysqli_fetch_assoc($query)){
@@ -247,7 +251,7 @@
 				foreach($arthropodKeys as $arthropod){
 					$arthropodDensities[$readableArthropods[$arthropod]] = round($arthropodCounts[$species][$arthropod] / $surveyCounts[$species], 2);
 				}
-				$arthropodDensitiesSet[$species] = $arthropodDensities;
+				$arthropodDensitiesSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodDensities;
 			}
  
  			die("true|" . json_encode($arthropodDensitiesSet));
@@ -255,10 +259,12 @@
  		else{//relative proportion
 			$arthropodRelativeProportionsSet = array();
  			$arthropodCounts = array();
- 			$query = mysqli_query($dbconn, "SELECT DISTINCT Species FROM Plant WHERE SiteFK='$siteID'");
+ 			$branchCount = array();
+ 			$query = mysqli_query($dbconn, "SELECT Species, COUNT(*) AS Branches FROM Plant WHERE SiteFK='$siteID' GROUP BY Species");
  			while($row = mysqli_fetch_assoc($query)){
 				$arthropodCounts[$row["Species"]] = array();
-				$arthropodRelativeProportionsSet[$row["Species"]] = array();
+				$arthropodRelativeProportionsSet[$row["Species"] . " (" . $row["Branches"] . ")"] = array();
+				$branchCount[$row["Species"]] = $row["Branches"];
  			}
  			$query = mysqli_query($dbconn, "SELECT Plant.Species, ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY CONCAT(Plant.Species, '-', ArthropodSighting.Group)");
  			while($row = mysqli_fetch_assoc($query)){
@@ -278,7 +284,7 @@
 				foreach($arthropodKeys as $arthropod){
 					$arthropodRelativeProportions[$readableArthropods[$arthropod]] = round(($arthropodCounts[$species][$arthropod] / $allArthropodCounts[$species]) * 100, 2);
 				}
-				$arthropodRelativeProportionsSet[$species] = $arthropodRelativeProportions;
+				$arthropodRelativeProportionsSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodRelativeProportions;
 			}
  
  			die("true|" . json_encode($arthropodRelativeProportionsSet));
