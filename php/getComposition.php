@@ -235,6 +235,7 @@
 				$arthropodOccurrencesSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodOccurrences;
 			}
  			uksort($arthropodOccurrencesSet, function($a, $b){
+				global $order;
 				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
 			});
  			die("true|" . json_encode($arthropodOccurrencesSet));
@@ -269,7 +270,8 @@
 				}
 				$arthropodDensitiesSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodDensities;
 			}
- 			uksort($arthropodOccurrencesSet, function($a, $b){
+ 			uksort($arthropodDensitiesSet, function($a, $b){
+				global $order;
 				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
 			});
  			die("true|" . json_encode($arthropodDensitiesSet));
@@ -304,7 +306,8 @@
 				}
 				$arthropodRelativeProportionsSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodRelativeProportions;
 			}
- 			uksort($arthropodOccurrencesSet, function($a, $b){
+ 			uksort($arthropodRelativeProportionsSet, function($a, $b){
+				global $order;
 				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
 			});
  			die("true|" . json_encode($arthropodRelativeProportionsSet) . "<br/><br/>" . json_encode($totalDensity));
