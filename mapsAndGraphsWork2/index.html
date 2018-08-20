@@ -2784,11 +2784,13 @@
 					}
 					legendHTML += compositionLabels.eq(i)[0].outerHTML + "<br/>";
 				}
-				for(var i = (compositionLabels.length % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
-					legendHTML += "<div class=\"label\">";
-					legendHTML += 	"<div class=\"box\" style=\"background:transparent;border-color:transparent;\"></div>";
-					legendHTML += 	"<span class=\"description\"> </span>";
-					legendHTML += "</div><br/>";
+				if(compositionLabels.length % LABELS_IN_EACH_COLUMN > 0){
+					for(var i = (compositionLabels.length % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
+						legendHTML += "<div class=\"label\">";
+						legendHTML += 	"<div class=\"box\" style=\"background:transparent;border-color:transparent;\"></div>";
+						legendHTML += 	"<span class=\"description\"> </span>";
+						legendHTML += "</div><br/>";
+					}
 				}
 				legendHTML += "</div>";
 				$("#compositionLegend")[0].innerHTML = legendHTML;
