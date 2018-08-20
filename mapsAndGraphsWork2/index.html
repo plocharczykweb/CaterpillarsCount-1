@@ -853,6 +853,7 @@
 				$(window).resize(function(){
 					lockInMapHeight();
 					resizeSuperHeader();
+					updateCompositionLegend();
 				});
 				setSliders();
 				attachAutoCompleteToInput($("#plantSpecies"), plantSpeciesList);
@@ -2688,14 +2689,23 @@
 					return false;
 				}
 				var formattedDatasets = [];
-				var legendHTML = "<div style=\"text-align:left;display:inline-block;\">";
-				var LABELS_IN_EACH_COLUMN = 5;
+				var legendHTML = "";
+				var LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 3);
+				if($(window).width() < 500){
+					LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 2);
+				}
+				else if($(window).width() < 800){
+					LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 1);
+				}
 				var i = 0;
 				for(var arthropodName in datasets){
 					if(datasets.hasOwnProperty(arthropodName)){
 						var thisColor = barColors[i++];
 						if((i - 1) % LABELS_IN_EACH_COLUMN == 0){
-							legendHTML += "</div><div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
+							if(i > 1){
+								legendHTML += "</div>";
+							}
+							legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
 						}
 						legendHTML += "<div class=\"label\">";
 						legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
@@ -2749,6 +2759,40 @@
 				}
 				$("#compositionLoadingCover").stop().fadeOut(200);
 				centerYAxisLabels();
+			}
+			
+			function updateCompositionLegend(){
+				var compositionLabels = $("#compositionLegend .label");
+				var LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 3);
+				if($(window).width() < 500){
+					LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 2);
+				}
+				else if($(window).width() < 800){
+					LABELS_IN_EACH_COLUMN = Math.ceil(compositionLabels.length / 1);
+				}
+				var compositionLabels = $("#compositionLegend .label");
+				if(compositionLabels.length == 0 || $("#compositionLegend>div").eq(0).find(".label").length == LABELS_IN_EACH_COLUMN){
+					return false;
+				}
+				
+				var legendHTML = "";
+				for(var i = 0; i < compositionLabels.length; i++){
+					if(i % LABELS_IN_EACH_COLUMN == 0){
+						if(i > 0){
+							legendHTML += "</div>";
+						}
+						legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
+					}
+					legendHTML += compositionLabels.eq(i)[0].outerHTML;
+				}
+				for(var i = (compositionLabels.length % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
+					legendHTML += "<div class=\"label\">";
+					legendHTML += 	"<div class=\"box\" style=\"background:transparent;border-color:transparent;\"></div>";
+					legendHTML += 	"<span class=\"description\"> </span>";
+					legendHTML += "</div><br>";
+				}
+				legendHTML += "</div>";
+				$("#compositionLegend")[0].innerHTML = legendHTML;
 			}
 			//END OF COMPOSITION CHART STUFF
 		</script>
