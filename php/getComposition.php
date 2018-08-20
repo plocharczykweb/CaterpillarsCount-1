@@ -156,7 +156,7 @@
 				}
 				$arthropodDensitiesSet[$year] = $arthropodDensities;
 			}
- 			uksort($arthropodOccurrencesSet, function($a, $b){
+ 			uksort($arthropodDensitiesSet, function($a, $b){
 				return intval($a) - intval($b);
 			});
  			die("true|" . json_encode($arthropodDensitiesSet));
@@ -189,7 +189,7 @@
 				}
 				$arthropodRelativeProportionsSet[$year] = $arthropodRelativeProportions;
 			}
- 			uksort($arthropodOccurrencesSet, function($a, $b){
+ 			uksort($arthropodRelativeProportionsSet, function($a, $b){
 				return intval($a) - intval($b);
 			});
  			die("true|" . json_encode($arthropodRelativeProportionsSet));
