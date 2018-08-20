@@ -193,15 +193,18 @@
 		$totalDensity = array();
 		$query = mysqli_query($dbconn, "SELECT Plant.Species, COUNT(*) AS SurveyCount FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY Plant.Species");
 		while($row = mysqli_fetch_assoc($query)){
-			$totalDensity[$row["Species"]] = floatval($row["SurveyCount"]);
+			$totalDensity[$row["Species"]] = array($row["Species"], floatval($row["SurveyCount"]));
 		}
 		$query = mysqli_query($dbconn, "SELECT Plant.Species, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY Plant.Species");
 		while($row = mysqli_fetch_assoc($query)){
 			if($totalDensity[$row["Species"]] > 0){
-				$totalDensity[$row["Species"]] = floatval($row["ArthropodCount"]) / $totalDensity[$row["Species"]];
+				$totalDensity[$row["Species"]][1] = floatval($row["ArthropodCount"]) / $totalDensity[$row["Species"]][1];
 			}
 		}
-		asort($totalDensity);
+		$totalDensity = array_values($totalDensity);
+		usort($totalDensity, function($a, $b){
+			return $a[1] - $b[1];
+		});
 		
  		if($comparisonMetric == "occurrence"){
  			$arthropodOccurrencesSet = array();
@@ -224,8 +227,8 @@
  				$surveyCounts[$row["Species"]] = $row["SurveyCount"];
  			}
  
- 			$speciesKeys = array_keys($totalDensity);
- 			foreach($speciesKeys as $species) {
+ 			for($i = 0; $i < count($totalDensity); $i++){
+				$species = $totalDensity[$i][0];
 				$arthropodOccurrences = array();
 				$arthropodKeys = array_keys($arthropodSurveyCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
@@ -257,8 +260,8 @@
  				$surveyCounts[$row["Species"]] = $row["SurveyCount"];
  			}
  
- 			$speciesKeys = array_keys($totalDensity);
- 			foreach($speciesKeys as $species) {
+ 			for($i = 0; $i < count($totalDensity); $i++){
+				$species = $totalDensity[$i][0];
 				$arthropodDensities = array();
 				$arthropodKeys = array_keys($arthropodCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
@@ -290,8 +293,8 @@
  				$allArthropodCounts[$row["Species"]] = $row["AllArthropodsCount"];
  			}
  
- 			$speciesKeys = array_keys($totalDensity);
- 			foreach($speciesKeys as $species) {
+ 			for($i = 0; $i < count($totalDensity); $i++){
+				$species = $totalDensity[$i][0];
 				$arthropodRelativeProportions = array();
 				$arthropodKeys = array_keys($arthropodCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
