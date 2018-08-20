@@ -201,10 +201,7 @@
 				$totalDensity[$row["Species"]][1] = floatval($row["ArthropodCount"]) / $totalDensity[$row["Species"]][1];
 			}
 		}
-		$totalDensity = array_values($totalDensity);
-		usort($totalDensity, function($a, $b){
-			return $a[1] - $b[1];
-		});
+		asort($totalDensity, SORT_NUMERIC);
 		
  		if($comparisonMetric == "occurrence"){
  			$arthropodOccurrencesSet = array();
@@ -226,9 +223,9 @@
  			while($row = mysqli_fetch_assoc($query)){
  				$surveyCounts[$row["Species"]] = $row["SurveyCount"];
  			}
- 
- 			for($i = 0; $i < count($totalDensity); $i++){
-				$species = $totalDensity[$i][0];
+ 			
+			$speciesKeys = array_keys($totalDensity);
+ 			foreach($speciesKeys as $species){
 				$arthropodOccurrences = array();
 				$arthropodKeys = array_keys($arthropodSurveyCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
@@ -260,8 +257,8 @@
  				$surveyCounts[$row["Species"]] = $row["SurveyCount"];
  			}
  
- 			for($i = 0; $i < count($totalDensity); $i++){
-				$species = $totalDensity[$i][0];
+ 			$speciesKeys = array_keys($totalDensity);
+ 			foreach($speciesKeys as $species){
 				$arthropodDensities = array();
 				$arthropodKeys = array_keys($arthropodCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
@@ -293,8 +290,8 @@
  				$allArthropodCounts[$row["Species"]] = $row["AllArthropodsCount"];
  			}
  
- 			for($i = 0; $i < count($totalDensity); $i++){
-				$species = $totalDensity[$i][0];
+ 			$speciesKeys = array_keys($totalDensity);
+ 			foreach($speciesKeys as $species){
 				$arthropodRelativeProportions = array();
 				$arthropodKeys = array_keys($arthropodCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
