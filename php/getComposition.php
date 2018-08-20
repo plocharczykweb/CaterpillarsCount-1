@@ -85,7 +85,7 @@
  		return $arthropodRelativeProportion;
  	}
 
-	function getSet($category, $barTitleQuery, $numeratorQuery, $denominatorQuery, $readableArthropods, $FACTOR){
+	function getSet($category, $barTitleQuery, $numeratorQuery, $denominatorQuery, $dbconn, $readableArthropods, $FACTOR){
 		$set = array();
 		$numerators = array();
 		$query = mysqli_query($dbconn, $barTitleQuery);
@@ -251,7 +251,7 @@
 			$barTitleQuery = "SELECT DISTINCT Species FROM Plant WHERE SiteFK='$siteID'";
 			$numeratorQuery = "SELECT Plant.Species, ArthropodSighting.Group, SUM(ArthropodSighting.Quantity) AS ArthropodCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY CONCAT(Plant.Species, '-', ArthropodSighting.Group)";
 			$denominatorQuery = "SELECT Plant.Species, SUM(ArthropodSighting.Quantity) AS AllArthropodsCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='$siteID' GROUP BY Plant.Species";
-			$set = getSet("Species", $barTitleQuery, $numeratorQuery, $denominatorQuery, $readableArthropods, 100);
+			$set = getSet("Species", $barTitleQuery, $numeratorQuery, $denominatorQuery, $dbconn, $readableArthropods, 100);
  			die("true|" . json_encode($set));
 			/*
 			$arthropodRelativeProportionsSet = array();
