@@ -303,7 +303,7 @@
 				$arthropodRelativeProportionsSet[$species . " (" . $branchCount[$species] . ")"] = $arthropodRelativeProportions;
 			}
  
- 			die("true|" . json_encode($arthropodRelativeProportionsSet));
+ 			die("true|" . json_encode($arthropodRelativeProportionsSet) . json_encode($totalDensity));
  		}
  	}
  ?>
