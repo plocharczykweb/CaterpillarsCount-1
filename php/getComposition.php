@@ -123,7 +123,9 @@
 				}
 				$arthropodOccurrencesSet[$year] = $arthropodOccurrences;
 			}
- 
+ 			uksort($arthropodOccurrencesSet, function($a, $b){
+				return intval($a) - intval($b);
+			});
  			die("true|" . json_encode($arthropodOccurrencesSet));
  		}
  		else if($comparisonMetric == "absoluteDensity"){
@@ -154,7 +156,9 @@
 				}
 				$arthropodDensitiesSet[$year] = $arthropodDensities;
 			}
- 
+ 			uksort($arthropodOccurrencesSet, function($a, $b){
+				return intval($a) - intval($b);
+			});
  			die("true|" . json_encode($arthropodDensitiesSet));
  		}
  		else{//relative proportion
@@ -185,7 +189,9 @@
 				}
 				$arthropodRelativeProportionsSet[$year] = $arthropodRelativeProportions;
 			}
- 
+ 			uksort($arthropodOccurrencesSet, function($a, $b){
+				return intval($a) - intval($b);
+			});
  			die("true|" . json_encode($arthropodRelativeProportionsSet));
  		}
  	}
@@ -310,7 +316,7 @@
 				global $order;
 				return array_search(substr($a, 0, strrpos($a, " (")), $order) - array_search(substr($b, 0, strrpos($b, " (")), $order);
 			});
- 			die("true|" . json_encode($arthropodRelativeProportionsSet) . "<br/><br/>" . json_encode($totalDensity));
+ 			die("true|" . json_encode($arthropodRelativeProportionsSet));
  		}
  	}
  ?>
