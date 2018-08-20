@@ -171,7 +171,7 @@
 				$arthropodOccurrences = array();
 				$arthropodKeys = array_keys($arthropodSurveyCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
-					$arthropodOccurrences[] = round(($arthropodSurveyCounts[$species][$arthropod] / $surveyCounts[$species]) * 100, 2);
+					$arthropodOccurrences[$arthropod] = round(($arthropodSurveyCounts[$species][$arthropod] / $surveyCounts[$species]) * 100, 2);
 				}
 				$arthropodOccurrencesSet[$species] = $arthropodOccurrences;
 			}
@@ -205,7 +205,7 @@
 				$arthropodDensities = array();
 				$arthropodKeys = array_keys($arthropodCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
-					$arthropodDensities[] = round($arthropodCounts[$species][$arthropod] / $surveyCounts[$species], 2);
+					$arthropodDensities[$arthropod] = round($arthropodCounts[$species][$arthropod] / $surveyCounts[$species], 2);
 				}
 				$arthropodDensitiesSet[$species] = $arthropodDensities;
 			}
@@ -239,7 +239,7 @@
 				$arthropodRelativeProportions = array();
 				$arthropodKeys = array_keys($arthropodCounts[$species]);
 				foreach($arthropodKeys as $arthropod){
-					$arthropodRelativeProportions[] = round(($arthropodCounts[$species][$arthropod] / $allArthropodCounts[$species]) * 100, 2);
+					$arthropodRelativeProportions[$arthropod] = round(($arthropodCounts[$species][$arthropod] / $allArthropodCounts[$species]) * 100, 2);
 				}
 				$arthropodRelativeProportionsSet[$species] = $arthropodRelativeProportions;
 			}
