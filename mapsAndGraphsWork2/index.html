@@ -781,8 +781,8 @@
 				display:none;
 				position:absolute;
 				top:100%;
-				margin-top:-6px;
-				right:0px;
+				margin-top:-28px;
+				right:196px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -2828,9 +2828,9 @@
 			function populateAddSiteSelection(){
 				var options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
-					options += "<div onclick=\"this.parentNode.style.display = 'none';addCompositionSite(" + siteNamesAndIDs[1] + ");showComposition();\">" + siteNamesAndIDs[0] + "</div>";
+					options += "<div onclick=\"this.parentNode.style.display = 'none';addCompositionSite(" + siteNamesAndIDs[i][1] + ");showComposition();\">" + siteNamesAndIDs[i][0] + "</div>";
 				}
-				$("#addSiteSelection")[0].innerHTML = "<div class=\"options\">" + options + "</div>";
+				$("#addSiteSelection")[0].innerHTML = "<div class=\"options\" style=\"width:200px;\">" + options + "</div>";
 			}
 			//END OF COMPOSITION CHART STUFF
 		</script>
@@ -3094,7 +3094,7 @@
 											</div>
 										</div>
 									</div>
-									<div id="addCompositionSiteButton" onclick="$('#addSiteSelection').stop().fadeIn(0);">+</div>
+									<div id="addCompositionSiteButton" onclick="$('#addSiteSelection .options').stop().fadeIn(0);">+</div>
 									<div id="addSiteSelection" class="smallSelect"></div>
 									<canvas id="compositionNormalChart" width="0" height="0"></canvas>
 									<canvas id="compositionSpeciesChart" width="0" height="0" style="display:none;"></canvas>
