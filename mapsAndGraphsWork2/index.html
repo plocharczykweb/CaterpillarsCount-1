@@ -777,6 +777,14 @@
 				font-size:16px;
 			}
 			
+			#addSiteSelection{
+				display:none;
+				position:absolute;
+				top:100%;
+				margin-top:-6px;
+				right:0px;
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -1327,6 +1335,7 @@
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
 					clearSets();
 					clearCompositionSites();
+					populateAddSiteSelection();
 					showSiteUserLeaderboard(marker.siteInformation["ID"], function(){
 						addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
 						addCompositionSite(marker.siteInformation["ID"]);
@@ -2815,6 +2824,14 @@
 				legendHTML += "</div>";
 				$("#compositionLegend")[0].innerHTML = legendHTML;
 			}
+			
+			function populateAddSiteSelection(){
+				var options = "";
+				for(var i = 0; i < siteNamesAndIDs.length; i++){
+					options += "<div onclick=\"this.parentNode.style.display = 'none';addCompositionSite(" + siteNamesAndIDs[1] + ");showComposition();\">" + siteNamesAndIDs[0] + "</div>";
+				}
+				$("#addSiteSelection").innerHTML = "<div class=\"options\">" + options + "</div>";
+			}
 			//END OF COMPOSITION CHART STUFF
 		</script>
 	</head>
@@ -3077,7 +3094,8 @@
 											</div>
 										</div>
 									</div>
-									<div id="addCompositionSiteButton">+</div>
+									<div id="addCompositionSiteButton" onclick="$('#addSiteSelection').stop().fadeIn(0);">+</div>
+									<div id="addSiteSelection" class="smallSelect"></div>
 									<canvas id="compositionNormalChart" width="0" height="0"></canvas>
 									<canvas id="compositionSpeciesChart" width="0" height="0" style="display:none;"></canvas>
 								</div>
