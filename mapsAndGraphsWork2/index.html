@@ -769,15 +769,14 @@
 			.siteSelectionText{
 				display:table-cell;
 				vertical-align:middle;
+				font-size:16px;
+				color:#999;
+				padding:0px 3px;
 			}
 			
 			#addCompositionSiteButton, #removeCompositionSiteButton{
-				display:table-cell;
-				vertical-align:middle;
-				border-radius:4px;
+				display:inline-block;
 				cursor:pointer;
-				font-size:16px;
-				color:#999;
 				text-align:underline;
 			}
 			
@@ -2786,7 +2785,7 @@
 					}
 				}
 				$("#addSiteSelection")[0].innerHTML = "<div class=\"options\" style=\"width:200px;\">" + options + "</div>";
-				$("#addCompositionSiteButton")[0].style.display = "table-cell";
+				$("#addCompositionSiteButton")[0].style.display = "inline-block";
 				
 				options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
@@ -2803,7 +2802,7 @@
 					$("#siteSelectionPipeline")[0].style.display = "none";
 				}
 				else{
-					$("#removeCompositionSiteButton")[0].style.display = "table-cell";
+					$("#removeCompositionSiteButton")[0].style.display = "inline-block";
 				}
 			}
 			//END OF COMPOSITION CHART STUFF
@@ -3080,7 +3079,7 @@
 												<div onclick="smallSelectOption(this);showComposition();">Plant Species</div>
 											</div>
 										</div>
-										<div class="siteSelectionText"> ( </div>
+										<div class="siteSelectionText" style="padding-left:6px;"> ( </div>
 										<div style="position:relative;" class="siteSelectionText">
 											<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">add</div>
 											<div id="addSiteSelection" class="smallSelect"></div>
