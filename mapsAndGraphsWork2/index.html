@@ -2666,7 +2666,7 @@
 							data[data.length] = getComposition(xAxis, yAxis, siteIDs[i]);
 						}
 					}
-					if(data.length == siteLength){
+					if(data.length == siteIDs.length){
 						//chart data
 						clearInterval(compositionDataIsReadyCheck);
 						var formattedData = {};
