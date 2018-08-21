@@ -775,9 +775,6 @@
 				font-size:16px;
 				color:#999;
 			}
-			#removeCompositionSiteButton{
-				display:none;
-			}
 			
 			#addSiteSelection, #removeSiteSelection{
 				position:absolute;
@@ -2792,7 +2789,7 @@
 				}
 				$("#removeSiteSelection")[0].innerHTML = "<div class=\"options\" style=\"width:200px;\">" + options + "</div>";
 				
-				if(options == ""){
+				if(compositionSiteIDs.length == 0){
 					$("#removeCompositionSiteButton")[0].style.display = "none";
 				}
 				else{
