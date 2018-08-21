@@ -766,14 +766,19 @@
 				margin:10px 0px;
 			}
 			
+			.siteSelectionText{
+				display:table-cell;
+				vertical-align:middle;
+			}
+			
 			#addCompositionSiteButton, #removeCompositionSiteButton{
 				display:table-cell;
 				vertical-align:middle;
-				padding:0px 6px 2px 6px;
 				border-radius:4px;
 				cursor:pointer;
 				font-size:16px;
 				color:#999;
+				text-align:underline;
 			}
 			
 			#addSiteSelection, #removeSiteSelection{
@@ -1332,10 +1337,11 @@
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
 					clearSets();
 					clearCompositionSites();
-					updateSiteSelections();
+					$(".siteSelectionText").css({display: "none"});
 					showSiteUserLeaderboard(marker.siteInformation["ID"], function(){
 						addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
 						addCompositionSite(marker.siteInformation["ID"]);
+						updateSiteSelections();
 						loadNewActiveSiteCompositionDefaults();
 						showComposition();
 					});
@@ -2780,6 +2786,7 @@
 					}
 				}
 				$("#addSiteSelection")[0].innerHTML = "<div class=\"options\" style=\"width:200px;\">" + options + "</div>";
+				$("#addCompositionSiteButton")[0].style.display = "table-cell";
 				
 				options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
@@ -2789,8 +2796,11 @@
 				}
 				$("#removeSiteSelection")[0].innerHTML = "<div class=\"options\" style=\"width:200px;\">" + options + "</div>";
 				
+				$(".siteSelectionText").css({display:"table-cell"});
+				
 				if(compositionSiteIDs.length == 0){
 					$("#removeCompositionSiteButton")[0].style.display = "none";
+					$("#siteSelectionPipeline")[0].style.display = "none";
 				}
 				else{
 					$("#removeCompositionSiteButton")[0].style.display = "table-cell";
@@ -3070,14 +3080,17 @@
 												<div onclick="smallSelectOption(this);showComposition();">Plant Species</div>
 											</div>
 										</div>
-										<div style="position:relative;display:table-cell;vertical-align:middle;">
-											<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">+</div>
+										<div class="siteSelectionText"> ( </div>
+										<div style="position:relative;" class="siteSelectionText">
+											<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">add</div>
 											<div id="addSiteSelection" class="smallSelect"></div>
 										</div>
-										<div style="position:relative;display:table-cell;vertical-align:middle;">
-											<div id="removeCompositionSiteButton" onclick="setTimeout(function(){$('#removeSiteSelection .options').stop().fadeIn(0);}, 1);">-</div>
+										<div class="siteSelectionText" id="siteSelectionPipeline"> | </div>
+										<div style="position:relative;" class="siteSelectionText">
+											<div id="removeCompositionSiteButton" onclick="setTimeout(function(){$('#removeSiteSelection .options').stop().fadeIn(0);}, 1);">remove</div>
 											<div id="removeSiteSelection" class="smallSelect"></div>
 										</div>
+										<div class="siteSelectionText">)</div>
 									</div>
 								</div>
 								
