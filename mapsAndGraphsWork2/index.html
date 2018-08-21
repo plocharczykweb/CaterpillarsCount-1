@@ -2830,7 +2830,7 @@
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
 					options += "<div onclick=\"this.parentNode.style.display = 'none';addCompositionSite(" + siteNamesAndIDs[1] + ");showComposition();\">" + siteNamesAndIDs[0] + "</div>";
 				}
-				$("#addSiteSelection").innerHTML = "<div class=\"options\">" + options + "</div>";
+				$("#addSiteSelection")[0].innerHTML = "<div class=\"options\">" + options + "</div>";
 			}
 			//END OF COMPOSITION CHART STUFF
 		</script>
