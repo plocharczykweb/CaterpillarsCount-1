@@ -769,8 +769,8 @@
 			.siteSelectionText{
 				display:table-cell;
 				vertical-align:middle;
-				font-size:14px;
-				color:#999;
+				font-size:18px;
+				color:#bbb;
 				padding:0px 2px;
 			}
 			
@@ -2778,6 +2778,11 @@
 			}
 			
 			function updateSiteSelections(){
+				if($("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase() != "site"){
+					$(".siteSelectionText").css({display:"none"});
+					return true;
+				}
+				
 				var options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
 					if(compositionSiteIDs.indexOf(siteNamesAndIDs[i][1]) == -1){
@@ -3074,9 +3079,9 @@
 										<div class="smallSelect" style="display:table-cell;vertical-align:middle;">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Site</div>
 											<div class="options">
-												<div onclick="smallSelectOption(this);showComposition();">Site</div>
-												<div onclick="smallSelectOption(this);showComposition();">Year</div>
-												<div onclick="smallSelectOption(this);showComposition();">Plant Species</div>
+												<div onclick="smallSelectOption(this);updateSiteSelections();showComposition();">Site</div>
+												<div onclick="smallSelectOption(this);updateSiteSelections();showComposition();">Year</div>
+												<div onclick="smallSelectOption(this);updateSiteSelections();showComposition();">Plant Species</div>
 											</div>
 										</div>
 										<div class="siteSelectionText" style="padding-left:6px;"> ( </div>
