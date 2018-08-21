@@ -885,8 +885,7 @@
 					}
 				});
 				window.phenology = new Chart(document.getElementById('phenologyChart'), lineConfig);
-				window.normalComposition = new Chart($('#compositionNormalChart')[0].getContext('2d'), normalBarConfig);
-				window.speciesComposition = new Chart($('#compositionSpeciesChart')[0].getContext('2d'), speciesBarConfig);
+				window.composition = new Chart($('#compositionChart')[0].getContext('2d'), barConfig);
 			});
 			
 			$(document).click(function(){
@@ -2049,35 +2048,7 @@
 				}
 			};
 			
-			var normalBarConfig = {
-				type: 'bar',
-				data: {},
-				options: {
-					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 18}, display: false},
-					title: {display: false,},
-					tooltips: {mode: 'index', intersect: false, callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
-					responsive: true,
-					scales: {
-						xAxes: [{
-							stacked: true,
-							gridLines: {color: "rgba(0,0,0,0.05)"},
-							barPercentage: 0.2,
-							ticks: {
-								autoSkip: false,
-								fontSize: 18
-							}
-						}],
-						yAxes: [{
-							stacked: true,
-							scaleLabel: {display: true,labelString: '', fontSize: 18},
-							gridLines: {color: "rgba(0,0,0,0.05)"},
-							ticks: {fontSize: 18}
-						}]
-					}
-				}
-			};
-			
-			var speciesBarConfig = {
+			var barConfig = {
 				type: 'bar',
 				data: {},
 				options: {
@@ -2104,6 +2075,7 @@
 					}
 				}
 			};
+			
 			function getClearPoint(x, y){
 				var background = "rgba(230,230,230,0)";
 				var border = "rgba(200,200,200,0)";
@@ -2605,10 +2577,8 @@
 				lastActiveSiteID = activeSiteID;
 				compositionQueue = [];
 				
-				normalBarConfig.data = {labels: [], datasets: {}};
-				speciesBarConfig.data = {labels: [], datasets: {}};
-				window.normalComposition.update();
-				window.speciesComposition.update();
+				barConfig.data = {labels: [], datasets: {}};
+				window.composition.update();
 				
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
@@ -2650,15 +2620,6 @@
 				if(xAxis != "site"){siteIDs = [activeSiteID];}
 				
 				$("#compositionLoadingCover").stop().fadeIn(300);
-				
-				if(xAxis == "site" || xAxis == "year"){
-					$("#compositionSpeciesChart")[0].style.display = "none";
-					$("#compositionNormalChart")[0].style.display = "block";
-				}
-				else{
-					$("#compositionNormalChart")[0].style.display = "none";
-					$("#compositionSpeciesChart")[0].style.display = "block";
-				}
 				
 				for(var i = 0; i < siteIDs.length; i++){
 					queueCompositionLoad(xAxis, yAxis, siteIDs[i]);
@@ -2755,10 +2716,6 @@
 				}
 				legendHTML += "</div>";
 				$("#compositionLegend")[0].innerHTML = legendHTML;
-				var barConfig = normalBarConfig;
-				if(xAxis == "plant species"){
-					barConfig = speciesBarConfig;
-				}
 				if(yAxis == "absoluteDensity"){
 					barConfig.options.tooltips.callbacks.label = function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel;};
 				}
@@ -2772,15 +2729,7 @@
 				};
 				
 				try{
-					if(xAxis == "site"){
-						window.normalComposition.update();
-					}
-					else if(xAxis == "year"){
-						window.normalComposition.update();
-					}
-					else{
-						window.speciesComposition.update();
-					}
+					window.composition.update();
 				}
 				catch(err){
 					setTimeout(showComposition, 100);
@@ -3096,8 +3045,7 @@
 									</div>
 									<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">+</div>
 									<div id="addSiteSelection" class="smallSelect"></div>
-									<canvas id="compositionNormalChart" width="0" height="0"></canvas>
-									<canvas id="compositionSpeciesChart" width="0" height="0" style="display:none;"></canvas>
+									<canvas id="compositionChart" width="0" height="0" style="display:none;"></canvas>
 								</div>
 								<div class="xAxisLabel">
 									<div class="smallSelect">
