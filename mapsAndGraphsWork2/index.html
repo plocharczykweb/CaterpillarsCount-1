@@ -2775,7 +2775,7 @@
 			function updateSiteSelections(){
 				var options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
-					if(compositionSiteIDs.indexOf(siteNamesAndIDs[1]) == -1){
+					if(compositionSiteIDs.indexOf(siteNamesAndIDs[i][1]) == -1){
 						options += "<div onclick=\"this.parentNode.style.display = 'none';addCompositionSite(" + siteNamesAndIDs[i][1] + ");updateSiteSelections();showComposition();\">" + siteNamesAndIDs[i][0] + "</div>";
 					}
 				}
@@ -2783,7 +2783,7 @@
 				
 				options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
-					if(compositionSiteIDs.indexOf(siteNamesAndIDs[1]) > -1){
+					if(compositionSiteIDs.indexOf(siteNamesAndIDs[i][1]) > -1){
 						options += "<div onclick=\"this.parentNode.style.display = 'none';removeCompositionSite(" + siteNamesAndIDs[i][1] + ");updateSiteSelections();showComposition();\">" + siteNamesAndIDs[i][0] + "</div>";
 					}
 				}
