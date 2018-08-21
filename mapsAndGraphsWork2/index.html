@@ -675,12 +675,6 @@
 				font-size:20px;
 				color:#666;
 				margin:10px 0px;
-				display:table;
-				width:100%;
-			}
-			.xAxisLabel>.smallSelect{
-				display:table-cell;
-				vertical-align:middle;
 			}
 			
 			.yAxisLabel{
@@ -3051,22 +3045,25 @@
 									<canvas id="compositionChart" width="0" height="0"></canvas>
 								</div>
 								<div class="xAxisLabel">
-									<div class="smallSelect">
-										<div class="selected" onclick="showSmallSelectOptions(this);">Site</div>
-										<div class="options">
-											<div onclick="smallSelectOption(this);showComposition();">Site</div>
-											<div onclick="smallSelectOption(this);showComposition();">Year</div>
-											<div onclick="smallSelectOption(this);showComposition();">Plant Species</div>
+									<div style="display:table;">
+										<div class="smallSelect" style="display:table-cell;vertical-align:middle;">
+											<div class="selected" onclick="showSmallSelectOptions(this);">Site</div>
+											<div class="options">
+												<div onclick="smallSelectOption(this);showComposition();">Site</div>
+												<div onclick="smallSelectOption(this);showComposition();">Year</div>
+												<div onclick="smallSelectOption(this);showComposition();">Plant Species</div>
+											</div>
+										</div>
+										<div style="position:relative;display:table-cell;vertical-align:middle;">
+											<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">+</div>
+											<div id="addSiteSelection" class="smallSelect"></div>
+										</div>
+										<div style="position:relative;display:table-cell;vertical-align:middle;">
+											<div id="removeCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">-</div>
 										</div>
 									</div>
 								</div>
-								<div style="position:relative;display:inline-block;">
-									<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">+</div>
-									<div id="addSiteSelection" class="smallSelect"></div>
-								</div>
-								<div style="position:relative;display:inline-block;">
-									<div id="removeCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">-</div>
-								</div>
+								
 								<div id="compositionLegend"></div>
 							</div>
 						</div>
