@@ -775,12 +775,14 @@
 				font-size:16px;
 				color:#999;
 			}
+			#removeCompositionSiteButton{
+				display:none;
+			}
 			
-			#addSiteSelection{
+			#addSiteSelection, #removeSiteSelection{
 				position:absolute;
-				top:100%;
-				margin-top:-28px;
-				right:196px;
+				top:0px;
+				left:0px;
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 			}
 			
@@ -1333,7 +1335,7 @@
 				if(marker.siteInformation["MostRecentDateTime"] != "Never"){
 					clearSets();
 					clearCompositionSites();
-					populateAddSiteSelection();
+					updateSiteSelections();
 					showSiteUserLeaderboard(marker.siteInformation["ID"], function(){
 						addSetFromFilters({arthropod:"caterpillar", siteID: marker.siteInformation["ID"], year: Number(dateParts[0])});
 						addCompositionSite(marker.siteInformation["ID"]);
@@ -2773,12 +2775,29 @@
 				$("#compositionLegend")[0].innerHTML = legendHTML;
 			}
 			
-			function populateAddSiteSelection(){
+			function updateSiteSelections(){
 				var options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
-					options += "<div onclick=\"this.parentNode.style.display = 'none';addCompositionSite(" + siteNamesAndIDs[i][1] + ");showComposition();\">" + siteNamesAndIDs[i][0] + "</div>";
+					if(compositionSiteIDs.indexOf(siteNamesAndIDs[1]) > -1){
+						options += "<div onclick=\"this.parentNode.style.display = 'none';addCompositionSite(" + siteNamesAndIDs[i][1] + ");updateSiteSelections();showComposition();\">" + siteNamesAndIDs[i][0] + "</div>";
+					}
 				}
 				$("#addSiteSelection")[0].innerHTML = "<div class=\"options\" style=\"width:200px;\">" + options + "</div>";
+				
+				options = "";
+				for(var i = 0; i < siteNamesAndIDs.length; i++){
+					if(compositionSiteIDs.indexOf(siteNamesAndIDs[1]) == -1){
+						options += "<div onclick=\"this.parentNode.style.display = 'none';removeCompositionSite(" + siteNamesAndIDs[i][1] + ");updateSiteSelections();showComposition();\">" + siteNamesAndIDs[i][0] + "</div>";
+					}
+				}
+				$("#removeSiteSelection")[0].innerHTML = "<div class=\"options\" style=\"width:200px;\">" + options + "</div>";
+				
+				if(options == ""){
+					$("#removeCompositionSiteButton")[0].style.display = "none";
+				}
+				else{
+					$("#removeCompositionSiteButton")[0].style.display = "table-cell";
+				}
 			}
 			//END OF COMPOSITION CHART STUFF
 		</script>
@@ -3045,7 +3064,7 @@
 									<canvas id="compositionChart" width="0" height="0"></canvas>
 								</div>
 								<div class="xAxisLabel">
-									<div style="display:table;">
+									<div style="display:table;margin:auto;">
 										<div class="smallSelect" style="display:table-cell;vertical-align:middle;">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Site</div>
 											<div class="options">
@@ -3059,7 +3078,8 @@
 											<div id="addSiteSelection" class="smallSelect"></div>
 										</div>
 										<div style="position:relative;display:table-cell;vertical-align:middle;">
-											<div id="removeCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">-</div>
+											<div id="removeCompositionSiteButton" onclick="setTimeout(function(){$('#removeSiteSelection .options').stop().fadeIn(0);}, 1);">-</div>
+											<div id="removeSiteSelection" class="smallSelect"></div>
 										</div>
 									</div>
 								</div>
