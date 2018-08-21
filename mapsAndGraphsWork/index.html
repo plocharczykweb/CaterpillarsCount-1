@@ -2807,11 +2807,11 @@
 				$(".siteSelectionText").css({display:"table-cell"});
 				
 				if(compositionSiteIDs.length <= 1){
-					$("#removeCompositionSiteButton")[0].style.display = "none";
+					$("#removeCompositionSiteButton").parent()[0].style.display = "none";
 					$("#siteSelectionPipeline")[0].style.display = "none";
 				}
 				else{
-					$("#removeCompositionSiteButton")[0].style.display = "inline-block";
+					$("#removeCompositionSiteButton").parent()[0].style.display = "";
 				}
 			}
 			//END OF COMPOSITION CHART STUFF
