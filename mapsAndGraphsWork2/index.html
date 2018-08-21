@@ -782,6 +782,7 @@
 				top:100%;
 				margin-top:-28px;
 				right:196px;
+				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -3093,7 +3094,7 @@
 											</div>
 										</div>
 									</div>
-									<div id="addCompositionSiteButton" onclick="$('#addSiteSelection .options').stop().fadeIn(0);">+</div>
+									<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">+</div>
 									<div id="addSiteSelection" class="smallSelect"></div>
 									<canvas id="compositionNormalChart" width="0" height="0"></canvas>
 									<canvas id="compositionSpeciesChart" width="0" height="0" style="display:none;"></canvas>
