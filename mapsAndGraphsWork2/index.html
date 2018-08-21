@@ -768,13 +768,13 @@
 			
 			#addCompositionSiteButton{
 				position:absolute;
-				bottom:0px;
+				bottom:5px;
 				right:0px;
-				padding:10px;
+				padding:0px 6px 2px 6px;
 				border-radius:4px;
 				border:1px solid #666;
 				cursor:pointer;
-				font-size:20px;
+				font-size:16px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -1675,7 +1675,7 @@
 						
 						$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
 					}
-					$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">" + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().charAt(0).toUpperCase() + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().slice(1) + " of " + readableArthropod.toLowerCase() + " that are at least " + minSize + " mm long on " + plantSpecies.replace("%", "All Trees").toLowerCase() + " (" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
+					$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;cursor:default;text-decoration:underline;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">" + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().charAt(0).toUpperCase() + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().slice(1) + " of " + readableArthropod.toLowerCase() + " that are at least " + minSize + " mm long on " + plantSpecies.replace("%", "All Trees").toLowerCase() + " (" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
 					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});});
 				})
 				.fail(function(){
@@ -1753,7 +1753,7 @@
 						$(".scaleCircle").eq(i)[0].innerHTML = "<div class=\"scaleLabel\">" + Math.round(minRawValue + ((maxRawValue - minRawValue) * (i * (1/($(".scaleCircle").length - 1))))) + "%</div>";
 						$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
 					}
-					$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;text-decoration:underline;\">Caterpillars on all trees<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">Occurrence of caterpillars that are at least 0 mm long on all trees (including surveys with wet leaves) from January to December over the period of all time<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
+					$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;cursor:default;text-decoration:underline;\">Caterpillars on all trees<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">Occurrence of caterpillars that are at least 0 mm long on all trees (including surveys with wet leaves) from January to December over the period of all time<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
 					siteNamesAndIDs.sort(function(a, b){
 						if(a[0] < b[0]) return -1;
 						if(a[0] > b[0]) return 1;
@@ -2638,6 +2638,7 @@
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
 				var siteIDs = compositionSiteIDs;
+				if(xAxis != "site"){siteIDs = [activeSiteID];}
 				
 				$("#compositionLoadingCover").stop().fadeIn(300);
 				
@@ -2665,7 +2666,7 @@
 							data[data.length] = getComposition(xAxis, yAxis, siteIDs[i]);
 						}
 					}
-					if(data.length == siteIDs.length){
+					if(data.length == siteLength){
 						//chart data
 						clearInterval(compositionDataIsReadyCheck);
 						var formattedData = {};
