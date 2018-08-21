@@ -675,6 +675,12 @@
 				font-size:20px;
 				color:#666;
 				margin:10px 0px;
+				display:table;
+				width:100%;
+			}
+			.xAxisLabel>.smallSelect{
+				display:table-cell;
+				vertical-align:middle;
 			}
 			
 			.yAxisLabel{
@@ -766,15 +772,14 @@
 				margin:10px 0px;
 			}
 			
-			#addCompositionSiteButton{
-				position:absolute;
-				bottom:5px;
-				right:0px;
+			#addCompositionSiteButton, #removeCompositionSiteButton{
+				display:table-cell;
+				vertical-align:middle;
 				padding:0px 6px 2px 6px;
 				border-radius:4px;
-				border:1px solid #666;
 				cursor:pointer;
 				font-size:16px;
+				color:#999;
 			}
 			
 			#addSiteSelection{
@@ -3043,9 +3048,7 @@
 											</div>
 										</div>
 									</div>
-									<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">+</div>
-									<div id="addSiteSelection" class="smallSelect"></div>
-									<canvas id="compositionChart" width="0" height="0" style="display:none;"></canvas>
+									<canvas id="compositionChart" width="0" height="0"></canvas>
 								</div>
 								<div class="xAxisLabel">
 									<div class="smallSelect">
@@ -3056,6 +3059,13 @@
 											<div onclick="smallSelectOption(this);showComposition();">Plant Species</div>
 										</div>
 									</div>
+								</div>
+								<div style="position:relative;display:inline-block;">
+									<div id="addCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">+</div>
+									<div id="addSiteSelection" class="smallSelect"></div>
+								</div>
+								<div style="position:relative;display:inline-block;">
+									<div id="removeCompositionSiteButton" onclick="setTimeout(function(){$('#addSiteSelection .options').stop().fadeIn(0);}, 1);">-</div>
 								</div>
 								<div id="compositionLegend"></div>
 							</div>
