@@ -2789,7 +2789,7 @@
 				
 				var options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
-					if(compositionSiteIDs.indexOf(siteNamesAndIDs[i][1]) == -1){
+					if(compositionSiteIDs.indexOf(siteNamesAndIDs[i][1]) == -1 && Number(siteNamesAndIDs[i][1]) != Number(activeSiteID)){
 						options += "<div onclick=\"this.parentNode.style.display = 'none';addCompositionSite(" + siteNamesAndIDs[i][1] + ");updateSiteSelections();showComposition();\">" + siteNamesAndIDs[i][0] + "</div>";
 					}
 				}
@@ -2798,7 +2798,7 @@
 				
 				options = "";
 				for(var i = 0; i < siteNamesAndIDs.length; i++){
-					if(compositionSiteIDs.indexOf(siteNamesAndIDs[i][1]) > -1){
+					if(compositionSiteIDs.indexOf(siteNamesAndIDs[i][1]) > -1 && Number(siteNamesAndIDs[i][1]) != Number(activeSiteID)){
 						options += "<div onclick=\"this.parentNode.style.display = 'none';removeCompositionSite(" + siteNamesAndIDs[i][1] + ");updateSiteSelections();showComposition();\">" + siteNamesAndIDs[i][0] + "</div>";
 					}
 				}
@@ -3060,7 +3060,7 @@
 								<div id="phenologyLegend"></div>
 							</div>
 							<div id="barGraph">
-								<div class="chartExplanation">Click on the y-axis label to change the composition metric. You can get a breakdown of arthropod composition by year or plant species by clicking the "Site" x-axis label.</div>
+								<div class="chartExplanation">Click on the y-axis label to change the composition metric. You can get a breakdown of arthropod composition for this site by year or plant species by clicking the "Site" x-axis label. Adding site comparisons while the x-axis is "Site" <span class="bold">WILL NOT</span> affect year or plant species breakdowns for this site.</div>
 								<div style="height:500px;margin-top:20px;position:relative;">
 									<div id="compositionLoadingCover">
 										<img src="../images/rollingBlack.svg" alt="Loading..."/>
