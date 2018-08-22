@@ -1589,6 +1589,8 @@
 				if(plantSpecies.replace(/ /g, "") == ""){plantSpecies = "%";}
 				$.get("../php/getSites.php?observationMethod=" + observationMethod + "&includeWetLeaves=" + includeWetLeaves + "&occurrenceInsteadOfDensity=" + occurrenceInsteadOfDensity + "&monthStart=" + monthStart + "&monthEnd=" + monthEnd + "&yearStart=" + yearStart + "&yearEnd=" + yearEnd + "&arthropod=" + encodeURIComponent(arthropod) + "&minSize=" + minSize + "&plantSpecies=" + encodeURIComponent(plantSpecies), function(data){
 					//success
+					saveMapFilters();
+					
 					//clear old markers
 					for (var siteID in markers) {
 						if (markers.hasOwnProperty(siteID)) {
@@ -1703,6 +1705,23 @@
 					filtering = false;
 				});
 			}
+			
+			var mapFilters = {};
+			function saveMapFilters(){
+				mapFilters = {
+					comparisonMetric: getSelectText($("#densityOccurrence")),
+					observationMethod: getSelectText($("#observationMethod")),
+					arthropodGroup: getSelectText($("#arthropod")),
+					minimumLength: $("#minLength")[0].value,
+					plantSpecies: $("#plantSpecies")[0].value,
+					wetLeaves: checkboxIsChecked($("#includeWetLeavesCheckbox")),
+					monthStart: monthStart,
+					monthEnd: monthEnd,
+					yearStart: yearStart,
+					yearEnd: yearEnd
+				};
+			}
+			
 			var siteNamesAndIDs = [];
 			function initializeMap() {
 				map = new google.maps.Map($('#map')[0], {
@@ -1712,6 +1731,8 @@
 				
 				$.get("../php/getSites.php?observationMethod=" + encodeURIComponent("%") + "&includeWetLeaves=true&occurrenceInsteadOfDensity=true&monthStart=1&monthEnd=12&yearStart=0&yearEnd=99999&arthropod=caterpillar&minSize=0&plantSpecies=" + encodeURIComponent("%"), function(data){
 					//success
+					saveMapFilters();
+					
 					var sites = JSON.parse(data);
 					var normalizedWeights = getNormalizedWeights(sites);
 					var minRawValue = -1;
@@ -2833,11 +2854,11 @@
 			//END OF COMPOSITION CHART STUFF
 			
 			function downloadMapData(){
-				var headers = [];
+				var headers = ["Site", "Description", "Latitude", "Longitude", "Comparison Metric", "Included Observation Methods", "Arthropod Group", "Minimum Arthropod Length", "Plant Species", "Surveys With Wet Leaves Are Included", "Earliest Allowed Month", "Latest Allowed Month", "Earliest Allowed Year", "Latest Allowed Year", "Value"];
 				var csvString = headers.join(",") + "\r\n";
 				for(var i = 0; i < markers.length; i++){
 					var marker = markers[i];
-					var row = [];
+					var row = [marker.title.substring(0, marker.title.lastIndexOf(": ")), marker.position.lat, marker.position.lng, mapFilters.comparisonMetric, mapFilters.observationMethod, mapFilters.arthropodGroup, mapFilters.minimumLength, mapFilters.plantSpecies, mapFilters.wetLeaves.toString(), mapFilters.monthStart, mapFilters.monthEnd, mapFilters.yearStart, mapFilters.yearEnd, marker.title.substring(marker.title.lastIndexOf(": ") + 2).replace(/[^0-9.]/g, "")];
 					csvString += row.join(",") + "\r\n";
 				}
 				var date = new Date();
