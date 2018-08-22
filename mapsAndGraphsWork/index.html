@@ -791,6 +791,10 @@
 				font-family:"Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
 			}
 			
+			#downloadLinks{
+				display:none;
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -2862,7 +2866,9 @@
 					csvString += row.join(",") + "\r\n";
 				}
 				var date = new Date();
-				$("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData_" + date.toLocaleDateString() + "_" + date.toLocaleTimeString() + ".csv\">download csv</a>")[0].click();
+				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData_" + date.toLocaleDateString() + "_" + date.toLocaleTimeString() + ".csv\">download csv</a>");
+				var links = $("#downloadLinks a");
+				links.eq(links.length - 1)[0].click();
 				//document.body.appendChild(link); // Required for FF?
 			}
 		</script>
@@ -3161,6 +3167,7 @@
 					</div>
 				</div>
 			</div>
+			<div id="downloadLinks"></div>
 		</main>
 		<footer>
 			<div>Part of the <a href="http://pheno-mismatch.org" target="_blank">Pheno Mismatch</a> project funded by the National Science Foundation</div>
