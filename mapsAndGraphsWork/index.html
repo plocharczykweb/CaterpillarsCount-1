@@ -2864,6 +2864,9 @@
 					if (markers.hasOwnProperty(siteID)) {
 						var marker = markers[siteID];
 						var row = [marker.title.substring(0, marker.title.lastIndexOf(": ")), marker.siteInformation.Description, marker.getPosition().lat(), marker.getPosition().lng(), mapFilters.comparisonMetric, mapFilters.observationMethod, mapFilters.arthropodGroup, mapFilters.minimumLength, mapFilters.plantSpecies, mapFilters.wetLeaves.toString(), mapFilters.monthStart, mapFilters.monthEnd, mapFilters.yearStart, mapFilters.yearEnd, marker.title.substring(marker.title.lastIndexOf(": ") + 2).replace(/[^0-9.]/g, "")];
+						for(var i = 0; i < row.length; i++){
+							row[i] = "\"" + row[i].replace(/"/g, "'") + "\"";
+						}
 						csvString += row.join(",") + "\r\n";
 					}
 				}
