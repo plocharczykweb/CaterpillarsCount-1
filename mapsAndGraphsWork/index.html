@@ -842,7 +842,7 @@
 			}
 			
 			@media screen and (max-width: 900px){
-				#mapFiltersToggleButton{
+				#mapFiltersToggleButton, #mapFilters{
 					display:none;
 				}
 				
@@ -2011,9 +2011,9 @@
 			//PHENOLOGY CHART STUFF
 			var LINE_TENSION = 0.1;
 			var colors = ["rgb(255, 99, 132)", "rgb(255, 159, 64)", "rgb(255, 205, 86)", "rgb(75, 192, 192)", "rgb(54, 162, 235)", "rgb(153, 102, 255)", "#333", "#00067d", "#4efc85", "#4efcfc", "#fc4ef0", "#9e6400", "#ff0000", "#006b10"];
-			var barColors = ["#ff3333", "#b800b2", "#f200ff", "#fa7d7d", "#fcc37e", "#ff8c00", "#f7ff00", "#00ff11", "#00eeff", "#000dff", "#7f85ff", "#bbb", "#555", "#000"];
+			//var barColors = ["#ff3333", "#b800b2", "#f200ff", "#fa7d7d", "#fcc37e", "#ff8c00", "#f7ff00", "#00ff11", "#00eeff", "#000dff", "#7f85ff", "#bbb", "#555", "#000"];
 			//var barColors = ["#222222", "#000dff", "#00eeff", "#039e0d", "#00ff11", "#f7ff00", "#ff8c00", "#ff0000", "#96039e", "#f200ff", "#fa7d7d", "#fcc37e", "#bbbbbb", "#7f85ff"];
-			//var barColors = ["rgb(235, 85, 85)","rgb(235, 85, 200)","rgb(197, 85, 235)","rgb(150, 85, 235)","rgb(85, 97, 235)","rgb(85, 165, 235)","rgb(85, 217, 235)","rgb(85, 235, 180)","rgb(85, 235, 90)","rgb(200, 235, 85)","rgb(235, 215, 85)","rgb(235, 167, 85)","rgb(235, 145, 85)","rgb(194, 126, 24)"];
+			var barColors = ["rgb(235, 85, 85)","rgb(235, 85, 200)","rgb(197, 85, 235)","rgb(150, 85, 235)","rgb(85, 97, 235)","rgb(85, 165, 235)","rgb(85, 217, 235)","rgb(85, 235, 180)","rgb(85, 235, 90)","rgb(200, 235, 85)","rgb(235, 215, 85)","rgb(235, 167, 85)","rgb(235, 145, 85)","rgb(194, 126, 24)"];
 			var endpoints = [getClearPoint(formatDate("2000-01-01"), 0), getClearPoint(formatDate("2000-12-31"), 100)];
 			var lineConfig = {
 				type: 'line',
@@ -2831,6 +2831,19 @@
 				}
 			}
 			//END OF COMPOSITION CHART STUFF
+			
+			function downloadMapData(){
+				var headers = [];
+				var csvString = headers.join(",") + "\r\n";
+				for(var i = 0; i < markers.length; i++){
+					var marker = markers[i];
+					var row = [];
+					csvString += row.join(",") + "\r\n";
+				}
+				var date = new Date();
+				$("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData_" + date.toLocaleDateString() + "_" +  " + date.toLocaleTimeString() + ".csv"\">download csv</a>")[0].click();
+				//document.body.appendChild(link); // Required for FF?
+			}
 		</script>
 	</head>
 	<body>
@@ -2944,6 +2957,7 @@
 			<div class="panel" style="padding-bottom:0px;">
 				<h2>Explore Sites</h2>
 				<div class="tagline">Click the sites on the map below to explore their statistics.</div>
+				<button onclick="downloadMapData();">download map data</button>
 				<div id="mapBar">
 					<div>
 						<div id="mapTitle"><div class="title">Currently:</div><div>Loading data...</div></div>
