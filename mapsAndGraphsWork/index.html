@@ -2628,9 +2628,23 @@
 				
 				$("#compositionLoadingCover").stop().fadeIn(300);
 				
-				for(var i = 0; i < siteIDs.length; i++){
-					queueCompositionLoad(xAxis, yAxis, siteIDs[i]);
+				var yAxes = ["relativeProportion", "occurrence", "absoluteDensity"];
+				if(xAxis == "site"){
+					for(var i = 0; i < siteIDs.length; i++){
+						queueCompositionLoad("site", yAxis, siteIDs[i]);
+					}
+					for(var i = 0; i < siteIDs.length; i++){
+						for(var j = 0; j < yAxes.length; j++){
+							if(yAxis != yAxes[j]){
+								queueCompositionLoad("site", yAxes[j], siteIDs[i]);
+							}
+						}
+					}
 				}
+				else{
+					queueCompositionLoad(xAxis, yAxis, siteIDs[0]);
+				}
+				
 				compositionDataIsReadyCheck = setInterval(function(){
 					var data = [];
 					for(var i = 0; i < siteIDs.length; i++){
