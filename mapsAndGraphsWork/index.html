@@ -2862,7 +2862,7 @@
 					csvString += row.join(",") + "\r\n";
 				}
 				var date = new Date();
-				$("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData_" + date.toLocaleDateString() + "_" + date.toLocaleTimeString() + ".csv"\">download csv</a>")[0].click();
+				$("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData_" + date.toLocaleDateString() + "_" + date.toLocaleTimeString() + ".csv\">download csv</a>")[0].click();
 				//document.body.appendChild(link); // Required for FF?
 			}
 		</script>
