@@ -2871,7 +2871,7 @@
 					}
 				}
 				var date = new Date();
-				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData_" + date.toLocaleDateString() + "_" + date.toLocaleTimeString() + ".csv\">download csv</a>");
+				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
 				var links = $("#downloadLinks a");
 				links.eq(links.length - 1)[0].click();
 			}
