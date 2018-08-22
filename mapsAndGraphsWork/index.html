@@ -2859,7 +2859,7 @@
 			
 			function downloadMapData(){
 				var headers = ["Site", "Description", "Latitude", "Longitude", "Comparison Metric", "Included Observation Methods", "Arthropod Group", "Minimum Arthropod Length", "Plant Species", "Surveys With Wet Leaves Are Included", "Earliest Allowed Month", "Latest Allowed Month", "Earliest Allowed Year", "Latest Allowed Year", "Value"];
-				var csvString = headers.join(",") + "\r\n";
+				var csvString = "data:text/csv;charset=utf-8," + headers.join(",") + "\r\n";
 				for(var i = 0; i < markers.length; i++){
 					var marker = markers[i];
 					var row = [marker.title.substring(0, marker.title.lastIndexOf(": ")), marker.position.lat, marker.position.lng, mapFilters.comparisonMetric, mapFilters.observationMethod, mapFilters.arthropodGroup, mapFilters.minimumLength, mapFilters.plantSpecies, mapFilters.wetLeaves.toString(), mapFilters.monthStart, mapFilters.monthEnd, mapFilters.yearStart, mapFilters.yearEnd, marker.title.substring(marker.title.lastIndexOf(": ") + 2).replace(/[^0-9.]/g, "")];
