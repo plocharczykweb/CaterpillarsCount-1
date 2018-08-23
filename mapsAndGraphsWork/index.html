@@ -798,11 +798,10 @@
 				display:none;
 			}
 			
-			.downloadChartDiv{
-				text-align:right;
-				margin-top:20px;
-			}
-			.downloadChartDiv>.downloadChartButton{
+			.downloadChartButton{
+				position:absolute;
+				top:-20px;
+				right:0px;
 				background:#ccc;
 				display:table;
 				padding:5px;
@@ -814,23 +813,24 @@
 				overflow:hidden;
 				border-bottom:2px solid rgba(0,0,0,0.1);
 				cursor:pointer;
-				width:180px;
+				width:100px;
 			}
-			.downloadChartDiv>.downloadChartButton>div{
+			.downloadChartButton>div{
 				display:table-cell;
 				vertical-align:middle;
 			}
-			.downloadChartDiv>.downloadChartButton>.downloadImage{
+			.downloadChartButton>.downloadImage{
 				height:13px;
 				width:13px;
 				background-position:center;
 				background-size:contain;
 				background-repeat:no-repeat;
 			}
-			.downloadChartDiv>.downloadChartButton>.downloadText{
+			.downloadChartButton>.downloadText{
 				padding-left:4px;
 				font-size:12px;
 				padding-top:1px;
+				padding-right:2px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -3213,13 +3213,11 @@
 							</div>
 							<div id="lineGraph">
 								<div class="chartExplanation">Click on the y-axis label to change the phenology metric.</div>
-								<div class="downloadChartDiv">
+								<div style="height:500px;margin-top:40px;position:relative;">
 									<div class="downloadChartButton" onclick="downloadPhenologyData();">
 										<div class="downloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
 										<div class="downloadText">Download</div>
 									</div>
-								</div>
-								<div style="height:500px;margin-top:20px;position:relative;">
 									<div class="yAxisLabel">
 										<div class="smallSelect">
 											<div class="selected" onclick="showSmallSelectOptions(this);">Percent of Surveys</div>
