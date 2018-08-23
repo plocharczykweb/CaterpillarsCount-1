@@ -800,8 +800,8 @@
 			
 			.downloadChartButton{
 				position:absolute;
-				top:-20px;
-				right:0px;
+				top:-26px;
+				right:18px;
 				background:#ccc;
 				display:table;
 				padding:5px;
@@ -1020,8 +1020,8 @@
 			}
 			
 			function toggleMapFilters(openFunction, closeFunction){
-				if(!openHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="2px solid #aaa";$("#mapTitle").stop().animate({opacity:"0"});$("#mapScale").stop().animate({opacity:"0"});$("#mapDownloadButton").stop().animate({opacity:"0"});})){
-					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").stop().animate({opacity:"1"});$("#mapScale").stop().animate({opacity:"1"});$("#mapDownloadButton").stop().animate({opacity:"1"});});
+				if(!openHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="2px solid #aaa";$("#mapTitle").stop().animate({opacity:"0"});$("#mapScale").stop().animate({opacity:"0"});hideMapDownloadButton();})){
+					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").stop().animate({opacity:"1"});$("#mapScale").stop().animate({opacity:"1"});showMapDownloadButton();});
 				}
 			}
 			function closeHeight(ele, closeFunction){
@@ -1736,7 +1736,7 @@
 						$(".scaleCircle").eq(i).css({background:mapPercentToColor(i * (1/($(".scaleCircle").length - 1)))});
 					}
 					$("#mapTitle")[0].innerHTML = "<div class=\"title\">Currently Showing:</div><div onmouseenter=\"$(this).find('.bottomToolTip').stop().fadeIn(200);\" onmouseleave=\"$(this).find('.bottomToolTip').stop().fadeOut(200);\" style=\"position:relative;cursor:default;text-decoration:underline;\">" + readableArthropod + " on " + plantSpecies.replace("%", "All Trees") + "<div class='bottomTooltip' style=\"text-decoration:none;white-space:normal;width:228px;left:55px;right:auto;font-size:10px;text-transform:none;\">" + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().charAt(0).toUpperCase() + (readableObservationMethod + " " + readableOccurrenceDensity).toLowerCase().trim().slice(1) + " of " + readableArthropod.toLowerCase() + " that are at least " + minSize + " mm long on " + plantSpecies.replace("%", "All Trees").toLowerCase() + " (" + readableIncludeWetLeaves + ") " + months + " over the period of " + years + "<div class='arrow' style=\"position:absolute;top:-7px;left:20px;margin:0px;\"></div></div></div>";
-					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").stop().animate({opacity:"1"});$("#mapScale").stop().animate({opacity:"1"});$("#mapDownloadButton").stop().animate({opacity:"1"});});
+					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").stop().animate({opacity:"1"});$("#mapScale").stop().animate({opacity:"1"});showMapDownloadButton();});
 				})
 				.fail(function(){
 					//error
@@ -1847,9 +1847,7 @@
 						return 0;
 					});
 					
-					$("#mapDownloadButton")[0].style.opacity = "0";
-					$("#mapDownloadButton")[0].style.display = "table";
-					$("#mapDownloadButton").stop().animate({opacity:"1"});
+					showMapDownloadButton();
 					
 					if(window.location.toString().indexOf("#") > -1){
 						var selectedSiteIDFromURL = window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace(/\D/g, "");
@@ -2973,6 +2971,18 @@
 				var links = $("#downloadLinks a");
 				links.eq(links.length - 1)[0].click();
 			}
+			
+			function hideMapDownloadButton(){
+				$("#mapDownloadButton")[0].style.cursor = "default";
+				$("#mapDownloadButton")[0].onclick = downloadMapData;
+				$("#mapDownloadButton").stop().animate({opacity:"0"});
+			}
+			
+			function showMapDownloadButton(){
+				$("#mapDownloadButton")[0].style.cursor = "pointer";
+				$("#mapDownloadButton")[0].onclick = function(){};
+				$("#mapDownloadButton").stop().animate({opacity:"1"});
+			}
 		</script>
 	</head>
 	<body>
@@ -3103,7 +3113,7 @@
 						<div style="display:table-cell;width:100%;"></div>
 						<div style="display:table;">
 							<div style="display:table-cell;vertical-align:middle;">
-								<div id="mapDownloadButton" onclick="downloadMapData();" style="background:#ccc;display:none;">
+								<div id="mapDownloadButton" style="background:#ccc;display:none;">
 									<div id="mapDownloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
 									<div id="mapDownloadText">Download</div>
 								</div>
@@ -3213,7 +3223,7 @@
 							</div>
 							<div id="lineGraph">
 								<div class="chartExplanation">Click on the y-axis label to change the phenology metric.</div>
-								<div style="height:500px;margin-top:40px;position:relative;">
+								<div style="height:500px;margin-top:50px;position:relative;">
 									<div class="downloadChartButton" onclick="downloadPhenologyData();">
 										<div class="downloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
 										<div class="downloadText">Download</div>
