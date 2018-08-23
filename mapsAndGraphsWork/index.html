@@ -1289,6 +1289,7 @@
 					return false;
 				}
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
+				$("#selectedSitePanel>#graphsH3")[0].innerHTML = marker.siteInformation["Name"] + " Graphs";
 				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
 				if(marker.siteInformation["MostRecentDateTime"] == "Never"){
 					$("#noDataSection")[0].style.display = "block";
@@ -2886,6 +2887,53 @@
 				var links = $("#downloadLinks a");
 				links.eq(links.length - 1)[0].click();
 			}
+			
+			function downloadPhenologyData(){
+				var metric = $("#lineGraph .yAxisLabel .selected").eq(0)[0].innerHTML;
+				var headers = ["Site", "Description", "Latitude", "Longitude", "Arthropod Group", "Year", "Month", "Day", metric];
+				var csvString = "data:text/csv;charset=utf-8," + headers.join(",") + "\r\n";
+				if(lineConfig.data.datasets.length == 2 && opaque(lineConfig.data.datasets[0].backgroundColor) == opaque(endpoints[0].backgroundColor) && opaque(lineConfig.data.datasets[1].backgroundColor) == opaque(endpoints[0].backgroundColor)){
+					//nodata
+				}
+				else{
+					var datasets = lineConfig.data.datasets;
+					//siteNamesAndIDs
+					for(var i = 0; i < datasets.length; i++){
+						var optionsString = datasets[i].label;
+						var arthropod = optionsString;
+						var arthropods = ["All arthropods", "Ants", "Aphids and psyllids", "Bees and wasps", "Beetles", "Caterpillars", "Daddy longlegs", "Flies", "Grasshoppers and crickets", "Leaf hoppers and cicadas", "Moths and butterflies", "Spiders", "True bugs", "Other arthropods", "Unidentified arthropods"];
+						for(var j = 0; j < arthropods.length; j++){
+							if(arthropod.indexOf(arthropods[j]) == 0){
+								arthropod = arthropods[j];
+								break;
+							}
+						}
+						var siteName = optionsString.substring(0, optionsString.lastIndexOf(" in")).replace(arthropod + " at ", "");
+						var year = Number(optionsString.substring(optionsString.lastIndexOf(" in")).replace(/\D/g, ""));
+						var siteID = -1;
+						for(var j = 0; j < siteNamesAndIDs.length; j++){
+							if(siteName == siteNamesAndIDs[j][0]){
+								siteID = siteNamesAndIDs[j][1];
+								break;
+							}
+						}
+						var marker = markers[siteID.toString()];
+						
+						var points = datasets[i].data;
+						for(var j = 0; j < points.length; j++){
+							var row = [siteName, marker.siteInformation.Description, marker.getPosition().lat(), marker.getPosition().lng(), arthropod, year, points[j].x.substring(5, 7), points[j].x.substring(8, 10), points[j].y];
+							for(var t = 0; t < row.length; t++){
+								row[t] = "\"" + row[t].toString().replace(/"/g, "'") + "\"";
+							}
+							csvString += row.join(",") + "\r\n";
+						}
+					}
+				}
+				var date = new Date();
+				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
+				var links = $("#downloadLinks a");
+				links.eq(links.length - 1)[0].click();
+			}
 		</script>
 	</head>
 	<body>
@@ -3118,7 +3166,7 @@
 						</div>
 						<div id="siteUserLeaderboard"></div>
 						<div id="showMoreSiteUserRankings"><div onclick="showMoreSiteUserRankings();">Show more</div></div>
-						<h3>Graphs</h3>
+						<h3 id="graphsH3">Graphs</h3>
 						<div class="centeredText">
 							<div id="graphSwitch">
 								<button id="lineGraphSwitchButton" class="active" onclick="switchGraphTo('line');">Phenology</button>
@@ -3126,6 +3174,7 @@
 							</div>
 							<div id="lineGraph">
 								<div class="chartExplanation">Click on the y-axis label to change the phenology metric.</div>
+								<button onclick="downloadPhenologyData();">Download Phenology Data</button>
 								<div style="height:500px;margin-top:20px;position:relative;">
 									<div class="yAxisLabel">
 										<div class="smallSelect">
