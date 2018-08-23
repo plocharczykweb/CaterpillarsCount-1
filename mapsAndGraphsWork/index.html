@@ -703,6 +703,9 @@
 				margin:20px 40px 20px 20px;
 				width:160px;
 			}
+			#mapDownloadButton{
+				margin-right:20px;
+			}
 			#mapFiltersToggleButton>div, #mapDownloadButton>div{
 				display:table-cell;
 				vertical-align:middle;
@@ -982,8 +985,8 @@
 			}
 			
 			function toggleMapFilters(openFunction, closeFunction){
-				if(!openHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="2px solid #aaa";$("#mapTitle").animate({opacity:"0"});$("#mapScale").animate({opacity:"0"});})){
-					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});});
+				if(!openHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="2px solid #aaa";$("#mapTitle").animate({opacity:"0"});$("#mapScale").animate({opacity:"0"});$("#mapDownloadButton").animate({opacity:"0"});})){
+					closeHeight($("#mapFilters"), function(){$("#mapFilters")[0].style.borderBottom="0px none transparent";$("#mapTitle").animate({opacity:"1"});$("#mapScale").animate({opacity:"1"});$("#mapDownloadButton").animate({opacity:"1"});});
 				}
 			}
 			function closeHeight(ele, closeFunction){
@@ -3013,15 +3016,15 @@
 						<div style="display:table-cell;width:100%;"></div>
 						<div style="display:table;">
 							<div style="display:table-cell;vertical-align:middle;">
-								<div id="mapFiltersToggleButton" onclick="toggleMapFilters();">
-									<div id="mapFiltersImage" style="background-image:url('../images/filterIconWhite.png');"></div>
-									<div id="mapFiltersText">Map Filters</div>
-								</div>
-							</div>
-							<div style="display:table-cell;vertical-align:middle;">
 								<div id="mapDownloadButton" onclick="downloadMapData();" style="background:#555;">
 									<div id="mapDownloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
 									<div id="mapDownloadText">Download</div>
+								</div>
+							</div>
+							<div style="display:table-cell;vertical-align:middle;">
+								<div id="mapFiltersToggleButton" onclick="toggleMapFilters();">
+									<div id="mapFiltersImage" style="background-image:url('../images/filterIconWhite.png');"></div>
+									<div id="mapFiltersText">Map Filters</div>
 								</div>
 							</div>
 						</div>
