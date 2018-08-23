@@ -798,6 +798,41 @@
 				display:none;
 			}
 			
+			.downloadChartDiv{
+				text-align:right;
+				margin-top:20px;
+			}
+			.downloadChartDiv>.downloadChartButton{
+				background:#ccc;
+				display:table;
+				padding:5px;
+				color:#fff;
+				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-weight:bold;
+				text-transform:uppercase;
+				border-radius:4px;
+				overflow:hidden;
+				border-bottom:2px solid rgba(0,0,0,0.1);
+				cursor:pointer;
+				width:180px;
+			}
+			.downloadChartDiv>.downloadChartButton>div{
+				display:table-cell;
+				vertical-align:middle;
+			}
+			.downloadChartDiv>.downloadChartButton>.downloadImage{
+				height:13px;
+				width:13px;
+				background-position:center;
+				background-size:contain;
+				background-repeat:no-repeat;
+			}
+			.downloadChartDiv>.downloadChartButton>.downloadText{
+				padding-left:4px;
+				font-size:12px;
+				padding-top:1px;
+			}
+			
 			@media screen and (max-width: 600px){
 				#desktopSiteStats{
 					display:none;
@@ -3178,7 +3213,12 @@
 							</div>
 							<div id="lineGraph">
 								<div class="chartExplanation">Click on the y-axis label to change the phenology metric.</div>
-								<button onclick="downloadPhenologyData();">Download Phenology Data</button>
+								<div class="downloadChartDiv">
+									<div class="downloadChartButton" onclick="downloadPhenologyData();">
+										<div class="downloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
+										<div class="downloadText">Download</div>
+									</div>
+								</div>
 								<div style="height:500px;margin-top:20px;position:relative;">
 									<div class="yAxisLabel">
 										<div class="smallSelect">
