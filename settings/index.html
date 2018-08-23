@@ -481,7 +481,7 @@
 										<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
 											<td><div class="checkbox" id="hiddenFromLeaderboardsCheckbox"></div></td>
 											<td>Hide my name from the leaderboards on the <a class="highlighted" href="../mapsAndGraphs">Maps & Graphs</a> page.</td>
-											<td onclick="event.stopPropagation();queueNotice('alert', 'Some of the user-specific leaderboards on our <a href=&quot;../mapsAndGraphs&quot;>Maps & Graphs</a> page may display your name. If you choose to hide your name from these leaderboards, we will refer to you as &quot;(anonymous user)&quot; instead.');"><img src="../images/question.png"/></td>
+											<td onclick="event.stopPropagation();queueNotice('alert', 'Some of the user-specific leaderboards on our <a href=&quot;../mapsAndGraphs&quot;>Maps & Graphs</a> page may display your name. If you choose to hide your name from these leaderboards, we will refer to you as <span style=&quot;white-space:nowrap;&quot;>&quot;(anonymous user)&quot;</span> instead.');"><img src="../images/question.png"/></td>
 										<tr>
 									</table>
 									<button onclick="savePrivacySettings();" id="savePrivacySettingsButton">Save privacy settings</button>
