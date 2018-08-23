@@ -2997,14 +2997,13 @@
 					siteName = $("#selectedSitePanel h2").eq(0)[0].innerHTML;
 				}
 				var csvString = "data:text/csv;charset=utf-8," + headers.join(",") + "\r\n";
-				for(var i = 0; i < barConfig.data.labels; i++){
+				for(var i = 0; i < barConfig.data.labels.length; i++){
 					if(xAxis == "site"){
 						siteName = barConfig.data.labels[i];
 					}
 					var marker = markers[activeSiteID.toString()];
 					for(var j = 0; j < barConfig.data.datasets.length; j++){
 						var row = [siteName, marker.siteInformation.Description, marker.getPosition().lat(), marker.getPosition().lng(), barConfig.data.datasets[j].label, barConfig.data.datasets[j].data[i]];
-						console.log(row);
 						if(xAxis != "site"){
 							row.splice(4, 0, barConfig.data.labels[i]);
 						}
@@ -3015,7 +3014,7 @@
 					}
 				}
 				var date = new Date();
-				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
+				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCount" + $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.replace(/ /g, "") + "CompositionData-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
 				var links = $("#downloadLinks a");
 				links.eq(links.length - 1)[0].click();
 			}
