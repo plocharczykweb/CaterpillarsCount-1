@@ -2926,7 +2926,7 @@
 			
 			function hideMapDownloadButton(){
 				$("#mapDownloadButton")[0].style.cursor = "default";
-				$("#mapDownloadButton")[0].onclick = downloadMapData;
+				$("#mapDownloadButton")[0].onclick = function(){downloadMapData()};
 				$("#mapDownloadButton").stop().animate({opacity:"0"});
 			}
 			
