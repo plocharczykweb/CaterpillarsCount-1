@@ -3004,8 +3004,8 @@
 						if(xAxis != "site"){
 							row.splice(4, 0, barConfig.data.labels[i]);
 						}
-						for(var i = 0; i < row.length; i++){
-							row[i] = "\"" + row[i].toString().replace(/"/g, "'") + "\"";
+						for(var t = 0; t < row.length; t++){
+							row[t] = "\"" + row[t].toString().replace(/"/g, "'") + "\"";
 						}
 						csvString += row.join(",") + "\r\n";
 					}
