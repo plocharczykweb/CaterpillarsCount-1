@@ -800,7 +800,7 @@
 			
 			.downloadChartButton{
 				position:absolute;
-				top:-26px;
+				top:-18px;
 				right:18px;
 				background:#ccc;
 				display:table;
@@ -828,9 +828,8 @@
 			}
 			.downloadChartButton>.downloadText{
 				padding-left:4px;
-				font-size:12px;
+				font-size:10px;
 				padding-top:1px;
-				padding-right:2px;
 			}
 			
 			@media screen and (max-width: 600px){
@@ -2925,6 +2924,18 @@
 				links.eq(links.length - 1)[0].click();
 			}
 			
+			function hideMapDownloadButton(){
+				$("#mapDownloadButton")[0].style.cursor = "default";
+				$("#mapDownloadButton")[0].onclick = downloadMapData;
+				$("#mapDownloadButton").stop().animate({opacity:"0"});
+			}
+			
+			function showMapDownloadButton(){
+				$("#mapDownloadButton")[0].style.cursor = "pointer";
+				$("#mapDownloadButton")[0].onclick = function(){};
+				$("#mapDownloadButton").stop().animate({opacity:"1"});
+			}
+			
 			function downloadPhenologyData(){
 				var metric = $("#lineGraph .yAxisLabel .selected").eq(0)[0].innerHTML;
 				var headers = ["Site", "Description", "Latitude", "Longitude", "Arthropod Group", "Year", "Month", "Day", metric];
@@ -2947,14 +2958,7 @@
 						}
 						var siteName = optionsString.substring(0, optionsString.lastIndexOf(" in")).replace(arthropod + " at ", "");
 						var year = Number(optionsString.substring(optionsString.lastIndexOf(" in")).replace(/\D/g, ""));
-						var siteID = -1;
-						for(var j = 0; j < siteNamesAndIDs.length; j++){
-							if(siteName == siteNamesAndIDs[j][0]){
-								siteID = siteNamesAndIDs[j][1];
-								break;
-							}
-						}
-						var marker = markers[siteID.toString()];
+						var marker = markers[activeSiteID.toString()];
 						
 						var points = datasets[i].data;
 						for(var j = 0; j < points.length; j++){
@@ -2972,16 +2976,44 @@
 				links.eq(links.length - 1)[0].click();
 			}
 			
-			function hideMapDownloadButton(){
-				$("#mapDownloadButton")[0].style.cursor = "default";
-				$("#mapDownloadButton")[0].onclick = downloadMapData;
-				$("#mapDownloadButton").stop().animate({opacity:"0"});
-			}
-			
-			function showMapDownloadButton(){
-				$("#mapDownloadButton")[0].style.cursor = "pointer";
-				$("#mapDownloadButton")[0].onclick = function(){};
-				$("#mapDownloadButton").stop().animate({opacity:"1"});
+			function downloadCompositionData(){
+				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
+				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
+				
+				var headers = [];
+				var siteName = "";
+				if(xAxis == "site"){
+					headers = ["Site", "Description", "Latitude", "Longitude", "Arthropod Group", yAxis];
+				}
+				else if(xAxis == "year"){
+					headers = ["Site", "Description", "Latitude", "Longitude", "Year", "Arthropod Group", yAxis];
+					siteName = $("#selectedSitePanel h2").eq(0)[0].innerHTML;
+				}
+				else{//plant species
+					headers = ["Site", "Description", "Latitude", "Longitude", "Plant Species", "Arthropod Group", yAxis];
+					siteName = $("#selectedSitePanel h2").eq(0)[0].innerHTML;
+				}
+				var csvString = "data:text/csv;charset=utf-8," + headers.join(",") + "\r\n";
+				for(var i = 0; i < barConfig.data.labels; i++){
+					if(xAxis == "site"){
+						siteName = barConfig.data.labels[i];
+					}
+					var marker = markers[activeSiteID.toString()];
+					for(var j = 0; j < barConfig.data.datasets.length; j++){
+						var row = [siteName, marker.siteInformation.Description, marker.getPosition().lat(), marker.getPosition().lng(), barConfig.data.datasets[j].label, barConfig.data.datasets[j].data[i]];
+						if(xAxis != "site"){
+							row.splice(4, 0, barConfig.data.labels[i]);
+						}
+						for(var i = 0; i < row.length; i++){
+							row[i] = "\"" + row[i].toString().replace(/"/g, "'") + "\"";
+						}
+						csvString += row.join(",") + "\r\n";
+					}
+				}
+				var date = new Date();
+				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
+				var links = $("#downloadLinks a");
+				links.eq(links.length - 1)[0].click();
 			}
 		</script>
 	</head>
@@ -3113,7 +3145,7 @@
 						<div style="display:table-cell;width:100%;"></div>
 						<div style="display:table;">
 							<div style="display:table-cell;vertical-align:middle;">
-								<div id="mapDownloadButton" style="background:#ccc;display:none;">
+								<div id="mapDownloadButton" style="background:#ccc;opacity:0;cursor:default;">
 									<div id="mapDownloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
 									<div id="mapDownloadText">Download</div>
 								</div>
@@ -3223,7 +3255,7 @@
 							</div>
 							<div id="lineGraph">
 								<div class="chartExplanation">Click on the y-axis label to change the phenology metric.</div>
-								<div style="height:500px;margin-top:50px;position:relative;">
+								<div style="height:500px;margin-top:40px;position:relative;">
 									<div class="downloadChartButton" onclick="downloadPhenologyData();">
 										<div class="downloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
 										<div class="downloadText">Download</div>
@@ -3244,7 +3276,11 @@
 							</div>
 							<div id="barGraph">
 								<div class="chartExplanation">Click on the y-axis label to change the composition metric. You can get a breakdown of arthropod composition for this site by year or plant species by clicking the "Site" x-axis label. Adding site comparisons along the x-axis while in "Site" view <span class="bold">WILL NOT</span> affect year or plant species breakdowns for this site.</div>
-								<div style="height:500px;margin-top:20px;position:relative;">
+								<div style="height:500px;margin-top:40px;position:relative;">
+									<div class="downloadChartButton" onclick="downloadCompositionData();">
+										<div class="downloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
+										<div class="downloadText">Download</div>
+									</div>
 									<div id="compositionLoadingCover">
 										<img src="../images/rollingBlack.svg" alt="Loading..."/>
 										<div id="reloadComposition" onclick="showComposition();">Reload</div>
