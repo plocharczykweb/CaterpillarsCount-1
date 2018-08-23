@@ -2939,9 +2939,26 @@
 				$("#mapDownloadButton").stop().animate({opacity:"1"});
 			}
 			
+			function getJulianDay(year, month, day){
+				year = Number(year);
+				month = Number(month);
+				day = Number(day);
+				var isLeapYear = (year % 100 === 0) ? (year % 400 === 0) : (year % 4 === 0);
+				var monthCounts = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+				if(isLeapYear){
+					monthCounts[1] += 1;
+				}
+				var dayCount = 0;
+				for(var i = 0; i < (month - 1); i++){
+					dayCount += monthCounts[i];
+				}
+				dayCount += day;
+				return dayCount;
+			}
+			
 			function downloadPhenologyData(){
 				var metric = $("#lineGraph .yAxisLabel .selected").eq(0)[0].innerHTML;
-				var headers = ["Site", "Description", "Latitude", "Longitude", "Arthropod Group", "Year", "Month", "Day", metric];
+				var headers = ["Site", "Description", "Latitude", "Longitude", "Arthropod Group", "Date", "Julian Day", metric];
 				var csvString = "data:text/csv;charset=utf-8," + headers.join(",") + "\r\n";
 				if(lineConfig.data.datasets.length == 2 && opaque(lineConfig.data.datasets[0].backgroundColor) == opaque(endpoints[0].backgroundColor) && opaque(lineConfig.data.datasets[1].backgroundColor) == opaque(endpoints[0].backgroundColor)){
 					//nodata
@@ -2968,7 +2985,7 @@
 						
 						var points = datasets[i].data;
 						for(var j = 0; j < points.length; j++){
-							var row = [siteName, marker.siteInformation.Description, marker.getPosition().lat(), marker.getPosition().lng(), arthropod, year, points[j].x.substring(5, 7), points[j].x.substring(8, 10), points[j].y];
+							var row = [siteName, marker.siteInformation.Description, marker.getPosition().lat(), marker.getPosition().lng(), arthropod, year + "-" + points[j].x.substring(5, 7) + "-" + points[j].x.substring(8, 10), getJulianDay(year, points[j].x.substring(5, 7), points[j].x.substring(8, 10)), points[j].y];
 							for(var t = 0; t < row.length; t++){
 								row[t] = "\"" + row[t].toString().replace(/"/g, "'") + "\"";
 							}
@@ -3260,7 +3277,7 @@
 								<button id="barGraphSwitchButton" onclick="switchGraphTo('bar');">Composition</button>
 							</div>
 							<div id="lineGraph">
-								<div class="chartExplanation">Click on the y-axis label to change the phenology metric.</div>
+								<div class="chartExplanation">Click on the y-axis label to change the phenology metric being plotted.</div>
 								<div style="height:500px;margin-top:40px;position:relative;">
 									<div class="downloadChartButton" onclick="downloadPhenologyData();">
 										<div class="downloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
@@ -3281,7 +3298,7 @@
 								<div id="phenologyLegend"></div>
 							</div>
 							<div id="barGraph">
-								<div class="chartExplanation">Click on the y-axis label to change the composition metric. You can get a breakdown of arthropod composition by year or plant species by clicking the "Site" x-axis label.</div>
+								<div class="chartExplanation">Click on the y-axis label to change the composition metric being plotted. You can get a breakdown of arthropod composition for this site by year or plant species by clicking the "Site" label on the x-axis, or you can add additional sites for comparison by clicking "add".</div>
 								<div style="height:500px;margin-top:40px;position:relative;">
 									<div class="downloadChartButton" onclick="downloadCompositionData();">
 										<div class="downloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
