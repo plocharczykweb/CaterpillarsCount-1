@@ -1289,7 +1289,7 @@
 					return false;
 				}
 				$("#selectedSitePanel>h2")[0].innerHTML = marker.siteInformation["Name"];
-				$("#selectedSitePanel>#graphsH3")[0].innerHTML = marker.siteInformation["Name"] + " Graphs";
+				$("#graphsH3")[0].innerHTML = marker.siteInformation["Name"] + " Graphs";
 				$("#selectedSitePanel>.tagline")[0].innerHTML = marker.siteInformation["Description"];
 				if(marker.siteInformation["MostRecentDateTime"] == "Never"){
 					$("#noDataSection")[0].style.display = "block";
