@@ -1712,12 +1712,20 @@
 			
 			var mapFilters = {};
 			function saveMapFilters(){
+				var minimumLength = $("#minLength")[0].value;
+				if(minimumLength == ""){
+					minimumLength = 0;
+				}
+				var plantSpecies = $("#plantSpecies")[0].value;
+				if(plantSpecies == ""){
+					plantSpecies = "All";
+				}
 				mapFilters = {
 					comparisonMetric: getSelectText($("#densityOccurrence")),
 					observationMethod: getSelectText($("#observationMethod")),
 					arthropodGroup: getSelectText($("#arthropod")),
-					minimumLength: $("#minLength")[0].value,
-					plantSpecies: $("#plantSpecies")[0].value,
+					minimumLength: minimumLength,
+					plantSpecies: plantSpecies,
 					wetLeaves: checkboxIsChecked($("#includeWetLeavesCheckbox")),
 					monthStart: monthStart,
 					monthEnd: monthEnd,
