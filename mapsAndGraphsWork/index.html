@@ -2945,7 +2945,7 @@
 				}
 				else{
 					var datasets = lineConfig.data.datasets;
-					//siteNamesAndIDs
+					var siteNames = [];
 					for(var i = 0; i < datasets.length; i++){
 						var optionsString = datasets[i].label;
 						var arthropod = optionsString;
@@ -2957,6 +2957,9 @@
 							}
 						}
 						var siteName = optionsString.substring(0, optionsString.lastIndexOf(" in")).replace(arthropod + " at ", "");
+						if(siteNames.indexOf(siteName.replace(/[\W_]+/g," ")) == -1){
+							siteNames[siteNames.length] = siteName.replace(/[\W_]+/g," ");
+						}
 						var year = Number(optionsString.substring(optionsString.lastIndexOf(" in")).replace(/\D/g, ""));
 						var marker = markers[activeSiteID.toString()];
 						
@@ -2971,14 +2974,14 @@
 					}
 				}
 				var date = new Date();
-				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
+				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountPhenologyData-" + siteNames.join("-") + "-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
 				var links = $("#downloadLinks a");
 				links.eq(links.length - 1)[0].click();
 			}
 			
 			function downloadCompositionData(){
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
-				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML.replace("Percent of Arthropods", "relativeProportion").replace("Percent of Surveys", "occurrence").replace("Arthropods Per Survey", "absoluteDensity");
+				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML;
 				
 				var headers = [];
 				var siteName = "";
@@ -3001,6 +3004,7 @@
 					var marker = markers[activeSiteID.toString()];
 					for(var j = 0; j < barConfig.data.datasets.length; j++){
 						var row = [siteName, marker.siteInformation.Description, marker.getPosition().lat(), marker.getPosition().lng(), barConfig.data.datasets[j].label, barConfig.data.datasets[j].data[i]];
+						console.log(row);
 						if(xAxis != "site"){
 							row.splice(4, 0, barConfig.data.labels[i]);
 						}
