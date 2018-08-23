@@ -2866,7 +2866,7 @@
 			//END OF COMPOSITION CHART STUFF
 			
 			function downloadMapData(){
-				var headers = ["Site", "Description", "Latitude", "Longitude", "Comparison Metric", "Included Observation Methods", "Arthropod Group", "Minimum Arthropod Length", "Plant Species", "Surveys With Wet Leaves Are Included", "Earliest Allowed Month", "Latest Allowed Month", "Earliest Allowed Year", "Latest Allowed Year", "Value"];
+				var headers = ["Site", "Description", "Latitude", "Longitude", "Comparison Metric", "Included Observation Methods", "Arthropod Group", "Minimum Arthropod Length (mm)", "Plant Species", "Surveys With Wet Leaves Are Included", "Earliest Allowed Month", "Latest Allowed Month", "Earliest Allowed Year", "Latest Allowed Year", "Value"];
 				var csvString = "data:text/csv;charset=utf-8," + headers.join(",") + "\r\n";
 				for (var siteID in markers) {
 					if (markers.hasOwnProperty(siteID)) {
