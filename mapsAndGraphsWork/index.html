@@ -688,7 +688,7 @@
 				display:none;
 			}
 			
-			#mapFiltersToggleButton{
+			#mapFiltersToggleButton, #mapDownloadButton{
 				background:#fed136;
 				display:table;
 				padding:10px;
@@ -703,18 +703,18 @@
 				margin:20px 40px 20px 20px;
 				width:160px;
 			}
-			#mapFiltersToggleButton>div{
+			#mapFiltersToggleButton>div, #mapDownloadButton>div{
 				display:table-cell;
 				vertical-align:middle;
 			}
-			#mapFiltersToggleButton #mapFiltersImage{
+			#mapFiltersToggleButton #mapFiltersImage, #mapDownloadButton #mapDownloadImage{
 				height:23px;
 				width:23px;
 				background-position:center;
 				background-size:contain;
 				background-repeat:no-repeat;
 			}
-			#mapFiltersToggleButton #mapFiltersText{
+			#mapFiltersToggleButton #mapFiltersText, #mapDownloadButton #mapDownloadText{
 				padding-left:10px;
 				padding-right:3px;
 				font-size:17px;
@@ -846,7 +846,7 @@
 			}
 			
 			@media screen and (max-width: 900px){
-				#mapFiltersToggleButton, #mapFilters{
+				#mapFiltersToggleButton, #mapFilters, #mapDownloadButton{
 					display:none;
 				}
 				
@@ -2996,7 +2996,6 @@
 			<div class="panel" style="padding-bottom:0px;">
 				<h2>Explore Sites</h2>
 				<div class="tagline">Click the sites on the map below to explore their statistics.</div>
-				<button onclick="downloadMapData();">download map data</button>
 				<div id="mapBar">
 					<div>
 						<div id="mapTitle"><div class="title">Currently:</div><div>Loading data...</div></div>
@@ -3013,8 +3012,12 @@
 						</div>
 						<div style="display:table-cell;width:100%;"></div>
 						<div id="mapFiltersToggleButton" onclick="toggleMapFilters();">
-							<div id="mapFiltersImage" style="background-image:url('https://caterpillarscount.unc.edu/images/filterIconWhite.png');"></div>
+							<div id="mapFiltersImage" style="background-image:url('../images/filterIconWhite.png');"></div>
 							<div id="mapFiltersText">Map Filters</div>
+						</div>
+						<div id="mapDownloadButton" onclick="downloadMapData();" style="bcakground:#555;">
+							<div id="mapDownloadImage" style="background-image:url('../images/downloadIconWhite.png');"></div>
+							<div id="mapDownloadText">Download Mapped Data</div>
 						</div>
 					</div>
 				</div>
