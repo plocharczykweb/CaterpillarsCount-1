@@ -2929,13 +2929,13 @@
 			
 			function hideMapDownloadButton(){
 				$("#mapDownloadButton")[0].style.cursor = "default";
-				$("#mapDownloadButton")[0].onclick = function(){downloadMapData()};
+				$("#mapDownloadButton")[0].onclick = function(){};
 				$("#mapDownloadButton").stop().animate({opacity:"0"});
 			}
 			
 			function showMapDownloadButton(){
 				$("#mapDownloadButton")[0].style.cursor = "pointer";
-				$("#mapDownloadButton")[0].onclick = function(){};
+				$("#mapDownloadButton")[0].onclick = function(){downloadMapData()};
 				$("#mapDownloadButton").stop().animate({opacity:"1"});
 			}
 			
