@@ -3,9 +3,9 @@
   
   $dbconn = (new Keychain)->getDatabaseConnection();
   
-  $firstName = $_GET["first"];
-  $lastName = $_GET["last"];
-  $email = $_GET["email"];
+  $firstName = rawurldecode($_GET["first"]);
+  $lastName = rawurldecode($_GET["last"]);
+  $email = rawurldecode($_GET["email"]);
 
   if(mysqli_num_rows(mysqli_query($dbconn, "SELECT `ID` FROM `User` WHERE `Email`='" . $email . "' LIMIT 1")) == 0){
     $salt = mysqli_real_escape_string($dbconn, hash("sha512", rand() . rand() . rand()));
