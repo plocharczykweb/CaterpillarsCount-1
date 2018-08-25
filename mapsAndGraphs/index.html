@@ -1415,9 +1415,17 @@
 				$.get("../php/getUserRankings.php?siteID=" + siteID, function(data){
 					//success
 					if(siteID == currentSiteUserLeaderboardSiteID){
-						console.log("Loaded site user leaderbard.");
-						siteUserRankings = JSON.parse(data);
-						populateSiteUserLeaderboard("Year", false);
+						if(data.indexOf("true|") == 0){
+							data = data.replace("true|", "");
+							console.log("Loaded site user leaderbard.");
+							siteUserRankings = JSON.parse(data);
+							populateSiteUserLeaderboard("Year", false);
+						}
+						else{
+							$("#siteUserLeaderboard")[0].innerHTML = "";
+							queueNotice("error", data);
+						}
+						
 					}
 				})
 				.fail(function(){
@@ -1898,9 +1906,16 @@
 				
 				$.get("../php/getUserRankings.php", function(data){
 					//success
-					userRankings = JSON.parse(data);
-					if(++loadedRankingsDataCount == 2){
-						populateLeaderboard("Year");
+					if(data.indexOf("true|") == 0){
+						data = data.replace("true|", "");
+						userRankings = JSON.parse(data);
+						if(++loadedRankingsDataCount == 2){
+							populateLeaderboard("Year");
+						}
+					}
+					else{
+						$("#rankings")[0].innerHTML = "";
+						queueNotice("error", data);
 					}
 				})
 				.fail(function(){
