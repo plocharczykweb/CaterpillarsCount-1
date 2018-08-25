@@ -76,6 +76,6 @@
 		}
 	}
 
-	die(json_encode(array_values($rankingsArray)));
+	die("true|" . json_encode(array_values($rankingsArray)));
 	
 ?>
