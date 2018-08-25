@@ -104,7 +104,7 @@ class Survey
 		$this->plantSpecies = $plantSpecies;
 		$this->numberOfLeaves = intval($numberOfLeaves);
 		$this->averageLeafLength = intval($averageLeafLength);
-		$this->herbivoryScore = intval($herbivoryScore);
+		$this->herbivoryScore = max(0, intval($herbivoryScore));
 		$this->submittedThroughApp = $submittedThroughApp;
 		
 		$this->deleted = false;
