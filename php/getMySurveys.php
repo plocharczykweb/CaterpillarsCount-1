@@ -60,7 +60,7 @@
 					"plantSpecies" => $surveys[$i]->getPlantSpecies(),
 					"numberOfLeaves" => $surveys[$i]->getNumberOfLeaves(),
 					"averageLeafLength" => $surveys[$i]->getAverageLeafLength(),
-					"herbivoryScore" => min(4, max(0, intval($surveys[$i]->getHerbivoryScore()))),
+					"herbivoryScore" => $surveys[$i]->getHerbivoryScore(),
 					"submittedThroughApp" => $surveys[$i]->getSubmittedThroughApp(),
 					"arthropodSightings" => $arthropodSightingsArray,
 				);
