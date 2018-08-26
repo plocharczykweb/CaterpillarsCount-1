@@ -24,7 +24,7 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
         
-        $.get("../php/getData.php", function(data){
+        $.post("../php/getData.php", function(data){
 					//success
           alert(data);
 					if(data.indexOf("true|") == 0){
