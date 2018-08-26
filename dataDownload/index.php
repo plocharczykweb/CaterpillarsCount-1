@@ -31,6 +31,7 @@
 
   function getArrayFromTable(){
     global $colHeaders;
+	  ini_set('memory_limit', '512M');
     $tableArray = array();
     
     $dbconn = (new Keychain)->getDatabaseConnection();
