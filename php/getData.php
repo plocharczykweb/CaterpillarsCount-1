@@ -83,6 +83,7 @@
   $tableArray = getArrayFromTable();
   usort($tableArray, "customSort");
   array_unshift($tableArray, $colHeaders);
+  die(json_encode($tableArray));
   $filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
   $fp = fopen($filename, 'w');
   foreach ($tableArray as $line) fputcsv($fp, $line);
