@@ -1,12 +1,6 @@
 <?php
 	require_once('php/orm/resources/Keychain.php');
 	
-	$loaded = false;
-	function setLoaded($val){
-		global $loaded;
-		$loaded = $val;
-	}
-
 	$colHeaders = array("SiteName", 
 		"SiteDescription", 
 		"Latitude", 
@@ -100,8 +94,7 @@
 		$tableArray = getArrayFromTable($siteID, $yearStart, $yearEnd, $arthropod);
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
-		setLoaded(true);
-		
+		header('Location: ../dataDownload');
 		ob_end_clean();
 		
 		$filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
@@ -440,21 +433,16 @@
 			var downloading = false;
 			function download(){
 				if(!downloading){
-					var downloading = true;
+					downloading = true;
 					$("#siteID")[0].value = getSelectValue($("#siteSelect"));
 					$("#yearStart")[0].value = yearStart;
 					$("#yearEnd")[0].value = yearEnd;
 					$("#arthropod")[0].value = getSelectValue($("#arthropodSelect"));
 					$("#downloadButton")[0].click();
 					setLoadingButton($("#shownDownloadButton")[0], "Download", true);
-					var loadedCheck = setInterval(function(){
-						console.log("<?php echo (($loaded) ? 'true' : 'false') . (is_bool($loaded) ? 'true' : 'false'); ?>");
-						if("<?php if($loaded){setLoaded(false);echo 'loaded';}else{echo 'not loaded';} ?>" == "loaded"){
-						   	setLoadingButton($("#shownDownloadButton")[0], "Download", false);
-							downloading = false;
-							clearInterval(loadedCheck);
-						}
-					}, 100);
+					queueNotice("confirmation", "We are preparing your file for download! If you've requested a lare file, please allow a moment before your download starts.");
+					$("#noticeInteractionBlock")[0].onclick = function(){};
+					$("#confirmation")[0].onclick = function(){};
 				}
 				
 			}
