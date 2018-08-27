@@ -292,6 +292,7 @@
 			var yearStart = 1980;
 			var yearEnd = (new Date()).getFullYear();
 			var currentSiteID = "%";
+			var sameYear = false;
 			function setYearFilter(){
 				var siteIDParameter = "";
 				if($("#siteSelect").length > 0){
@@ -312,6 +313,12 @@
 						data = JSON.parse(data.replace("true|", ""));
 						var date = new Date();
 						var currentYear = date.getFullYear();
+						
+						sameYear = false;
+						if(Number(data[0]) == Number(data[1])){
+							sameYear = true;
+						}
+						
 						var latestYear = Number(data[1]);
 						if(latestYear == 0){
 							latestYear = currentYear;
@@ -328,12 +335,20 @@
 							max: latestYear,
 							values: [earliestYear, latestYear],
 							slide: function(event, ui){
-								yearStart = ui.values[0];
+								var yearOffset = 0;
+								if(sameYear){
+									yearOffset = 1;
+								}
+								yearStart = ui.values[0] + yearOffset;
 								yearEnd = ui.values[1];
 								$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
 							}
 						});
-						$("#years")[0].innerHTML = earliestYear + " - " + latestYear;
+						var yearOffset = 0;
+						if(sameYear){
+							yearOffset = 1;
+						}
+						$("#years")[0].innerHTML = (earliestYear + yearOffset) + " - " + latestYear;
 						$("#yearsLoading").stop().fadeOut(0);
 						$("#yearsSlider").stop().fadeIn();
 						$("#years").stop().fadeIn();
