@@ -114,7 +114,6 @@
 		readfile($filename);
 		//note that each line in this data pertains to a specific arthropod sighting, so surveys which contained no arthropod sightings are excluded from this data.
 		unlink($filename);
-		redirect('../dataDownload');
 		exit();
 	}
 ?>
@@ -272,6 +271,13 @@
 				font-weight:700;
 				cursor:pointer;
 				border-radius:5px;
+			}
+			
+			#disclaimer{
+				font-size:10px;
+				color:#999;
+				font-family: 'Roboto Slab', serif;
+				margin-top:-20px;
 			}
 		</style>
 		<script>
@@ -449,21 +455,13 @@
 				});
 			}
 			
-			var downloading = false;
 			function download(){
-				if(!downloading){
-					downloading = true;
-					$("#siteID")[0].value = getSelectValue($("#siteSelect"));
-					$("#yearStart")[0].value = yearStart;
-					$("#yearEnd")[0].value = yearEnd;
-					$("#arthropod")[0].value = getSelectValue($("#arthropodSelect"));
-					$("#downloadButton")[0].click();
-					setLoadingButton($("#shownDownloadButton")[0], "Download", true);
-					queueNotice("confirmation", "We are preparing your file for download! If you've requested a lare file, please allow a moment before your download starts.");
-					$("#noticeInteractionBlock")[0].onclick = function(){};
-					$("#confirmation")[0].onclick = function(){};
-				}
-				
+				$("#siteID")[0].value = getSelectValue($("#siteSelect"));
+				$("#yearStart")[0].value = yearStart;
+				$("#yearEnd")[0].value = yearEnd;
+				$("#arthropod")[0].value = getSelectValue($("#arthropodSelect"));
+				$("#downloadButton")[0].click();
+				queueNotice("confirmation", "We are preparing your file for download! If you've requested a large file, please allow a minute before your download starts.");
 			}
 		</script>
 	</head>
@@ -593,6 +591,7 @@
 					</div>
 					
 					<button id="shownDownloadButton" onclick="download();">Download</button>
+					<div id="disclaimer">Data submitted by Caterpillars Count! participants are provided "as is", and no warranty, express or implied, is made regarding their accuracy, completeness, or reliability. These data are licensed under a <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode" target="_blank">Creative Commons CCZero 1.0 License</a>.</div>
 
 					<form action="" method="post" style="display:none;">
 						<input type="text" name="siteID" id="siteID"/>
