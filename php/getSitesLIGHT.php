@@ -9,5 +9,5 @@
 			"Name" => $sites[$i]->getName(),
 		);
 	}
-	die(json_encode($sitesArray));
+	die("true|" . json_encode($sitesArray));
 ?>
