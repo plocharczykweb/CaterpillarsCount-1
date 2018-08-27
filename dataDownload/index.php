@@ -32,8 +32,7 @@
 		$string = '<script type="text/javascript">';
 		$string .= 'window.location = "' . $url . '"';
 		$string .= '</script>';
-
-		echo $string;
+		die($string);
 	}
 
 	function getArrayFromTable($siteID, $yearStart, $yearEnd, $arthropod){
