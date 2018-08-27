@@ -84,7 +84,6 @@
 		$tableArray = getArrayFromTable();
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
-		die(json_encode($tableArray));
 		$filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
 		$fp = fopen($filename, 'w');
 		foreach ($tableArray as $line) fputcsv($fp, $line);
@@ -121,10 +120,95 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
+		<style>
+			.select{
+				width:100%;
+				-webkit-appearance: none;
+    				-moz-appearance: none;
+    				appearance: none;
+    				border-radius:4px;
+    				overflow:hidden;
+    				background:#fff;
+				border:1px solid #ddd;
+				border-bottom:2px solid #ddd;
+				color:#aaa;
+				box-sizing:border-box;
+				margin-top:5px;
+				cursor:pointer;
+			}
+			.select{
+				padding:0px;
+				color:#aaa;
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			}
+			.select .option{
+				max-height:0px;
+				overflow:hidden;
+			}
+			.select .option.selected{
+				max-height:250px;
+				overflow:hidden;
+			}
+			.select .option .value{
+				display:none;
+			}
+			.select .option .shown{
+				padding:16px;
+				position:relative;
+				font-size:16px;
+			}
+			.select .option:nth-of-type(even){
+				background:#f7f7f7;
+			}
+			.select .option .shown .image{
+				height:34px;
+				width:34px;
+				background-size:contain;
+				background-repeat:no-repeat;
+				background-position:center;
+				display:inline-block;
+				opacity:.4;
+				position:absolute;
+				right:20px;
+				top:10px;
+			}
+			.select .option .shown .text{
+				display:inline-block;
+			}
+		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
+				populateSurveySites();
 			});
+			
+			function populateSurveySites(){
+				$.get("../php/getSitesLIGHT.php", function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						var sites = JSON.parse(data.replace("true|", ""));
+						sites.sort(function(a, b){
+							if((a["Name"] + " (" + a["Region"] + ")").toLowerCase() < (b["Name"] + " (" + b["Region"] + ")").toLowerCase()){return -1;}
+							if((a["Name"] + " (" + a["Region"] + ")").toLowerCase() > (b["Name"] + " (" + b["Region"] + ")").toLowerCase()){return 1;}
+							return 0;
+						});
+						var htmlToAdd = "<div class=\"select\">";
+						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
+						for(var i = 0; i < sites.length; i++){
+							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);\">	<div class=\"value\">" + sites[i]["ID"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["Name"] + " (" + sites[i]["Region"] + ")</div></div></div>";
+						}
+						htmlToAdd += "</div>";
+						$("#siteFilter")[0].innerHTML = htmlToAdd;
+					}
+					else{
+						queueNotice("error", data.replace("false|", ""));
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				});
+			}
 		</script>
 	</head>
 	<body>
@@ -217,9 +301,34 @@
 			<div class="panel">
 				<h2>Data Download</h2>
 				<div class="tagline">...will be coming soon</div>
-        <form action="" method="post">
-          <input type="submit" name="download" value="Download" />
-        </form>
+				
+				<h3>Site:</h3>
+				<div id="siteFilter"></div>
+				
+				<h3>Year:</h3>
+				
+				<h3>Arthropod:</h3>
+				<div class="select" id="arthropodSearch">
+					<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
+					<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
+				</div>
+				
+				<form action="" method="post">
+					<input type="submit" name="download" value="Download" />
+				</form>
 			</div>
 		</main>
 		<footer>
