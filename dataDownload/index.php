@@ -1,5 +1,7 @@
 <?php
 	require_once('php/orm/resources/Keychain.php');
+	
+	$loaded = false;
 
 	$colHeaders = array("SiteName", 
 		"SiteDescription", 
@@ -95,8 +97,9 @@
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
 		
+		$loaded = true;
+		
 		ob_end_clean();
-		header('Location: #downloadStarted');
 		
 		$filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
 		$fp = fopen($filename, 'w');
@@ -431,13 +434,26 @@
 				});
 			}
 			
+			var downloading = false;
 			function download(){
-				$("#siteID")[0].value = getSelectValue($("#siteSelect"));
-				$("#yearStart")[0].value = yearStart;
-				$("#yearEnd")[0].value = yearEnd;
-				$("#arthropod")[0].value = getSelectValue($("#arthropodSelect"));
-				$("#downloadButton")[0].click();
-				queueNotice("confirmation", "We are preparing your data for download! If you've requested a lot of data, please allow a minute for data preparation before your file starts downloading.");
+				if(!downloading){
+					var downloading = true;
+					$("#siteID")[0].value = getSelectValue($("#siteSelect"));
+					$("#yearStart")[0].value = yearStart;
+					$("#yearEnd")[0].value = yearEnd;
+					$("#arthropod")[0].value = getSelectValue($("#arthropodSelect"));
+					$("#downloadButton")[0].click();
+					setLoadingButton($("#shownDownloadButton")[0], "Download", true);
+					var loadedCheck = setInterval(function(){
+						if(<?php echo json_encode($loaded); ?>){
+						   	<?php $loaded = false; ?>
+						   	setLoadingButton($("#shownDownloadButton")[0], "Download", false);
+							downloading = false;
+							clearInterval(loadedCheck);
+						}
+					}, 100);
+				}
+				
 			}
 		</script>
 	</head>
