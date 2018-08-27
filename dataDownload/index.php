@@ -278,6 +278,7 @@
 				color:#999;
 				font-family: 'Roboto Slab', serif;
 				margin-top:-20px;
+				text-align:center;
 			}
 		</style>
 		<script>
