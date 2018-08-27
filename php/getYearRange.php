@@ -5,5 +5,5 @@
   
 	$query = mysqli_query($dbconn, "SELECT MIN(YEAR(LocalDate)) AS EarliestYear, MAX(YEAR(LocalDate)) AS LatestYear FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK LIKE '$siteID'");
 	$row = mysqli_fetch_assoc($query);
-  die(json_encode(array($row["EarliestYear"], $row["LatestYear"])));
+	die("true|" . json_encode(array($row["EarliestYear"], $row["LatestYear"])));
 ?>
