@@ -335,13 +335,11 @@
 							max: latestYear,
 							values: [earliestYear, latestYear],
 							slide: function(event, ui){
-								var yearOffset = 0;
-								if(sameYear){
-									yearOffset = 1;
+								if(!sameYear){
+									yearStart = ui.values[0];
+									yearEnd = ui.values[1];
+									$("#years")[0].innerHTML = yearStart + " - " + yearEnd;
 								}
-								yearStart = ui.values[0] + yearOffset;
-								yearEnd = ui.values[1];
-								$("#years")[0].innerHTML = yearStart + " - " + yearEnd;
 							}
 						});
 						var yearOffset = 0;
