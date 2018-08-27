@@ -7,6 +7,7 @@
 		$sitesArray[] = array(
 			"ID" => $sites[$i]->getID(),
 			"Name" => $sites[$i]->getName(),
+			"Region" => $sites[$i]->getRegion(),
 		);
 	}
 	die("true|" . json_encode($sitesArray));
