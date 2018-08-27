@@ -223,6 +223,7 @@
 				color:#999;
 				text-transform:uppercase;
 				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				display:none;
 			}
 			
 			#yearsSlider.rangeSlider{
@@ -274,7 +275,7 @@
 			}
 			
 			#disclaimer{
-				font-size:10px;
+				font-size:18px;
 				color:#999;
 				font-family: 'Roboto Slab', serif;
 				margin-top:-20px;
@@ -290,8 +291,24 @@
 			
 			var yearStart = 1980;
 			var yearEnd = (new Date()).getFullYear();
+			var lastSiteID = "%";
 			function setYearFilter(){
-				$.get("../php/getEarliestYear.php", function(data){
+				var siteIDParameter = "";
+				if($("#siteSelect").length > 0){
+					var siteID = getSelectValue($("#siteSelect"));
+					if(siteID == lastSiteID){
+						return false;
+					}
+					if(siteID != '%'){
+						siteIDParameter = "?siteID=" + Number(siteID);
+					}
+				}
+				
+				$("#yearsLoading").stop().fadeIn(300);
+				$("#yearsSlider")[0].outerHTML = "<div id=\"yearsSlider\" class=\"rangeSlider\"></div>";
+				$("#years")[0].outerHTML = "<div id=\"years\">" + yearStart + " - " + yearEnd + "</div>";
+				
+				$.get("../php/getEarliestYear.php" + siteIDParameter, function(data){
 					//success
 					var date = new Date();
 					var currentYear = date.getFullYear();
@@ -309,11 +326,13 @@
 						}
 					});
 					$("#years")[0].innerHTML = earliestYear + " - " + currentYear;
-					$("#yearsLoading").fadeOut(0);
-					$("#yearsSlider").fadeIn();
+					$("#yearsLoading").stop().fadeOut(0);
+					$("#yearsSlider").stop().fadeIn();
+					$("#years").stop().fadeIn();
 				})
 				.fail(function(){
 					//error
+					$("#yearsLoading").stop().fadeOut(0);
 					$("#years")[0].innerHTML = "Could not load year filter.";
 				})
 				.always(function() {
@@ -439,9 +458,9 @@
 							return 0;
 						});
 						var htmlToAdd = "<div class=\"select\" id=\"siteSelect\">";
-						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\">%</div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">All sites</div></div></div>";
+						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);setYearFilter();\">	<div class=\"value\">%</div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">All sites</div></div></div>";
 						for(var i = 0; i < sites.length; i++){
-							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);\">	<div class=\"value\">" + sites[i]["ID"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["Name"] + " (" + sites[i]["Region"] + ")</div></div></div>";
+							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);setYearFilter();\">	<div class=\"value\">" + sites[i]["ID"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["Name"] + " (" + sites[i]["Region"] + ")</div></div></div>";
 						}
 						htmlToAdd += "</div>";
 						$("#siteFilter")[0].innerHTML = htmlToAdd;
@@ -570,7 +589,7 @@
 						<img src="../images/rolling.svg"/>
 					</div>
 					<div id="yearsSlider" class="rangeSlider"></div>
-					<div id="years">Jan - Dec</div>
+					<div id="years"></div>
 
 					<h3>Arthropod:</h3>
 					<div class="select" id="arthropodSelect">
