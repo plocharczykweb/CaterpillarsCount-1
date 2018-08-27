@@ -121,6 +121,10 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
 		<style>
+			h3{
+				display:block;
+			}
+			
 			.select{
 				width:100%;
 				-webkit-appearance: none;
@@ -175,12 +179,78 @@
 			.select .option .shown .text{
 				display:inline-block;
 			}
+			
+			#yearsSlider.rangeSlider{
+				margin:20px;
+				height:2px;
+				border:0px none transparent;
+				background:rgba(0,0,0,0.1);
+				cursor:pointer;
+			}
+			#yearsSlider.rangeSlider{
+				display:none;
+			}
+			.rangeSlider .ui-slider-range{
+				background:#777;
+				border-radius:0px;
+			}
+			.rangeSlider .ui-slider-handle{
+				cursor: -webkit-grab; cursor: grab;
+				background:#eee;
+				outline:none;
+				border:0px none transparent;
+				height:16px;
+				width:16px;
+				border-radius:9999px;
+				top:-8px;
+				margin-left:-8px;
+				border:1px solid #ddd;
+				-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
+				-moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
+				box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.22);
+			}
+			.rangeSlider .ui-slider-handle:active{
+				cursor: -webkit-grabbing; cursor: grabbing;
+			}
 		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				populateSurveySites();
+				setYearFilter();
 			});
+			
+			var yearStart = 1980;
+			var yearEnd = (new Date()).getFullYear();
+			function setYearFilter(){
+				$.get("../php/getEarliestYear.php", function(data){
+					//success
+					var date = new Date();
+					var currentYear = date.getFullYear();
+					var earliestYear = Math.min(Number(data), (currentYear - 1));
+					yearStart = earliestYear;
+					$("#yearsSlider").slider({
+						range: true,
+						min: earliestYear,
+						max: currentYear,
+						values: [earliestYear, currentYear],
+						slide: function(event, ui){
+							yearStart = ui.values[0];
+							yearEnd = ui.values[1];
+							$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
+						}
+					});
+					$("#years")[0].innerHTML = earliestYear + " - " + currentYear;
+					$("#yearsSlider").fadeIn();
+				})
+				.fail(function(){
+					//error
+					$("#years")[0].innerHTML = "Could not load year filter.";
+				})
+				.always(function() {
+					//complete
+				});
+			}
 			
 			function toggleMaxHeight(elements){
 				//switch the max height of all elements specified as "elements" between 0px and 250px
@@ -407,35 +477,38 @@
 		<main>
 			<div class="panel">
 				<h2>Data Download</h2>
-				<div class="tagline">...will be coming soon</div>
-				
-				<h3>Site:</h3>
-				<div id="siteFilter"></div>
-				
-				<h3>Year:</h3>
-				
-				<h3>Arthropod:</h3>
-				<div class="select" id="arthropodSearch">
-					<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
-					<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
+				<div class="tagline">Just select your filters and then download!</div>
+				<div class="content">
+					<h3>Site:</h3>
+					<div id="siteFilter"></div>
+
+					<h3>Year:</h3>
+					<div id="yearsSlider" class="rangeSlider"></div>
+					<div id="years">Jan - Dec</div>
+
+					<h3>Arthropod:</h3>
+					<div class="select" id="arthropodSearch">
+						<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">beetle</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/beetle.png');"></div>		<div class="text">Beetles</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">caterpillar</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/caterpillar.png');"></div>		<div class="text">Caterpillars</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">daddylonglegs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/daddylonglegs.png');"></div>	<div class="text">Daddy longlegs</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">fly</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/fly.png');"></div>			<div class="text">Flies</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">grasshopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/grasshopper.png');"></div>		<div class="text">Grasshoppers, Crickets</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">leafhopper</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/leafhopper.png');"></div>		<div class="text">Leaf Hoppers and Cicadas</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">moths</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/moths.png');"></div>		<div class="text">Moths, Butterflies</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">spider</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/spider.png');"></div>		<div class="text">Spiders</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">truebugs</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/truebugs.png');"></div>		<div class="text">True Bugs</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
+						<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
+					</div>
+
+					<form action="" method="post">
+						<input type="submit" name="download" value="Download" />
+					</form>
 				</div>
-				
-				<form action="" method="post">
-					<input type="submit" name="download" value="Download" />
-				</form>
 			</div>
 		</main>
 		<footer>
