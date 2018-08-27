@@ -341,7 +341,7 @@
 								}
 								yearStart = ui.values[0] + yearOffset;
 								yearEnd = ui.values[1];
-								$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
+								$("#years")[0].innerHTML = yearStart + " - " + yearEnd;
 							}
 						});
 						var yearOffset = 0;
