@@ -326,14 +326,14 @@
 							range: true,
 							min: earliestYear,
 							max: latestYear,
-							values: [earliestYear, currentYear],
+							values: [earliestYear, latestYear],
 							slide: function(event, ui){
 								yearStart = ui.values[0];
 								yearEnd = ui.values[1];
 								$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
 							}
 						});
-						$("#years")[0].innerHTML = earliestYear + " - " + currentYear;
+						$("#years")[0].innerHTML = earliestYear + " - " + latestYear;
 						$("#yearsLoading").stop().fadeOut(0);
 						$("#yearsSlider").stop().fadeIn();
 						$("#years").stop().fadeIn();
