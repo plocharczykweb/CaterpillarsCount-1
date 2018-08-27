@@ -2,6 +2,10 @@
 	require_once('php/orm/resources/Keychain.php');
 	
 	$loaded = false;
+	function setLoaded($val){
+		global $loaded;
+		$loaded = $val;
+	}
 
 	$colHeaders = array("SiteName", 
 		"SiteDescription", 
@@ -82,8 +86,6 @@
 	}
 
 	if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['download'])){
-		global $loaded;
-		
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		
 		$siteID = $_POST["siteID"];
@@ -98,8 +100,7 @@
 		$tableArray = getArrayFromTable($siteID, $yearStart, $yearEnd, $arthropod);
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
-		
-		$loaded = true;
+		setLoaded(true);
 		
 		ob_end_clean();
 		
@@ -447,8 +448,8 @@
 					$("#downloadButton")[0].click();
 					setLoadingButton($("#shownDownloadButton")[0], "Download", true);
 					var loadedCheck = setInterval(function(){
-						console.log("<?php echo (($loaded) ? 'true' : 'false'); ?>");
-						if("<?php if($loaded){$loaded = false;echo 'loaded';}else{echo 'not loaded';} ?>" == "loaded"){
+						console.log("<?php echo (($loaded) ? 'true' : 'false') . (is_bool($loaded) ? 'true' : 'false'); ?>");
+						if("<?php if($loaded){setLoaded(false);echo 'loaded';}else{echo 'not loaded';} ?>" == "loaded"){
 						   	setLoadingButton($("#shownDownloadButton")[0], "Download", false);
 							downloading = false;
 							clearInterval(loadedCheck);
