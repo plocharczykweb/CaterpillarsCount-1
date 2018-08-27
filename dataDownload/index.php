@@ -27,6 +27,14 @@
 		"IsCaterpillarAndIsHairy", 
 		"IsCaterpillarAndIsInLeafRoll", 
 		"IsCaterpillarAndIsInSilkTent");
+	
+	function redirect($url){
+		$string = '<script type="text/javascript">';
+		$string .= 'window.location = "' . $url . '"';
+		$string .= '</script>';
+
+		echo $string;
+	}
 
 	function getArrayFromTable($siteID, $yearStart, $yearEnd, $arthropod){
 		global $colHeaders;
@@ -107,7 +115,7 @@
 		readfile($filename);
 		//note that each line in this data pertains to a specific arthropod sighting, so surveys which contained no arthropod sightings are excluded from this data.
 		unlink($filename);
-		header('Location: ../dataDownload');
+		redirect('../dataDownload');
 		exit();
 	}
 ?>
