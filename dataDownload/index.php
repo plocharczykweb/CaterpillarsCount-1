@@ -222,6 +222,21 @@
 			.rangeSlider .ui-slider-handle:active{
 				cursor: -webkit-grabbing; cursor: grabbing;
 			}
+			
+			intput[type=submit]{
+				display:block;
+				margin:50px auto;
+				border:0px none transparent;
+				padding:20px 40px;
+				font-size:18px;
+				background:#fed136;
+				color:#fff;
+				text-transform:uppercase;
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-weight:700;
+				cursor:pointer;
+				border-radius:5px;
+			}
 		</style>
 		<script>
 			$(document).ready(function(){
