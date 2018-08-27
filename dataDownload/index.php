@@ -291,44 +291,57 @@
 			
 			var yearStart = 1980;
 			var yearEnd = (new Date()).getFullYear();
-			var lastSiteID = "%";
+			var currentSiteID = "%";
 			function setYearFilter(){
 				var siteIDParameter = "";
 				if($("#siteSelect").length > 0){
 					var siteID = getSelectValue($("#siteSelect"));
-					if(siteID == lastSiteID){
+					if(siteID == currentSiteID){
 						return false;
 					}
-					if(siteID != '%'){
-						siteIDParameter = "?siteID=" + Number(siteID);
-					}
+					currentSiteID = siteID;
 				}
 				
 				$("#yearsLoading").stop().fadeIn(300);
 				$("#yearsSlider")[0].outerHTML = "<div id=\"yearsSlider\" class=\"rangeSlider\"></div>";
 				$("#years")[0].outerHTML = "<div id=\"years\">" + yearStart + " - " + yearEnd + "</div>";
 				
-				$.get("../php/getEarliestYear.php" + siteIDParameter, function(data){
+				$.get("../php/getYearRange.php?siteID=" + currentSiteID, function(data){
 					//success
-					var date = new Date();
-					var currentYear = date.getFullYear();
-					var earliestYear = Math.min(Number(data), (currentYear - 1));
-					yearStart = earliestYear;
-					$("#yearsSlider").slider({
-						range: true,
-						min: earliestYear,
-						max: currentYear,
-						values: [earliestYear, currentYear],
-						slide: function(event, ui){
-							yearStart = ui.values[0];
-							yearEnd = ui.values[1];
-							$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
+					if(data.indexOf("true|") == 0){
+						data = JSON.parse(data.replace("true|", ""));
+						var date = new Date();
+						var currentYear = date.getFullYear();
+						var latestYear = Number(data[1]);
+						if(latestYear == 0){
+							latestYear = currentYear;
 						}
-					});
-					$("#years")[0].innerHTML = earliestYear + " - " + currentYear;
-					$("#yearsLoading").stop().fadeOut(0);
-					$("#yearsSlider").stop().fadeIn();
-					$("#years").stop().fadeIn();
+						var earliestYear = Math.min(Number(data[0]), (currentYear - 1));
+						if(earliestYear == 0){
+							earliestYear = (latestYear - 1);
+						}
+						yearStart = earliestYear;
+						yearEnd = latestYear;
+						$("#yearsSlider").slider({
+							range: true,
+							min: earliestYear,
+							max: currentYear,
+							values: [earliestYear, currentYear],
+							slide: function(event, ui){
+								yearStart = ui.values[0];
+								yearEnd = ui.values[1];
+								$("#years")[0].innerHTML = ui.values[0] + " - " + ui.values[1];
+							}
+						});
+						$("#years")[0].innerHTML = earliestYear + " - " + currentYear;
+						$("#yearsLoading").stop().fadeOut(0);
+						$("#yearsSlider").stop().fadeIn();
+						$("#years").stop().fadeIn();
+					}
+					else{
+						$("#yearsLoading").stop().fadeOut(0);
+						$("#years")[0].innerHTML = "Could not load year filter.";
+					}
 				})
 				.fail(function(){
 					//error
