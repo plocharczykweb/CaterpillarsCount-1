@@ -29,6 +29,8 @@ root -> index.html is the homepage of the website.
 
 root -> composer.json draws in the code necessary to perform email functions in PHP with Carolina CloudApps.
 
+root -> phpMyAdmin is your phpMyAdmin interface available at https://caterpillarscount.unc.edu/phpMyAdmin.
+
 root -> php -> orm -> resources -> mailing.php provides functions that allow you to quickly and easily send emails with PHP.
 
 root -> api -> users.php exists to stop users from creating accounts through the *old* Caterpillars Count! website. At some point in the process of creating an account through the old website, users are directed to the absolute URL "https://caterpillarscount.unc.edu/api/users.php", so we made that page into a notice that we have a new website that they should sign up through.
