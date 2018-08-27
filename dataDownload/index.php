@@ -95,7 +95,7 @@
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
 		
-		echo "<script>setLoadingButton($(\"#shownDownloadButton\")[0], \"Download\", false);</script>"
+		echo "<script>setLoadingButton($(\"#shownDownloadButton\")[0], \"Download\", false);</script>";
 		
 		ob_end_clean();
 		
