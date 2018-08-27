@@ -80,7 +80,6 @@
 	}
 
 	if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['download'])){
-		ob_end_clean();
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		
 		$siteID = $_POST["siteID"];
@@ -95,6 +94,11 @@
 		$tableArray = getArrayFromTable($siteID, $yearStart, $yearEnd, $arthropod);
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
+		
+		echo "<script>setLoadingButton($(\"#shownDownloadButton\")[0], \"Download\", false);</script>"
+		
+		ob_end_clean();
+		
 		$filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
 		$fp = fopen($filename, 'w');
 		foreach ($tableArray as $line) fputcsv($fp, $line);
@@ -429,6 +433,7 @@
 			}
 			
 			function download(){
+				setLoadingButton($("#shownDownloadButton")[0], "Download", true);
 				$("#siteID")[0].value = getSelectValue($("#siteSelect"));
 				$("#yearStart")[0].value = yearStart;
 				$("#yearEnd")[0].value = yearEnd;
@@ -554,7 +559,7 @@
 						<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
 					</div>
 					
-					<button onclick="download();">Download</button>
+					<button id="shownDownloadButton" onclick="download();">Download</button>
 
 					<form action="" method="post" style="display:none;">
 						<input type="text" name="siteID" id="siteID"/>
