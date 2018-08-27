@@ -223,7 +223,7 @@
 				cursor: -webkit-grabbing; cursor: grabbing;
 			}
 			
-			intput[type=submit]{
+			input[type=submit]{
 				display:block;
 				margin:50px auto;
 				border:0px none transparent;
