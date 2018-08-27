@@ -64,7 +64,6 @@
 			}
 			$tableArray[] = $rowArray;
 		}
-		echo "<script>setLoadingButton($('#shownDownloadButton')[0], 'Download', false);</script>";
 		return $tableArray;
 	}
 
@@ -432,12 +431,12 @@
 			}
 			
 			function download(){
-				setLoadingButton($("#shownDownloadButton")[0], "Download", true);
 				$("#siteID")[0].value = getSelectValue($("#siteSelect"));
 				$("#yearStart")[0].value = yearStart;
 				$("#yearEnd")[0].value = yearEnd;
 				$("#arthropod")[0].value = getSelectValue($("#arthropodSelect"));
 				$("#downloadButton")[0].click();
+				queueNotice("success", "We are preparing your data for download! If you've requested a lot of data, please allow a minute for data preparation before your file starts downloading.");
 			}
 		</script>
 	</head>
