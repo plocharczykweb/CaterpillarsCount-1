@@ -96,6 +96,7 @@
 		array_unshift($tableArray, $colHeaders);
 		
 		ob_end_clean();
+		header('Location: #downloadStarted');
 		
 		$filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
 		$fp = fopen($filename, 'w');
