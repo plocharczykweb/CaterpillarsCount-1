@@ -323,17 +323,24 @@
 						if(latestYear == 0){
 							latestYear = currentYear;
 						}
-						var earliestYear = Math.min(Number(data[0]), (currentYear - 1));
-						if(earliestYear == 0 || earliestYear == latestYear){
-							earliestYear = (latestYear - 1);
+						var earliestYear = Number(data[0]);
+						if(earliestYear == 0){
+							earliestYear = latestYear;
 						}
+						
 						yearStart = earliestYear;
 						yearEnd = latestYear;
+						
+						var minYear = earliestYear;
+						if(sameYear){
+							minYear--;
+						}
+						
 						$("#yearsSlider").slider({
 							range: true,
-							min: earliestYear,
+							min: minYear,
 							max: latestYear,
-							values: [earliestYear, latestYear],
+							values: [minYear, latestYear],
 							slide: function(event, ui){
 								if(!sameYear){
 									yearStart = ui.values[0];
@@ -342,11 +349,7 @@
 								}
 							}
 						});
-						var yearOffset = 0;
-						if(sameYear){
-							yearOffset = 1;
-						}
-						$("#years")[0].innerHTML = (earliestYear + yearOffset) + " - " + latestYear;
+						$("#years")[0].innerHTML = earliestYear + " - " + latestYear;
 						$("#yearsLoading").stop().fadeOut(0);
 						$("#yearsSlider").stop().fadeIn();
 						$("#years").stop().fadeIn();
