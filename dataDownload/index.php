@@ -64,6 +64,7 @@
 			}
 			$tableArray[] = $rowArray;
 		}
+		echo "<script>setLoadingButton($('#shownDownloadButton')[0], 'Download', false);</script>";
 		return $tableArray;
 	}
 
@@ -94,8 +95,6 @@
 		$tableArray = getArrayFromTable($siteID, $yearStart, $yearEnd, $arthropod);
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
-		
-		echo "<script>setLoadingButton($(\"#shownDownloadButton\")[0], \"Download\", false);</script>";
 		
 		ob_end_clean();
 		
@@ -536,7 +535,7 @@
 					<h3>Site:</h3>
 					<div id="siteFilter"></div>
 
-					<h3>Years:</h3>
+					<h3>Year Range:</h3>
 					<div id="yearsSlider" class="rangeSlider"></div>
 					<div id="years">Jan - Dec</div>
 
