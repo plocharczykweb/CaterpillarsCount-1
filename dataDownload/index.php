@@ -445,8 +445,8 @@
 					$("#downloadButton")[0].click();
 					setLoadingButton($("#shownDownloadButton")[0], "Download", true);
 					var loadedCheck = setInterval(function(){
-						if(<?php echo json_encode($loaded); ?>){
-						   	<?php $loaded = false; ?>
+						console.log("<?php echo $loaded; ?>");
+						if("<?php if($loaded){$loaded = false;echo 'loaded';}else{echo 'not loaded';} ?>" == "loaded"){
 						   	setLoadingButton($("#shownDownloadButton")[0], "Download", false);
 							downloading = false;
 							clearInterval(loadedCheck);
