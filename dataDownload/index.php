@@ -317,7 +317,7 @@
 							latestYear = currentYear;
 						}
 						var earliestYear = Math.min(Number(data[0]), (currentYear - 1));
-						if(earliestYear == 0){
+						if(earliestYear == 0 || earliestYear == latestYear){
 							earliestYear = (latestYear - 1);
 						}
 						yearStart = earliestYear;
