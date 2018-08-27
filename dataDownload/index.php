@@ -182,6 +182,113 @@
 				populateSurveySites();
 			});
 			
+			function toggleMaxHeight(elements){
+				//switch the max height of all elements specified as "elements" between 0px and 250px
+				elements = $(elements);
+				for(var i = 0; i < elements.length; i++){
+					if(elements.eq(i)[0].style.maxHeight != "250px"){
+						elements.eq(i).stop().animate({maxHeight:"250px"});
+					}
+					else{
+						elements.eq(i).stop().animate({maxHeight:"0px"});
+					}
+				}
+			}
+			var selectToggling = false;
+			function autoOpenSelect(selectElement){
+				if(!selectToggling){
+					selectToggling = true;
+					if(getSelectValue(selectElement) == ""){
+						if($(selectElement)[0].className.indexOf("active") > -1){
+							var activeClassName = $(selectElement)[0].className.substring($(selectElement)[0].className.indexOf("active"));
+							if(activeClassName.indexOf(" ") > -1){
+								activeClassName = activeClassName.substring(0, activeClassName.indexOf(" "));
+							}
+							$(selectElement)[0].className = $(selectElement)[0].className.replace(activeClassName, "").trim();
+						}
+						$(selectElement)[0].className = $(selectElement)[0].className + " active" + (getYPosition(selectElement) - 100);
+						elements = $(selectElement).find(".option").animate({maxHeight:"250px"}, "swing", function(){selectToggling = false;});
+					}
+				}
+			}
+			function selectOption(optionElement){
+				if(!selectToggling){
+					selectToggling = true;
+					//select an option in a custiom .select or open the custom .select
+					if(optionElement.parentNode.className.indexOf("active") > -1){
+						var preScrollTop = Number(optionElement.parentNode.className.replace(/\D/g, ""));
+						optionElement.parentNode.className = optionElement.parentNode.className.replace("active" + preScrollTop, "").trim();
+						$('html, body').animate({ scrollTop: preScrollTop }, 400);
+					}
+					else{
+						optionElement.parentNode.className = optionElement.parentNode.className + " active" + $(document).scrollTop();
+					}
+					toggleMaxHeight($(optionElement.parentNode).find(".option"));
+					var selectedElement = $(optionElement.parentNode).find(".selected").eq(0)[0];
+					selectedElement.className = selectedElement.className.replace("selected", "").trim();
+					optionElement.className = optionElement.className + " selected";
+					$(optionElement).stop().animate({maxHeight:"250px"}, "swing", function(){selectToggling = false});
+				}
+			}
+			function setSelectValue(selectElement, val){
+				//set the value of a custom .select and show the selected option
+				selectElement = $(selectElement)[0];
+				var options = selectElement.getElementsByClassName("option");
+				for(var i = 0; i < options.length; i++){
+					options[i].className = "option";
+					options[i].style.maxHeight = "0px";
+					options[i].style.overflow = "hidden";
+					if(options[i].getElementsByClassName("value")[0].innerHTML == val){
+						options[i].className = "option selected";
+						options[i].style.maxHeight = "250px";
+						options[i].style.overflow = "hidden";
+					}
+				}
+			}
+			function getSelectValue(selectElement){
+				//return the value of a custom .select
+				if($(selectElement).find(".selected .value").length < 1){
+					return "";
+				}
+				return $(selectElement).find(".selected .value")[0].innerHTML;
+			}
+			function getSelectText(selectElement){
+				//return the show text of a custom .select
+				return $(selectElement).find(".selected .text")[0].innerHTML;
+			}
+			function getSelectTextByValue(selectElement, val){
+				//given the value of a custom .select, return that values corresponding text
+				selectElement = $(selectElement)[0];
+				var options = selectElement.getElementsByClassName("option");
+				for(var i = 0; i < options.length; i++){
+					if($(options[i]).find(".value").eq(0)[0].innerHTML == val){
+						return $(options[i]).find(".text").eq(0)[0].innerHTML;
+					}
+				}
+			}
+			function getSelectValueByText(selectElement, txt){
+				//given the value of a custom .select, return that values corresponding text
+				selectElement = $(selectElement)[0];
+				var options = selectElement.getElementsByClassName("option");
+				for(var i = 0; i < options.length; i++){
+					if($(options[i]).find(".text").eq(0)[0].innerHTML == txt){
+						return $(options[i]).find(".value").eq(0)[0].innerHTML;
+					}
+				}
+			}
+			function getSelectImageByText(selectElement, txt){
+				//given the value of a custom .select, return that values corresponding text
+				selectElement = $(selectElement)[0];
+				var options = selectElement.getElementsByClassName("option");
+				for(var i = 0; i < options.length; i++){
+					if($(options[i]).find(".text").eq(0)[0].innerHTML == txt){
+						bgimg = $(options[i]).find(".image").eq(0)[0].style.backgroundImage;
+						return bgimg.substring(bgimg.indexOf("(") + 1, bgimg.lastIndexOf(")")).replace(/"/g, "").replace(/'/g, "");
+						//TODO: remove this line. "
+					}
+				}
+			}
+			
 			function populateSurveySites(){
 				$.get("../php/getSitesLIGHT.php", function(data){
 					//success
