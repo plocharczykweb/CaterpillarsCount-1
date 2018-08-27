@@ -3,6 +3,9 @@ Created by Aaron Plocharczyk for CaterpillarsCount! at UNC Chapel Hill.
 All rights reserved.
 
 
+- - - -
+
+
 ## GENERAL DIRECTORY ORGANIZATION ##
 Working our way from back end to front end, the general flow of this system is as follows:
 
@@ -30,4 +33,4 @@ root -> php -> orm -> resources -> mailing.php provides functions that allow you
 
 root -> api -> users.php exists to stop users from creating accounts through the *old* Caterpillars Count! website. At some point in the process of creating an account through the old website, users are directed to the absolute URL "https://caterpillarscount.unc.edu/api/users.php", so we made that page into a notice that we have a new website that they should sign up through.
 
-root -> old is a copy of the old website's git repository. This copy is not being used for anything. The original files for the old website are available at https://github.com/hurlbertlab/caterpillars-count. I did not create the old website; I only created the new one. The old website was created by other developers for Caterpillars Count!
+root -> old is a copy of the old website's git repository. This copy is not being used for anything. The original files for the old website are available at https://github.com/hurlbertlab/caterpillars-count. I, Aaron Plocharczyk, did not create the old website; I only created the new one. The old website was created by other developers for Caterpillars Count!
