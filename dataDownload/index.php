@@ -82,7 +82,10 @@
 	if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['download'])){
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		
-		$siteID = intval($_POST["siteID"]);
+		$siteID = $_POST["siteID"];
+		if($siteID != "%"){
+			$siteID = intval($siteID);
+		}
 		$yearStart = intval($_POST["yearStart"]);
 		$yearEnd = intval($_POST["yearEnd"]);
 		$arthropod = mysqli_real_escape_string($dbconn, $_POST["arthropod"]);
@@ -408,7 +411,7 @@
 							return 0;
 						});
 						var htmlToAdd = "<div class=\"select\" id=\"siteSelect\">";
-						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">All sites</div></div></div>";
+						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\">%</div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">All sites</div></div></div>";
 						for(var i = 0; i < sites.length; i++){
 							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);\">	<div class=\"value\">" + sites[i]["ID"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["Name"] + " (" + sites[i]["Region"] + ")</div></div></div>";
 						}
@@ -429,7 +432,7 @@
 				$("#siteID")[0].value = getSelectValue($("#siteSelect"));
 				$("#yearStart")[0].value = yearStart;
 				$("#yearEnd")[0].value = yearEnd;
-				$("#arthropodSelect")[0].value = getSelectValue($("#arthropodSelect"));
+				$("#arthropod")[0].value = getSelectValue($("#arthropodSelect"));
 				$("#downloadButton")[0].click();
 			}
 		</script>
