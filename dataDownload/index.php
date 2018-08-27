@@ -114,6 +114,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 		<link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Fanwood+Text:400i" rel="stylesheet">
@@ -482,7 +483,7 @@
 					<h3>Site:</h3>
 					<div id="siteFilter"></div>
 
-					<h3>Year:</h3>
+					<h3>Years:</h3>
 					<div id="yearsSlider" class="rangeSlider"></div>
 					<div id="years">Jan - Dec</div>
 
