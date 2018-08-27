@@ -275,11 +275,7 @@
 			}
 			
 			#disclaimer{
-				font-size:18px;
-				color:#999;
-				font-family: 'Roboto Slab', serif;
 				margin-top:-20px;
-				text-align:center;
 			}
 		</style>
 		<script>
@@ -640,7 +636,7 @@
 					</div>
 					
 					<button id="shownDownloadButton" onclick="download();">Download</button>
-					<div id="disclaimer">Data submitted by Caterpillars Count! participants are provided "as is", and no warranty, express or implied, is made regarding their accuracy, completeness, or reliability. These data are licensed under a <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode" target="_blank">Creative Commons CCZero 1.0 License</a>.</div>
+					<p id="disclaimer">Data submitted by Caterpillars Count! participants are provided "as is", and no warranty, express or implied, is made regarding their accuracy, completeness, or reliability. These data are licensed under a <a href="https://creativecommons.org/publicdomain/zero/1.0/legalcode" target="_blank">Creative Commons CCZero 1.0 License</a>.</p>
 
 					<form action="" method="post" style="display:none;">
 						<input type="text" name="siteID" id="siteID"/>
