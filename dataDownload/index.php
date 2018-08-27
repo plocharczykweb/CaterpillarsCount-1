@@ -1,6 +1,5 @@
 <?php
 	require_once('php/orm/resources/Keychain.php');
-	//require_once('orm/resources/mailing.php');
 
 	$colHeaders = array("SiteName", 
 		"SiteDescription", 
@@ -36,7 +35,7 @@
 
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT Survey.ID, Survey.LocalDate, SUBSTR(Survey.LocalTime, 1, 5) AS `LocalTime`, Plant.Code AS SurveyLocationCode, Plant.Circle, Plant.Orientation, Survey.PlantSpecies AS PlantSpeciesMarkedByObserver, Plant.Species AS OfficialPlantSpecies, Site.Name AS SiteName, Site.Description AS SiteDescription, Site.Latitude, Site.Longitude, Site.Region, ArthropodSighting.Group AS ArthropodGroup, ArthropodSighting.Length AS ArthropodLength, ArthropodSighting.Quantity AS ArthropodQuantity, IF(ArthropodSighting.PhotoURL='','',CONCAT('https://caterpillarscount.unc.edu/images/arthropods/', ArthropodSighting.PhotoURL)) AS ArthropodPhotoURL, ArthropodSighting.Notes AS ArthropodNotes, ArthropodSighting.Hairy AS IsCaterpillarAndIsHairy, ArthropodSighting.Rolled AS IsCaterpillarAndIsInLeafRoll, ArthropodSighting.Tented AS IsCaterpillarAndIsInSilkTent, Survey.ObservationMethod, Survey.Notes AS SurveyNotes, Survey.WetLeaves, Survey.NumberOfLeaves, Survey.AverageLeafLength, Survey.HerbivoryScore FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID JOIN Site ON Plant.SiteFK=Site.ID WHERE Site.ID<>'2' ORDER BY Survey.LocalDate DESC, Survey.LocalTime DESC");
-
+		
 		//ROWS
 		$surveyIDsWithSightings = array();
 		while ($row = mysqli_fetch_assoc($query)){
@@ -81,6 +80,16 @@
 	}
 
 	if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['download'])){
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		
+		$siteID = intval($_POST["siteID"]);
+		$yearStart = intval($_POST["yearStart"]);
+		$yearEnd = intval($_POST["yearEnd"]);
+		$arthropod = mysqli_real_escape_string($dbconn, $_POST["arthropod"]);
+		mysqli_close($dbconn);
+		
+		die("$siteID<br/>$yearStart<br/>$yearEnd<br/>$arthropod");
+		
 		$tableArray = getArrayFromTable();
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
@@ -124,7 +133,7 @@
 		<style>
 			h3{
 				display:block;
-				margin-top:20px;
+				margin-top:40px;
 			}
 			h3>first-of-type{
 				margin-top:0px;
@@ -189,7 +198,7 @@
 				text-align:center;
 				font-size:12px;
 				margin-top:5px;
-				color:#777;
+				color:#999;
 				text-transform:uppercase;
 				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 			}
@@ -227,7 +236,7 @@
 				cursor: -webkit-grabbing; cursor: grabbing;
 			}
 			
-			input[type=submit]{
+			main .panel #downloadButton{
 				display:block;
 				margin:50px auto;
 				border:0px none transparent;
@@ -398,8 +407,8 @@
 							if((a["Name"] + " (" + a["Region"] + ")").toLowerCase() > (b["Name"] + " (" + b["Region"] + ")").toLowerCase()){return 1;}
 							return 0;
 						});
-						var htmlToAdd = "<div class=\"select\">";
-						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">Not selected</div></div></div>";
+						var htmlToAdd = "<div class=\"select\" id=\"siteSelect\">";
+						htmlToAdd += "<div class=\"option selected\" onclick=\"selectOption(this);\">	<div class=\"value\"></div>			<div class=\"shown\"><div class=\"image\" style=\"background-image:url('../images/selectIcons/notselected.png');\"></div>		<div class=\"text\">All sites</div></div></div>";
 						for(var i = 0; i < sites.length; i++){
 							htmlToAdd += "<div class=\"option\" onclick=\"selectOption(this);\">	<div class=\"value\">" + sites[i]["ID"] + "</div>			<div class=\"shown\"><div class=\"image\"></div>		<div class=\"text\">" + sites[i]["Name"] + " (" + sites[i]["Region"] + ")</div></div></div>";
 						}
@@ -414,6 +423,14 @@
 					//error
 					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
 				});
+			}
+			
+			function download(){
+				$("#siteID")[0].value = getSelectValue($("#siteSelect"));
+				$("#yearStart")[0].value = yearStart;
+				$("#yearEnd")[0].value = yearEnd;
+				$("#arthropodSelect")[0].value = getSelectValue($("#arthropodSelect"));
+				$("#downloadButton")[0].click();
 			}
 		</script>
 	</head>
@@ -516,8 +533,8 @@
 					<div id="years">Jan - Dec</div>
 
 					<h3>Arthropod:</h3>
-					<div class="select" id="arthropodSearch">
-						<div class="option selected" onclick="selectOption(this);">	<div class="value"></div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">Not selected</div></div></div>
+					<div class="select" id="arthropodSelect">
+						<div class="option selected" onclick="selectOption(this);">	<div class="value">%</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/notselected.png');"></div>		<div class="text">All arthropods</div></div></div>
 						<div class="option" onclick="selectOption(this);">		<div class="value">ant</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/ant.png');"></div>			<div class="text">Ants</div></div></div>
 						<div class="option" onclick="selectOption(this);">		<div class="value">aphid</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/aphid.png');"></div>		<div class="text">Aphids and Psyllids</div></div></div>
 						<div class="option" onclick="selectOption(this);">		<div class="value">bee</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/bee.png');"></div>			<div class="text">Bees and Wasps</div></div></div>
@@ -533,9 +550,15 @@
 						<div class="option" onclick="selectOption(this);">		<div class="value">other</div>		<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/other.png');"></div>		<div class="text">Other</div></div></div>
 						<div class="option" onclick="selectOption(this);">		<div class="value">unidentified</div>	<div class="shown"><div class="image" style="background-image:url('../images/selectIcons/orders/unidentified.png');"></div>	<div class="text">Unidentified</div></div></div>
 					</div>
+					
+					<button onclick="download();"></button>
 
-					<form action="" method="post">
-						<input type="submit" name="download" value="Download" />
+					<form action="" method="post" style="display:none;">
+						<input type="text" name="siteID" id="siteID"/>
+						<input type="text" name="yearStart" id="yearStart"/>
+						<input type="text" name="yearEnd" id="yearEnd"/>
+						<input type="text" name="arthropod" id="arthropod"/>
+						<input type="submit" name="download" id="downloadButton" value="Download"/>
 					</form>
 				</div>
 			</div>
