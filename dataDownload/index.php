@@ -144,6 +144,17 @@
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
 		<style>
+			.loadingDiv{
+				background:#e6e6e6;
+				text-align:center;
+				padding:16px;
+				border-radius:4px;
+    				overflow:hidden;
+			}
+			.loadingDiv img{
+				height:22px;
+			}
+			
 			h3{
 				display:block;
 				margin-top:40px;
@@ -292,6 +303,7 @@
 						}
 					});
 					$("#years")[0].innerHTML = earliestYear + " - " + currentYear;
+					$("#yearsLoading").fadeOut(0);
 					$("#yearsSlider").fadeIn();
 				})
 				.fail(function(){
@@ -549,9 +561,16 @@
 				<div class="tagline">Just select your filters and then download!</div>
 				<div class="content">
 					<h3>Site:</h3>
-					<div id="siteFilter"></div>
+					<div id="siteFilter">
+						<div class="loadingDiv" id="sitesLoading">
+							<img src="../images/rolling.svg"/>
+						</div>
+					</div>
 
 					<h3>Year Range:</h3>
+					<div class="loadingDiv" id="yearsLoading">
+						<img src="../images/rolling.svg"/>
+					</div>
 					<div id="yearsSlider" class="rangeSlider"></div>
 					<div id="years">Jan - Dec</div>
 
