@@ -94,7 +94,6 @@
 		$tableArray = getArrayFromTable($siteID, $yearStart, $yearEnd, $arthropod);
 		usort($tableArray, "customSort");
 		array_unshift($tableArray, $colHeaders);
-		header('Location: ../dataDownload');
 		ob_end_clean();
 		
 		$filename = "CaterpillarsCountDataAtTimestamp_" . time() . ".csv";
@@ -108,6 +107,7 @@
 		readfile($filename);
 		//note that each line in this data pertains to a specific arthropod sighting, so surveys which contained no arthropod sightings are excluded from this data.
 		unlink($filename);
+		header('Location: ../dataDownload');
 		exit();
 	}
 ?>
