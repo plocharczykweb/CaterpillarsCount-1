@@ -82,6 +82,8 @@
 	}
 
 	if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['download'])){
+		global $loaded;
+		
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		
 		$siteID = $_POST["siteID"];
