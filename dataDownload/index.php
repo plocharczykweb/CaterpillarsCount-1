@@ -436,7 +436,7 @@
 				$("#yearEnd")[0].value = yearEnd;
 				$("#arthropod")[0].value = getSelectValue($("#arthropodSelect"));
 				$("#downloadButton")[0].click();
-				queueNotice("success", "We are preparing your data for download! If you've requested a lot of data, please allow a minute for data preparation before your file starts downloading.");
+				queueNotice("confirmation", "We are preparing your data for download! If you've requested a lot of data, please allow a minute for data preparation before your file starts downloading.");
 			}
 		</script>
 	</head>
