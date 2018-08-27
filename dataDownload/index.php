@@ -325,7 +325,7 @@
 						$("#yearsSlider").slider({
 							range: true,
 							min: earliestYear,
-							max: currentYear,
+							max: latestYear,
 							values: [earliestYear, currentYear],
 							slide: function(event, ui){
 								yearStart = ui.values[0];
