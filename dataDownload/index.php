@@ -63,7 +63,7 @@
 					$rowArray[] = $row[$colHeaders[$i]];
 				}
 				else if($colHeaders[$i] == "ArthropodGroup"){
-					$rowArray[] = "None";
+					$rowArray[] = "none";
 				}
 				else{
 					$rowArray[] = "";
