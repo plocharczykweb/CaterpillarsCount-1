@@ -124,6 +124,10 @@
 		<style>
 			h3{
 				display:block;
+				margin-top:20px;
+			}
+			h3>first-of-type{
+				margin-top:0px;
 			}
 			
 			.select{
