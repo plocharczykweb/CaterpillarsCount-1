@@ -80,6 +80,7 @@
 	}
 
 	if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['download'])){
+		ob_end_clean();
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		
 		$siteID = $_POST["siteID"];
@@ -105,6 +106,7 @@
 		readfile($filename);
 		//note that each line in this data pertains to a specific arthropod sighting, so surveys which contained no arthropod sightings are excluded from this data.
 		unlink($filename);
+		exit();
 	}
 ?>
 
