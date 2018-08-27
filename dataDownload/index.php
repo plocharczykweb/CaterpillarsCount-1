@@ -181,6 +181,15 @@
 				display:inline-block;
 			}
 			
+			#years{
+				text-align:center;
+				font-size:12px;
+				margin-top:5px;
+				color:#bbb;
+				text-transform:uppercase;
+				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			}
+			
 			#yearsSlider.rangeSlider{
 				margin:20px;
 				height:2px;
