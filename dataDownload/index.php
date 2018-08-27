@@ -189,7 +189,7 @@
 				text-align:center;
 				font-size:12px;
 				margin-top:5px;
-				color:#bbb;
+				color:#777;
 				text-transform:uppercase;
 				font-family:'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 			}
