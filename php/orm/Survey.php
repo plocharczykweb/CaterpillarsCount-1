@@ -143,6 +143,14 @@ class Survey
 	public static function findSurveysByUser($user, $filters, $start, $limit) {
 		//returns all surveys user has completed
 		$dbconn = (new Keychain)->getDatabaseConnection();
+		
+		$start = mysqli_real_escape_string($dbconn, ($start . ""));
+		$limit = mysqli_real_escape_string($dbconn, ($limit . ""));
+		$filterKeys = array_keys($filters);
+		foreach($filterKeys as $filterKey) {
+			$filters[$filterKey] = mysqli_real_escape_string($dbconn, ($filters[$filterKey] . ""));
+		}
+		
 		$surveysArray = array();
 		//as well as all surveys completed at sites the user created or manages
 		$sites = $user->getSites();
