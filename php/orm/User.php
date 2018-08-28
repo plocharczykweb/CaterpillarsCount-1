@@ -125,6 +125,7 @@ class User
 	public static function findBySignInKey($email, $salt){
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$email = self::validEmailFormat($dbconn, $email);
+		$salt = mysqli_real_escape_string($dbconn, $salt);
 		if($email === false){
 			return null;
 		}
