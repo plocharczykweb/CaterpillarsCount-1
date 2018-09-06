@@ -20,6 +20,8 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
+		<link href="../css/checkbox.css?v=1" rel="stylesheet">
+		<script src="../js/checkbox.js?v=1"></script>
 		<style>
 			.superUsersOnly{
 				display:none;
@@ -60,15 +62,15 @@
 				margin:20px auto 5px auto;
 			}
 
-			#getEmailsLoading{
+			#getEmailsLoading, #privacyLoading{
 				text-align:center;
 			}
 
-			#getEmailsLoading img{
+			#getEmailsLoading img, #privacyLoading img{
 				height:40px;
 			}
 
-			#emails{
+			#emails, #privacy{
 				display:none;
 			}
 
@@ -130,7 +132,7 @@
 
 				if(window.localStorage.getItem("email") == ["plocharczykweb", "gmail.com"].join("@") || window.localStorage.getItem("email") == ["hurlbert", "bio.unc.edu"].join("@") || window.localStorage.getItem("email") == ["sarah.yelton", "unc.edu"].join("@") || window.localStorage.getItem("email") == ["ssnell", "live.unc.edu"].join("@") || window.localStorage.getItem("email") == ["gdicecco", "live.unc.edu"].join("@")){
 				   	$(".superUsersOnly").stop().fadeIn(0);
-					$.get("../php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + encodeURIComponent(window.localStorage.getItem("salt")), function(data){
+					$.get("../php/getEmails.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 						//success
 						if(data.indexOf("true|") == 0){
 							var emails = JSON.parse(data.replace("true|", ""));
@@ -167,6 +169,30 @@
 						$("#getEmailsSetting").stop().fadeOut();
 					});
 				}
+				
+				$.get("../php/getPrivacySettings.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + encodeURIComponent(window.localStorage.getItem("salt")), function(data){
+					if(data.indexOf("true|") == 0){
+						var privacySettings = JSON.parse(data.replace("true|", ""));
+						if(privacySettings["HiddenFromLeaderboards"]){
+							checkCheckbox($("#hiddenFromLeaderboardsCheckbox"));
+						}
+						$("#privacy")[0].style.display = "block";
+					}
+					else{
+						var getPrivacySettingsError = data.replace("false|", "");
+						queueNotice("error", getPrivacySettingsError);
+						if(getPrivacySettingsError == "Your log in dissolved. Maybe you logged in on another device."){
+							logOut();
+						}
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request to get emails from the Caterpillars Count! database did not process. You may have a weak internet connection, or our servers might be busy. Please refresh the page to try again.");
+				})
+				.always(function(){
+					$("#privacyLoading")[0].style.display = "none";
+				});
 			});
 
 			function expandTextarea(textareaElement){
@@ -311,6 +337,35 @@
 					});
 				}
 			}
+			
+			var savingPrivacySettings = false;
+			function savePrivacySettings(){
+				if(savingPrivacySettings){return false;}
+				savingPrivacySettings = true;
+				setLoadingButton($("#savePrivacySettingsButton")[0], "Save privacy settings", true);
+				$.get("../php/setHiddenFromLeaderboards.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt") + "&newValue=" + checkboxIsChecked($("#hiddenFromLeaderboardsCheckbox")), function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						queueNotice("confirmation", "Your privacy settings have been updated!");
+					}
+					else{
+						data = data.replace("false|", "");
+						queueNotice("error", data);
+						if(data == "Your log in dissolved. Maybe you logged in on another device."){
+							logOut();
+						}
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function() {
+					//complete
+					savingPrivacySettings = false;
+					setLoadingButton($("#savePrivacySettingsButton")[0], "Save privacy settings", false);
+				});
+			}
 		</script>
 	</head>
 	<body>
@@ -370,6 +425,7 @@
 							<li class="closeSubmenu" onclick="closeSubmenu(this.parentNode);"><img src="../images/arrow.png"/></li>
 							<li><a href="../mapsAndGraphs">Maps & Graphs</a></li>
 							<li><a href="https://www.inaturalist.org/observations?place_id=any&subview=grid&user_id=caterpillarscount&verifiable=any">Recent Observations</a></li>
+							<li><a href="../dataDownload">Data Download</a></li>
 						</ul>
 					</li>
 					<li onclick="accessSubMenu(this);">
@@ -411,6 +467,26 @@
 								<input type="password" placeholder="new password"/>
 								<input type="password" placeholder="confirm new password"/>
 								<button onclick="setNewPassword();" id="changePasswordButton">Change password</button>
+							</div>
+						</div>
+					</div>
+					<div class="setting">
+						<div class="settingTitle" onclick="toggleSetting(this.parentNode);">Privacy</div>
+						<div class="settingBody">
+							<div>
+								<div id="privacyLoading">
+									<img src="../images/rolling.svg"/>
+								</div>
+								<div id="privacy">
+									<table class="checkboxTable">
+										<tr onclick="toggleCheckbox($(this).find('.checkbox'));">
+											<td><div class="checkbox" id="hiddenFromLeaderboardsCheckbox"></div></td>
+											<td>Hide my name from the leaderboards on the <a class="highlighted" href="../mapsAndGraphs">Maps & Graphs</a> page.</td>
+											<td onclick="event.stopPropagation();queueNotice('alert', 'Some of the user-specific leaderboards on our <a href=&quot;../mapsAndGraphs&quot;>Maps & Graphs</a> page may display your name. If you choose to hide your name from these leaderboards, we will refer to you as <span style=&quot;white-space:nowrap;&quot;>&quot;(anonymous user)&quot;</span> instead.');"><img src="../images/question.png"/></td>
+										<tr>
+									</table>
+									<button onclick="savePrivacySettings();" id="savePrivacySettingsButton">Save privacy settings</button>
+								</div>
 							</div>
 						</div>
 					</div>

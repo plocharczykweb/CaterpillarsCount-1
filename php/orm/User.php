@@ -125,6 +125,7 @@ class User
 	public static function findBySignInKey($email, $salt){
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$email = self::validEmailFormat($dbconn, $email);
+		$salt = mysqli_real_escape_string($dbconn, $salt);
 		if($email === false){
 			return null;
 		}
@@ -217,7 +218,7 @@ class User
 	
 	public function getHiddenFromLeaderboards() {
 		if($this->deleted){return null;}
-		return $this->hiddenFromLeaderboards;
+		return filter_var($this->hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
 	}
 	
 	public function getSites(){
@@ -325,6 +326,18 @@ class User
 		if(!is_object($site) || get_class($site) != "Site"){return false;}
 		$observationMethod = rawurldecode($observationMethod);
 		return $site->setObservationMethodPreset($this, $observationMethod);
+	}
+	
+	public function setHiddenFromLeaderboards($hiddenFromLeaderboards){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$hiddenFromLeaderboards = filter_var($hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
+			mysqli_query($dbconn, "UPDATE User SET HiddenFromLeaderboards='$hiddenFromLeaderboards' WHERE ID='" . $this->id . "'");
+			mysqli_close($dbconn);
+			$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
+			return true;
+		}
+		return false;
 	}
 	
 	

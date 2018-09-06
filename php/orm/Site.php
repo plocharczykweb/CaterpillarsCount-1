@@ -383,12 +383,14 @@ class Site
 		if(!$this->deleted)
 		{
 			$numberOfPreexistingCircles = (count($this->getPlants()) / 5);
-			$a = Plant::create($this, ($numberOfPreexistingCircles + 1), "A");
-			$b = Plant::create($this, ($numberOfPreexistingCircles + 1), "B");
-			$c = Plant::create($this, ($numberOfPreexistingCircles + 1), "C");
-			$d = Plant::create($this, ($numberOfPreexistingCircles + 1), "D");
-			$e = Plant::create($this, ($numberOfPreexistingCircles + 1), "E");
-			return array($a, $b, $c, $d, $e);
+			if($numberOfPreexistingCircles < 25){
+				$a = Plant::create($this, ($numberOfPreexistingCircles + 1), "A");
+				$b = Plant::create($this, ($numberOfPreexistingCircles + 1), "B");
+				$c = Plant::create($this, ($numberOfPreexistingCircles + 1), "C");
+				$d = Plant::create($this, ($numberOfPreexistingCircles + 1), "D");
+				$e = Plant::create($this, ($numberOfPreexistingCircles + 1), "E");
+				return array($a, $b, $c, $d, $e);
+			}
 		}
 		return false;
 	}
@@ -407,6 +409,10 @@ class Site
 			return true;
 		}
 		mysqli_close($dbconn);
+		
+		if($user->getEmail() == "plocharczykweb@gmail.com" || $user->getEmail() == "hurlbert@bio.unc.edu"){
+			return true;
+		}
 		return false;
 	}
 	
@@ -460,7 +466,8 @@ class Site
 	}
 	
 	public static function validDescription($dbconn, $description){
-		$description = mysqli_real_escape_string($dbconn, rawurldecode($description));
+		$description = preg_replace("/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/", "[URL Removed]", rawurldecode($description));
+		$description = mysqli_real_escape_string($dbconn, $description);
 		
 		if(strlen($description) == 0 || strlen($description) > 255){
 			return false;

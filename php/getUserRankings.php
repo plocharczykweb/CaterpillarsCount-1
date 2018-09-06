@@ -3,7 +3,7 @@
 	require_once('orm/Site.php');
 	$siteID = intval($_GET["siteID"]);
 	$siteRestriction = "<>2";
-	if($siteID > 1){$siteRestriction = "=" . $siteID;}
+	if($siteID > 0){$siteRestriction = "=" . $siteID;}
 	
 	$dbconn = (new Keychain)->getDatabaseConnection();
 	$query = mysqli_query($dbconn, "SELECT User.ID, CONCAT(User.FirstName, ' ', User.LastName) AS FullName, User.HiddenFromLeaderboards, SUM(CASE WHEN Survey.LocalDate >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY) THEN 1 ELSE 0 END) AS Week, SUM(CASE WHEN Survey.LocalDate >= STR_TO_DATE(CONCAT(DATE_FORMAT(CURDATE(),'%Y-%m'), '-01 00:00:00'), '%Y-%m-%d %T') THEN 1 ELSE 0 END) AS Month, SUM(CASE WHEN Survey.LocalDate >= STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-01-01 00:00:00'), '%Y-%m-%d %T') THEN 1 ELSE 0 END) AS Year, Count(*) AS Total, COUNT(DISTINCT Survey.LocalDate) AS TotalUniqueDates FROM `Survey` JOIN User ON Survey.UserFKOfObserver=User.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK" . $siteRestriction . " GROUP BY User.ID ORDER BY Year DESC");
@@ -11,10 +11,13 @@
 	$rankingsArray = array();
   	$i = 1;
 	while($row = mysqli_fetch_assoc($query)){
+		$name = $row["FullName"];
+		if(filter_var($row["HiddenFromLeaderboards"], FILTER_VALIDATE_BOOLEAN)){
+			$name = "(anonymous user)";
+		}
 		$rankingsArray[strval($row["ID"])] = array(
 			"ID" => $row["ID"],
-      			"Name" => $row["FullName"],
-      			"HiddenFromLeaderboards" => $row["HiddenFromLeaderboards"],
+      			"Name" => $name,
       			"Week" => intval($row["Week"]),
 			"UniqueDatesThisWeek" => 0,
       			"Month" => intval($row["Month"]),
@@ -48,26 +51,31 @@
 	}
 	mysqli_close($dbconn);
 	
-	$allUsers = User::findAll();
-	for($j = 0; $j < count($allUsers); $j++){
-		if(is_object($allUsers[$j]) && get_class($allUsers[$j]) == "User" && !array_key_exists(strval($allUsers[$j]->getID()), $rankingsArray)){
-			$rankingsArray[strval($allUsers[$j]->getID())] = array(
-				"ID" => $allUsers[$j]->getID(),
-				"Name" => $allUsers[$j]->getFullName(),
-      				"HiddenFromLeaderboards" => $allUsers[$j]->getHiddenFromLeaderboards(),
-				"Week" => 0,
-				"UniqueDatesThisWeek" => 0,
-				"Month" => 0,
-				"UniqueDatesThisMonth" => 0,
-				"Year" => 0,
-				"UniqueDatesThisYear" => 0,
-				"Total" => 0,
-      				"TotalUniqueDates" => 0,
-      				"Caterpillars" => "0%",
-			);
+	if($siteID <= 0){
+		$allUsers = User::findAll();
+		for($j = 0; $j < count($allUsers); $j++){
+			if(is_object($allUsers[$j]) && get_class($allUsers[$j]) == "User" && !array_key_exists(strval($allUsers[$j]->getID()), $rankingsArray)){
+				$name = $allUsers[$j]->getFullName();
+				if($allUsers[$j]->getHiddenFromLeaderboards()){
+					$name = "(anonymous user)";
+				}
+				$rankingsArray[strval($allUsers[$j]->getID())] = array(
+					"ID" => $allUsers[$j]->getID(),
+					"Name" => $name,
+					"Week" => 0,
+					"UniqueDatesThisWeek" => 0,
+					"Month" => 0,
+					"UniqueDatesThisMonth" => 0,
+					"Year" => 0,
+					"UniqueDatesThisYear" => 0,
+					"Total" => 0,
+					"TotalUniqueDates" => 0,
+					"Caterpillars" => "0%",
+				);
+			}
 		}
 	}
 
-	die(json_encode(array_values($rankingsArray)));
+	die("true|" . json_encode(array_values($rankingsArray)));
 	
 ?>

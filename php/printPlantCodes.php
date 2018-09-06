@@ -89,6 +89,10 @@
 					$species = $plants[$i]->getSpecies();
 					$name = $site->getName();
 					
+					if(strlen($name) > 32){
+						$name = substr($name, 0, 30) . "...";
+					}
+					
 					$line1 = $name . ", Circle " . $circle;
 					$line2 = $species;
 					

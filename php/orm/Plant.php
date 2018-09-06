@@ -45,8 +45,25 @@ class Plant
 			return $failures;
 		}
 		
-		mysqli_query($dbconn, "INSERT INTO Plant (`SiteFK`, `Circle`, `Orientation`, `Species`) VALUES ('" . $site->getID() . "', '$circle', '$orientation', 'N/A')");
-		$id = intval(mysqli_insert_id($dbconn));
+		//DETERMINE ID MANUALLY TO FILL IN THE CRACKS OF DELETED CODES:
+		$MIN_ID = 703;//corresponds to "AAA"
+		$id = $MIN_ID;
+		$query = mysqli_query($dbconn, "SELECT `ID` FROM `Plant` ORDER BY `ID` ASC LIMIT 1");
+		if(mysqli_num_rows($query) == 1 && intval(mysqli_fetch_assoc($query)["ID"]) <= $MIN_ID){
+			$query = mysqli_query($dbconn, "SELECT t1.ID+1 AS NextID FROM `Plant` AS t1 LEFT JOIN `Plant` AS t2 ON t1.ID+1=t2.ID WHERE t2.ID IS NULL");
+			while($row = mysqli_fetch_assoc($query)){
+				$id = intval($row["NextID"]);
+				while(mysqli_num_rows(mysqli_query($dbconn, "SELECT `ID` FROM `Plant` WHERE `ID`='" . $id . "' LIMIT 1")) == 0){
+					if(mysqli_num_rows(mysqli_query($dbconn, "SELECT `ID` FROM `Plant` WHERE `Code`='" . self::IDToCode($id) . "' LIMIT 1")) == 0){
+						break 2;
+					}
+					$id++;
+				}
+			}
+		}
+		
+		mysqli_query($dbconn, "INSERT INTO Plant (`ID`, `SiteFK`, `Circle`, `Orientation`, `Species`) VALUES ('" . $id . "', '" . $site->getID() . "', '$circle', '$orientation', 'N/A')");
+		//NOT NEEDED BECAUSE WE DETERMINE IDs MANUALLY TO FILL IN THE CRACKS OF DELETED CODES: $id = intval(mysqli_insert_id($dbconn));
 		
 		$code = self::IDToCode($id);
 		mysqli_query($dbconn, "UPDATE Plant SET `Code`='$code' WHERE `ID`='$id'");

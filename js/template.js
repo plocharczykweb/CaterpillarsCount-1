@@ -206,6 +206,8 @@
 
 			
 			var shownManagerRequestSiteNames = [];
+			managerRequestsPaused = false;
+			managerRequestsQueuing = true;
 			function queueManagerRequests(){
 				if(window.localStorage.getItem("email") === null || window.localStorage.getItem("salt") === null){
 					setTimeout(queueManagerRequests, 1000);
@@ -234,8 +236,25 @@
 				})
 				.always(function() {
 					//complete
-					setTimeout(queueManagerRequests, 1000);
+					if(managerRequestsPaused){
+						managerRequestsQueuing = false;
+					}
+					else{
+						setTimeout(queueManagerRequests, 1000);
+					}
 				});
+			}
+
+			function pauseManagerRequests(){
+				managerRequestsPaused = true;
+			}
+
+			function resumeManagerRequests(){
+				managerRequestsPaused = false;
+				if(!managerRequestsQueuing){
+					managerRequestsQueuing = true;
+					queueManagerRequests();
+				}
 			}
 			
 			function respondToManagerRequest(response){
