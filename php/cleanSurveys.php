@@ -11,4 +11,4 @@
 			mysqli_query($dbconn, "DELETE FROM `Survey` WHERE `ID`='" . $row["ID"] . "'");
 		}
 	}
-?>
+?> 
