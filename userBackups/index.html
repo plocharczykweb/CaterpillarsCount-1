@@ -24,32 +24,32 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
         
-        if(window.localStorage.getItem("email") != ["plocharczykweb", "gmail.com"].join("@") && window.localStorage.getItem("email") == ["hurlbert", "bio.unc.edu"].join("@")){
-          window.location = "https://caterpillarscount.unc.edu";
-        }
-        else{
-          $.get("../php/getUserBackups.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("email"), function(data){
-            //success
-            if(data.indexOf("true|") == 0){
-              data = JSON.parse(data.replace("true|", ""));
-              var htmlToAdd = "";
-              for(var i = 0; i < data.length; i++){
-                htmlToAdd += "<li><a href=\"" + data[i] + ">" + data[i] + "</a></li>";
-              }
-              $("#backupLinks")[0].innerHTML = htmlToAdd;
-            }
-            else{
-              window.location = "https://caterpillarscount.unc.edu";
-            }
-          })
-          .fail(function(){
-            //error
-            queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please reload this page to try again.");
-          })
-          .always(function() {
-            //complete
-          });
-        }
+				if(window.localStorage.getItem("email") != ["plocharczykweb", "gmail.com"].join("@") && window.localStorage.getItem("email") != ["hurlbert", "bio.unc.edu"].join("@")){
+				  window.location = "https://caterpillarscount.unc.edu";
+				}
+				else{
+				  $.get("../php/getUserBackups.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("email"), function(data){
+				    //success
+				    if(data.indexOf("true|") == 0){
+				      data = JSON.parse(data.replace("true|", ""));
+				      var htmlToAdd = "";
+				      for(var i = 0; i < data.length; i++){
+					htmlToAdd += "<li><a href=\"" + data[i] + ">" + data[i] + "</a></li>";
+				      }
+				      $("#backupLinks")[0].innerHTML = htmlToAdd;
+				    }
+				    else{
+				      window.location = "https://caterpillarscount.unc.edu";
+				    }
+				  })
+				  .fail(function(){
+				    //error
+				    queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please reload this page to try again.");
+				  })
+				  .always(function() {
+				    //complete
+				  });
+				}
 			});
 		</script>
 	</head>
