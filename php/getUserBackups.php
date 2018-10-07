@@ -11,7 +11,7 @@
 				unset($files[$i]);
 			}
     		}
-    		die("true|" . json_encode($files));
+    		die("true|" . json_encode(array_values($files)));
   	}
   	die("false|");
 ?>
