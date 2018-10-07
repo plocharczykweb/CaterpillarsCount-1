@@ -5,13 +5,13 @@
   
   	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User" && ($user->getEmail() == "plocharczykweb@gmail.com" || $user->getEmail() == "hurlbert@bio.unc.edu")){
-    		$files = scandir("../yds3jk92345bfjHU874eD");
+    		$files = array_values(scandir("../yds3jk92345bfjHU874eD"));
     		for($i = 0; $i < count($files); $i++){
 			if(strpos($files[$i], ".csv") === false){
 				unset($files[$i]);
 			}
     		}
-    		die("true|" . json_encode(array_values($files)));
+    		die("true|" . json_encode($files));
   	}
   	die("false|");
 ?>
