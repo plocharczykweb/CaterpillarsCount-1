@@ -28,7 +28,7 @@
 				  window.location = "https://caterpillarscount.unc.edu";
 				}
 				else{
-				  $.get("../php/getUserBackups.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("email"), function(data){
+				  $.get("../php/getUserBackups.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 				    //success
 				    if(data.indexOf("true|") == 0){
 				      data = JSON.parse(data.replace("true|", ""));
