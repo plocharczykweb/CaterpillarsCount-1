@@ -34,7 +34,7 @@
 				      data = JSON.parse(data.replace("true|", ""));
 				      var htmlToAdd = "";
 				      for(var i = 0; i < data.length; i++){
-					htmlToAdd += "<li><a href=\"" + data[i] + ">" + data[i] + "</a></li>";
+					htmlToAdd += "<li><a href=\"" + data[i] + "\">" + data[i].substring(data[i].lastIndexOf("/") + 1) + "</a></li>";
 				      }
 				      $("#backupLinks")[0].innerHTML = htmlToAdd;
 				    }
@@ -144,7 +144,7 @@
 			<div class="panel">
 				<h2>User Backups</h2>
 				<div class="tagline">...are only available to Caterpillars Count! developers.</div>
-				<ul id="backupLinks"></ul>
+				<ul id="backupLinks" style="background:rgba(0,0,0,0.1);border-radius:4px;"></ul>
 			</div>
 		</main>
 		<footer>
