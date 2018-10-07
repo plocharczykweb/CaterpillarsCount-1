@@ -10,6 +10,9 @@
 			if(strpos($files[$i], ".csv") === false){
 				unset($files[$i]);
 			}
+			else{
+				$files[$i] = "../yds3jk92345bfjHU874eD" . $files[$i];
+			}
     		}
     		die("true|" . json_encode(array_values($files)));
   	}
