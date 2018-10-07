@@ -39,7 +39,7 @@
     createCSV($tableName, $tableArray);
   }
   
-  $files = scandir("../iuFYr1xREQOp2ioB5MHvnCTY39UHv2");
+  $files = scandir("../yds3jk92345bfjHU874eD");
   $backedUpToday = false;
   for($i = 0; $i < count($files); $i++){
     if(strpos($files[$i], date("Y-m-d")) !== false){
@@ -76,7 +76,7 @@
       }
       
       if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
-        unlink("../iuFYr1xREQOp2ioB5MHvnCTY39UHv2/" . $files[$i]);
+        unlink("../yds3jk92345bfjHU874eD/" . $files[$i]);
       }
     }
   }
