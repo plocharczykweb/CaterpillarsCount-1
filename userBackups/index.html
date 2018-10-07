@@ -25,7 +25,7 @@
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
         
 				if(window.localStorage.getItem("email") != ["plocharczykweb", "gmail.com"].join("@") && window.localStorage.getItem("email") != ["hurlbert", "bio.unc.edu"].join("@")){
-				  window.location = "https://caterpillarscount.unc.edu";
+				  alert("1");//window.location = "https://caterpillarscount.unc.edu";
 				}
 				else{
 				  $.get("../php/getUserBackups.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("email"), function(data){
@@ -39,6 +39,7 @@
 				      $("#backupLinks")[0].innerHTML = htmlToAdd;
 				    }
 				    else{
+					alert("2");
 				      window.location = "https://caterpillarscount.unc.edu";
 				    }
 				  })
