@@ -30,7 +30,7 @@
   }
 
   function createCSV($tableName, $tableArray) {
-    if(!$fp = fopen("../iuFYr1xREQOp2ioB5MHvnCTY39UHv2/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
+    if(!$fp = fopen("../yds3jk92345bfjHU874eD/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
     foreach ($tableArray as $line) fputcsv($fp, $line);
   }
 
