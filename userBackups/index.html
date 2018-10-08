@@ -20,6 +20,18 @@
 		<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 		<link href="../css/template.css" rel="stylesheet">
 		<script src="../js/template.js?v=1"></script>
+		<style>
+			#loading{
+				background:#e6e6e6;
+				text-align:center;
+				padding:16px;
+				border-radius:4px;
+    				overflow:hidden;
+			}
+			#loading img{
+				height:22px;
+			}
+		</style>
 		<script>
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
@@ -28,27 +40,28 @@
 				  queueNotice("error", "Please log in to a developer account before accessing this page.");
 				}
 				else{
-				  $.get("../php/getUserBackups.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
-				    //success
-				    if(data.indexOf("true|") == 0){
-				      data = JSON.parse(data.replace("true|", ""));
-				      var htmlToAdd = "";
-				      for(var i = 0; i < data.length; i++){
-					htmlToAdd += "<li><a href=\"" + data[i] + "\">" + data[i].substring(data[i].lastIndexOf("/") + 1) + "</a></li>";
-				      }
-				      $("#backupLinks")[0].innerHTML = htmlToAdd;
-				    }
-				    else{
-				      queueNotice("error", "Please log in to a developer account before accessing this page.");
-				    }
-				  })
-				  .fail(function(){
-				    //error
-				    queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please reload this page to try again.");
-				  })
-				  .always(function() {
-				    //complete
-				  });
+					$.get("../php/getUserBackups.php?email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+						//success
+						if(data.indexOf("true|") == 0){
+							data = JSON.parse(data.replace("true|", ""));
+							var htmlToAdd = "";
+							for(var i = 0; i < data.length; i++){
+								htmlToAdd += "<li><a href=\"" + data[i] + "\">" + data[i].substring(data[i].lastIndexOf("/") + 1) + "</a></li>";
+							}
+							$("#backupLinks")[0].innerHTML = htmlToAdd;
+						}
+						else{
+							queueNotice("error", "Please log in to a developer account before accessing this page.");
+						}
+					})
+					.fail(function(){
+						//error
+						queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please reload this page to try again.");
+					})
+					.always(function() {
+						//complete
+						$("#loading")[0].outerHTML = "";
+					});
 				}
 			});
 		</script>
@@ -145,6 +158,9 @@
 				<h2>User Backups</h2>
 				<div class="tagline">...are only available to Caterpillars Count! developers.</div>
 				<div class="content">
+					<div id="loading">
+						<img src="../images/rolling.svg"/>
+					</div>
 					<ul id="backupLinks" style="background:rgba(0,0,0,0.02);border-radius:4px;padding:20px 20px 20px 40px;"></ul>
 				</div>
 			</div>
