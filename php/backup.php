@@ -2,7 +2,9 @@
   header('Access-Control-Allow-Origin: *');
 
   require_once('orm/resources/Keychain.php');
-  //require_once('orm/resources/mailing.php');
+  require_once('orm/resources/mailing.php');
+
+  email("plocharczykweb@gmail.com", "Cron job running", "Your cron job is running.");
 
   function getArrayFromTable($tableName){
     $tableArray = array();
