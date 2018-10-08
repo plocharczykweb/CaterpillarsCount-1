@@ -30,7 +30,11 @@
   }
 
   function createCSV($tableName, $tableArray) {
-    if(!$fp = fopen("../yds3jk92345bfjHU874eD/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
+    $diectory = "backups";
+    if($tableName == "User"){
+      $directory = "yds3jk92345bfjHU874eD";
+    }
+    if(!$fp = fopen("../" . $directory . "/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
     foreach ($tableArray as $line) fputcsv($fp, $line);
   }
 
@@ -39,7 +43,7 @@
     createCSV($tableName, $tableArray);
   }
   
-  $files = scandir("../yds3jk92345bfjHU874eD");
+  $files = scandir("../backups");
   $backedUpToday = false;
   for($i = 0; $i < count($files); $i++){
     if(strpos($files[$i], date("Y-m-d")) !== false){
@@ -67,6 +71,21 @@
       date("Y-m-d", time() - 60 * 60 * 24 * 6),
     );
     
+    for($i = 0; $i < count($files); $i++){
+      $dateIsAcceptable = false;
+      for($j = 0; $j < count($acceptableDates); $j++){
+        if(strpos($files[$i], $acceptableDates[$j]) !== false){
+          $dateIsAcceptable = true;
+        }
+      }
+      
+      if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
+        unlink("../backups/" . $files[$i]);
+      }
+    }
+    
+    //delete from user backups too
+    $files = scandir("../yds3jk92345bfjHU874eD");
     for($i = 0; $i < count($files); $i++){
       $dateIsAcceptable = false;
       for($j = 0; $j < count($acceptableDates); $j++){
