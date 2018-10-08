@@ -32,7 +32,7 @@
   function createCSV($tableName, $tableArray) {
     $diectory = "backups";
     if($tableName == "User"){
-      $directory = "yds3jk92345bfjHU874eD";
+      $directory = getenv("USER_BACKUPS");
     }
     if(!$fp = fopen("../" . $directory . "/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
     foreach ($tableArray as $line) fputcsv($fp, $line);
@@ -85,7 +85,7 @@
     }
     
     //delete from user backups too
-    $files = scandir("../yds3jk92345bfjHU874eD");
+    $files = scandir("../" . getenv("USER_BACKUPS"));
     for($i = 0; $i < count($files); $i++){
       $dateIsAcceptable = false;
       for($j = 0; $j < count($acceptableDates); $j++){
@@ -95,7 +95,7 @@
       }
       
       if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
-        unlink("../yds3jk92345bfjHU874eD/" . $files[$i]);
+        unlink("../" . getenv("USER_BACKUPS") . "/" . $files[$i]);
       }
     }
   }
