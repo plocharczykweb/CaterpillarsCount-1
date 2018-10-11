@@ -19,7 +19,7 @@
                 "observation[species_guess]=" . preg_replace('!\s+!', '-', $plantSpecies) . 
                 "&observation[id_please]=1" . 
                 "&observation[observed_on_string]=" . $date . 
-                "&observation[place_guess]= " . preg_replace('!\s+!', '-', $site->getName()) . 
+                "&observation[place_guess]=" . preg_replace('!\s+!', '-', $site->getName()) . 
                 "&observation[latitude]=" . $site->getLatitude() . 
                 "&observation[longitude]=" . $site->getLongitude() . 
 				$arthropodNotes;
@@ -31,7 +31,7 @@ echo $url;
   curl_setopt($ch, CURLOPT_HEADER, 0);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-  $obs_result = curl_exec($ch);
+  $result = curl_exec($ch);
   
-  die($obs_result);
+  echo $result;
 ?>
