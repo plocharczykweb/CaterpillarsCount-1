@@ -14,7 +14,7 @@
 
 	$token = json_decode(curl_exec($ch), true)["access_token"];
 
-$plantCode = "EJJ";
+$plantCode = "BQB";
 $plant = Plant::findByCode($plantCode);
 $site = $plant->getSite();
 $numberOfLeaves = "50";
@@ -52,13 +52,16 @@ $userTag = "ccdev";
 	curl_setopt($ch, CURLOPT_HEADER, 0);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-	$observation = curl_exec($ch);
-	echo "<br/><br/>" . $observation;
-	//echo "<br/><br/>FALSE:<br/>" . json_decode($observation);
-	//echo "<br/><br/>" . json_decode($observation)[0];
-	//echo "<br/><br/>" . json_decode($observation)[0]["id"];
-	echo "<br/><br/>TRUE:<br/>" . json_decode($observation, true);
-	//echo "<br/><br/>" . json_decode($observation, true)[0];
-	echo "<br/><br/>" . json_decode($observation, true)[0]["id"];
-	echo $observation["id"];
+	$observation = json_decode(curl_exec($ch), true)[0];
+	
+	echo "<br/><br/>" . $observation["id"];
+
+	$ch = curl_init("http://www.inaturalist.org/project_observations");//urlencode(
+	curl_setopt($ch, CURLOPT_POST, 1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=5443");
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+	curl_setopt($ch, CURLOPT_HEADER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+	echo "<br/><br/>" . curl_exec($ch);
 ?>
