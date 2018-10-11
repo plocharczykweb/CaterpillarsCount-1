@@ -2,7 +2,8 @@
   header('Access-Control-Allow-Origin: *');
 
   require_once('orm/resources/Keychain.php');
-  //require_once('orm/resources/mailing.php');
+  require_once('orm/resources/mailing.php');
+  email("plocharczykweb@gmail.com", "cron", "running");
 
   function getArrayFromTable($tableName){
     $tableArray = array();
