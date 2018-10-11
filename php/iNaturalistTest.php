@@ -2,7 +2,7 @@
 	require_once("orm/Plant.php");
 
 	function cleanParam($param){
-		return preg_replace('!\s+!', '-', trim(preg_replace('/[^a-zA-Z0-9.]+/', ' ', $param)));
+		return preg_replace('!\s+!', '-', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', $param)));
 	}
 	
 	$ch = curl_init('https://www.inaturalist.org/oauth/token');
@@ -27,7 +27,7 @@ $arthropodQuantity = "5";
 $userTag = "ccdev";
 	$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . cleanParam($order) . "&observation[id_please]=1&observation[observed_on_string]=" . cleanParam($date) . "&observation[place_guess]=" . cleanParam($site->getName()) . "&observation[latitude]=" . cleanParam($site->getLatitude()) . "&observation[longitude]=" . cleanParam($site->getLongitude());
 	if($arthropodNotes != ""){
-		$url .= "&observation[description]=" . $arthropodNotes;
+		$url .= "&observation[description]=" . cleanParam($arthropodNotes);
 	}
 	$params = [["1289", $arthropodLength], ["1194", $site->getName()], ["5715", $plant->getCircle()], ["1422", $plantCode], ["306", $plant->getSpecies()], ["5712", $numberOfLeaves], ["5711", $herbivoryScore], ["5748", $arthropodQuantity], ["5710", $userTag]];
         $observationFieldIDString = "&observation[observation_field_values_attributes]";
