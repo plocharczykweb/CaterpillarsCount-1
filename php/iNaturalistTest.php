@@ -31,11 +31,11 @@ $userTag = "ccdev";
 	for($i = 0; $i < count($params); $i++){
 		$url .= $observationFieldIDString . $params[$i][0] . $observationFieldValueString . "[" . $i . "][value]=" . $params[$i][1];
 	}
-	if(strpos($site, "caterpillar") !== false){
+	if(strpos($order, "caterpillar") !== false){
 		$url .= $observationFieldIDString . "3441" . $observationFieldValueString . "[10][value]=caterpillar";
 		$url .= $observationFieldIDString . "325" . $observationFieldValueString . "[11][value]=larva";
 	}
-	if(strpos($site, "moth") !== false){
+	if(strpos($order, "moth") !== false){
 		$url .= $observationFieldIDString . "3441" . $observationFieldValueString . "[10][value]=adult";
 		$url .= $observationFieldIDString . "325" . $observationFieldValueString . "[11][value]=adult";
 	}
