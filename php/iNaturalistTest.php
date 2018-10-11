@@ -39,6 +39,9 @@ $userTag = "ccdev";
 		$url .= $observationFieldIDString . "3441" . $observationFieldValueString . "[10][value]=adult";
 		$url .= $observationFieldIDString . "325" . $observationFieldValueString . "[11][value]=adult";
 	}
+
+	echo $url;
+
 	$ch = curl_init($url);
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token);
