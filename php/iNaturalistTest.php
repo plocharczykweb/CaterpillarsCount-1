@@ -23,7 +23,7 @@ $arthropodQuantity = "5";
 $userTag = "ccdev";
 	$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . $order . "&observation[id_please]=1&observation[observed_on_string]=" . $date . "&observation[place_guess]=" . $site->getName() . "&observation[latitude]=" . $site->getLatitude() . "&observation[longitude]=" . $site->getLongitude();
 	if($arthropodNotes != ""){
-		$url .= "&observation[description]=" . $arthropodNotes);
+		$url .= "&observation[description]=" . $arthropodNotes;
 	}
 	$params = [["1289", $arthropodLength], ["1194", $site->getName()], ["5715", $plant->getCircle()], ["1422", $plantCode], ["306", $plant->getSpecies()], ["5712", $numberOfLeaves], ["5711", $herbivoryScore], ["5748", $arthropodQuantity], ["5710", $userTag]];
         $observationFieldIDString = "&observation[observation_field_values_attributes]";
