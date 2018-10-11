@@ -16,14 +16,14 @@
   $token = json_decode(curl_exec($ch), true)["access_token"];
 
   $url = "http://www.inaturalist.org/observations.json?" . 
-                "observation[species_guess]=" + preg_replace('!\s+!', '-', $plantSpecies) . 
+                "observation[species_guess]=" . preg_replace('!\s+!', '-', $plantSpecies) . 
                 "&observation[id_please]=1" . 
-                "&observation[observed_on_string]=" + $date . 
-                "&observation[place_guess]= " + preg_replace('!\s+!', '-', $site->getName()) . 
-                "&observation[latitude]=" + $site->getLatitude() . 
-                "&observation[longitude]=" + $site->getLongitude() . 
+                "&observation[observed_on_string]=" . $date . 
+                "&observation[place_guess]= " . preg_replace('!\s+!', '-', $site->getName()) . 
+                "&observation[latitude]=" . $site->getLatitude() . 
+                "&observation[longitude]=" . $site->getLongitude() . 
 				$arthropodNotes;
-die($url);
+echo $url;
   $ch = curl_init($url);
   curl_setopt($ch, CURLOPT_POST, 1);
   curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token);
