@@ -52,7 +52,13 @@ $userTag = "ccdev";
 	curl_setopt($ch, CURLOPT_HEADER, 0);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-	$observation = json_decode(curl_exec($ch), true)[0];
-
+	$observation = curl_exec($ch);
+	echo "<br/><br/>" . $observation;
+	echo "<br/><br/>FALSE:<br/>" . json_decode($observation);
+	echo "<br/><br/>" . json_decode($observation)[0];
+	echo "<br/><br/>" . json_decode($observation)[0]["id"];
+	echo "<br/><br/>TRUE:<br/>" . json_decode($observation, true);
+	echo "<br/><br/>" . json_decode($observation, true)[0];
+	echo "<br/><br/>" . json_decode($observation, true)[0]["id"];
 	echo $observation["id"];
 ?>
