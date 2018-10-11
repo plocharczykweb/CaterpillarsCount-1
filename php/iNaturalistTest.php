@@ -42,7 +42,7 @@ $userTag = "ccdev";
 
 	echo $url;
 
-	$ch = curl_init($url);
+	$ch = curl_init(preg_replace('!\s+!', '-', $url));
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token);
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
