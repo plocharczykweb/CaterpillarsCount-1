@@ -6,6 +6,6 @@
   curl_setopt($ch, CURLOPT_HEADER, 0);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-  $token = curl_exec($ch)["access_token"];
+  $token = json_decode(curl_exec($ch), true)["access_token"];
   die($token);
 ?>
