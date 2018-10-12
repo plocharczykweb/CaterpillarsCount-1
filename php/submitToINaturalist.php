@@ -51,6 +51,7 @@
 	$responses .= "OBSERVATION:" . $observation . "<br/>";
 		
 		//ADD PHOTO TO OBSERVATION
+		/*
 		$tmpfile = $arthropodPhotoFile['tmp_name'];
 		if(is_uploaded_file($tmpfile)){
 			$filename = basename($arthropodPhotoFile['name']);
@@ -68,23 +69,22 @@
 	//echo "<br/><br/>" . curl_exec($ch);
 	$responses .= "PHOTO UPLOAD:" . curl_exec($ch);
 		}
+		*/
 		
-		/*SECOND TRY
-		$cfile = curl_file_create('resource/test.png','image/png','testpic'); // try adding 
-		$imgdata = array('myimage' => $cfile);
+		$cfile = curl_file_create('https://caterpillarscount.unc.edu/images/arthropods/114.jpeg','image/jpeg','testpic'); // try adding 
+		$imgdata = array('myimage' => $cfile, "access_token"=>$token, "observation_photo[observation_id]"=>$observation["id"]);
 
 		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, $target);
-		curl_setopt($curl, CURLOPT_USERAGENT,'Opera/9.80 (Windows NT 6.2; Win64; x64) Presto/2.12.388 Version/12.15');
-		curl_setopt($curl, CURLOPT_HTTPHEADER,array('User-Agent: Opera/9.80 (Windows NT 6.2; Win64; x64) Presto/2.12.388 Version/12.15','Referer: http://someaddress.tld','Content-Type: multipart/form-data'));
+		curl_setopt($curl, CURLOPT_URL, "http://www.inaturalist.org/observation_photos");
+		curl_setopt($curl, CURLOPT_HTTPHEADER,array('Content-Type: multipart/form-data'));
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // stop verifying certificate
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
 		curl_setopt($curl, CURLOPT_POST, true); // enable posting
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $imgdata); // post images 
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // if any redirection after upload
 		$r = curl_exec($curl); 
+	$responses .= "PHOTO UPLOAD:" . $r;
 		curl_close($curl);
-		*/
 			
 		/*
 		//THIRD PHOTO TRY
