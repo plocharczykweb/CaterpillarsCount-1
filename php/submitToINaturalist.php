@@ -55,7 +55,7 @@
 		if(is_uploaded_file($tmpfile)){
 			$filename = basename($arthropodPhotoFile['name']);
 			$data = array(
-				'params' => array("access_token"=> $token, "&observation_photo[observation_id]"=> $observation["id"]),
+				'params' => array("access_token"=> $token, "observation_photo[observation_id]"=> $observation["id"]),
 				'uploaded_file' => curl_file_create($tmpfile, $arthropodPhotoFile['type'], $filename)
 			);
 			$ch = curl_init("http://www.inaturalist.org/project_observations");
