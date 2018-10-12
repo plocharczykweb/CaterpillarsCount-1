@@ -92,7 +92,7 @@
 							$arthropodSightingFailures .= strval($attachResult);
 						}
 						if($arthropodSighting->getPhotoURL() != ""){
-							submitINaturalistObservation("ccdev", $plant->getCode(), $survey->getLocalDate(), $arthropodSighting->getGroup(), $arthropodSighting->getQuantity(), $arthropodSighting->getLength(), $_FILES['file' . $i], $arthropodSighting->getNotes(), $survey->getNumberOfLeaves(), $survey->getHerbivoryScore());
+							die("false|" . submitINaturalistObservation("ccdev", $plant->getCode(), $survey->getLocalDate(), $arthropodSighting->getGroup(), $arthropodSighting->getQuantity(), $arthropodSighting->getLength(), $_FILES['file' . $i], $arthropodSighting->getNotes(), $survey->getNumberOfLeaves(), $survey->getHerbivoryScore()));
 						}
 					}
 					else{
