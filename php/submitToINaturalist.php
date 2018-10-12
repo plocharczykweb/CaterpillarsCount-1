@@ -20,10 +20,6 @@
 		$plant = Plant::findByCode($plantCode);
 		$site = $plant->getSite();
 		$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . cleanParam($order) . "&observation[id_please]=1&observation[observed_on_string]=" . cleanParam($date) . "&observation[place_guess]=" . cleanParam($site->getName()) . "&observation[latitude]=" . cleanParam($site->getLatitude()) . "&observation[longitude]=" . cleanParam($site->getLongitude());
-		
-		$cfile = curl_file_create('../images/arthropods/114.jpeg','image/jpeg','testpic'); // try adding 
-		//$imgdata = array('myimage' => $cfile);
-		$url .= "&local_photos[0]=" . $cfile;
 		if($arthropodNotes != ""){
 			$url .= "&observation[description]=" . cleanParam($arthropodNotes);
 		}
@@ -56,6 +52,20 @@
 	$responses .= "OBSERVATION:" . $observation["id"] . "<br/>";
 		
 		//ADD PHOTO TO OBSERVATION
+		$ch = curl_init();
+		if (function_exists('curl_file_create')) { // php 5.5+
+			$cFile = curl_file_create("../images/arthropods/114.jpeg");//$file_name_with_full_path
+		} else { // 
+			curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+			$cFile = '@' . realpath("../images/arthropods/114.jpeg");
+		}
+		$post = array('access_token' => $token, 'observation_photo[observation_id]' => $observation["id"], 'file'=> $cFile);
+		curl_setopt($ch, CURLOPT_URL,"http://www.inaturalist.org/observation_photos");
+		curl_setopt($ch, CURLOPT_POST,1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+	$result=curl_exec ($ch);
+		curl_close ($ch);
 		/*
 		$tmpfile = $arthropodPhotoFile['tmp_name'];
 		if(is_uploaded_file($tmpfile)){
