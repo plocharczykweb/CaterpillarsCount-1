@@ -5,18 +5,18 @@
 		return preg_replace('!\s+!', '-', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', (string)$param)));
 	}
 	
-	//GET AUTHORIZATION
-	$ch = curl_init('https://www.inaturalist.org/oauth/token');
-	curl_setopt($ch, CURLOPT_POST, 1);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=" . getenv("iNaturalistAppID") . "&client_secret=" . getenv("iNaturalistAppSecret") . "&grant_type=password&username=caterpillarscountdev&password=" . getenv("iNaturalistPassword"));
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-	curl_setopt($ch, CURLOPT_HEADER, 0);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-	$token = json_decode(curl_exec($ch), true)["access_token"];
 	function submitINaturalistObservation($userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength, $arthropodPhotoFile, $arthropodNotes, $numberOfLeaves, $herbivoryScore){
+		//GET AUTHORIZATION
+		$ch = curl_init('https://www.inaturalist.org/oauth/token');
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "client_id=" . getenv("iNaturalistAppID") . "&client_secret=" . getenv("iNaturalistAppSecret") . "&grant_type=password&username=caterpillarscountdev&password=" . getenv("iNaturalistPassword"));
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		$token = json_decode(curl_exec($ch), true)["access_token"];
+		
 		//CREATE OBSERVATION
-echo "$userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength, $arthropodPhotoFile, $arthropodNotes, $numberOfLeaves, $herbivoryScore";
 		$plant = Plant::findByCode($plantCode);
 		$site = $plant->getSite();
 		$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . cleanParam($order) . "&observation[id_please]=1&observation[observed_on_string]=" . cleanParam($date) . "&observation[place_guess]=" . cleanParam($site->getName()) . "&observation[latitude]=" . cleanParam($site->getLatitude()) . "&observation[longitude]=" . cleanParam($site->getLongitude());
@@ -56,9 +56,8 @@ echo "$userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength,
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	//echo "<br/><br/>" . curl_exec($ch);
-echo "here.";
+
 		//ADD PHOTO TO OBSERVATION
-		/*
 		$tmpfile = $arthropodPhotoFile['tmp_name'];
 		$filename = basename($arthropodPhotoFile['name']);
 		$data = array(
@@ -71,7 +70,6 @@ echo "here.";
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		*/
 	//echo "<br/><br/>" . curl_exec($ch);
 	}
 ?>
