@@ -36,7 +36,7 @@
 			$url .= $observationFieldIDString . "[10][observation_field_id]=3441" . $observationFieldIDString . "[10][value]=adult";
 			$url .= $observationFieldIDString . "[11][observation_field_id]=325" . $observationFieldIDString . "[11][value]=adult";
 		}
-	echo $url;
+	//echo $url;
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -46,7 +46,7 @@
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
 		$observation = json_decode(curl_exec($ch), true)[0];
-	echo "<br/><br/>" . $observation["id"];
+	//echo "<br/><br/>" . $observation["id"];
 
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
 		$ch = curl_init("http://www.inaturalist.org/project_observations");
@@ -55,7 +55,7 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	echo "<br/><br/>" . curl_exec($ch);
+	//echo "<br/><br/>" . curl_exec($ch);
 
 		//ADD PHOTO TO OBSERVATION
 		$tmpfile = $arthropodPhotoFile['tmp_name'];
@@ -72,8 +72,8 @@
 			curl_setopt($ch, CURLOPT_HEADER, 0);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		}
-	echo "<br/><br/>" . curl_exec($ch);
+	//echo "<br/><br/>" . curl_exec($ch);
 	}
 
-submitINaturalistObservation("ccdev", "EJK", "2018-02-20", "bee", 2, 12, "", "", 40, 2);
+//submitINaturalistObservation("ccdev", "EJK", "2018-02-20", "bee", 2, 12, "", "", 40, 2);
 ?>
