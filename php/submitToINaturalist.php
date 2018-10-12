@@ -20,6 +20,10 @@
 		$plant = Plant::findByCode($plantCode);
 		$site = $plant->getSite();
 		$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . cleanParam($order) . "&observation[id_please]=1&observation[observed_on_string]=" . cleanParam($date) . "&observation[place_guess]=" . cleanParam($site->getName()) . "&observation[latitude]=" . cleanParam($site->getLatitude()) . "&observation[longitude]=" . cleanParam($site->getLongitude());
+		
+		$cfile = curl_file_create('../images/arthropods/114.jpeg','image/jpeg','testpic'); // try adding 
+		$imgdata = array('myimage' => $cfile);
+		$url .= "&local_photos[0]=" . $imgdata;
 		if($arthropodNotes != ""){
 			$url .= "&observation[description]=" . cleanParam($arthropodNotes);
 		}
@@ -48,7 +52,7 @@
 
 		$observation = json_decode(curl_exec($ch), true)[0];
 	//echo "<br/><br/>" . $observation["id"];
-	$responses .= "OBSERVATION:" . $observation . "<br/>";
+	$responses .= "OBSERVATION:" . $observation["id"] . "<br/>";
 		
 		//ADD PHOTO TO OBSERVATION
 		/*
@@ -70,8 +74,8 @@
 	$responses .= "PHOTO UPLOAD:" . curl_exec($ch);
 		}
 		*/
-		
-		$cfile = curl_file_create('https://caterpillarscount.unc.edu/images/arthropods/114.jpeg','image/jpeg','testpic'); // try adding 
+		/*SECOND TRY
+		$cfile = curl_file_create('../images/arthropods/114.jpeg','image/jpeg','testpic'); // try adding 
 		$imgdata = array('myimage' => $cfile, "access_token"=>$token, "observation_photo[observation_id]"=>$observation["id"]);
 
 		$curl = curl_init();
@@ -85,7 +89,7 @@
 		$r = curl_exec($curl); 
 	$responses .= "PHOTO UPLOAD:" . $r;
 		curl_close($curl);
-			
+			*/
 		/*
 		//THIRD PHOTO TRY
 		$url = "URL_PATH of upload.php"; // e.g. http://localhost/myuploader/upload.php // request URL
