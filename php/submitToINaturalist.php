@@ -64,7 +64,7 @@
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			curl_setopt($ch, CURLOPT_HEADER, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_HTTPHEADER => array("Content-Type:multipart/form-data"));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 	//echo "<br/><br/>" . curl_exec($ch);
 	$responses .= "PHOTO UPLOAD:" . curl_exec($ch);
 		}
