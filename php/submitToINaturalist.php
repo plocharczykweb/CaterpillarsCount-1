@@ -122,7 +122,7 @@
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
 		$ch = curl_init("http://www.inaturalist.org/project_observations");
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, array("access_token"=> $token, "observation_photo[observation_id]"=> $observation["id"]));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&observation_photo[observation_id]=" . $observation["id"]);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
