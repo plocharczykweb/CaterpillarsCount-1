@@ -62,10 +62,43 @@
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_setopt($ch, CURLOPT_HEADER, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_HTTPHEADER => array("Content-Type:multipart/form-data"));
 	//echo "<br/><br/>" . curl_exec($ch);
 	$responses .= "PHOTO UPLOAD:" . curl_exec($ch);
+		}
+		
+		//SECOND PHOTO TRY
+		$url = "URL_PATH of upload.php"; // e.g. http://localhost/myuploader/upload.php // request URL
+		$filename = $_FILES['file']['name'];
+		$filedata = $_FILES['file']['tmp_name'];
+		$filesize = $_FILES['file']['size'];
+		if ($filedata != ''){
+			$headers = array("Content-Type:multipart/form-data"); // cURL headers for file uploading
+			$postfields = array("filedata" => "@$filedata", "filename" => $filename);
+			$ch = curl_init();
+			$options = array(
+				CURLOPT_URL => $url,
+				CURLOPT_HEADER => true,
+				CURLOPT_POST => 1,
+				CURLOPT_HTTPHEADER => $headers,
+				CURLOPT_POSTFIELDS => $postfields,
+				CURLOPT_INFILESIZE => $filesize,
+				CURLOPT_RETURNTRANSFER => true
+			); // cURL options
+			curl_setopt_array($ch, $options);
+			curl_exec($ch);
+			if(!curl_errno($ch)){
+				$info = curl_getinfo($ch);
+				if ($info['http_code'] == 200){
+					$errmsg = "File uploaded successfully";
+				}
+			}
+			else{
+				$errmsg = curl_error($ch);
+			}
+			curl_close($ch);
 		}
 
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
