@@ -22,8 +22,8 @@
 		$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . cleanParam($order) . "&observation[id_please]=1&observation[observed_on_string]=" . cleanParam($date) . "&observation[place_guess]=" . cleanParam($site->getName()) . "&observation[latitude]=" . cleanParam($site->getLatitude()) . "&observation[longitude]=" . cleanParam($site->getLongitude());
 		
 		$cfile = curl_file_create('../images/arthropods/114.jpeg','image/jpeg','testpic'); // try adding 
-		$imgdata = array('myimage' => $cfile);
-		$url .= "&local_photos[0]=" . $imgdata;
+		//$imgdata = array('myimage' => $cfile);
+		$url .= "&local_photos[0]=" . $cfile;
 		if($arthropodNotes != ""){
 			$url .= "&observation[description]=" . cleanParam($arthropodNotes);
 		}
@@ -49,6 +49,7 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 
 		$observation = json_decode(curl_exec($ch), true)[0];
 	//echo "<br/><br/>" . $observation["id"];
