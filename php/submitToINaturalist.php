@@ -37,7 +37,7 @@
 			$url .= $observationFieldIDString . "[11][observation_field_id]=325" . $observationFieldIDString . "[11][value]=adult";
 		}
 	//echo $url;
-	$responses = "URL:" . $url . "<br/>";
+	$responses = "URL: left out<br/>";
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -122,7 +122,7 @@
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
 		$ch = curl_init("http://www.inaturalist.org/project_observations");
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token"=> $token, "observation_photo[observation_id]"=> $observation["id"]);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, array("access_token"=> $token, "observation_photo[observation_id]"=> $observation["id"]));
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
