@@ -36,8 +36,6 @@
 			$url .= $observationFieldIDString . "[10][observation_field_id]=3441" . $observationFieldIDString . "[10][value]=adult";
 			$url .= $observationFieldIDString . "[11][observation_field_id]=325" . $observationFieldIDString . "[11][value]=adult";
 		}
-	//echo $url;
-	$responses = "URL: left out<br/>";
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -48,14 +46,13 @@
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
 		curl_close ($ch);
-	//echo "<br/><br/>" . $observation["id"];
-	$responses .= "OBSERVATION:" . $observation["id"] . "<br/>";
 		
 		//ADD PHOTO TO OBSERVATION
 		$ch = curl_init();
-		if (function_exists('curl_file_create')) { // php 5.5+
-			$cFile = curl_file_create("../images/arthropods/" . $arthropodPhotoURL);//$file_name_with_full_path
-		} else { // 
+		if(function_exists('curl_file_create')){//PHP 5.5+
+			$cFile = curl_file_create("../images/arthropods/" . $arthropodPhotoURL);
+		}
+		else{
 			curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
 			$cFile = '@' . realpath("../images/arthropods/" . $arthropodPhotoURL);
 		}
@@ -64,7 +61,6 @@
 		curl_setopt($ch, CURLOPT_POST,1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-	$result=curl_exec ($ch);
 		curl_close ($ch);
 		
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
@@ -74,12 +70,6 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	//echo "<br/><br/>" . curl_exec($ch);
-	$responses .= "LINK:" . curl_exec($ch) . "<br/>";
 		curl_close ($ch);
-
-		return $responses;
 	}
-
-//submitINaturalistObservation("ccdev", "EJK", "2018-02-20", "bee", 2, 12, "", "", 40, 2);
 ?>
