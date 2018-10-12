@@ -16,7 +16,7 @@
 	$token = json_decode(curl_exec($ch), true)["access_token"];
 	function submitINaturalistObservation($userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength, $arthropodPhotoFile, $arthropodNotes, $numberOfLeaves, $herbivoryScore){
 		//CREATE OBSERVATION
-		die("$userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength, $arthropodPhotoFile, $arthropodNotes, $numberOfLeaves, $herbivoryScore");
+echo "$userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength, $arthropodPhotoFile, $arthropodNotes, $numberOfLeaves, $herbivoryScore";
 		$plant = Plant::findByCode($plantCode);
 		$site = $plant->getSite();
 		$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . cleanParam($order) . "&observation[id_please]=1&observation[observed_on_string]=" . cleanParam($date) . "&observation[place_guess]=" . cleanParam($site->getName()) . "&observation[latitude]=" . cleanParam($site->getLatitude()) . "&observation[longitude]=" . cleanParam($site->getLongitude());
@@ -56,8 +56,9 @@
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	//echo "<br/><br/>" . curl_exec($ch);
-
+echo "here.";
 		//ADD PHOTO TO OBSERVATION
+		/*
 		$tmpfile = $arthropodPhotoFile['tmp_name'];
 		$filename = basename($arthropodPhotoFile['name']);
 		$data = array(
@@ -70,6 +71,7 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		*/
 	//echo "<br/><br/>" . curl_exec($ch);
 	}
 ?>
