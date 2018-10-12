@@ -5,7 +5,7 @@
 		return preg_replace('!\s+!', '-', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', (string)$param)));
 	}
 	
-	function submitINaturalistObservation($userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength, $arthropodPhotoFile, $arthropodNotes, $numberOfLeaves, $herbivoryScore){
+	function submitINaturalistObservation($userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength, $arthropodPhotoURL, $arthropodNotes, $numberOfLeaves, $herbivoryScore){
 		//GET AUTHORIZATION
 		$ch = curl_init('https://www.inaturalist.org/oauth/token');
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -13,8 +13,8 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
 		$token = json_decode(curl_exec($ch), true)["access_token"];
+		curl_close ($ch);
 		
 		//CREATE OBSERVATION
 		$plant = Plant::findByCode($plantCode);
@@ -46,18 +46,18 @@
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-
 		$observation = json_decode(curl_exec($ch), true)[0];
+		curl_close ($ch);
 	//echo "<br/><br/>" . $observation["id"];
 	$responses .= "OBSERVATION:" . $observation["id"] . "<br/>";
 		
 		//ADD PHOTO TO OBSERVATION
 		$ch = curl_init();
 		if (function_exists('curl_file_create')) { // php 5.5+
-			$cFile = curl_file_create("../images/arthropods/114.jpeg");//$file_name_with_full_path
+			$cFile = curl_file_create("../images/arthropods/" . $arthropodPhotoURL);//$file_name_with_full_path
 		} else { // 
 			curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
-			$cFile = '@' . realpath("../images/arthropods/114.jpeg");
+			$cFile = '@' . realpath("../images/arthropods/" . $arthropodPhotoURL);
 		}
 		$post = array('access_token' => $token, 'observation_photo[observation_id]' => $observation["id"], 'file'=> $cFile);
 		curl_setopt($ch, CURLOPT_URL,"http://www.inaturalist.org/observation_photos");
@@ -66,83 +66,17 @@
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 	$result=curl_exec ($ch);
 		curl_close ($ch);
-		/*
-		$tmpfile = $arthropodPhotoFile['tmp_name'];
-		if(is_uploaded_file($tmpfile)){
-			$filename = basename($arthropodPhotoFile['name']);
-			$data = array(
-				'params' => array("access_token=" . $token . "observation_photo[observation_id]=" . $observation["id"]),
-				'uploaded_file' => curl_file_create($tmpfile, $arthropodPhotoFile['type'], $filename)
-			);
-			$ch = curl_init("http://www.inaturalist.org/observation_photos");
-			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-			curl_setopt($ch, CURLOPT_HEADER, true);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-	//echo "<br/><br/>" . curl_exec($ch);
-	$responses .= "PHOTO UPLOAD:" . curl_exec($ch);
-		}
-		*/
-		/*SECOND TRY
-		$cfile = curl_file_create('../images/arthropods/114.jpeg','image/jpeg','testpic'); // try adding 
-		$imgdata = array('myimage' => $cfile, "access_token"=>$token, "observation_photo[observation_id]"=>$observation["id"]);
-
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, "http://www.inaturalist.org/observation_photos");
-		curl_setopt($curl, CURLOPT_HTTPHEADER,array('Content-Type: multipart/form-data'));
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // stop verifying certificate
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
-		curl_setopt($curl, CURLOPT_POST, true); // enable posting
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $imgdata); // post images 
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true); // if any redirection after upload
-		$r = curl_exec($curl); 
-	$responses .= "PHOTO UPLOAD:" . $r;
-		curl_close($curl);
-			*/
-		/*
-		//THIRD PHOTO TRY
-		$url = "URL_PATH of upload.php"; // e.g. http://localhost/myuploader/upload.php // request URL
-		$filename = $_FILES['file']['name'];
-		$filedata = $_FILES['file']['tmp_name'];
-		$filesize = $_FILES['file']['size'];
-		if ($filedata != ''){
-			$headers = array("Content-Type:multipart/form-data"); // cURL headers for file uploading
-			$postfields = array("filedata" => "@$filedata", "filename" => $filename);
-			$ch = curl_init();
-			$options = array(
-				CURLOPT_URL => $url,
-				CURLOPT_HEADER => true,
-				CURLOPT_POST => 1,
-				CURLOPT_HTTPHEADER => $headers,
-				CURLOPT_POSTFIELDS => $postfields,
-				CURLOPT_INFILESIZE => $filesize,
-				CURLOPT_RETURNTRANSFER => true
-			); // cURL options
-			curl_setopt_array($ch, $options);
-			curl_exec($ch);
-			if(!curl_errno($ch)){
-				$info = curl_getinfo($ch);
-				if ($info['http_code'] == 200){
-					$errmsg = "File uploaded successfully";
-				}
-			}
-			else{
-				$errmsg = curl_error($ch);
-			}
-			curl_close($ch);
-		}
-		*/
+		
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
 		$ch = curl_init("http://www.inaturalist.org/project_observations");
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&observation_photo[observation_id]=" . $observation["id"]);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=5443");
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	//echo "<br/><br/>" . curl_exec($ch);
 	$responses .= "LINK:" . curl_exec($ch) . "<br/>";
+		curl_close ($ch);
 
 		return $responses;
 	}
