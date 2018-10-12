@@ -88,14 +88,11 @@
 					$arthropodSighting = $survey->addArthropodSighting($arthropodData[$i][0], $arthropodData[$i][1], $arthropodData[$i][2], $arthropodData[$i][3], $arthropodData[$i][4], $arthropodData[$i][5], $arthropodData[$i][6]);
 					if(is_object($arthropodSighting) && get_class($arthropodSighting) == "ArthropodSighting"){
 						$attachResult = attachPhotoToArthropodSighting($_FILES['file' . $i], $arthropodSighting);
-						if($attachResult != "File not uploaded."){
-							if(!($attachResult === true)){
-								$arthropodSightingFailures .= strval($attachResult);
-							}
-							else{
-								die("false|here");
-								submitINaturalistObservation("ccdev", $plant->getCode(), $survey->getLocalDate(), $arthropodSighting->getGroup(), $arthropodSighting->getQuantity(), $arthropodSighting->getLength(), $_FILES['file' . $i], $arthropodSighting->getNotes(), $survey->getNumberOfLeaves(), $survey->getHerbivoryScore());
-							}
+						if($attachResult != "File not uploaded." && $attachResult !== true){
+							$arthropodSightingFailures .= strval($attachResult);
+						}
+						if($arthropodSighting->getPhotoURL() != ""){
+							submitINaturalistObservation("ccdev", $plant->getCode(), $survey->getLocalDate(), $arthropodSighting->getGroup(), $arthropodSighting->getQuantity(), $arthropodSighting->getLength(), $_FILES['file' . $i], $arthropodSighting->getNotes(), $survey->getNumberOfLeaves(), $survey->getHerbivoryScore());
 						}
 					}
 					else{
