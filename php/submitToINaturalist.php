@@ -49,17 +49,7 @@
 		$observation = json_decode(curl_exec($ch), true)[0];
 	//echo "<br/><br/>" . $observation["id"];
 	$responses .= "OBSERVATION:" . $observation . "<br/>";
-
-		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
-		$ch = curl_init("http://www.inaturalist.org/project_observations");
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=5443");
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-	//echo "<br/><br/>" . curl_exec($ch);
-	$responses .= "LINK:" . curl_exec($ch) . "<br/>";
-
+		
 		//ADD PHOTO TO OBSERVATION
 		$tmpfile = $arthropodPhotoFile['tmp_name'];
 		if(is_uploaded_file($tmpfile)){
@@ -77,6 +67,17 @@
 	//echo "<br/><br/>" . curl_exec($ch);
 	$responses .= "PHOTO UPLOAD:" . curl_exec($ch);
 		}
+
+		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
+		$ch = curl_init("http://www.inaturalist.org/project_observations");
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=5443");
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	//echo "<br/><br/>" . curl_exec($ch);
+	$responses .= "LINK:" . curl_exec($ch) . "<br/>";
+
 		return $responses;
 	}
 
