@@ -55,7 +55,7 @@
 		if(is_uploaded_file($tmpfile)){
 			$filename = basename($arthropodPhotoFile['name']);
 			$data = array(
-				'params' => array("access_token"=> $token, "observation_photo[observation_id]"=> $observation["id"]),
+				'params' => array("access_token=" . $token . "observation_photo[observation_id]=" . $observation["id"]),
 				'uploaded_file' => curl_file_create($tmpfile, $arthropodPhotoFile['type'], $filename)
 			);
 			$ch = curl_init("http://www.inaturalist.org/project_observations");
@@ -68,7 +68,7 @@
 	//echo "<br/><br/>" . curl_exec($ch);
 	$responses .= "PHOTO UPLOAD:" . curl_exec($ch);
 		}
-		
+		/*
 		//SECOND PHOTO TRY
 		$url = "URL_PATH of upload.php"; // e.g. http://localhost/myuploader/upload.php // request URL
 		$filename = $_FILES['file']['name'];
@@ -100,7 +100,7 @@
 			}
 			curl_close($ch);
 		}
-
+		*/
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
 		$ch = curl_init("http://www.inaturalist.org/project_observations");
 		curl_setopt($ch, CURLOPT_POST, 1);
