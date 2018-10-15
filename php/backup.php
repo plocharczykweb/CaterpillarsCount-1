@@ -31,11 +31,11 @@
   }
 
   function createCSV($tableName, $tableArray) {
-    $diectory = "backups";
+    $directory = "backups";
     if($tableName == "User"){
       $directory = getenv("USER_BACKUPS");
     }
-    if(!$fp = fopen("../" . $directory . "/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
+    if(!$fp = fopen("/opt/app-root/src/" . $directory . "/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
     foreach ($tableArray as $line) fputcsv($fp, $line);
   }
 
@@ -44,7 +44,7 @@
     createCSV($tableName, $tableArray);
   }
   
-  $files = scandir("../backups");
+  $files = scandir("/opt/app-root/src/backups");
   $backedUpToday = false;
   for($i = 0; $i < count($files); $i++){
     if(strpos($files[$i], date("Y-m-d")) !== false){
@@ -81,12 +81,12 @@
       }
       
       if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
-        unlink("../backups/" . $files[$i]);
+        unlink("/opt/app-root/src/backups/" . $files[$i]);
       }
     }
     
     //delete from user backups too
-    $files = scandir("../" . getenv("USER_BACKUPS"));
+    $files = scandir("/opt/app-root/src/" . getenv("USER_BACKUPS"));
     for($i = 0; $i < count($files); $i++){
       $dateIsAcceptable = false;
       for($j = 0; $j < count($acceptableDates); $j++){
@@ -96,7 +96,7 @@
       }
       
       if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
-        unlink("../" . getenv("USER_BACKUPS") . "/" . $files[$i]);
+        unlink("/opt/app-root/src/" . getenv("USER_BACKUPS") . "/" . $files[$i]);
       }
     }
   }
