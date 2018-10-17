@@ -2,7 +2,11 @@
 	require_once("orm/Plant.php");
 
 	function cleanParam($param){
-		return preg_replace('!\s+!', '-', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', trim((string)$param))));
+		$param = preg_replace('!\s+!', '', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', trim((string)$param))));
+		if($param == ""){
+			return "None";
+		}
+		return $param;
 	}
 	
 	function submitINaturalistObservation($userTag, $plantCode, $date, $observationMethod, $surveyNotes, $wetLeaves, $order, $hairy, $rolled, $tented, $arthropodQuantity, $arthropodLength, $arthropodPhotoURL, $arthropodNotes, $numberOfLeaves, $averageLeafLength, $herbivoryScore){
@@ -61,12 +65,12 @@
 			$url .= $observationFieldIDString . "[" . $i . "][observation_field_id]=" . cleanParam($params[$i][0]) . $observationFieldIDString . "[" . $i . "][value]=" . cleanParam($params[$i][1]);
 		}
 		if($order == "caterpillar"){
-			$url .= $observationFieldIDString . "[16][observation_field_id]=3441" . $observationFieldIDString . "[16][value]=caterpillar";
-			$url .= $observationFieldIDString . "[17][observation_field_id]=325" . $observationFieldIDString . "[17][value]=larva";
+			$url .= $observationFieldIDString . "[" . count($params) . "][observation_field_id]=3441" . $observationFieldIDString . "[" . count($params) . "][value]=caterpillar";
+			$url .= $observationFieldIDString . "[" . (count($params) + 1) . "][observation_field_id]=325" . $observationFieldIDString . "[" . (count($params) + 1) . "][value]=larva";
 		}
 		if($order == "moths"){
-			$url .= $observationFieldIDString . "[13][observation_field_id]=3441" . $observationFieldIDString . "[13][value]=adult";
-			$url .= $observationFieldIDString . "[14][observation_field_id]=325" . $observationFieldIDString . "[14][value]=adult";
+			$url .= $observationFieldIDString . "[" . count($params) . "][observation_field_id]=3441" . $observationFieldIDString . "[" . count($params) . "][value]=adult";
+			$url .= $observationFieldIDString . "[" . (count($params) + 1) . "][observation_field_id]=325" . $observationFieldIDString . "[" . (count($params) + 1) . "][value]=adult";
 		}
 
 		$ch = curl_init($url);
