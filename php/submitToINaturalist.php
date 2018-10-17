@@ -18,7 +18,8 @@
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$token = json_decode(curl_exec($ch), true)["access_token"];
-		curl_close($ch);
+		curl_close ($ch);
+echo $token . "<br/><br/>";
 		
 		//CREATE OBSERVATION
 		$plant = Plant::findByCode($plantCode);
@@ -54,7 +55,7 @@
 			$url .= "&observation[description]=" . cleanParam($arthropodNotes);
 		}
 		$herbivoryScores = array("0%", "1-5%", "6-10%", "11-25%", "> 25%");
-		$params = [["9677", $averageLeafLength], ["9676", (($wetLeaves) ? 'Yes' : 'No')], ["3020", $observationMethod], ["9675", $surveyNotes], ["9670", $arthropodLength . " mm"], ["1194", $site->getName()], ["9671", $plant->getCircle()], ["1422", $plantCode], ["6609", $plant->getSpecies()], ["2926", $numberOfLeaves], ["9672", $herbivoryScore . " - " . $herbivoryScores[intval($herbivoryScore)]], ["544", $arthropodQuantity], ["9673", $userTag]];
+		$params = [["9677", $averageLeafLength], ["2926", $numberOfLeaves], ["9676", (($wetLeaves) ? 'Yes' : 'No')], ["3020", $observationMethod], ["9675", $surveyNotes], ["9670", $arthropodLength . " mm"], ["1194", $site->getName()], ["9671", $plant->getCircle()], ["1422", $plantCode], ["6609", $plant->getSpecies()], ["9672", $herbivoryScore . " - " . $herbivoryScores[intval($herbivoryScore)]], ["544", $arthropodQuantity], ["9673", $userTag]];
 		if($order == "caterpillar"){
 			$params[] = ["9678", (($hairy) ? 'Yes' : 'No')];
 			$params[] = ["9679", (($rolled) ? 'Yes' : 'No')];
@@ -72,25 +73,17 @@
 			$url .= $observationFieldIDString . "[" . count($params) . "][observation_field_id]=3441" . $observationFieldIDString . "[" . count($params) . "][value]=adult";
 			$url .= $observationFieldIDString . "[" . (count($params) + 1) . "][observation_field_id]=325" . $observationFieldIDString . "[" . (count($params) + 1) . "][value]=adult";
 		}
-
+echo $url . "<br/><br/>";
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		//curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
-		curl_close($ch);
-		
-		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
-		$ch = curl_init("http://www.inaturalist.org/project_observations");
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=5443");
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_close($ch);
+		curl_close ($ch);
+echo $observation . "<br/><br/>";
 		
 		//ADD PHOTO TO OBSERVATION
 		$ch = curl_init();
@@ -106,6 +99,17 @@
 		curl_setopt($ch, CURLOPT_POST,1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-		curl_close($ch);
+echo curl_exec($ch) . "<br/><br/>";
+		curl_close ($ch);
+		
+		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
+		$ch = curl_init("http://www.inaturalist.org/project_observations");
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=5443");
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+echo curl_exec($ch) . "<br/><br/>";
+		curl_close ($ch);
 	}
 ?>
