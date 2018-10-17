@@ -1,8 +1,14 @@
 <?php
 	require_once("orm/Plant.php");
 
+	function myUrlEncode($string) {
+	    $entities = array('%20', '%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
+	    $replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]");
+	    return str_replace($entities, $replacements, urlencode($string));
+	}
+
 	function cleanParam($param){
-		$param = preg_replace('!\s+!', '%20', trim(preg_replace('/[^a-zA-Z0-9.-]/', ' ', trim((string)$param))));
+		$param = rawurlencode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.-!():,/?%#[]*\';@&=+$]/', ' ', trim((string)$param)))));
 		if($param == ""){
 			return "None";
 		}
@@ -19,7 +25,6 @@
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$token = json_decode(curl_exec($ch), true)["access_token"];
 		curl_close ($ch);
-echo $token . "<br/><br/>";
 		
 		//CREATE OBSERVATION
 		$plant = Plant::findByCode($plantCode);
@@ -73,17 +78,15 @@ echo $token . "<br/><br/>";
 			$url .= $observationFieldIDString . "[" . count($params) . "][observation_field_id]=3441" . $observationFieldIDString . "[" . count($params) . "][value]=adult";
 			$url .= $observationFieldIDString . "[" . (count($params) + 1) . "][observation_field_id]=325" . $observationFieldIDString . "[" . (count($params) + 1) . "][value]=adult";
 		}
-echo $url . "<br/><br/>";
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+		//curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
 		curl_close ($ch);
-echo $observation . "<br/><br/>";
 		
 		//ADD PHOTO TO OBSERVATION
 		$ch = curl_init();
@@ -99,7 +102,6 @@ echo $observation . "<br/><br/>";
 		curl_setopt($ch, CURLOPT_POST,1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 		
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
@@ -109,7 +111,6 @@ echo curl_exec($ch) . "<br/><br/>";
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 	}
 ?>
