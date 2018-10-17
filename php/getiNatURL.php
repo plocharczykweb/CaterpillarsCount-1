@@ -113,5 +113,5 @@ echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 	}
   
-  submitINaturalistObservation("ccdev", "EJJ", "2018-10-17", "Visual", "", true, "beetle", true, false, false, 20, 5, "", "", 7, 60, 2);
+  submitINaturalistObservation("ccdev", "EJJ", "2018-10-17", "Visual", "", true, "beetle", true, false, false, 20, 5, "42306.jpeg", "", 7, 60, 2);
 ?>
