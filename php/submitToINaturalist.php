@@ -2,7 +2,7 @@
 	require_once("orm/Plant.php");
 
 	function cleanParam($param){
-		$param = rawurlencode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!():,\/?%#[]\';@&=-]/', ' ', trim((string)$param)))));
+		$param = rawurlencode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!():,\/?%#\';@&=-]/', ' ', trim((string)$param)))));
 		if($param == ""){
 			return "None";
 		}
@@ -78,7 +78,7 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		//curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
 		curl_close ($ch);
 		
