@@ -2,10 +2,10 @@
 	require_once("orm/Plant.php");
 
 	function cleanParam($param){
-		return preg_replace('!\s+!', '-', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', (string)$param)));
+		return preg_replace('!\s+!', '+', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', trim((string)$param))));
 	}
 	
-	function submitINaturalistObservation($userTag, $plantCode, $date, $order, $arthropodQuantity, $arthropodLength, $arthropodPhotoURL, $arthropodNotes, $numberOfLeaves, $herbivoryScore){
+	function submitINaturalistObservation($userTag, $plantCode, $date, $observationMethod, $surveyNotes, $wetLeaves, $order, $hairy, $rolled, $tented, $arthropodQuantity, $arthropodLength, $arthropodPhotoURL, $arthropodNotes, $numberOfLeaves, $averageLeafLength, $herbivoryScore){
 		//GET AUTHORIZATION
 		$ch = curl_init('https://www.inaturalist.org/oauth/token');
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -19,23 +19,54 @@
 		//CREATE OBSERVATION
 		$plant = Plant::findByCode($plantCode);
 		$site = $plant->getSite();
-		$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . cleanParam($order) . "&observation[id_please]=1&observation[observed_on_string]=" . cleanParam($date) . "&observation[place_guess]=" . cleanParam($site->getName()) . "&observation[latitude]=" . cleanParam($site->getLatitude()) . "&observation[longitude]=" . cleanParam($site->getLongitude());
+		
+		$other = $arthropodNotes;
+		if($other == ""){
+			$other = "Arthropoda";
+		}
+		$newOrders = array(
+			"ant" => "Ants",
+			"aphid" => "Sternorrhyncha",
+			"bee" => "Hymenoptera",
+			"beetle" => "Beetles",
+			"caterpillar" => "Lepidoptera",
+			"daddylonglegs" => "Daddy longlegs",
+			"fly" => "Flies",
+			"grasshopper" => "Orthoptera",
+			"leafhopper" => "Auchenorrhyncha",
+			"moths" => "Lepidoptera",
+			"spider" => "Spiders",
+			"truebugs" => "True bugs",
+			"other" => $other,
+			"unidentified" => "Arthropoda"
+		);
+		$newOrder = $order;
+		if(array_key_exists($order, $newOrders)){
+			$newOrder = $newOrders[$order];
+		}
+		
+		$url = "http://www.inaturalist.org/observations.json?observation[species_guess]=" . cleanParam($newOrder) . "&observation[id_please]=1&observation[observed_on_string]=" . cleanParam($date) . "&observation[place_guess]=" . cleanParam($site->getName()) . "&observation[latitude]=" . cleanParam($site->getLatitude()) . "&observation[longitude]=" . cleanParam($site->getLongitude());
 		if($arthropodNotes != ""){
 			$url .= "&observation[description]=" . cleanParam($arthropodNotes);
 		}
 		$herbivoryScores = array("0%", "1-5%", "6-10%", "11-25%", "> 25%");
-		$params = [["9670", $arthropodLength . " mm"], ["1194", $site->getName()], ["9671", $plant->getCircle()], ["1422", $plantCode], ["6609", $plant->getSpecies()], ["2926", $numberOfLeaves], ["9672", $herbivoryScore . " - " . $herbivoryScores[intval($herbivoryScore)]], ["5176", $arthropodQuantity], ["9673", $userTag]];
+		$params = [["9677", $averageLeafLength], ["9676", (($wetLeaves) ? 'Yes' : 'No')], ["3020", $observationMethod], ["9675", $surveyNotes], ["9670", $arthropodLength . " mm"], ["1194", $site->getName()], ["9671", $plant->getCircle()], ["1422", $plantCode], ["6609", $plant->getSpecies()], ["2926", $numberOfLeaves], ["9672", $herbivoryScore . " - " . $herbivoryScores[intval($herbivoryScore)]], ["5176", $arthropodQuantity], ["9673", $userTag]];
+		if($order == "caterpillar"){
+			$params[] = ["9678", (($hairy) ? 'Yes' : 'No')];
+			$params[] = ["9679", (($rolled) ? 'Yes' : 'No')];
+			$params[] = ["9680", (($tented) ? 'Yes' : 'No')];
+		}
 		$observationFieldIDString = "&observation[observation_field_values_attributes]";
 		for($i = 0; $i < count($params); $i++){
 			$url .= $observationFieldIDString . "[" . $i . "][observation_field_id]=" . cleanParam($params[$i][0]) . $observationFieldIDString . "[" . $i . "][value]=" . cleanParam($params[$i][1]);
 		}
-		if(strpos($order, "caterpillar") !== false){
-			$url .= $observationFieldIDString . "[10][observation_field_id]=3441" . $observationFieldIDString . "[10][value]=caterpillar";
-			$url .= $observationFieldIDString . "[11][observation_field_id]=325" . $observationFieldIDString . "[11][value]=larva";
+		if($order == "caterpillar"){
+			$url .= $observationFieldIDString . "[16][observation_field_id]=3441" . $observationFieldIDString . "[10][value]=caterpillar";
+			$url .= $observationFieldIDString . "[17][observation_field_id]=325" . $observationFieldIDString . "[11][value]=larva";
 		}
-		if(strpos($order, "moth") !== false){
-			$url .= $observationFieldIDString . "[10][observation_field_id]=3441" . $observationFieldIDString . "[10][value]=adult";
-			$url .= $observationFieldIDString . "[11][observation_field_id]=325" . $observationFieldIDString . "[11][value]=adult";
+		if($order == "moths"){
+			$url .= $observationFieldIDString . "[13][observation_field_id]=3441" . $observationFieldIDString . "[10][value]=adult";
+			$url .= $observationFieldIDString . "[14][observation_field_id]=325" . $observationFieldIDString . "[11][value]=adult";
 		}
 
 		$ch = curl_init($url);
