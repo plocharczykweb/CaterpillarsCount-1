@@ -62,7 +62,7 @@ echo $token . "<br/><br/>";
 			$params[] = ["9680", (($tented) ? 'Yes' : 'No')];
 		}
 		$observationFieldIDString = "&observation[observation_field_values_attributes]";
-		for($i = 0; $i < 6; $i++){//count($params)
+		for($i = 0; $i < 9; $i++){//count($params)
 			$url .= $observationFieldIDString . "[" . $i . "][observation_field_id]=" . cleanParam($params[$i][0]) . $observationFieldIDString . "[" . $i . "][value]=" . cleanParam($params[$i][1]);
 		}
 		if($order == "caterpillar"){
