@@ -55,14 +55,14 @@ echo $token . "<br/><br/>";
 			$url .= "&observation[description]=" . cleanParam($arthropodNotes);
 		}
 		$herbivoryScores = array("0%", "1-5%", "6-10%", "11-25%", "> 25%");
-		$params = [["9677", $averageLeafLength], ["2926", $numberOfLeaves], ["9676", (($wetLeaves) ? 'Yes' : 'No')], ["3020", $observationMethod], ["9675", $surveyNotes], ["9670", $arthropodLength . " mm"], ["1194", $site->getName()], ["9671", $plant->getCircle()], ["1422", $plantCode], ["6609", $plant->getSpecies()], ["9672", $herbivoryScore . " - " . $herbivoryScores[intval($herbivoryScore)]], ["5176", $arthropodQuantity], ["9673", $userTag]];
+		$params = [["9677", $averageLeafLength], ["2926", $numberOfLeaves], ["9676", (($wetLeaves) ? 'Yes' : 'No')], ["3020", $observationMethod], ["9675", $surveyNotes], ["9670", $arthropodLength . " mm"], ["1194", $site->getName()], ["9671", $plant->getCircle()], ["1422", $plantCode], ["6609", $plant->getSpecies()], ["9672", $herbivoryScore . " - " . $herbivoryScores[intval($herbivoryScore)]], ["9673", $userTag]];//, ["5176", $arthropodQuantity]
 		if($order == "caterpillar"){
 			$params[] = ["9678", (($hairy) ? 'Yes' : 'No')];
 			$params[] = ["9679", (($rolled) ? 'Yes' : 'No')];
 			$params[] = ["9680", (($tented) ? 'Yes' : 'No')];
 		}
 		$observationFieldIDString = "&observation[observation_field_values_attributes]";
-		for($i = 0; $i < 12; $i++){//count($params)
+		for($i = 0; $i < count($params); $i++){
 			$url .= $observationFieldIDString . "[" . $i . "][observation_field_id]=" . cleanParam($params[$i][0]) . $observationFieldIDString . "[" . $i . "][value]=" . cleanParam($params[$i][1]);
 		}
 		if($order == "caterpillar"){
