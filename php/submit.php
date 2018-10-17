@@ -91,8 +91,8 @@
 						if($attachResult != "File not uploaded." && $attachResult !== true){
 							$arthropodSightingFailures .= strval($attachResult);
 						}
-						if($arthropodSighting->getPhotoURL() != ""){
-							submitINaturalistObservation("ccdev", $plant->getCode(), $survey->getLocalDate(), $arthropodSighting->getGroup(), $arthropodSighting->getQuantity(), $arthropodSighting->getLength(), $arthropodSighting->getPhotoURL(), $arthropodSighting->getNotes(), $survey->getNumberOfLeaves(), $survey->getHerbivoryScore());
+						if($arthropodSighting->getPhotoURL() != "" && $user->getEmail() == "plocharczykweb@gmail.com"){
+							submitINaturalistObservation("ccdev", $plant->getCode(), $survey->getLocalDate(), $survey->getObservationMethod(), $survey->getNotes(), $survey->getWetLeaves(), $arthropodSighting->getHairy(), $arthropodSighting->getRolled(), $arthropodSighting->getTented(), $arthropodSighting->getQuantity(), $arthropodSighting->getLength(), $arthropodSighting->getPhotoURL(), $arthropodSighting->getNotes(), $survey->getNumberOfLeaves(), $survey->getAverageLeafLength(), $survey->getHerbivoryScore());
 						}
 					}
 					else{
