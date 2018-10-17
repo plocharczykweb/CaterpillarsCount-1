@@ -18,7 +18,7 @@
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$token = json_decode(curl_exec($ch), true)["access_token"];
-		curl_close ($ch);
+		curl_close($ch);
 		
 		//CREATE OBSERVATION
 		$plant = Plant::findByCode($plantCode);
@@ -79,9 +79,18 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+		//curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
-		curl_close ($ch);
+		curl_close($ch);
+		
+		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
+		$ch = curl_init("http://www.inaturalist.org/project_observations");
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=5443");
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_close($ch);
 		
 		//ADD PHOTO TO OBSERVATION
 		$ch = curl_init();
@@ -97,15 +106,6 @@
 		curl_setopt($ch, CURLOPT_POST,1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-		curl_close ($ch);
-		
-		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
-		$ch = curl_init("http://www.inaturalist.org/project_observations");
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=5443");
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_close ($ch);
+		curl_close($ch);
 	}
 ?>
