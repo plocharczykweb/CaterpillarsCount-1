@@ -2,7 +2,7 @@
 	require_once("orm/Plant.php");
 
 	function cleanParam($param){
-		$param = preg_replace('!\s+!', '', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', trim((string)$param))));
+		$param = preg_replace('!\s+!', '', trim(preg_replace('/[^a-zA-Z0-9.-]/', ' ', trim((string)$param))));
 		if($param == ""){
 			return "None";
 		}
