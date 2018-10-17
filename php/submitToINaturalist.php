@@ -1,8 +1,14 @@
 <?php
 	require_once("orm/Plant.php");
 
+	function myUrlEncode($string) {
+	    $entities = array('%20', '%21', '%3F', '%25');
+	    $replacements = array(' ', '!', "?", "%");
+	    return str_replace($entities, $replacements, urlencode($string));
+	}
+
 	function cleanParam($param){
-		$param = rawurlencode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!():,\/?%#\';@&=-]/', ' ', trim((string)$param)))));
+		$param = myUrlEncode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!?%-]/', ' ', trim((string)$param)))));
 		if($param == ""){
 			return "None";
 		}
