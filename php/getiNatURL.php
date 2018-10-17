@@ -2,7 +2,11 @@
 	require_once("orm/Plant.php");
 
 	function cleanParam($param){
-		return preg_replace('!\s+!', '-', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', trim((string)$param))));
+		$param = preg_replace('!\s+!', '', trim(preg_replace('/[^a-zA-Z0-9.]/', ' ', trim((string)$param))));
+		if($param == ""){
+			return "None";
+		}
+		return $param;
 	}
 	
 	function submitINaturalistObservation($userTag, $plantCode, $date, $observationMethod, $surveyNotes, $wetLeaves, $order, $hairy, $rolled, $tented, $arthropodQuantity, $arthropodLength, $arthropodPhotoURL, $arthropodNotes, $numberOfLeaves, $averageLeafLength, $herbivoryScore){
@@ -61,16 +65,14 @@
 			$url .= $observationFieldIDString . "[" . $i . "][observation_field_id]=" . cleanParam($params[$i][0]) . $observationFieldIDString . "[" . $i . "][value]=" . cleanParam($params[$i][1]);
 		}
 		if($order == "caterpillar"){
-			$url .= $observationFieldIDString . "[16][observation_field_id]=3441" . $observationFieldIDString . "[16][value]=caterpillar";
-			$url .= $observationFieldIDString . "[17][observation_field_id]=325" . $observationFieldIDString . "[17][value]=larva";
+			$url .= $observationFieldIDString . "[" . count($params) . "][observation_field_id]=3441" . $observationFieldIDString . "[" . count($params) . "][value]=caterpillar";
+			$url .= $observationFieldIDString . "[" . (count($params) + 1) . "][observation_field_id]=325" . $observationFieldIDString . "[" . (count($params) + 1) . "][value]=larva";
 		}
 		if($order == "moths"){
-			$url .= $observationFieldIDString . "[13][observation_field_id]=3441" . $observationFieldIDString . "[13][value]=adult";
-			$url .= $observationFieldIDString . "[14][observation_field_id]=325" . $observationFieldIDString . "[14][value]=adult";
+			$url .= $observationFieldIDString . "[" . count($params) . "][observation_field_id]=3441" . $observationFieldIDString . "[" . count($params) . "][value]=adult";
+			$url .= $observationFieldIDString . "[" . (count($params) + 1) . "][observation_field_id]=325" . $observationFieldIDString . "[" . (count($params) + 1) . "][value]=adult";
 		}
-    
-    die($url);
-
+echo $url . "<br/><br/>";
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token);
@@ -80,6 +82,7 @@
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
 		curl_close ($ch);
+echo $observation . "<br/><br/>";
 		
 		//ADD PHOTO TO OBSERVATION
 		$ch = curl_init();
@@ -95,6 +98,7 @@
 		curl_setopt($ch, CURLOPT_POST,1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 		
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
@@ -104,6 +108,7 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 	}
   
