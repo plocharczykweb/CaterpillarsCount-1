@@ -19,6 +19,7 @@
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$token = json_decode(curl_exec($ch), true)["access_token"];
 		curl_close ($ch);
+echo $token . "<br/><br/>";
 		
 		//CREATE OBSERVATION
 		$plant = Plant::findByCode($plantCode);
@@ -62,7 +63,7 @@
 		}
 		$observationFieldIDString = "&observation[observation_field_values_attributes]";
 		for($i = 0; $i < count($params); $i++){
-			$url .= $observationFieldIDString . "[" . $i . "][observation_field_id]=" . cleanParam($params[$i][0]) . $observationFieldIDString . "[" . $i . "][value]=" . cleanParam($params[$i][1]);
+			//$url .= $observationFieldIDString . "[" . $i . "][observation_field_id]=" . cleanParam($params[$i][0]) . $observationFieldIDString . "[" . $i . "][value]=" . cleanParam($params[$i][1]);
 		}
 		if($order == "caterpillar"){
 			$url .= $observationFieldIDString . "[" . count($params) . "][observation_field_id]=3441" . $observationFieldIDString . "[" . count($params) . "][value]=caterpillar";
