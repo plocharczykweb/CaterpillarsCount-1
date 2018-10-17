@@ -8,7 +8,7 @@
 	}
 
 	function cleanParam($param){
-		$param = rawurlencode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.-!():,/?%#[]*\';@&=+$]/', ' ', trim((string)$param)))));
+		$param = rawurlencode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.-!():,\/?%#[]*\';@&=+$]/', ' ', trim((string)$param)))));
 		if($param == ""){
 			return "None";
 		}
