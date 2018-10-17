@@ -92,7 +92,8 @@
 							$arthropodSightingFailures .= strval($attachResult);
 						}
 						if($arthropodSighting->getPhotoURL() != "" && $user->getEmail() == "plocharczykweb@gmail.com"){
-							submitINaturalistObservation("ccdev", $plant->getCode(), $survey->getLocalDate(), $survey->getObservationMethod(), $survey->getNotes(), $survey->getWetLeaves(), $arthropodSighting->getHairy(), $arthropodSighting->getRolled(), $arthropodSighting->getTented(), $arthropodSighting->getQuantity(), $arthropodSighting->getLength(), $arthropodSighting->getPhotoURL(), $arthropodSighting->getNotes(), $survey->getNumberOfLeaves(), $survey->getAverageLeafLength(), $survey->getHerbivoryScore());
+							submitINaturalistObservation($userTag, $plantCode, $date, $observationMethod, $surveyNotes, $wetLeaves, $order, $hairy, $rolled, $tented, $arthropodQuantity, $arthropodLength, $arthropodPhotoURL, $arthropodNotes, $numberOfLeaves, $averageLeafLength, $herbivoryScore)
+							submitINaturalistObservation("ccdev", $plant->getCode(), $survey->getLocalDate(), $survey->getObservationMethod(), $survey->getNotes(), $survey->getWetLeaves(), $arthropodSighting->getGroup(), $arthropodSighting->getHairy(), $arthropodSighting->getRolled(), $arthropodSighting->getTented(), $arthropodSighting->getQuantity(), $arthropodSighting->getLength(), $arthropodSighting->getPhotoURL(), $arthropodSighting->getNotes(), $survey->getNumberOfLeaves(), $survey->getAverageLeafLength(), $survey->getHerbivoryScore());
 						}
 					}
 					else{
