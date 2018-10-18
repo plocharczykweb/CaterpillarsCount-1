@@ -24,6 +24,7 @@
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$token = json_decode(curl_exec($ch), true)["access_token"];
 		curl_close ($ch);
+//echo $token . "<br/><br/>";
 		
 		//CREATE OBSERVATION
 		$plant = Plant::findByCode($plantCode);
@@ -77,6 +78,7 @@
 			$url .= $observationFieldIDString . "[" . count($params) . "][observation_field_id]=3441" . $observationFieldIDString . "[" . count($params) . "][value]=adult";
 			$url .= $observationFieldIDString . "[" . (count($params) + 1) . "][observation_field_id]=325" . $observationFieldIDString . "[" . (count($params) + 1) . "][value]=adult";
 		}
+//echo $url . "<br/><br/>";
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token);
@@ -86,6 +88,7 @@
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
 		curl_close ($ch);
+//echo $observation . "<br/><br/>";
 		
 		//ADD PHOTO TO OBSERVATION
 		$ch = curl_init();
@@ -101,6 +104,7 @@
 		curl_setopt($ch, CURLOPT_POST,1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+//echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 		
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
@@ -110,6 +114,7 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 	}
 ?>
