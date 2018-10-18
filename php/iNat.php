@@ -3,7 +3,7 @@
 	function myUrlEncode($string) {
 	    $entities = array('%20', '%21', '%3F', '%25');
 	    $replacements = array(' ', '!', "?", "%");
-	    return str_replace($entities, $replacements, urlencode($string));
+	    return str_replace($entities, $replacements, $string);
 	}
 	function cleanParam($param){
 		$param = myUrlEncode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!?%-]/', ' ', trim((string)$param)))));
