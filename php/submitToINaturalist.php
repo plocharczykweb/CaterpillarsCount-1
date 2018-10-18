@@ -1,14 +1,13 @@
 <?php
 	require_once("orm/Plant.php");
-
-	function myUrlEncode($string) {
-	    $entities = array('%20', '%21', '%3F', '%25');
-	    $replacements = array(' ', '!', "?", "%");
-	    return str_replace($entities, $replacements, urlencode($string));
+	function r($search, $replace, $subject){
+		return str_replace($search, $replace, $subject);
 	}
-
-	function cleanParam($param){
-		$param = myUrlEncode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!?%-]/', ' ', trim((string)$param)))));
+	function myUrlEncode($string) {
+	    return r(" ", "%20", r("!", "%21", r("*", "%2A", r("'", "%27", r("(", "%28", r(")", "%29", r(";", "%3B", r(":", "%3A", r("@", "%40", r("&", "%26", r("=", "%3D", r("+", "%2B", r("$", "%24", r(",", "%2C", r("/", "%2F", r("?", "%3F", r("%", "%25", r("#", "%23", r("[", "%5B", r("]", "%5D", $string))))))))))))))))))));
+	}
+    	function cleanParam($param){
+		$param = myUrlEncode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!*\'();:@&=+$,\/?%#[]-]/', ' ', trim((string)$param)))));
 		if($param == ""){
 			return "None";
 		}
@@ -84,7 +83,7 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
+		//curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
 		curl_close ($ch);
 		
