@@ -24,7 +24,7 @@
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$token = json_decode(curl_exec($ch), true)["access_token"];
 		curl_close ($ch);
-//echo $token . "<br/><br/>";
+echo $token . "<br/><br/>";
 		
 		//CREATE OBSERVATION
 		$plant = Plant::findByCode($plantCode);
@@ -88,7 +88,7 @@
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		$observation = json_decode(curl_exec($ch), true)[0];
 		curl_close ($ch);
-//echo $observation . "<br/><br/>";
+echo $observation . "<br/><br/>";
 		
 		//ADD PHOTO TO OBSERVATION
 		$ch = curl_init();
@@ -104,7 +104,7 @@
 		curl_setopt($ch, CURLOPT_POST,1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-//echo curl_exec($ch) . "<br/><br/>";
+echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 		
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
@@ -114,7 +114,7 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-//echo curl_exec($ch) . "<br/><br/>";
+echo curl_exec($ch) . "<br/><br/>";
 		curl_close ($ch);
 	}
 ?>
