@@ -13,6 +13,8 @@ class User
 	private $lastName;
 	private $desiredEmail;					//STRING			email that has been signed up for but not necessarilly verified
 	private $email;							//STRING			*@*.*, MUST GET VERIFIED
+	private $hiddenFromLeaderboards;
+	private $iNaturalistObserverID;
 	private $saltedPasswordHash;			//STRING			salted hash of password
 	private $salt;							//STRING
 	
@@ -69,9 +71,9 @@ class User
 		$id = intval(mysqli_insert_id($dbconn));
 		mysqli_close($dbconn);
 		
-		return new User($id, $firstName, $lastName, $desiredEmail, "", $salt, $saltedPasswordHash, false);
+		return new User($id, $firstName, $lastName, $desiredEmail, "", $salt, $saltedPasswordHash, false, "");
 	}
-	private function __construct($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards) {
+	private function __construct($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards, $iNaturalistObserverID) {
 		$this->id = intval($id);
 		$this->firstName = $firstName;
 		$this->lastName = $lastName;
@@ -80,6 +82,7 @@ class User
 		$this->salt = $salt;
 		$this->saltedPasswordHash = $saltedPasswordHash;
 		$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
+		$this->iNaturalistObserverID = $iNaturalistObserverID;
 		
 		$this->deleted = false;
 	}	
@@ -104,8 +107,9 @@ class User
 		$salt = $userRow["Salt"];
 		$saltedPasswordHash = $userRow["SaltedPasswordHash"];
 		$hiddenFromLeaderboards = $userRow["HiddenFromLeaderboards"];
+		$iNaturalistObserverID = $userRow["INaturalistObserverID"];
 		
-		return new User($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards);
+		return new User($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards, $iNaturalistObserverID);
 	}
 	
 	public static function findByEmail($email) {
@@ -219,6 +223,11 @@ class User
 	public function getHiddenFromLeaderboards() {
 		if($this->deleted){return null;}
 		return filter_var($this->hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
+	}
+	
+	public function getINaturalistObserverID() {
+		if($this->deleted){return null;}
+		return $this->iNaturalistObserverID;
 	}
 	
 	public function getSites(){
@@ -336,6 +345,31 @@ class User
 			mysqli_close($dbconn);
 			$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
 			return true;
+		}
+		return false;
+	}
+	
+	public function setINaturalistObserverID(){
+		if($this->iNaturalistObserverID == ""){
+			if(strpos($this->email, "@") !== false){
+				$observerID = preg_replace("/[^a-zA-Z0-9]+/", "", substr($email, 0, strrpos($this->email, "@")));
+				$i = 0;
+				while(true){
+					$uniqueObserverID = $observerID;
+					if($i > 0){
+						$uniqueObserverID = $observerID . $i;
+					}
+					$query = mysqli_query($dbconn, "SELECT `INaturalistObserverID` FROM `User` WHERE `INaturalistObserverID`='$uniqueObserverID' LIMIT 1");
+					mysqli_close($dbconn);
+					if(mysqli_num_rows($query) == 0){
+						mysqli_query($dbconn, "UPDATE `User` SET `INaturalistObserverID`='$uniqueObserverID' WHERE ID='" . $this->id . "'");
+						mysqli_close($dbconn);
+						$this->iNaturalistObserverID = $uniqueObserverID;
+						return true;
+					}
+					$i++;
+				}
+			}
 		}
 		return false;
 	}
