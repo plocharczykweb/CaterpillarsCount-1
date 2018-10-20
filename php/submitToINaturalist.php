@@ -7,7 +7,7 @@
 	    return r(" ", "%20", r(">", "%3E", r("!", "%21", r("*", "%2A", r("(", "%28", r(")", "%29", r(";", "%3B", r(":", "%3A", r("@", "%40", r("&", "%26", r("=", "%3D", r("+", "%2B", r("$", "%24", r(",", "%2C", r("/", "%2F", r("?", "%3F", r("%", "%25", $string)))))))))))))))));
 	}
     	function cleanParam($param){
-		$param = myUrlEncode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!*();:@&=+$,\/?%>-]/', ' ', trim((string)$param)))));
+		$param = myUrlEncode(preg_replace('!\s+!', ' ', trim(preg_replace('/[^a-zA-Z0-9.!*();:@&=+$,\/?%-]/', ' ', trim((string)$param)))));
 		if($param == ""){
 			return "None";
 		}
