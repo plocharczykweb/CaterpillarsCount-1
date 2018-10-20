@@ -365,6 +365,7 @@ class User
 						mysqli_query($dbconn, "UPDATE `User` SET `INaturalistObserverID`='$uniqueObserverID' WHERE ID='" . $this->id . "'");
 						mysqli_close($dbconn);
 						$this->iNaturalistObserverID = $uniqueObserverID;
+						email($this->email, "We've linked your Caterpillars Count! account with iNaturalist!", "<div style=\"text-align:center;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"color:#777;margin-bottom:40px;font-size:20px;\">Thanks for verifying your Caterpillars Count! account! You can now sign in to our website and mobile app to create sites, submit observations, review your data, and more! We've also linked your Caterpillars Count! account to iNaturalist, another website which will allow experts to review and offer input on every photo you submit to us! Everytime we post one of your observations on iNaturalist, we'll include your unique iNaturalist Observer ID, which is \"" . $uniqueObserverID . "\". If you haven't submitted any observations with photos to us yet, you won't have any postings on iNaturalist. But once you do, you'll be able to find your iNaturalist positings just by accessing your personal page on iNaturalist. If you'd like to keep your postings anonymous, you can always change your privacy settings by logging in to our website and visiting your \"Settings\" page.</div><a href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" . $uniqueObserverID . "\"><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">FIND MY INATURALIST PAGE</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\">Alternatively, use link: <a href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" . $uniqueObserverID . "\" style=\"color:#70c6ff;\">https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" . $uniqueObserverID . "</a></div></div>");
 						return true;
 					}
 					$i++;
@@ -511,6 +512,7 @@ class User
 			mysqli_query($dbconn, "UPDATE User SET `Email`=`DesiredEmail` WHERE `ID`='" . $this->id . "'");
 			mysqli_query($dbconn, "UPDATE User SET `EmailVerificationCode`='' WHERE `ID`='" . $this->id . "'");
 			mysqli_close($dbconn);
+			$this->setINaturalistObserverID();
 			return true;
 		}
 		mysqli_close($dbconn);
