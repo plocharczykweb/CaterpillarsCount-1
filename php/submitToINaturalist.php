@@ -117,7 +117,7 @@
 		curl_close ($ch);
 		
 		if($order == "caterpillar"){
-			//LINK OBSERVATION TO CATERPILLARS OF EASTERN NORTH AMERICA PROJECT
+			//LINK OBSERVATION TO CATERPILLARS OF EASTERN NORTH AMERICA PROJECT IF IT'S IN AN ALLOWED REGION
 			$ch = curl_init("http://www.inaturalist.org/project_observations");
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, "access_token=" . $token . "&project_observation[observation_id]=" . $observation["id"] . "&project_observation[project_id]=9210");
