@@ -3,9 +3,9 @@
   
   $users = User::findAll();
   for($i = 0; $i < count($users); $i++){
-    if($user->getEmail() != ""){
-      $user->setINaturalistObserverID();
-      echo $user->getINaturalistObserverID() . "<br/>";
+    if($users[$i]->getEmail() != ""){
+      $users[$i]->setINaturalistObserverID();
+      echo $users[$i]->getINaturalistObserverID() . "<br/>";
     }
   }
 ?>
