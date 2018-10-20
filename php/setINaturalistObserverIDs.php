@@ -1,5 +1,5 @@
 <?php
-  require_once("orm/user.php");
+  require_once("orm/User.php");
   
   $users = User::findAll();
   for($i = 0; $i < count($users); $i++){
