@@ -101,7 +101,8 @@
 		curl_setopt($ch, CURLOPT_POST,1);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-		$photoData = curl_exec($ch);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_exec($ch);
 		curl_close ($ch);
 		
 		//LINK OBSERVATION TO CATERPILLARS COUNT PROJECT
@@ -111,7 +112,8 @@
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$projectLinkData = curl_exec($ch);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_exec($ch);
 		curl_close ($ch);
 		
 		if($order == "caterpillar"){
@@ -122,9 +124,9 @@
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			$projectLinkData = curl_exec($ch);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_exec($ch);
 			curl_close ($ch);
-			echo "second project link: " . $projectLinkData;
 		}
 	}
 ?>
