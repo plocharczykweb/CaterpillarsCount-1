@@ -361,7 +361,6 @@ class User
 						$uniqueObserverID = $observerID . $i;
 					}
 					$query = mysqli_query($dbconn, "SELECT `INaturalistObserverID` FROM `User` WHERE `INaturalistObserverID`='$uniqueObserverID' LIMIT 1");
-					mysqli_close($dbconn);
 					if(mysqli_num_rows($query) == 0){
 						mysqli_query($dbconn, "UPDATE `User` SET `INaturalistObserverID`='$uniqueObserverID' WHERE ID='" . $this->id . "'");
 						mysqli_close($dbconn);
