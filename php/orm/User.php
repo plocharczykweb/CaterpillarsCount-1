@@ -353,6 +353,7 @@ class User
 		if($this->iNaturalistObserverID == ""){
 			if(strpos($this->email, "@") !== false){
 				$observerID = preg_replace("/[^a-zA-Z0-9]+/", "", substr($email, 0, strrpos($this->email, "@")));
+				$dbconn = (new Keychain)->getDatabaseConnection();
 				$i = 0;
 				while(true){
 					$uniqueObserverID = $observerID;
