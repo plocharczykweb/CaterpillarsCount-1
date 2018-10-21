@@ -91,7 +91,7 @@
 						if($attachResult != "File not uploaded." && $attachResult !== true){
 							$arthropodSightingFailures .= strval($attachResult);
 						}
-						if($arthropodSighting->getPhotoURL() != "" && $user->getEmail() == "plocharczykweb@gmail.com"){// && $site->getName() != "Example Site"){
+						if($arthropodSighting->getPhotoURL() != "" && $site->getName() != "Example Site"){
 							$observerID = $user->getINaturalistObserverID();
 							if($user->getHidden()){
 								$observerID = "anonymous";
