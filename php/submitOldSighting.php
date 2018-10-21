@@ -6,6 +6,7 @@
   
   $arthropodSighting = ArthropodSighting::findByID($arthropodSightingID);
   $survey = $arthropodSighting->getSurvey();
+  $user = $survey->getObserver();
   $plant = $survey->getPlant();
   $site = $plant->getSite();
   
