@@ -13,7 +13,7 @@ class User
 	private $lastName;
 	private $desiredEmail;					//STRING			email that has been signed up for but not necessarilly verified
 	private $email;							//STRING			*@*.*, MUST GET VERIFIED
-	private $hiddenFromLeaderboards;
+	private $hidden;
 	private $iNaturalistObserverID;
 	private $saltedPasswordHash;			//STRING			salted hash of password
 	private $salt;							//STRING
@@ -73,7 +73,7 @@ class User
 		
 		return new User($id, $firstName, $lastName, $desiredEmail, "", $salt, $saltedPasswordHash, false, "");
 	}
-	private function __construct($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards, $iNaturalistObserverID) {
+	private function __construct($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hidden, $iNaturalistObserverID) {
 		$this->id = intval($id);
 		$this->firstName = $firstName;
 		$this->lastName = $lastName;
@@ -81,7 +81,7 @@ class User
 		$this->email = $email;
 		$this->salt = $salt;
 		$this->saltedPasswordHash = $saltedPasswordHash;
-		$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
+		$this->hidden = $hidden;
 		$this->iNaturalistObserverID = $iNaturalistObserverID;
 		
 		$this->deleted = false;
@@ -106,10 +106,10 @@ class User
 		$email = $userRow["Email"];
 		$salt = $userRow["Salt"];
 		$saltedPasswordHash = $userRow["SaltedPasswordHash"];
-		$hiddenFromLeaderboards = $userRow["HiddenFromLeaderboards"];
+		$hidden = $userRow["Hidden"];
 		$iNaturalistObserverID = $userRow["INaturalistObserverID"];
 		
-		return new User($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards, $iNaturalistObserverID);
+		return new User($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hidden, $iNaturalistObserverID);
 	}
 	
 	public static function findByEmail($email) {
@@ -220,9 +220,9 @@ class User
 		return $this->email;
 	}
 	
-	public function getHiddenFromLeaderboards() {
+	public function getHidden() {
 		if($this->deleted){return null;}
-		return filter_var($this->hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
+		return filter_var($this->hidden, FILTER_VALIDATE_BOOLEAN);
 	}
 	
 	public function getINaturalistObserverID() {
@@ -337,13 +337,13 @@ class User
 		return $site->setObservationMethodPreset($this, $observationMethod);
 	}
 	
-	public function setHiddenFromLeaderboards($hiddenFromLeaderboards){
+	public function setHidden($hidden){
 		if(!$this->deleted){
 			$dbconn = (new Keychain)->getDatabaseConnection();
-			$hiddenFromLeaderboards = filter_var($hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
-			mysqli_query($dbconn, "UPDATE User SET HiddenFromLeaderboards='$hiddenFromLeaderboards' WHERE ID='" . $this->id . "'");
+			$hidden = filter_var($hidden, FILTER_VALIDATE_BOOLEAN);
+			mysqli_query($dbconn, "UPDATE User SET Hidden='$hidden' WHERE ID='" . $this->id . "'");
 			mysqli_close($dbconn);
-			$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
+			$this->hidden = $hidden;
 			return true;
 		}
 		return false;
