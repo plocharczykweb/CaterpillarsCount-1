@@ -512,6 +512,7 @@ class User
 			mysqli_query($dbconn, "UPDATE User SET `Email`=`DesiredEmail` WHERE `ID`='" . $this->id . "'");
 			mysqli_query($dbconn, "UPDATE User SET `EmailVerificationCode`='' WHERE `ID`='" . $this->id . "'");
 			mysqli_close($dbconn);
+			$this->email = $this->desiredEmail;
 			$this->setINaturalistObserverID();
 			return true;
 		}
