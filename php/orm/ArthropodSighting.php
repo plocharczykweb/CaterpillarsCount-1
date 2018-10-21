@@ -1,6 +1,7 @@
 <?php
 
 require_once('resources/Keychain.php');
+require_once('Survey.php');
 
 class ArthropodSighting
 {
