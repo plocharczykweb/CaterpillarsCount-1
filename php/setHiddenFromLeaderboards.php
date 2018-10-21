@@ -8,8 +8,8 @@
   
   	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
-    		$user->setHiddenFromLeaderboards($newValue);
-    		die("true|" . ($user->getHiddenFromLeaderboards() ? 'true' : 'false'));
+    		$user->setHidden($newValue);
+    		die("true|" . ($user->getHidden() ? 'true' : 'false'));
   	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
