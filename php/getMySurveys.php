@@ -1,6 +1,7 @@
 <?php
 	require_once('orm/User.php');
 	require_once('orm/Survey.php');
+	require_once('orm/resources/Keychain.php');
 	
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
@@ -68,10 +69,15 @@
 		}
 		$sites = $user->getSites();
 		$sitesArray = array();
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		$query = mysqli_query($dbconn, "SELECT * FROM `ArthropodSighting` JOIN `Survey` ON `ArthropodSighting`.`SurveyFK`=`Survey`.`ID` WHERE `UserFKOfObserver`='" . $user->getID() . "' AND PhotoURL<>'' LIMIT 1");
+		$userHasINaturalistObservations = (mysqli_num_rows($query) > 0);
 		for($i = 0; $i < count($sites); $i++){
-			$sitesArray[] = $sites[$i]->getName();
+			$query = mysqli_query($dbconn, "SELECT * FROM `ArthropodSighting` JOIN `Survey` ON `ArthropodSighting`.`SurveyFK`=`Survey`.`ID` JOIN `Plant` ON `Survey`.`PlantFK`=`Plant`.`ID` WHERE `Plant`.`SiteFK`='" . $sites[$i]->getID() . "' AND `ArthropodSighting`.`PhotoURL`<>'' LIMIT 1");
+			$sitesArray[] = array($sites[$i]->getName(), (mysqli_num_rows($query) > 0));
 		}
-		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, $sitesArray, $user->getINaturalistObserverID())));
+		mysqli_close($dbconn);
+		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, $sitesArray, $user->getINaturalistObserverID(), $userHasINaturalistObservations)));
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
