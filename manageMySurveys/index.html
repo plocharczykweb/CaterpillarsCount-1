@@ -796,13 +796,16 @@
 								}
 								if(sitesWithNoObservations.length > 0){
 									var verb = "does";
+									var page = "its iNaturalist page";
 									var sitesWithNoObservationsString = sitesWithNoObservations[0];
 									if(sitesWithNoObservations.length == 2){
 										var verb = "do";
+										page = "their iNaturalist pages";
 										sitesWithNoObservationsString += (" and " + sitesWithNoObservations[0]);
 									}
 									else{
 										var verb = "do";
+										page = "their iNaturalist pages";
 										for(var i = 1; i < sitesWithNoObservations.length; i++){
 											if(i < (sitesWithNoObservations.length - 1)){
 												sitesWithNoObservationsString += ", " + sitesWithNoObservations[i];
@@ -812,7 +815,7 @@
 											}
 										}
 									}
-									tagline += " " + sitesWithNoObservationsString + " " + verb + " not have any observations ready to check for expert identifications yet.";
+									tagline += " " + sitesWithNoObservationsString + " " + verb + " not have any observations ready to check for expert identifications yet, so " + page + " will be empty.";
 								}
 								$(".tagline").eq(0)[0].innerHTML = tagline;
 							}
