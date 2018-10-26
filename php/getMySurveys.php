@@ -70,10 +70,10 @@
 		$sites = $user->getSites();
 		$sitesArray = array();
 		$dbconn = (new Keychain)->getDatabaseConnection();
-		$query = mysqli_query($dbconn, "SELECT * FROM `ArthropodSighting` JOIN `Survey` ON `ArthropodSighting`.`SurveyFK`=`Survey`.`ID` WHERE `UserFKOfObserver`='" . $user->getID() . "' AND PhotoURL<>'' LIMIT 1");
+		$query = mysqli_query($dbconn, "SELECT * FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE `UserFKOfObserver`='" . $user->getID() . "' AND PhotoURL<>'' AND SiteFK<>'2' LIMIT 1");
 		$userHasINaturalistObservations = (mysqli_num_rows($query) > 0);
 		for($i = 0; $i < count($sites); $i++){
-			$query = mysqli_query($dbconn, "SELECT * FROM `ArthropodSighting` JOIN `Survey` ON `ArthropodSighting`.`SurveyFK`=`Survey`.`ID` JOIN `Plant` ON `Survey`.`PlantFK`=`Plant`.`ID` WHERE `Plant`.`SiteFK`='" . $sites[$i]->getID() . "' AND `ArthropodSighting`.`PhotoURL`<>'' LIMIT 1");
+			$query = mysqli_query($dbconn, "SELECT * FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Plant.SiteFK='" . $sites[$i]->getID() . "' AND ArthropodSighting.PhotoURL<>'' AND Plant.SiteFK<>'2' LIMIT 1");
 			$sitesArray[] = array($sites[$i]->getName(), (mysqli_num_rows($query) > 0));
 		}
 		mysqli_close($dbconn);
