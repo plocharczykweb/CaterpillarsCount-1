@@ -58,7 +58,7 @@
 		if(trim($arthropodNotes) != ""){
 			$url .= "&observation[description]=" . cleanParam($arthropodNotes);
 		}
-		$herbivoryScores = array("0%", "1-5%", "6-10%", "11-25%", "> 25%");
+		$herbivoryScores = array("None", "0-5%", "6-10%", "11-25%", "> 25%");
 		$params = [["9677", $averageLeafLength . " cm"], ["2926", $numberOfLeaves], ["9676", (($wetLeaves) ? 'Yes' : 'No')], ["3020", $observationMethod], ["9675", $surveyNotes], ["9670", $arthropodLength . " mm"], ["1194", $site->getName()], ["9671", $plant->getCircle()], ["1422", $plantCode], ["6609", $plant->getSpecies()], ["9672", $herbivoryScores[intval($herbivoryScore)]], ["544", $arthropodQuantity], ["9673", $userTag]];
 		if($order == "caterpillar"){
 			$params[] = ["9678", (($hairy) ? 'Yes' : 'No')];
