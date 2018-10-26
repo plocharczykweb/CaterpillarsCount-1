@@ -66,7 +66,12 @@
 				);
 			}
 		}
-		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, (count($user->getSites()) > 0))));
+		$sites = $user->getSites();
+		$sitesArray = array();
+		for($i = 0; $i < count($sites); $i++){
+			$sitesArray[] = $sites[$i]->getName();
+		}
+		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, $sitesArray, $user->getINaturalistObserverID())));
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
