@@ -91,7 +91,10 @@
 		$userHasINaturalistObservations = (mysqli_num_rows($query) > 0);
 		mysqli_close($dbconn);
 		for($i = 0; $i < count($sites); $i++){
-			$sitesArray[] = array($sites[$i]->getName());
+			$siteName = $sites[$i]->getName();
+			if($siteName != "Example Site"){
+				$sitesArray[] = array($siteName);
+			}
 		}
 		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, $isSiteAuthority, $sitesArray, $user->getINaturalistObserverID(), $userHasINaturalistObservations)));
 	}
