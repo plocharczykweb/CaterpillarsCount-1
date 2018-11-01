@@ -69,6 +69,7 @@
 			}
 		}
 		$sites = $user->getSites();
+		$isSiteAuthority = (count($sites) > 0);
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT Plant.SiteFK FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Survey.UserFKOfObserver='" . $user->getID() . "' GROUP BY Plant.SiteFK");
 		while($siteRow = mysqli_fetch_assoc($query)){
@@ -92,7 +93,7 @@
 		for($i = 0; $i < count($sites); $i++){
 			$sitesArray[] = array($sites[$i]->getName());
 		}
-		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, $sitesArray, $user->getINaturalistObserverID(), $userHasINaturalistObservations)));
+		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, $isSiteAuthority, $sitesArray, $user->getINaturalistObserverID(), $userHasINaturalistObservations)));
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
