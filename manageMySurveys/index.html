@@ -751,84 +751,46 @@
 							var totalSurveys = data[0];
 							var totalPages = data[1];
 							var surveys = data[2];
-							var isASiteAuthority = data[3].length > 0;
-							var iNaturalistObserverID = data[4];
-							var haveINaturalistObservations = data[5];
+							var isASiteAuthority = data[3];
+							var iNaturalistObserverID = data[5];
+							var haveINaturalistObservations = data[6];
 							if(isASiteAuthority){
 								$("#filters").addClass("full");
 								var tagline = "This page shows all the surveys you've personally submitted, plus all the surveys submitted at the sites you manage.";
-								if(haveINaturalistObservations){
-									tagline += " You can also check for expert identifications of your personal arthropod photos on your <a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" + iNaturalistObserverID + "\">iNaturalist page</a>!";
-								}
-								else{
-									tagline += " You haven't submitted any surveys with photos yet, so your personal <a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" + iNaturalistObserverID + "\">iNaturalist page</a> is currently empty.";
-								}
-								var sitesWithObservations = [];
-								var sitesWithNoObservations = [];
-								for(var i = 0; i < data[3].length; i++){
-									if(data[3][i][1]){//if there are surveys at this site
-										sitesWithObservations[sitesWithObservations.length] = "<a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Site%20Name=" + cleanParam(data[3][i][0]) + "\">" + data[3][i][0] + "</a>";
-									}
-									else{
-										sitesWithNoObservations[sitesWithNoObservations.length] = "<a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Site%20Name=" + cleanParam(data[3][i][0]) + "\">" + data[3][i][0] + "</a>";
-									}
-								}
-								tagline += " In addition to viewing just your own iNaturalist observations, you can also filter by site.";
-								if(sitesWithObservations.length > 0){
-									var verb = "has";
-									var sitesWithObservationsString = sitesWithObservations[0];
-									if(sitesWithObservations.length == 2){
-										verb = "have";
-										sitesWithObservationsString += (" and " + sitesWithObservations[0]);
-									}
-									else{
-										verb = "have";
-										for(var i = 1; i < sitesWithObservations.length; i++){
-											if(i < (sitesWithObservations.length - 1)){
-												sitesWithObservationsString += ", " + sitesWithObservations[i];
-											}
-											else{
-												sitesWithObservationsString += ", and " + sitesWithObservations[i];
-											}
-										}
-									}
-									tagline += " " + sitesWithObservationsString + " " + verb + " observations ready to check for expert identifications!";
-								}
-								if(sitesWithNoObservations.length > 0){
-									var verb = "does";
-									var page = "its iNaturalist page";
-									var sitesWithNoObservationsString = sitesWithNoObservations[0];
-									if(sitesWithNoObservations.length == 2){
-										var verb = "do";
-										page = "their iNaturalist pages";
-										sitesWithNoObservationsString += (" and " + sitesWithNoObservations[0]);
-									}
-									else{
-										var verb = "do";
-										page = "their iNaturalist pages";
-										for(var i = 1; i < sitesWithNoObservations.length; i++){
-											if(i < (sitesWithNoObservations.length - 1)){
-												sitesWithNoObservationsString += ", " + sitesWithNoObservations[i];
-											}
-											else{
-												sitesWithNoObservationsString += ", and " + sitesWithNoObservations[i];
-											}
-										}
-									}
-									tagline += " " + sitesWithNoObservationsString + " " + verb + " not have any observations ready to check for expert identifications yet, so " + page + " will be empty.";
-								}
-								$(".tagline").eq(0)[0].innerHTML = tagline;
 							}
 							else{
 								var tagline = "This page shows all the surveys you've personally submitted.";
-								if(haveINaturalistObservations){
-									tagline += " You can also check for expert identifications of your arthropod photos on <a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" + iNaturalistObserverID + "\">iNaturalist</a>!";
+							}
+							
+							if(haveINaturalistObservations){
+								tagline += " You can also check for expert identifications of your personal arthropod photos on this <a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" + iNaturalistObserverID + "\">iNaturalist page</a>!";
+							}
+							else{
+								tagline += " You haven't submitted any surveys with photos yet, so your project <a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" + iNaturalistObserverID + "\">iNaturalist page</a> is currently empty.";
+							}
+							var sites = [];
+							for(var i = 0; i < data[4].length; i++){
+								sites[sites.length] = "<a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Site%20Name=" + cleanParam(data[4][i]) + "\">" + data[4][i] + "</a>";
+							}
+							if(sites.length > 0){
+								tagline += " You can find all photo observations submitted for a given site here: ";
+								var sitesString = sites[0];
+								if(sites.length == 2){
+									sitesString += (" and " + sites[1]);
 								}
 								else{
-									tagline += " You haven't submitted any surveys with photos yet, so your personal <a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" + iNaturalistObserverID + "\">iNaturalist page</a> is currently empty.";
+									for(var i = 1; i < sites.length; i++){
+										if(i < (sites.length - 1)){
+											sitesString += ", " + sites[i];
+										}
+										else{
+											sitesString += ", and " + sites[i];
+										}
+									}
 								}
-								$(".tagline").eq(0)[0].innerHTML = tagline;
+								tagline += sitesString;
 							}
+							$(".tagline").eq(0)[0].innerHTML = tagline;
 
 							if(surveys.length == 0){
 								if(pageNumber > 1){
