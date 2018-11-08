@@ -1867,7 +1867,9 @@
 					if(window.location.toString().indexOf("#") > -1){
 						var paramsString = window.location.toString().substring(window.location.toString().indexOf("#") + 1);
 						if(paramsString.indexOf("Composition") > -1){
-							switchGraphTo('bar');
+							setTimeout(function(){
+								switchGraphTo('bar');
+							}, 400);
 						}
 						var selectedSiteIDFromURL = paramsString.replace(/\D/g, "");
 						if(selectedSiteIDFromURL.length > 0){
