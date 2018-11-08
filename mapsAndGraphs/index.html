@@ -2106,6 +2106,13 @@
 				$("#barGraph")[0].style.display = "none";
 				$("#" + graphType + "Graph")[0].style.display = "block";
 				centerYAxisLabels();
+				
+				if(graphType == "bar"){
+					window.location = "#" + window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace("Phenology", "Composition");
+				}
+				else{
+					window.location = "#" + window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace("Composition", "Phenology");
+				}
 			}
 			
 			//PHENOLOGY CHART STUFF
