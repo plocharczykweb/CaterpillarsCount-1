@@ -1319,7 +1319,11 @@
 				markerClick(this);
 			}
 			function markerClick(marker){
-				window.location = "#selected" + marker.siteInformation["ID"];
+				var graphType = "Phenology";
+				if($("#lineGraphSwitchButton")[0].className == ""){
+					graphType = "Composition";
+				}
+				window.location = "#selected" + graphType + marker.siteInformation["ID"];
 				activeSite = marker.siteInformation["Name"];
 				activeSiteID = marker.siteInformation["ID"];
 				if(toggleMarker(marker) == "same"){
@@ -1861,7 +1865,11 @@
 					showMapDownloadButton();
 					
 					if(window.location.toString().indexOf("#") > -1){
-						var selectedSiteIDFromURL = window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace(/\D/g, "");
+						var paramsString = window.location.toString().substring(window.location.toString().indexOf("#") + 1);
+						if(paramsString.indexOf("Composition") > -1){
+							switchGraphTo('bar');
+						}
+						var selectedSiteIDFromURL = paramsString.replace(/\D/g, "");
 						if(selectedSiteIDFromURL.length > 0){
 							markerClick(markers[selectedSiteIDFromURL]);
 						}
