@@ -19,6 +19,7 @@ class Site
 	private $saltedPasswordHash;			//STRING			salted hash of password
 	private $salt;							//STRING
 	private $openToPublic;
+	private $active;
 	
 	private $deleted;
 
@@ -86,9 +87,9 @@ class Site
 		$publicPrivateString = "Private";
 		if($openToPublic){$publicPrivateString = "Public";}
 		email("caterpillarscount@gmail.com", "New Caterpillars Count! Site Created!", "<html> <head> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <style> body{ margin:0px; } table{ font-size:20px; } td{ padding:20px; box-sizing:border-box; word-break: break-word; } td:nth-of-type(2){ color:#777; } @media only screen and (max-width: 500px){ table{ font-size:16px; } } @media only screen and (max-width: 400px){ table{ font-size:13px; } } </style> </head> <body> <div style=\"padding:20px;text-align:center;border-radius:5px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"> <div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\"> <table style=\"width:100%;table-layout: fixed;border-collapse:collapse;background:#f7f7f7;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;color:#555;\"> <tr> <td colspan=\"2\" style=\"background:#70c6ff;text-align:center;\"><img src=\"https://caterpillarscount.unc.edu/images/newSite.png\" style=\"height:150px;\"/></td> </tr> <tr> <td>Name: </td> <td>" . $name . "</td> </tr> <tr> <td>Description: </td> <td>" . $description . "</td> </tr> <tr> <td>Region: </td> <td>" . $region . "</td> </tr> <tr> <td>Coordinates: </td> <td><a href=\"https://www.google.com/maps/search/?api=1&query=" . $latitude . "," . $longitude . "\" style=\"color:#70c6ff;\">" . $latitude . "," . $longitude . "</a></td> </tr> <tr> <td>Visibility: </td> <td>" . $publicPrivateString . "</td> </tr> <tr> <td>Created by: </td> <td>" . $creator->getFullName() . "</td> </tr> <tr> <td>Email: </td> <td><a href=\"mailto:" . $creator->getEmail() . "\" style=\"color:#70c6ff;\">" . $creator->getEmail() . "</a></td> </tr> </table> </div> </div> </body></html>");
-		return new Site($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, $openToPublic);
+		return new Site($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, $openToPublic, true);
 	}
-	private function __construct($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, $openToPublic) {
+	private function __construct($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, $openToPublic, $active) {
 		$this->id = intval($id);
 		$this->creator = $creator;
 		$this->name = $name;
@@ -99,6 +100,7 @@ class Site
 		$this->salt = $salt;
 		$this->saltedPasswordHash = $saltedPasswordHash;
 		$this->openToPublic = $openToPublic;
+		$this->active = $active;
 		
 		$this->deleted = false;
 	}
@@ -125,8 +127,9 @@ class Site
 		$salt = $siteRow["Salt"];
 		$saltedPasswordHash = $siteRow["SaltedPasswordHash"];
 		$openToPublic = $siteRow["OpenToPublic"];
+		$active = filter_var($siteRow["Active"], FILTER_VALIDATE_BOOLEAN);
 		
-		return new Site($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, $openToPublic);
+		return new Site($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, $openToPublic, $active);
 	}
 	
 	public static function findByName($name) {
@@ -159,7 +162,8 @@ class Site
 			$salt = $siteRow["Salt"];
 			$saltedPasswordHash = $siteRow["SaltedPasswordHash"];
 			$openToPublic = $siteRow["OpenToPublic"];
-			$site = new Site($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, $openToPublic);
+			$active = filter_var($siteRow["Active"], FILTER_VALIDATE_BOOLEAN);
+			$site = new Site($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, $openToPublic, $active);
 			
 			array_push($sitesArray, $site);
 		}
@@ -182,7 +186,7 @@ class Site
 		return $sitesArray;
 	}
 	
-	public static function findAllPublicSites(){
+	public static function findAllActivePublicSites(){
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT * FROM `Site` WHERE `OpenToPublic`='1'");
 		mysqli_close($dbconn);
@@ -198,9 +202,13 @@ class Site
 			$region = $siteRow["Region"];
 			$salt = $siteRow["Salt"];
 			$saltedPasswordHash = $siteRow["SaltedPasswordHash"];
-			$site = new Site($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, true);
+			$active = filter_var($siteRow["Active"], FILTER_VALIDATE_BOOLEAN);
 			
-			array_push($sitesArray, $site);
+			$site = new Site($id, $creator, $name, $description, $latitude, $longitude, $region, $salt, $saltedPasswordHash, true, $active);
+			
+			if($active){
+				array_push($sitesArray, $site);
+			}
 		}
 		return $sitesArray;
 	}
@@ -285,6 +293,11 @@ class Site
 		return filter_var($this->openToPublic, FILTER_VALIDATE_BOOLEAN);
 	}
 	
+	public function getActive(){
+		if($this->deleted){return null;}
+		return filter_var($this->active, FILTER_VALIDATE_BOOLEAN);
+	}
+	
 	public function getObservationMethodPreset($user){
 		$dbconn = (new Keychain)->getDatabaseConnection();
 		$query = mysqli_query($dbconn, "SELECT `ObservationMethod` FROM `SiteUserPreset` WHERE `UserFK`='" . intval($user->getID()) . "' AND `SiteFK`='" . $this->id . "' LIMIT 1");
@@ -343,6 +356,18 @@ class Site
 			mysqli_query($dbconn, "UPDATE Site SET OpenToPublic='$openToPublic' WHERE ID='" . $this->id . "'");
 			mysqli_close($dbconn);
 			$this->openToPublic = $openToPublic;
+			return true;
+		}
+		return false;
+	}
+	
+	public function setActive($active){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$active = filter_var($active, FILTER_VALIDATE_BOOLEAN);
+			mysqli_query($dbconn, "UPDATE Site SET `Active`='$active' WHERE ID='" . $this->id . "'");
+			mysqli_close($dbconn);
+			$this->active = $active;
 			return true;
 		}
 		return false;
