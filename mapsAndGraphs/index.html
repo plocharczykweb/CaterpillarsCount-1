@@ -2096,6 +2096,13 @@
 			}
 			
 			function switchGraphTo(graphType){
+				if(graphType == "bar"){
+					window.location = "#" + window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace("Phenology", "Composition");
+				}
+				else{
+					window.location = "#" + window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace("Composition", "Phenology");
+				}
+				
 				$("#barGraphSwitchButton")[0].className = "";
 				$("#lineGraphSwitchButton")[0].className = "";
 				$("#" + graphType + "GraphSwitchButton")[0].className = "active";
@@ -2103,13 +2110,6 @@
 				$("#barGraph")[0].style.display = "none";
 				$("#" + graphType + "Graph")[0].style.display = "block";
 				centerYAxisLabels();
-				
-				if(graphType == "bar"){
-					window.location = "#" + window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace("Phenology", "Composition");
-				}
-				else{
-					window.location = "#" + window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace("Composition", "Phenology");
-				}
 			}
 			
 			//PHENOLOGY CHART STUFF
