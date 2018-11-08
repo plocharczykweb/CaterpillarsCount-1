@@ -11,6 +11,7 @@
 	$description = $_GET["description"];
 	$sitePassword = $_GET["sitePassword"];
 	$public = $_GET["public"];
+	$active = $_GET["active"];
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
@@ -42,6 +43,11 @@
 			if($site->getOpenToPublic() !== filter_var($public, FILTER_VALIDATE_BOOLEAN)){
 				if(!$site->setOpenToPublic($public)){
 					$errors .= "Could not set site's public status. ";
+				}
+			}
+			if($site->getActive() !== filter_var($active, FILTER_VALIDATE_BOOLEAN)){
+				if(!$site->setActive($active)){
+					$errors .= "Could not set site's active status. ";
 				}
 			}
 			if($errors == ""){
