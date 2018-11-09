@@ -71,7 +71,9 @@
 		}
 		
 		$site = $plant->getSite();
-		$site->setActive(true);
+		if(!$site->getActive()){
+			$site->setActive(true);
+		}
 		if($site->validateUser($user, $sitePassword)){
 			$user->setObservationMethodPreset($site, $observationMethod);
 			//submit data to database
