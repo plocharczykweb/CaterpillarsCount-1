@@ -8,7 +8,7 @@
   
   $sites = Site::findAll();
   for($i = 0; $i < count($sites); $i++){
-    if($sites[$i]->getActive() && $sites[$i]->getLatitude() < 36.5 && $sites[$i]->getNumberOfSurveysByYear(date("Y")) == 0){
+    if($sites[$i]->getActive() && $sites[$i]->getLatitude() >= 36.5 && $sites[$i]->getLatitude() < 40.7 && $sites[$i]->getNumberOfSurveysByYear(date("Y")) == 0){
       $emails = $sites[$i]->getAuthorityEmails();
       for($j = 0; $j < count($emails); $j++){
         $firstName = "there";
@@ -31,7 +31,7 @@
         }
       }
     }
-    else if($sites[$i]->getActive() && $sites[$i]->getLatitude() >= 36.5 && $sites[$i]->getLatitude() < 40.7 && $sites[$i]->getNumberOfSurveysByYear(date("Y")) == 0){
+    else if($sites[$i]->getActive() && $sites[$i]->getLatitude() >= 40.7 && $sites[$i]->getNumberOfSurveysByYear(date("Y")) == 0){
       $emails = $sites[$i]->getAuthorityEmails();
       for($j = 0; $j < count($emails); $j++){
         $firstName = "there";
