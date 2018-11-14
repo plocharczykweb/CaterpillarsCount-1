@@ -27,7 +27,7 @@
           cookieCutterEmail($emails[$j], "The Caterpillars Count! Season Has Begun!", 4);
         }
         else{
-          cookieCutterEmail($emails[$j], "The Caterpillars Count! Season Has Begun!", 5);
+          cookieCutterEmail($emails[$j], "Need Help Submitting Caterpillars Count! Surveys?", 5);
         }
       }
     }
