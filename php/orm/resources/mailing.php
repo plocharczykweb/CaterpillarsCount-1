@@ -62,6 +62,7 @@
 		""
 	);
 	function cookieCutterEmail($to, $subject, $emailNumber){
+		global $cookieCutterEmails;
 		email($to, $subject, $cookieCutterEmails[intval($emailNumber)]);
 	}
 ?>
