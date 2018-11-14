@@ -318,6 +318,14 @@ class Site
 		return true;
 	}
 	
+	public function getNumberOfSurveysByYear($year){
+		$year = intval($year);
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		$query = mysqli_query($dbconn, "SELECT COUNT(Survey.*) AS Count FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE `SiteFK`='" . $this->id . "' AND YEAR(Survey.LocalDate)='$year'");
+		mysqli_close($dbconn);
+		return intval(mysqli_fetch_assoc($query)["Count"]);
+	}
+	
 //SETTERS
 	public function setName($name){
 		if(!$this->deleted){
