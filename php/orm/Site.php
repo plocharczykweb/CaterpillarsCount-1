@@ -326,6 +326,17 @@ class Site
 		return intval(mysqli_fetch_assoc($query)["Count"]);
 	}
 	
+	public function getAuthorityEmails(){
+		$authorityEmails = array($this->creator->getEmail());
+		$managerRequests = ManagerRequest::findManagerRequestsBySite($site);
+		for($i = 0; $i < count($managerRequests); $i++){
+			if($managerRequests[$i]->getStatus() == "Approved"){
+				$authorityEmails[] = $managerRequests[$i]->getManager()->getEmail();
+			}
+		}
+		return $authorityEmails;
+	}
+	
 //SETTERS
 	public function setName($name){
 		if(!$this->deleted){
