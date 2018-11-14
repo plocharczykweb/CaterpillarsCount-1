@@ -31,5 +31,16 @@
         }
       }
     }
+    else if($sites[$i]->getActive() && $sites[$i]->getLatitude() >= 36.5 && $sites[$i]->getLatitude() < 40.7 && $sites[$i]->getNumberOfSurveysByYear(date("Y")) == 0){
+      $emails = $sites[$i]->getAuthorityEmails();
+      for($j = 0; $j < count($emails); $j++){
+        $firstName = "there";
+        $user = User::findByEmail();
+        if(is_object($user) && get_class($user) != "User"){
+          $firstName = $user->getFirstName();
+        }
+        email4($emails[$j], "The Caterpillars Count! Season Has Begun!", $firstName);
+      }
+    }
   }
 ?>
