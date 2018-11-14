@@ -15,7 +15,7 @@
         if(is_object($user) && get_class($user) != "User"){
           $firstName = $user->getFirstName();
         }
-        cookieCutterEmail($emails[$j], "The Caterpillars Count! Season Has Begun!", 4);
+        email4($emails[$j], "The Caterpillars Count! Season Has Begun!", $firstName);
       }
     }
   }
