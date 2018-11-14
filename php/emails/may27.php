@@ -24,10 +24,10 @@
         $all = intval($resultRow["All"]);
         $app = intval($resultRow["App"]);
         if($all == 0 || $app > ($all / 2)){
-          cookieCutterEmail($emails[$j], "The Caterpillars Count! Season Has Begun!", 4);
+          email4($emails[$j], "The Caterpillars Count! Season Has Begun!", $firstName);
         }
         else{
-          cookieCutterEmail($emails[$j], "Need Help Submitting Caterpillars Count! Surveys?", 5);
+          email5($emails[$j], "Need Help Submitting Caterpillars Count! Surveys?", $firstName);
         }
       }
     }
