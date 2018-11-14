@@ -3,5 +3,6 @@
   
   require_once("../orm/resources/mailing.php");
   
-  cookieCutterEmail("plocharczykweb@gmail.com", "Need Help Submitting Caterpillars Count! Surveys?", 5);
+  email4("plocharczykweb@gmail.com", "The Caterpillars Count! Season Has Begun!", $firstName);
+  email5("plocharczykweb@gmail.com", "Need Help Submitting Caterpillars Count! Surveys?", $firstName);
 ?>
