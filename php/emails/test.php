@@ -10,5 +10,5 @@
   email7("plocharczykweb@gmail.com", "This Week at Example Site...", "17", "85", "Example Site", "248", "19", "2");
   email8("plocharczykweb@gmail.com", "Check Your Caterpillars Count! Data from This Week 1!", array(Site::findByID("2")), 57, 3, "plocharczykweb");
   email8("plocharczykweb@gmail.com", "Check Your Caterpillars Count! Data from This Week 2!", array(Site::findByID("2"), Site::findByID("77")), 57, 3, "plocharczykweb");
-  email8("plocharczykweb@gmail.com", "Check Your Caterpillars Count! Data from This Week 3!", array(Site::findByID("2"), Site::findByID("77"), Site::findByID("60")), 57, 3, "plocharczykweb");
+  email8("plocharczykweb@gmail.com", "Check Your Caterpillars Count! Data from This Week 3!", array(Site::findByID("2"), Site::findByID("77"), Site::findByID("60")), 57, 3, "plocharczykweb", true);
 ?>
