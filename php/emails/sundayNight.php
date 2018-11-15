@@ -45,7 +45,10 @@
 			$query = mysqli_query($dbconn, "SELECT SUM(ArthropodSighting.Quantity) AS CaterpillarCount FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Survey.LocalDate>='$monday' AND Survey.UserFKOfObserver='" . $user->getID() . "' AND ArthropodSighting.Group='caterpillar'");
 			$caterpillarCount = intval(mysqli_fetch_assoc($query)["CaterpillarCount"]);
 			
-			email8($user->getEmail(), "Check Your Caterpillars Count! Data from This Week!", $sites, $arthropodCount, $caterpillarCount, $user->getINaturalistObserverID());
+			$query = mysqli_query($dbconn, "SELECT * FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE `UserFKOfObserver`='" . $user->getID() . "' AND PhotoURL<>'' LIMIT 1");
+			$userHasINaturalistObservations = (mysqli_num_rows($query) > 0);
+			
+			email8($user->getEmail(), "Check Your Caterpillars Count! Data from This Week!", $sites, $arthropodCount, $caterpillarCount, $user->getINaturalistObserverID(), $userHasINaturalistObservations);
 		}
 	}
 	mysqli_close($dbconn);
