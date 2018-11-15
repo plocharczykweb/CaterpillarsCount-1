@@ -3,6 +3,7 @@
 
 	require_once("../orm/Site.php");
 	require_once("../orm/User.php");
+	require_once("../orm/resources/Keychain.php");
 	require_once("../orm/resources/mailing.php");
   
 	$sites = Site::findAll();
