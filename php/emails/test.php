@@ -6,4 +6,5 @@
   email4("plocharczykweb@gmail.com", "The Caterpillars Count! Season Has Begun!", "Aaron");
   email5("plocharczykweb@gmail.com", "Need Help Submitting Caterpillars Count! Surveys?", "Aaron");
   email6("plocharczykweb@gmail.com", "Touching Base about Example Site", "Example Site");
+  email7("plocharczykweb@gmail.com", "This Week at Example Site...", "17", "85", "Example Site", "248", "19", "2");
 ?>
