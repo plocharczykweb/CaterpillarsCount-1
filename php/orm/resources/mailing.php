@@ -142,7 +142,7 @@
 			$siteParagraphs .= "<p>Click <a href=\"https://www.inaturalist.org/observations?place_id=any&subview=grid&field:Site%20Name=" . cleanParam($sites[$i]->getName()) . "\">here</a> to see all participants' photos submitted from " . $sites[$i]->getName() . " which were submitted to iNaturalist.</p>";
 		}
 		
-		$usersINaturalistParagraph = "";
+		$usersINaturalistParagraph = "Remember that any arthropod photos you take with the app as a part of your surveys get sent automatically to <a href=\"https://www.inaturalist.org/\">iNaturalist.org</a> where they might get identified by experts!";
 		if($userHasINaturalistObservations){
 			$usersINaturalistParagraph = "<p><a href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" . $iNaturalistObserverID . "\">Here</a> is a link to arthropod photos you have taken which were submitted to iNaturalist. Maybe someone has identified them for you!</p>";
 		}
