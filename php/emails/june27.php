@@ -18,7 +18,7 @@
           if(is_object($user) && get_class($user) != "User"){
             $firstName = $user->getFirstName();
           }
-          email6($emails[$j], "Touching Base about Your Caterpillars Count! Site", $sites[$i]->getName());
+          email6($emails[$j], "Touching Base about " . $sites[$i]->getName(), $sites[$i]->getName());
         }
       }
     }
