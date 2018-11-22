@@ -1319,7 +1319,12 @@
 				markerClick(this);
 			}
 			function markerClick(marker){
-				window.location = "#selected" + marker.siteInformation["ID"];
+				var graphType = "Phenology";
+				if(window.location.toString().substring(window.location.toString().indexOf("#") + 1).indexOf("Composition") > -1){
+					graphType = "Composition";
+					switchGraphTo('bar');
+				}
+				window.location = "#selected" + graphType + marker.siteInformation["ID"];
 				activeSite = marker.siteInformation["Name"];
 				activeSiteID = marker.siteInformation["ID"];
 				if(toggleMarker(marker) == "same"){
@@ -2091,6 +2096,13 @@
 			}
 			
 			function switchGraphTo(graphType){
+				if(graphType == "bar"){
+					window.location = "#" + window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace("Phenology", "Composition");
+				}
+				else{
+					window.location = "#" + window.location.toString().substring(window.location.toString().indexOf("#") + 1).replace("Composition", "Phenology");
+				}
+				
 				$("#barGraphSwitchButton")[0].className = "";
 				$("#lineGraphSwitchButton")[0].className = "";
 				$("#" + graphType + "GraphSwitchButton")[0].className = "active";

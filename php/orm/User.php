@@ -13,6 +13,8 @@ class User
 	private $lastName;
 	private $desiredEmail;					//STRING			email that has been signed up for but not necessarilly verified
 	private $email;							//STRING			*@*.*, MUST GET VERIFIED
+	private $hidden;
+	private $iNaturalistObserverID;
 	private $saltedPasswordHash;			//STRING			salted hash of password
 	private $salt;							//STRING
 	
@@ -69,9 +71,9 @@ class User
 		$id = intval(mysqli_insert_id($dbconn));
 		mysqli_close($dbconn);
 		
-		return new User($id, $firstName, $lastName, $desiredEmail, "", $salt, $saltedPasswordHash, false);
+		return new User($id, $firstName, $lastName, $desiredEmail, "", $salt, $saltedPasswordHash, false, "");
 	}
-	private function __construct($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards) {
+	private function __construct($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hidden, $iNaturalistObserverID) {
 		$this->id = intval($id);
 		$this->firstName = $firstName;
 		$this->lastName = $lastName;
@@ -79,7 +81,8 @@ class User
 		$this->email = $email;
 		$this->salt = $salt;
 		$this->saltedPasswordHash = $saltedPasswordHash;
-		$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
+		$this->hidden = $hidden;
+		$this->iNaturalistObserverID = $iNaturalistObserverID;
 		
 		$this->deleted = false;
 	}	
@@ -103,9 +106,10 @@ class User
 		$email = $userRow["Email"];
 		$salt = $userRow["Salt"];
 		$saltedPasswordHash = $userRow["SaltedPasswordHash"];
-		$hiddenFromLeaderboards = $userRow["HiddenFromLeaderboards"];
+		$hidden = $userRow["Hidden"];
+		$iNaturalistObserverID = $userRow["INaturalistObserverID"];
 		
-		return new User($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hiddenFromLeaderboards);
+		return new User($id, $firstName, $lastName, $desiredEmail, $email, $salt, $saltedPasswordHash, $hidden, $iNaturalistObserverID);
 	}
 	
 	public static function findByEmail($email) {
@@ -216,9 +220,14 @@ class User
 		return $this->email;
 	}
 	
-	public function getHiddenFromLeaderboards() {
+	public function getHidden() {
 		if($this->deleted){return null;}
-		return filter_var($this->hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
+		return filter_var($this->hidden, FILTER_VALIDATE_BOOLEAN);
+	}
+	
+	public function getINaturalistObserverID() {
+		if($this->deleted){return null;}
+		return $this->iNaturalistObserverID;
 	}
 	
 	public function getSites(){
@@ -328,14 +337,40 @@ class User
 		return $site->setObservationMethodPreset($this, $observationMethod);
 	}
 	
-	public function setHiddenFromLeaderboards($hiddenFromLeaderboards){
+	public function setHidden($hidden){
 		if(!$this->deleted){
 			$dbconn = (new Keychain)->getDatabaseConnection();
-			$hiddenFromLeaderboards = filter_var($hiddenFromLeaderboards, FILTER_VALIDATE_BOOLEAN);
-			mysqli_query($dbconn, "UPDATE User SET HiddenFromLeaderboards='$hiddenFromLeaderboards' WHERE ID='" . $this->id . "'");
+			$hidden = filter_var($hidden, FILTER_VALIDATE_BOOLEAN);
+			mysqli_query($dbconn, "UPDATE User SET Hidden='$hidden' WHERE ID='" . $this->id . "'");
 			mysqli_close($dbconn);
-			$this->hiddenFromLeaderboards = $hiddenFromLeaderboards;
+			$this->hidden = $hidden;
 			return true;
+		}
+		return false;
+	}
+	
+	public function setINaturalistObserverID(){
+		if($this->iNaturalistObserverID == ""){
+			if(strpos($this->email, "@") !== false){
+				$observerID = preg_replace("/[^a-zA-Z0-9]+/", "", substr($this->email, 0, strrpos($this->email, "@")));
+				$dbconn = (new Keychain)->getDatabaseConnection();
+				$i = 0;
+				while(true){
+					$uniqueObserverID = $observerID;
+					if($i > 0){
+						$uniqueObserverID = $observerID . $i;
+					}
+					$query = mysqli_query($dbconn, "SELECT `INaturalistObserverID` FROM `User` WHERE `INaturalistObserverID`='$uniqueObserverID' LIMIT 1");
+					if(mysqli_num_rows($query) == 0){
+						mysqli_query($dbconn, "UPDATE `User` SET `INaturalistObserverID`='$uniqueObserverID' WHERE ID='" . $this->id . "'");
+						mysqli_close($dbconn);
+						$this->iNaturalistObserverID = $uniqueObserverID;
+						email($this->email, "We've linked your Caterpillars Count! account with iNaturalist!", "<div style=\"text-align:center;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"color:#777;margin-bottom:40px;font-size:20px;\">Thanks for verifying your <b>Caterpillars Count!</b> account! You can now sign in to our website and mobile app to create sites, submit observations, review your data, and more!<br/><br/><b>Your unique Caterpillars Count! Observer ID is \"" . $uniqueObserverID . "\".</b> When you choose to include a photo with any observations you submit, that photo will be automatically submitted to <a href=\"https://www.inaturalist.org\" style=\"color:#e6bf31;\">iNaturalist.org</a>, an independent website that will allow experts to review and potentially identify your observation. Although all photo observations are submitted to the project-wide <a href=\"https://www.inaturalist.org/observations?place_id=any&user_id=caterpillarscount&verifiable=any\" style=\"color:#e6bf31;\">Caterpillars Count! iNaturalist account</a>, you will be able to find your own observations by referring to your Caterpillars Count! Observer ID. Once you’ve submitted observations with photos, they will be available, along with any potential taxonomic identifications, at this <a href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" . $uniqueObserverID . "\" style=\"color:#e6bf31;\">link</a>, or by going to My Account > Manage My Surveys on the website.<br/><br/><b>PRIVACY:</b> If you do not wish your name to appear on our <a href=\"https://caterpillarscount.unc.edu/mapsAndGraphs\" style=\"color:#e6bf31;\">User Leaderboard</a> or your username to appear in observations posted to iNaturalist (example <a href=\"https://www.inaturalist.org/observations/17704507\" style=\"color:#e6bf31;\">here</a>), you may change your privacy settings by logging in to our website and visiting your “Settings” page. Your name or username will instead appear simply as \"anonymous\".<br/><br/>Thanks for creating an account, and happy arthropod hunting!<br/><br/>The Caterpillars Count! Team</div></div>");
+						return true;
+					}
+					$i++;
+				}
+			}
 		}
 		return false;
 	}
@@ -477,6 +512,8 @@ class User
 			mysqli_query($dbconn, "UPDATE User SET `Email`=`DesiredEmail` WHERE `ID`='" . $this->id . "'");
 			mysqli_query($dbconn, "UPDATE User SET `EmailVerificationCode`='' WHERE `ID`='" . $this->id . "'");
 			mysqli_close($dbconn);
+			$this->email = $this->desiredEmail;
+			$this->setINaturalistObserverID();
 			return true;
 		}
 		mysqli_close($dbconn);

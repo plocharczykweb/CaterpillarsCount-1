@@ -708,6 +708,20 @@
 				//$(option).parent().fadeOut(0);
 				$(option).parent().parent().find('.selected').eq(0)[0].innerHTML = option.innerHTML.replace("<br/>", " ").replace("<br>", " ");
 			}
+			
+			function r(search, replace, subject){
+				return subject.replace(/search/g, replace);
+			}
+			function myUrlEncode(str) {
+	    			return r(" ", "%20", r(">", "%3E", r("!", "%21", r("*", "%2A", r("(", "%28", r(")", "%29", r(";", "%3B", r(":", "%3A", r("@", "%40", r("&", "%26", r("=", "%3D", r("+", "%2B", r("$", "%24", r(",", "%2C", r("/", "%2F", r("?", "%3F", r("%", "%25", str)))))))))))))))));
+			}
+			function cleanParam(param){
+				param = myUrlEncode(param.toString().trim().replace(/[^a-zA-Z0-9.!*();:@&=+$,\/?%>-]/gi, " ").trim().replace(/ +(?= )/g,' '));
+				if(param == ""){
+					return "None";
+				}
+				return param;
+			}
 
 			var selected = [];
 			var unselected = [];
@@ -738,13 +752,45 @@
 							var totalPages = data[1];
 							var surveys = data[2];
 							var isASiteAuthority = data[3];
+							var iNaturalistObserverID = data[5];
+							var haveINaturalistObservations = data[6];
 							if(isASiteAuthority){
 								$("#filters").addClass("full");
-								$(".tagline").eq(0)[0].innerHTML = "...all the surveys you've personally submitted, plus all the surveys submitted at the sites you manage";
+								var tagline = "This page shows all the surveys you've personally submitted, plus all the surveys submitted at the sites you manage.";
 							}
 							else{
-								$(".tagline").eq(0)[0].innerHTML = "...all the surveys you've personally submitted";
+								var tagline = "This page shows all the surveys you've personally submitted.";
 							}
+							
+							if(haveINaturalistObservations){
+								tagline += " You can also check for expert identifications of your personal arthropod photos on this <a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" + iNaturalistObserverID + "\">iNaturalist page</a>!";
+							}
+							else{
+								tagline += " You haven't submitted any surveys with photos yet, so your project <a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Caterpillars%20Count!%20Observer=" + iNaturalistObserverID + "\">iNaturalist page</a> is currently empty.";
+							}
+							var sites = [];
+							for(var i = 0; i < data[4].length; i++){
+								sites[sites.length] = "<a target=\"_blank\" href=\"https://www.inaturalist.org/observations?field:Site%20Name=" + cleanParam(data[4][i]) + "\">" + data[4][i] + "</a>";
+							}
+							if(sites.length > 0){
+								tagline += " You can find all photo observations submitted for a given site here: ";
+								var sitesString = sites[0];
+								if(sites.length == 2){
+									sitesString += (" and " + sites[1]);
+								}
+								else{
+									for(var i = 1; i < sites.length; i++){
+										if(i < (sites.length - 1)){
+											sitesString += ", " + sites[i];
+										}
+										else{
+											sitesString += ", and " + sites[i];
+										}
+									}
+								}
+								tagline += sitesString;
+							}
+							$(".tagline").eq(0)[0].innerHTML = tagline;
 
 							if(surveys.length == 0){
 								if(pageNumber > 1){

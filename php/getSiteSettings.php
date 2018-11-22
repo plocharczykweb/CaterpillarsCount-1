@@ -17,6 +17,7 @@
 				"name" => $site->getName(),
 				"description" => $site->getDescription(),
 				"openToPublic" => $site->getOpenToPublic(),
+				"active" => $site->getActive(),
 			);
 			die("true|" . json_encode($siteArray));
 		}

@@ -1,6 +1,8 @@
 <?php
 	require_once('orm/User.php');
 	require_once('orm/Survey.php');
+	require_once('orm/Site.php');
+	require_once('orm/resources/Keychain.php');
 	
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
@@ -66,7 +68,35 @@
 				);
 			}
 		}
-		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, (count($user->getSites()) > 0))));
+		$sites = $user->getSites();
+		$isSiteAuthority = (count($sites) > 0);
+		$dbconn = (new Keychain)->getDatabaseConnection();
+		$query = mysqli_query($dbconn, "SELECT Plant.SiteFK FROM Survey JOIN Plant ON Survey.PlantFK=Plant.ID WHERE Survey.UserFKOfObserver='" . $user->getID() . "' GROUP BY Plant.SiteFK");
+		while($siteRow = mysqli_fetch_assoc($query)){
+			$siteID = $siteRow["SiteFK"];
+			$siteIsAlreadyInArray = false;
+			for($i = 0; $i < count($sites); $i++){
+				if($sites[$i]->getID() == $siteID){
+					$siteIsAlreadyInArray = true;
+					break;
+				}
+			}
+			if(!$siteIsAlreadyInArray){
+				$sites[] = Site::findByID($siteID);
+			}
+		}
+		
+		$sitesArray = array();
+		$query = mysqli_query($dbconn, "SELECT * FROM ArthropodSighting JOIN Survey ON ArthropodSighting.SurveyFK=Survey.ID JOIN Plant ON Survey.PlantFK=Plant.ID WHERE `UserFKOfObserver`='" . $user->getID() . "' AND PhotoURL<>'' AND SiteFK<>'2' LIMIT 1");
+		$userHasINaturalistObservations = (mysqli_num_rows($query) > 0);
+		mysqli_close($dbconn);
+		for($i = 0; $i < count($sites); $i++){
+			$siteName = $sites[$i]->getName();
+			if($siteName != "Example Site"){
+				$sitesArray[] = array($siteName);
+			}
+		}
+		die("true|" . json_encode(array($totalCount, $totalPages, $surveysArray, $isSiteAuthority, $sitesArray, $user->getINaturalistObserverID(), $userHasINaturalistObservations)));
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>

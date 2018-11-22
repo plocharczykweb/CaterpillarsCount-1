@@ -152,12 +152,16 @@
 							savedName = name;
 							var description = data["description"];
 							var openToPublic = data["openToPublic"];
+							var active = data["active"];
 
 							$("#name")[0].value = name;
 							$("#description")[0].value = description;
 							countTo($("#description")[0], 140);
 							if(openToPublic){
 								checkCheckbox($("#openToPublic"));
+							}
+							if(active){
+								checkCheckbox($("#active"));
 							}
 
 							$(".tagline").eq(0)[0].innerHTML = "Update anything about this site here. Manage this site's plants on the <a href=\"../editSurveyPlants/index.html" + window.location.toString().substring(window.location.toString().indexOf("?s=")) + "\">Edit Survey Plants</a> page.";
@@ -187,6 +191,7 @@
 				var name = $("#name")[0].value;
 				var description = $("#description")[0].value;
 				var openToPublic = checkboxIsChecked($("#openToPublic"));
+				var active = checkboxIsChecked($("#active"));
 				var password = $("#password")[0].value;
 				var confirmPassword = $("#confirmPassword")[0].value;
 
@@ -296,7 +301,7 @@
 						}
 					}
 				};
-				xhttp.open("GET", "../php/editSiteSettings.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&siteName=" + encodeURIComponent(name) + "&description=" + encodeURIComponent(description) + "&sitePassword=" + encodeURIComponent(password) + "&public=" + checkboxIsChecked($("#openToPublic")).toString() + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
+				xhttp.open("GET", "../php/editSiteSettings.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&siteName=" + encodeURIComponent(name) + "&description=" + encodeURIComponent(description) + "&sitePassword=" + encodeURIComponent(password) + "&public=" + checkboxIsChecked($("#openToPublic")).toString() + "&active=" + checkboxIsChecked($("#active")).toString() + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
 
@@ -429,6 +434,13 @@
 									<td><div class="checkbox" id="openToPublic"></div></td>
 									<td>Make site public and allow people to contact me about it.</td>
 									<td onclick="if(changeSiteNameConfirmed){event.stopPropagation();queueNotice('alert', 'Opening your site to the public will allow users to find it on our website and use your email address to contact you about it.');}"><img src="../images/question.png"/></td>
+								<tr>
+							</table>
+							<table class="checkboxTable">
+								<tr onclick="if(changeSiteNameConfirmed){toggleCheckbox($(this).find('.checkbox'));}">
+									<td><div class="checkbox" id="active"></div></td>
+									<td>This site will continue submitting surveys.</td>
+									<td onclick="if(changeSiteNameConfirmed){event.stopPropagation();queueNotice('alert', 'Check this checkbox if you plan to continue participating in Caterpillars Count! at this site. Uncheck this checkbox if this site should be considered retired.');}"><img src="../images/question.png"/></td>
 								<tr>
 							</table>
 						</div>

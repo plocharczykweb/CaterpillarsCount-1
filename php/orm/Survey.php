@@ -542,16 +542,16 @@ class Survey
 	}
 	
 	public static function validPlantSpecies($dbconn, $plantSpecies, $plant){
-		$plantSpecies = rawurldecode($plantSpecies);
-		if(preg_replace('/\s+/', '', $plantSpecies) == ""){
-			return "N/A";
-		}
-		
 		if(self::validPlant($dbconn, $plant) !== false){
 			$officialPlantSpecies = $plant->getSpecies();
 			if($officialPlantSpecies != "N/A"){
 				return $officialPlantSpecies;
 			}
+		}
+		
+		$plantSpecies = rawurldecode($plantSpecies);
+		if(preg_replace('/\s+/', '', $plantSpecies) == ""){
+			return "N/A";
 		}
 		
 		$plantSpecies = trim($plantSpecies);

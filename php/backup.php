@@ -2,7 +2,6 @@
   header('Access-Control-Allow-Origin: *');
 
   require_once('orm/resources/Keychain.php');
-  //require_once('orm/resources/mailing.php');
 
   function getArrayFromTable($tableName){
     $tableArray = array();
@@ -30,7 +29,11 @@
   }
 
   function createCSV($tableName, $tableArray) {
-    if(!$fp = fopen("../iuFYr1xREQOp2ioB5MHvnCTY39UHv2/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
+    $directory = "backups";
+    if($tableName == "User"){
+      $directory = getenv("USER_BACKUPS");
+    }
+    if(!$fp = fopen("/opt/app-root/src/" . $directory . "/" . date("Y-m-d") . "_" . $tableName . ".csv", 'w')) return false;
     foreach ($tableArray as $line) fputcsv($fp, $line);
   }
 
@@ -39,7 +42,7 @@
     createCSV($tableName, $tableArray);
   }
   
-  $files = scandir("../iuFYr1xREQOp2ioB5MHvnCTY39UHv2");
+  $files = scandir("/opt/app-root/src/backups");
   $backedUpToday = false;
   for($i = 0; $i < count($files); $i++){
     if(strpos($files[$i], date("Y-m-d")) !== false){
@@ -76,7 +79,22 @@
       }
       
       if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
-        unlink("../iuFYr1xREQOp2ioB5MHvnCTY39UHv2/" . $files[$i]);
+        unlink("/opt/app-root/src/backups/" . $files[$i]);
+      }
+    }
+    
+    //delete from user backups too
+    $files = scandir("/opt/app-root/src/" . getenv("USER_BACKUPS"));
+    for($i = 0; $i < count($files); $i++){
+      $dateIsAcceptable = false;
+      for($j = 0; $j < count($acceptableDates); $j++){
+        if(strpos($files[$i], $acceptableDates[$j]) !== false){
+          $dateIsAcceptable = true;
+        }
+      }
+      
+      if(!$dateIsAcceptable && strlen(str_replace(".", "", $files[$i])) > 0){
+        unlink("/opt/app-root/src/" . getenv("USER_BACKUPS") . "/" . $files[$i]);
       }
     }
   }
