@@ -2957,6 +2957,16 @@
 				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountMapData-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
 				var links = $("#downloadLinks a");
 				links.eq(links.length - 1)[0].click();
+				
+				//track download
+				var downloadedFile = "Dynamically Generated Map CSV";
+				var downloadFilters = "Comparison Metric: " + mapFilters.comparisonMetric.replace("Occurrence", "Occurrence (%)") + ", Observation Method: " + mapFilters.observationMethod.replace("%", "All") + ", Arthropod Group: " + mapFilters.arthropodGroup.replace("%", "All") + ", Minimum Length (mm): " + mapFilters.minimumLength + ", Plant Species: " + mapFilters.plantSpecies + ", Wet Leaves: " + mapFilters.wetLeaves.toString() + ", Month Start: " + mapFilters.monthStart + ", Month End: " + mapFilters.monthEnd + ", Year Start: " + mapFilters.yearStart + ", YearEnd: " + mapFilters.yearEnd;
+				var page = window.location.toString().replace("http://", "").replace("https://", "");
+				page = page.substring(page.indexOf("/") + 1);
+				if(page.slice(-1) == "/"){
+					page = page.substring(0, page.length - 1);
+				}
+				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
 			
 			function hideMapDownloadButton(){
@@ -2992,6 +3002,7 @@
 				var metric = $("#lineGraph .yAxisLabel .selected").eq(0)[0].innerHTML;
 				var headers = ["Site", "Description", "Latitude", "Longitude", "Arthropod Group", "Date", "Julian Day", metric];
 				var csvString = "data:text/csv;charset=utf-8," + headers.join(",") + "\r\n";
+				var filtersString = "Y-Axis: " + metric + ", Lines:";
 				if(lineConfig.data.datasets.length == 2 && opaque(lineConfig.data.datasets[0].backgroundColor) == opaque(endpoints[0].backgroundColor) && opaque(lineConfig.data.datasets[1].backgroundColor) == opaque(endpoints[0].backgroundColor)){
 					//nodata
 				}
@@ -3023,17 +3034,30 @@
 							}
 							csvString += row.join(",") + "\r\n";
 						}
+						
+						filtersString += " " + arthropod + " at " + siteName + "in" + year + ";";
 					}
 				}
 				var date = new Date();
 				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCountPhenologyData-" + siteNames.join("-") + "-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
 				var links = $("#downloadLinks a");
 				links.eq(links.length - 1)[0].click();
+				
+				//track download
+				var downloadedFile = "Dynamically Generated Phenology CSV";
+				var downloadFilters = filtersString;
+				var page = window.location.toString().replace("http://", "").replace("https://", "");
+				page = page.substring(page.indexOf("/") + 1);
+				if(page.slice(-1) == "/"){
+					page = page.substring(0, page.length - 1);
+				}
+				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
 			
 			function downloadCompositionData(){
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML;
+				var filtersString = "X-Axis: " + xAxis + ", Y-Axis: " + yAxis + ", LINES:";
 				
 				var headers = [];
 				var siteName = "";
@@ -3069,6 +3093,16 @@
 				$("#downloadLinks").append("<a href=\"" + encodeURI(csvString) + "\" download=\"CaterpillarsCount" + $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.replace(/ /g, "") + "CompositionData-" + date.toLocaleDateString() + "-" + date.toLocaleTimeString() + ".csv\">download csv</a>");
 				var links = $("#downloadLinks a");
 				links.eq(links.length - 1)[0].click();
+				
+				//track download
+				var downloadedFile = "Dynamically Generated Composition CSV";
+				var downloadFilters = filtersString;
+				var page = window.location.toString().replace("http://", "").replace("https://", "");
+				page = page.substring(page.indexOf("/") + 1);
+				if(page.slice(-1) == "/"){
+					page = page.substring(0, page.length - 1);
+				}
+				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
 		</script>
 	</head>
