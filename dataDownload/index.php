@@ -505,6 +505,9 @@
 				var downloadFilters = "Site: " + getSelectValue($("#siteSelect")).replace("%", "All") + ", YearStart: " + yearStart + ", YearEnd: " + yearEnd + ", Arthropod: " + getSelectValue($("#arthropodSelect")).replace("%", "All");
 				var page = window.location.toString().replace("http://", "").replace("https://", "");
 				page = page.substring(page.indexOf("/") + 1);
+				if(page.slice(-1) == "/"){
+					page = page.substring(0, page.length - 1);
+				}
 				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 				
 				$("#siteID")[0].value = getSelectValue($("#siteSelect"));
