@@ -502,7 +502,7 @@
 			
 			function download(){
 				var downloadedFile = "Dynamically Generated CSV";
-				var downloadFilters = "Site: " + getSelectValue($("#siteSelect")) + ", YearStart: " + yearStart + ", YearEnd: " + yearEnd + ", Arthropod: " + getSelectValue($("#arthropodSelect"));
+				var downloadFilters = "Site: " + getSelectValue($("#siteSelect")).replace("%", "All") + ", YearStart: " + yearStart + ", YearEnd: " + yearEnd + ", Arthropod: " + getSelectValue($("#arthropodSelect")).replace("%", "All");
 				var page = window.location.toString().replace("http://", "").replace("https://", "");
 				page = page.substring(page.indexOf("/") + 1);
 				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
