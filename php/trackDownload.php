@@ -10,6 +10,6 @@
   $file = mysqli_real_escape_string($dbconn, trim(rawurldecode($_GET["file"])));
   $filters = mysqli_real_escape_string($dbconn, trim(rawurldecode($_GET["filters"])));
   
-  mysqli_query($dbconn, "INSERT INTO Download (`Date`, `Time`, `IP`, `Page`, `File`, `Filters`) VALUES ('$date', '$time', '$ip', '$page', '$file', '$filters')");
+  mysqli_query($dbconn, "INSERT INTO Download (`Date`, `UTCTime`, `IP`, `Page`, `File`, `Filters`) VALUES ('$date', '$time', '$ip', '$page', '$file', '$filters')");
   mysqli_close($dbconn);
 ?>
