@@ -501,6 +501,12 @@
 			}
 			
 			function download(){
+				var downloadedFile = "Dynamically Generated CSV";
+				var downloadFilters = "Site: " + getSelectValue($("#siteSelect")) + ", YearStart: " + yearStart + ", YearEnd: " + yearEnd + ", Arthropod: " + getSelectValue($("#arthropodSelect"));
+				var page = window.location.toString().replace("http://", "").replace("https://", "");
+				page = page.substring(page.indexOf("/") + 1);
+				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" = downloadFilters, function(data){});
+				
 				$("#siteID")[0].value = getSelectValue($("#siteSelect"));
 				$("#yearStart")[0].value = yearStart;
 				$("#yearEnd")[0].value = yearEnd;
