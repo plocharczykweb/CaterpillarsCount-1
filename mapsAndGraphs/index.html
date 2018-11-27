@@ -2890,9 +2890,9 @@
 				}
 				
 				var legendHTML = "";
-				for(var i = (compositionLabels.length - 1); i >= 0; i--){
+				for(var i = 0; i < compositionLabels.length; i++){
 					if(i % LABELS_IN_EACH_COLUMN == 0){
-						if(i < (compositionLabels.length - 1)){
+						if(i > 0){
 							legendHTML += "</div>";
 						}
 						legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
