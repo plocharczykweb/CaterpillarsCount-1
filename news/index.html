@@ -245,7 +245,7 @@
                 				if(news[i][3].trim().indexOf("caterpillarscount.unc.edu") > -1){
                 					target = "_self";
                 				}
-            					htmlToAdd += " onclick=\"window.open('" + news[i][3].trim() + "', '" + target + "');\" class=\"head highlighted underline pointer\"";
+            					htmlToAdd += " onclick=\"trackDownload('" + news[i][3].trim() + "');window.open('" + news[i][3].trim() + "', '" + target + "');\" class=\"head highlighted underline pointer\"";
             				}
 					else{
 						htmlToAdd += " class=\"head\"";
@@ -307,6 +307,23 @@
 					}
 				});
 			});
+			
+			function trackDownload(downloadedFileURL){
+				var downloadedFileURL = downloadedFileURL.replace("http://", "").replace("https://", "");
+				if(downloadedFileURL.slice(-1) == "/"){
+					downloadedFileURL = downloadedFileURL.substring(0, downloadedFileURL.length - 1);
+				}
+				var downloadedFile = downloadedFileURL.substring(downloadedFileURL.lastIndexOf("/") + 1);
+				if(downloadedFile.indexOf(".pdf") > -1 && downloadedFile.lastIndexOf(".pdf") == (downloadedFile.length - 4)){
+					var downloadFilters = "";
+					var page = window.location.toString().replace("http://", "").replace("https://", "");
+					page = page.substring(page.indexOf("/") + 1);
+					if(page.slice(-1) == "/"){
+						page = page.substring(0, page.length - 1);
+					}
+					$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
+				}
+			}
 		</script>
 	</head>
 	<body>
