@@ -2171,7 +2171,7 @@
 				options: {
 					legend: {position: "bottom",labels: {boxWidth: 13, fontSize: 18}, display: false},
 					title: {display: false,},
-					tooltips: {mode: 'index', intersect: false, callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
+					tooltips: {mode: 'index', intersect: false, itemSort: function(a, b){return b.datasetIndex - a.datasetIndex;}, callbacks: {label: function(tooltipItems, data) {return data.datasets[tooltipItems.datasetIndex].label +': ' + tooltipItems.yLabel + '%';}}},
 					responsive: true,
 					scales: {
 						xAxes: [{
