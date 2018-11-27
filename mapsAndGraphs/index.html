@@ -2972,6 +2972,9 @@
 				if(page.slice(-1) == "/"){
 					page = page.substring(0, page.length - 1);
 				}
+				if(page.indexOf("#") > -1){
+					page = page.substring(0, page.indexOf("#"));
+				}
 				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
 			
@@ -3057,6 +3060,9 @@
 				if(page.slice(-1) == "/"){
 					page = page.substring(0, page.length - 1);
 				}
+				if(page.indexOf("#") > -1){
+					page = page.substring(0, page.indexOf("#"));
+				}
 				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
 			
@@ -3112,6 +3118,9 @@
 				page = page.substring(page.indexOf("/") + 1);
 				if(page.slice(-1) == "/"){
 					page = page.substring(0, page.length - 1);
+				}
+				if(page.indexOf("#") > -1){
+					page = page.substring(0, page.indexOf("#"));
 				}
 				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
