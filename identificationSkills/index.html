@@ -24,6 +24,23 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 			});
+			
+			function trackDownload(downloadedFileURL){
+				var downloadedFileURL = downloadedFileURL.replace("http://", "").replace("https://", "");
+				if(downloadedFileURL.slice(-1) == "/"){
+					downloadedFileURL = downloadedFileURL.substring(0, downloadedFileURL.length - 1);
+				}
+				var downloadedFile = downloadedFileURL.substring(downloadedFileURL.lastIndexOf("/") + 1);
+				if(downloadedFile.indexOf(".pdf") > -1 && downloadedFile.lastIndexOf(".pdf") == (downloadedFile.length - 4)){
+					var downloadFilters = "";
+					var page = window.location.toString().replace("http://", "").replace("https://", "");
+					page = page.substring(page.indexOf("/") + 1);
+					if(page.slice(-1) == "/"){
+						page = page.substring(0, page.length - 1);
+					}
+					$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -124,9 +141,9 @@
 								<div class="circleImage" style="background-image:url('../images/eyeglass.jpg');"></div>
 							</div>
 							<div class="cellDiv scrollAnimationElement fadeInOnScroll">
-								<p class="leftText">Before you head out to conduct a survey, review <a class="highlighted" href="../pdfs/ArthropodIDGuide.pdf" target="_blank">the Caterpillars Count! Arthropod ID guide</a> and <a class="highlighted" href="../pdfs/Dichotomous%20Keys%20to%20Arthropod%20Orders.pdf" target="_blank">Dichotomous Key</a> to learn some of the most common arthropod orders found on trees and shrubs.  </p>
+								<p class="leftText">Before you head out to conduct a survey, review <a class="highlighted" href="../pdfs/ArthropodIDGuide.pdf" onclick="trackDownload(this.href);" target="_blank">the Caterpillars Count! Arthropod ID guide</a> and <a class="highlighted" href="../pdfs/Dichotomous%20Keys%20to%20Arthropod%20Orders.pdf" onclick="trackDownload(this.href);" target="_blank">Dichotomous Key</a> to learn some of the most common arthropod orders found on trees and shrubs.  </p>
 								<p class="leftText">Practice! <a class="highlighted" href="../arthropodQuiz">Take the Arthropod Photo ID Quiz</a> to test your knowledge until you can consistently get at least 9/10 correct. You can take the quiz (with different photos each time) as many times as you like.</p>
-								<p class="leftText">Print a copy of the <a class="highlighted" href="../pdfs/ArthropodIDGuide.pdf" target="_blank">Arthropod ID guide</a> to bring out in the field.</p>
+								<p class="leftText">Print a copy of the <a class="highlighted" href="../pdfs/ArthropodIDGuide.pdf" onclick="trackDownload(this.href);" target="_blank">Arthropod ID guide</a> to bring out in the field.</p>
 							</div>
 						</div>
 					</div>
@@ -146,8 +163,8 @@
 								</div>
 							</div>
 							<div class="cellDiv scrollAnimationElement fadeInOnScroll">
-								<p class="mobilePhoneCentered"><a target="_blank" href="../pdfs/ArthropodIDGuide.pdf">Caterpillars Count! Arthropod ID Guide</a></p>
-								<p class="mobilePhoneCentered"><a target="_blank" href="../pdfs/Dichotomous%20Keys%20to%20Arthropod%20Orders.pdf">Arthropod Orders Dichotomous Key</a></p>
+								<p class="mobilePhoneCentered"><a target="_blank" href="../pdfs/ArthropodIDGuide.pdf" onclick="trackDownload(this.href);">Caterpillars Count! Arthropod ID Guide</a></p>
+								<p class="mobilePhoneCentered"><a target="_blank" href="../pdfs/Dichotomous%20Keys%20to%20Arthropod%20Orders.pdf" onclick="trackDownload(this.href);">Arthropod Orders Dichotomous Key</a></p>
 							</div>
 						</div>
 
