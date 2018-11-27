@@ -2969,11 +2969,11 @@
 				var downloadFilters = "Comparison Metric: " + mapFilters.comparisonMetric.replace("Occurrence", "Occurrence (%)") + ", Observation Method: " + mapFilters.observationMethod.replace("%", "All") + ", Arthropod Group: " + mapFilters.arthropodGroup.replace("%", "All") + ", Minimum Length (mm): " + mapFilters.minimumLength + ", Plant Species: " + mapFilters.plantSpecies + ", Wet Leaves: " + mapFilters.wetLeaves.toString() + ", Month Start: " + mapFilters.monthStart + ", Month End: " + mapFilters.monthEnd + ", Year Start: " + mapFilters.yearStart + ", YearEnd: " + mapFilters.yearEnd;
 				var page = window.location.toString().replace("http://", "").replace("https://", "");
 				page = page.substring(page.indexOf("/") + 1);
-				if(page.slice(-1) == "/"){
-					page = page.substring(0, page.length - 1);
-				}
 				if(page.indexOf("#") > -1){
 					page = page.substring(0, page.indexOf("#"));
+				}
+				if(page.slice(-1) == "/"){
+					page = page.substring(0, page.length - 1);
 				}
 				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
@@ -3044,7 +3044,7 @@
 							csvString += row.join(",") + "\r\n";
 						}
 						
-						filtersString += " " + arthropod + " at " + siteName + "in" + year + ";";
+						filtersString += " " + arthropod + " at " + siteName + " in " + year + ";";
 					}
 				}
 				var date = new Date();
@@ -3057,11 +3057,11 @@
 				var downloadFilters = filtersString;
 				var page = window.location.toString().replace("http://", "").replace("https://", "");
 				page = page.substring(page.indexOf("/") + 1);
-				if(page.slice(-1) == "/"){
-					page = page.substring(0, page.length - 1);
-				}
 				if(page.indexOf("#") > -1){
 					page = page.substring(0, page.indexOf("#"));
+				}
+				if(page.slice(-1) == "/"){
+					page = page.substring(0, page.length - 1);
 				}
 				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
@@ -3116,11 +3116,11 @@
 				var downloadFilters = filtersString;
 				var page = window.location.toString().replace("http://", "").replace("https://", "");
 				page = page.substring(page.indexOf("/") + 1);
-				if(page.slice(-1) == "/"){
-					page = page.substring(0, page.length - 1);
-				}
 				if(page.indexOf("#") > -1){
 					page = page.substring(0, page.indexOf("#"));
+				}
+				if(page.slice(-1) == "/"){
+					page = page.substring(0, page.length - 1);
 				}
 				$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
 			}
