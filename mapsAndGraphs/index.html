@@ -2884,9 +2884,9 @@
 				}
 				
 				var legendHTML = "";
-				for(var i = 0; i < compositionLabels.length; i++){
+				for(var i = (compositionLabels.length - 1); i >= 0; i--){
 					if(i % LABELS_IN_EACH_COLUMN == 0){
-						if(i > 0){
+						if(i < (compositionLabels.length - 1)){
 							legendHTML += "</div>";
 						}
 						legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
