@@ -46,4 +46,4 @@
     		die("false|You do not have permission to get emails from the Caterpillars Count! database.");
 	}
 	die("false|Your log in dissolved. Maybe you logged in on another device.");
-?>
+?> 
