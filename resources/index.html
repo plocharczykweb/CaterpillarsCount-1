@@ -200,7 +200,7 @@
 						if(sections[i][1][j][2].indexOf("caterpillarscount.unc.edu") > -1){
 						   	target = "_self";
 						}
-						htmlToAdd += 		"<div class=\"resource pointer\" style=\"background-image:url('" + sections[i][1][j][0] + "');\" onclick=\"window.open('" + sections[i][1][j][2] + "', '" + target + "');\">";
+						htmlToAdd += 		"<div class=\"resource pointer\" style=\"background-image:url('" + sections[i][1][j][0] + "');\" onclick=\"trackDownload('" + sections[i][1][j][2] + "');window.open('" + sections[i][1][j][2] + "', '" + target + "');\">";
 						htmlToAdd += 			"<div class=\"text underline highlighted\">" + sections[i][1][j][1] + "</div>";
 						htmlToAdd += 		"</div>"
 					}
@@ -226,6 +226,25 @@
 					}
 				});
 			});
+			
+			function trackDownload(downloadedFileURL){
+				var downloadedFileURL = downloadedFileURL.replace("http://", "").replace("https://", "");
+				if(downloadedFileURL.slice(-1) == "/"){
+					downloadedFileURL = downloadedFileURL.substring(0, downloadedFileURL.length - 1);
+				}
+				var downloadedFile = downloadedFileURL.substring(downloadedFileURL.lastIndexOf("/") + 1);
+				if(downloadedFile.indexOf(".pdf") > -1 && downloadedFile.lastIndexOf(".pdf") == (downloadedFile.length - 4)){
+					var downloadFilters = "";
+
+					var page = window.location.toString().replace("http://", "").replace("https://", "");
+					page = page.substring(page.indexOf("/") + 1);
+					if(page.slice(-1) == "/"){
+						page = page.substring(0, page.length - 1);
+					}
+
+					$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
+				}
+			}
 		</script>
 	</head>
 	<body>
