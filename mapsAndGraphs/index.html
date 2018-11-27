@@ -3057,12 +3057,13 @@
 			function downloadCompositionData(){
 				var xAxis = $("#barGraph .xAxisLabel .selected").eq(0)[0].innerHTML.toLowerCase();
 				var yAxis = $("#barGraph .yAxisLabel .selected").eq(0)[0].innerHTML;
-				var filtersString = "X-Axis: " + xAxis + ", Y-Axis: " + yAxis + ", LINES:";
+				var filtersString = "X-Axis: " + xAxis + ", Y-Axis: " + yAxis;
 				
 				var headers = [];
 				var siteName = "";
 				if(xAxis == "site"){
 					headers = ["Site", "Description", "Latitude", "Longitude", "Arthropod Group", yAxis];
+					filtersString += ", Sites Included:";
 				}
 				else if(xAxis == "year"){
 					headers = ["Site", "Description", "Latitude", "Longitude", "Year", "Arthropod Group", yAxis];
@@ -3076,6 +3077,10 @@
 				for(var i = 0; i < barConfig.data.labels.length; i++){
 					if(xAxis == "site"){
 						siteName = barConfig.data.labels[i];
+						if(i > 0){
+							filtersString += ",";
+						}
+						filtersString += " " + siteName;
 					}
 					var marker = markers[activeSiteID.toString()];
 					for(var j = 0; j < barConfig.data.datasets.length; j++){
