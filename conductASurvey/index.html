@@ -24,6 +24,23 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 			});
+			
+			function trackDownload(downloadedFileURL){
+				var downloadedFileURL = downloadedFileURL.replace("http://", "").replace("https://", "");
+				if(downloadedFileURL.slice(-1) == "/"){
+					downloadedFileURL = downloadedFileURL.substring(0, downloadedFileURL.length - 1);
+				}
+				var downloadedFile = downloadedFileURL.substring(downloadedFileURL.lastIndexOf("/") + 1);
+				if(downloadedFile.indexOf(".pdf") > -1 && downloadedFile.lastIndexOf(".pdf") == (downloadedFile.length - 4)){
+					var downloadFilters = "";
+					var page = window.location.toString().replace("http://", "").replace("https://", "");
+					page = page.substring(page.indexOf("/") + 1);
+					if(page.slice(-1) == "/"){
+						page = page.substring(0, page.length - 1);
+					}
+					$.get("../php/trackDownload.php?page=" + page + "&file=" + downloadedFile + "&filters=" + downloadFilters, function(data){});
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -130,7 +147,7 @@
 							<div class="shadow"></div>
 							<div class="circleIconImage" style="background-image:url('../images/document.png');top:25%;height:50%;"></div>
 						</div>
-						<div class="caption"><a href="../pdfs/paperDataSheet.pdf" target="_blank">Print out a paper data sheet</a> and <a href="../extra/paperDataSheetInstructions">learn how to use it</a></div>
+						<div class="caption"><a href="../pdfs/paperDataSheet.pdf" onclick="trackDownload(this.href);" target="_blank">Print out a paper data sheet</a> and <a href="../extra/paperDataSheetInstructions">learn how to use it</a></div>
 					</div>
 				</div>
 			</div>
