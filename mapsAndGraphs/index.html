@@ -2822,28 +2822,28 @@
 				var arthropodNames = [];
 				for(var arthropodName in datasets){
 					if(datasets.hasOwnProperty(arthropodName)){
-						formattedDatasets[formattedDatasets.length] = {
-							label: arthropodName,
-							backgroundColor: barColors[arthropodNames.length],
-							data: datasets[arthropodName]
-						};
+						var thisColor = barColors[(barColors.length - 1) - arthropodNames.length];
+						if(arthropodNames.length % LABELS_IN_EACH_COLUMN == 0){
+							if(arthropodNames.length > 0){
+								legendHTML += "</div>";
+							}
+							legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
+						}
+						legendHTML += "<div class=\"label shownLabel\">";
+						legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
+						legendHTML += 	"<span class=\"description\">" + arthropodName + "</span>";
+						legendHTML += "</div><br/>";
 						
 						arthropodNames[arthropodNames.length] = arthropodName;
 					}
 				}
 				arthropodNames.reverse();
 				for(var i = 0; i < arthropodNames.length; i++){
-					var thisColor = barColors[(barColors.length - 1) - i];
-					if(i % LABELS_IN_EACH_COLUMN == 0){
-						if(i > 0){
-							legendHTML += "</div>";
-						}
-						legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
-					}
-					legendHTML += "<div class=\"label shownLabel\">";
-					legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
-					legendHTML += 	"<span class=\"description\">" + arthropodNames[i] + "</span>";
-					legendHTML += "</div><br/>";
+					formattedDatasets[formattedDatasets.length] = {
+						label: arthropodNames[i],
+						backgroundColor: barColors[i],
+						data: datasets[arthropodNames[i]]
+					};
 				}
 				for(var i = (arthropodNames.length % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
 					legendHTML += "<div class=\"label\">";
