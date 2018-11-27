@@ -19,18 +19,25 @@
           					$emailsArray[(string)$row["ID"]] = array(
             					"email" => $row["Email"], 
             					"authority" => in_array($row["Email"], $superUsers),
+            					"activeAuthority" => in_array($row["Email"], $superUsers),
           				);
         			}
 		  	}
       
       			//mark the creators and managers
-      			$query = mysqli_query($dbconn, "SELECT `UserFKOfCreator` FROM `Site` WHERE 1");
+      			$query = mysqli_query($dbconn, "SELECT `UserFKOfCreator`, `Active` FROM `Site` WHERE 1");
 		  	while($row = mysqli_fetch_assoc($query)){
 				$emailsArray[(string)$row["UserFKOfCreator"]]["authority"] = true;
+				if(!$emailsArray[(string)$row["UserFKOfCreator"]]["activeAuthority"]){
+					$emailsArray[(string)$row["UserFKOfCreator"]]["activeAuthority"] = filter_var($row["Active"], FILTER_VALIDATE_BOOLEAN);
+				}
 		  	}
-      			$query = mysqli_query($dbconn, "SELECT `UserFKOfManager` FROM `ManagerRequest` WHERE `Status`='Approved'");
+      			$query = mysqli_query($dbconn, "SELECT `ManagerRequest`.`UserFKOfManager`, `Site`.`Active` FROM `ManagerRequest` JOIN `Site` ON `ManagerRequest`.`SiteFK`=`Site`.`ID` WHERE `Status`='Approved'");
 		  	while($row = mysqli_fetch_assoc($query)){
 				$emailsArray[(string)$row["UserFKOfManager"]]["authority"] = true;
+				if(!$emailsArray[(string)$row["UserFKOfManager"]]["activeAuthority"]){
+					$emailsArray[(string)$row["UserFKOfManager"]]["activeAuthority"] = filter_var($row["Active"], FILTER_VALIDATE_BOOLEAN);
+				}
 		 	}
       
 		  	mysqli_close($dbconn);
