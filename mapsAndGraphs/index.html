@@ -2818,28 +2818,33 @@
 				else if($(window).width() < 800){
 					LABELS_IN_EACH_COLUMN = Math.ceil(readableArthropods.length / 2);
 				}
-				var i = 0;
+				
+				var arthropodNames = [];
 				for(var arthropodName in datasets){
 					if(datasets.hasOwnProperty(arthropodName)){
-						var thisColor = barColors[i++];
-						if((i - 1) % LABELS_IN_EACH_COLUMN == 0){
-							if(i > 1){
-								legendHTML += "</div>";
-							}
-							legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
-						}
-						legendHTML += "<div class=\"label shownLabel\">";
-						legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
-						legendHTML += 	"<span class=\"description\">" + arthropodName + "</span>";
-						legendHTML += "</div><br/>";
-						formattedDatasets[formattedDatasets.length] = {
-							label: arthropodName,
-							backgroundColor: thisColor,
-							data: datasets[arthropodName]
-						};
+						arthropodNames[arthropodNames.length] = arthropodName;
 					}
 				}
-				for(var i = (i % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
+				arthropodNames.reverse();
+				for(var i = 0; i < arthropodNames.length; i++){
+					var thisColor = barColors[i];
+					if(i % LABELS_IN_EACH_COLUMN == 0){
+						if(i > 0){
+							legendHTML += "</div>";
+						}
+						legendHTML += "<div style=\"text-align:left;display:inline-block;margin:0px 10px;\">";
+					}
+					legendHTML += "<div class=\"label shownLabel\">";
+					legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
+					legendHTML += 	"<span class=\"description\">" + arthropodName + "</span>";
+					legendHTML += "</div><br/>";
+					formattedDatasets[formattedDatasets.length] = {
+						label: arthropodName,
+						backgroundColor: thisColor,
+						data: datasets[arthropodName]
+					};
+				}
+				for(var i = (arthropodNames.length % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
 					legendHTML += "<div class=\"label\">";
 					legendHTML += 	"<div class=\"box\" style=\"background:transparent;border-color:transparent;\"></div>";
 					legendHTML += 	"<span class=\"description\"> </span>";
