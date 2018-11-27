@@ -138,6 +138,7 @@
 							var emails = JSON.parse(data.replace("true|", ""));
 							var allEmails = [];
 							var authorityEmails = [];
+							var activeAuthorityEmails = [];
 							for (var i in emails) {
 								if (emails.hasOwnProperty(i)) {
 									// do stuff
@@ -145,12 +146,17 @@
 									if(emails[i]["authority"]){
 										authorityEmails[authorityEmails.length] = emails[i]["email"];
 									}
+									if(emails[i]["activeAuthority"]){
+										activeAuthorityEmails[activeAuthorityEmails.length] = emails[i]["email"];
+									}
 								}
 							}
 							$("#everyoneCount")[0].innerHTML = allEmails.length;
 							$("#siteAuthoritiesCount")[0].innerHTML = authorityEmails.length;
+							$("#siteActiveAuthoritiesCount")[0].innerHTML = activeAuthorityEmails.length;
 							$("#everyone")[0].value = allEmails.join(", ");
 							$("#siteAuthorities")[0].value = authorityEmails.join(", ");
+							$("#siteActiveAuthorities")[0].value = activeAuthorityEmails.join(", ");
 							$("#getEmailsLoading")[0].style.display = "none";
 							$("#emails")[0].style.display = "block";
 						}
@@ -519,6 +525,13 @@
 										<div class="inputTitle">Site authorities only (<span id="siteAuthoritiesCount"></span>):</div>
 										<div class="textareaHolder">
 											<textarea id="siteAuthorities" onclick="this.setSelectionRange(0, 999999999999);" onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
+											<div class="textareaOtherLinesCover"></div>
+										</div>
+									</div>
+									<div class="group">
+										<div class="inputTitle">Active site authorities only (<span id="siteActiveAuthoritiesCount"></span>):</div>
+										<div class="textareaHolder">
+											<textarea id="siteActiveAuthorities" onclick="this.setSelectionRange(0, 999999999999);" onfocus="expandTextarea(this);" onblur="compressTextarea(this);"></textarea>
 											<div class="textareaOtherLinesCover"></div>
 										</div>
 									</div>
