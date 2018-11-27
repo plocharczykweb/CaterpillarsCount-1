@@ -2822,6 +2822,12 @@
 				var arthropodNames = [];
 				for(var arthropodName in datasets){
 					if(datasets.hasOwnProperty(arthropodName)){
+						formattedDatasets[formattedDatasets.length] = {
+							label: arthropodName,
+							backgroundColor: barColors[arthropodNames.length],
+							data: datasets[arthropodName]
+						};
+						
 						arthropodNames[arthropodNames.length] = arthropodName;
 					}
 				}
@@ -2838,11 +2844,6 @@
 					legendHTML += 	"<div class=\"box\" style=\"background:" + opaque(thisColor) + ";\"></div>";
 					legendHTML += 	"<span class=\"description\">" + arthropodNames[i] + "</span>";
 					legendHTML += "</div><br/>";
-					formattedDatasets[formattedDatasets.length] = {
-						label: arthropodNames[i],
-						backgroundColor: thisColor,
-						data: datasets[arthropodNames[i]]
-					};
 				}
 				for(var i = (arthropodNames.length % LABELS_IN_EACH_COLUMN); i < LABELS_IN_EACH_COLUMN; i++){
 					legendHTML += "<div class=\"label\">";
