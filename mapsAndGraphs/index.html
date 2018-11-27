@@ -2833,7 +2833,7 @@
 				}
 				arthropodNames.reverse();
 				for(var i = 0; i < arthropodNames.length; i++){
-					var thisColor = barColors[i];
+					var thisColor = barColors[(barColors.length - 1) - i];
 					if(i % LABELS_IN_EACH_COLUMN == 0){
 						if(i > 0){
 							legendHTML += "</div>";
