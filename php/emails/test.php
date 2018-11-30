@@ -12,8 +12,8 @@
   email5("plocharczykweb@gmail.com", "Need Help Submitting Caterpillars Count! Surveys?", "Allen");
   email6("aaronplo@live.unc.edu", "Caterpillars Count! at Example Site", "Example Site");
   email6("plocharczykweb@gmail.com", "Caterpillars Count! at Example Site", "Example Site");
-  email7("aaronplo@live.unc.edu", "This Week at Example Site...", "17", "85", "Example Site", "248", "19", "beetle", "22", "", "0", "7/12", "19.11", "2");
-  email7("plocharczykweb@gmail.com", "This Week at Example Site...", "17", "85", "Example Site", "248", "19", "beetle", "22", "", "0", "7/12", "19.11", "2");
+  email7("aaronplo@live.unc.edu", "This Week at Example Site...", "17", "85", "Example Site", "248", "19", "beetle", "22", "ant", "19", "7/12", "19.11", "2");
+  email7("plocharczykweb@gmail.com", "This Week at Example Site...", "17", "85", "Example Site", "248", "19", "beetle", "22", "ant", "19", "7/12", "19.11", "2");
   email8("aaronplo@live.unc.edu", "Your Caterpillars Count! weekly summary", array(Site::findByID("2")), 57, 3, "hurlbert", true);
   email8("plocharczykweb@gmail.com", "Your Caterpillars Count! weekly summary", array(Site::findByID("2")), 57, 3, "hurlbert", true);
 ?>
