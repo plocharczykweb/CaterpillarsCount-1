@@ -85,6 +85,9 @@
 		
 		$arthropod1CountS = "";
 		if(intval($arthropod1Count) != 1){
+			if($arthropod1 == "fly"){
+				$arthropod1 = "flie";
+			}
 			$arthropod1CountS = "s";
 		}
 		
