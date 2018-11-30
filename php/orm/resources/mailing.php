@@ -214,7 +214,7 @@
 		
 		$siteParagraphs = "";
 		for($i = 0; $i < count($sites); $i++){
-			$siteParagraphs .= "<p style=\"margin: 10px 0; padding: 0; color: #808080; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left;\">Click&nbsp;<a style=\"color:#6faf6d; font-weight: normal; text-decoration: underline;\" href=\"https://caterpillarscount.unc.edu/mapsAndGraphs/#selected" . $sites[$i]->getID()"\" target=\"_blank\"><span style=\"color: #6faf6d;\">here</span></a> for a summary of all arthropods seen at " . $sites[$i]->getName() . ".</p>";
+			$siteParagraphs .= "<p style=\"margin: 10px 0; padding: 0; color: #808080; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left;\">Click&nbsp;<a style=\"color:#6faf6d; font-weight: normal; text-decoration: underline;\" href=\"https://caterpillarscount.unc.edu/mapsAndGraphs/#selected" . $sites[$i]->getID() . "\" target=\"_blank\"><span style=\"color: #6faf6d;\">here</span></a> for a summary of all arthropods seen at " . $sites[$i]->getName() . ".</p>";
 			$siteParagraphs .= "<p style=\"margin: 10px 0; padding: 0; color: #808080; font-family: Helvetica; font-size: 16px; line-height: 150%; text-align: left;\">Click&nbsp;<a style=\"color:#6faf6d; font-weight: normal; text-decoration: underline;\" href=\"https://www.inaturalist.org/observations?place_id=any&subview=grid&field:Site%20Name=" . cleanParam($sites[$i]->getName()) . "\" target=\"_blank\"><span style=\"color: #6faf6d;\">here</span></a> to see all participants' photos submitted from " . $sites[$i]->getName() . " which were submitted to iNaturalist.</p>";
 		}
 		
