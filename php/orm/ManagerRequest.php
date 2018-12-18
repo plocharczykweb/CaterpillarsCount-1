@@ -11,6 +11,7 @@ class ManagerRequest
 	private $id;							//INT
 	private $manager;						//User object
 	private $site;							//Site object
+	private $hasCompleteAuthority;					//Boolean
 	private $status;						//String: "Pending", "Denied", or "Approved"
 	
 	private $deleted;
@@ -41,7 +42,7 @@ class ManagerRequest
 			$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">" . $site->getCreator()->getFullName() . " would like you to be a manager of the \"" . $site->getName() . "\" site in " . $site->getRegion() . ". Please sign in to <a href='https://caterpillarscount.unc.edu/signIn'>caterpillarscount.unc.edu</a> using this email address (" . $manager->getEmail() . ") to approve or deny this request.</div><a href='https://caterpillarscount.unc.edu/signIn'><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">SIGN IN NOW</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"></div></div>";
 			email($manager->getEmail(), "New Caterpillars Count! site manager request!", $message);
 			mysqli_close($dbconn);
-			return new ManagerRequest($id, $manager, $site, "Pending");
+			return new ManagerRequest($id, $manager, $site, false, "Pending");
 		}
 		else if($existingManagerRequest->getStatus() == "Denied"){
 			mysqli_query($dbconn, "UPDATE ManagerRequest SET `Status`='Pending' WHERE `UserFKOfManager`='" . $manager->getID() . "' AND `SiteFK`='" . $site->getID() . "'");
@@ -51,10 +52,11 @@ class ManagerRequest
 			return $existingManagerRequest;
 		}
 	}
-	private function __construct($id, $manager, $site, $status) {
+	private function __construct($id, $manager, $site, $hasCompleteAuthority, $status) {
 		$this->id = intval($id);
 		$this->manager = $manager;
 		$this->site = $site;
+		$this->hasCompleteAuthority = filter_var($hasCompleteAuthority, FILTER_VALIDATE_BOOLEAN);
 		$this->status = $status;
 		
 		$this->deleted = false;
@@ -75,9 +77,10 @@ class ManagerRequest
 		
 		$manager = User::findByID($managerRequestRow["UserFKOfManager"]);
 		$site = Site::findByID($managerRequestRow["SiteFK"]);
+		$hasCompleteAuthority = $managerRequestRow["HasCompleteAuthority"];
 		$status = $managerRequestRow["Status"];
 		
-		return new ManagerRequest($id, $manager, $site, $status);
+		return new ManagerRequest($id, $manager, $site, $hasCompleteAuthority, $status);
 	}
 	
 	public static function findByManagerAndSite($manager, $site){
@@ -93,9 +96,10 @@ class ManagerRequest
 		$managerRequestRow = mysqli_fetch_assoc($query);
 		
 		$id = intval($managerRequestRow["ID"]);
+		$hasCompleteAuthority = $managerRequestRow["HasCompleteAuthority"];
 		$status = $managerRequestRow["Status"];
 		
-		return new ManagerRequest($id, $manager, $site, $status);
+		return new ManagerRequest($id, $manager, $site, $hasCompleteAuthority, $status);
 	}
   
   	public static function findManagerRequestsBySite($site){
@@ -108,8 +112,9 @@ class ManagerRequest
 			$id = $managerRequestRow["ID"];
 			$manager = User::findByID($managerRequestRow["UserFKOfManager"]);
 			$site = Site::findByID($managerRequestRow["SiteFK"]);
+			$hasCompleteAuthority = $managerRequestRow["HasCompleteAuthority"];
 			$status = $managerRequestRow["Status"];
-			$managerRequest = new ManagerRequest($id, $manager, $site, $status);
+			$managerRequest = new ManagerRequest($id, $manager, $site, $hasCompleteAuthority, $status);
 			
 			array_push($managerRequestsArray, $managerRequest);
 		}
@@ -126,8 +131,9 @@ class ManagerRequest
 			$id = $managerRequestRow["ID"];
 			$manager = User::findByID($managerRequestRow["UserFKOfManager"]);
 			$site = Site::findByID($managerRequestRow["SiteFK"]);
+			$hasCompleteAuthority = $managerRequestRow["HasCompleteAuthority"];
 			$status = $managerRequestRow["Status"];
-			$managerRequest = new ManagerRequest($id, $manager, $site, $status);
+			$managerRequest = new ManagerRequest($id, $manager, $site, $hasCompleteAuthority, $status);
 			
 			array_push($managerRequestsArray, $managerRequest);
 		}
@@ -159,8 +165,28 @@ class ManagerRequest
 		if($this->deleted){return null;}
 		return $this->status;
 	}
+	
+	public function getHasCompleteAuthority(){
+		if($this->deleted){return null;}
+		return $this->hasCompleteAuthority;
+	}
   
 	//SETTERS
+	public function setHasCompleteAuthority($hasCompleteAuthority){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$hasCompleteAuthority = filter_var($hasCompleteAuthority, FILTER_VALIDATE_BOOLEAN);
+			if($status !== false){
+				mysqli_query($dbconn, "UPDATE ManagerRequest SET HasCompleteAuthority='$hasCompleteAuthority' WHERE ID='" . $this->id . "'");
+				mysqli_close($dbconn);
+				$this->hasCompleteAuthority = $hasCompleteAuthority;
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
   	public function setStatus($status){
 		if(!$this->deleted){
 			$dbconn = (new Keychain)->getDatabaseConnection();
