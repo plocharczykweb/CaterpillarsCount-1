@@ -168,7 +168,7 @@ class ManagerRequest
 	
 	public function getHasCompleteAuthority(){
 		if($this->deleted){return null;}
-		return $this->hasCompleteAuthority;
+		return filter_var($this->hasCompleteAuthority, FILTER_VALIDATE_BOOLEAN);
 	}
   
 	//SETTERS
