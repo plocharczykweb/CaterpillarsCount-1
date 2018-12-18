@@ -113,6 +113,7 @@
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div id=\"manager" + managers[i]["managerID"] + "\">";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
+								htmlToAdd += "<img src=\"../images/crownOutline.png\"/>";
 								if(managers[i]["status"] == "Approved"){
 									htmlToAdd += "<div onclick=\"promptConfirm('Are you sure you want to terminate " + managers[i]["fullName"] + "\\'s management position at this site? ', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + managers[i]["managerID"] + "');});\">&times;</div>";
 								}
