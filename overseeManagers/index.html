@@ -69,7 +69,7 @@
 
 			#managers>div{
 				border-top:1px solid rgba(0,0,0,0.03);
-				padding:20px 60px 20px 20px;
+				padding:20px 78px 20px 20px;
 				background:rgba(0,0,0,0.03);
 				position:relative;
 			}
@@ -90,11 +90,12 @@
 			}
 			
 			#managers>div>img{
-				height: 18px;
+				height: 16px;
 				position: absolute;
 				top: 50%;
-				right: 50px;
-				margin-top: -9px;
+				right: 53px;
+				margin-top: -8px;
+				cursor:pointer;
 			}
 		</style>
 		<script>
@@ -107,6 +108,15 @@
 
 			function email(emailParts){
 				window.location = "mailto:" + emailParts.join('@');
+			}
+			
+			function toggleCreatorPermissions(managerID){
+				if($("#manager" + Number(managerID)).find("img").eq(0)[0].src.indexOf("Outline") > -1){
+					$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/crownFilled.png";
+				}
+				else{
+					$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/crownOutline.png";
+				}
 			}
 
 			function loadManagers(){
@@ -121,7 +131,7 @@
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div id=\"manager" + managers[i]["managerID"] + "\">";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
-								htmlToAdd += "<img src=\"../images/crownOutline.png\"/>";
+								htmlToAdd += "<img src=\"../images/crownOutline.png\" onclick=\"toggleCreatorPermissions('" + managers[i]["managerID"] + "');\"/>";
 								if(managers[i]["status"] == "Approved"){
 									htmlToAdd += "<div onclick=\"promptConfirm('Are you sure you want to terminate " + managers[i]["fullName"] + "\\'s management position at this site? ', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + managers[i]["managerID"] + "');});\">&times;</div>";
 								}
