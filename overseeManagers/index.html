@@ -116,7 +116,7 @@
 					togglingCreatorPermissions[togglingCreatorPermissions.length] = managerID.toString();
 					
 					var shouldHaveCreatorPermissions = ($("#manager" + Number(managerID)).find("img").eq(0)[0].src.indexOf("Outline") > -1);
-					$.get("../php/setManagerCreatorPermissions.php?managerID=" + Number(managerID) + "&creatorPermissions=" + shouldHaveCreatorPermissions + "email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+					$.get("../php/setManagerCreatorPermissions.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "managerID=" + Number(managerID) + "&creatorPermissions=" + shouldHaveCreatorPermissions + "email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 						//success
 						if(data.indexOf("true|") == 0){
 							if(shouldHaveCreatorPermissions){
