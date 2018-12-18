@@ -7,6 +7,7 @@
 	
   	$siteID = $_GET["siteID"];
   	$managerID = $_GET["managerID"];
+  	$creatorPermissions = filter_var($_GET["creatorPermissions"], FILTER_VALIDATE_BOOLEAN);
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
 	
@@ -19,16 +20,16 @@
 				if($manager != $user){
 					$managerRequest = ManagerRequest::findByManagerAndSite($manager, $site);
 					if(get_class($managerRequest) == "ManagerRequest"){
-						$managerRequest->permanentDelete();
+						$managerRequest->setHasCompleteAuthority($creatorPermissions);
 						die("true|");
 					}
-					die("false|There is no need for termination here. " . $manager->getFullName() . " is not a manager of this site anyway.");
+					die("false|" . $manager->getFullName() . " is not a manager of this site.");
 				}
-				die("false|You are the site creator, not a manager. You cannot terminate yourself.");
+				die("false|You cannot edit your own authority level.");
 			}
       			die("false|We could not locate that manager's account. Please reload the page and try again.");
     		}
-    		die("false|You did not create this site, so you cannot oversee its management.");
+    		die("false|You do not have permission to oversee this site's management.");
   	}
   	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
