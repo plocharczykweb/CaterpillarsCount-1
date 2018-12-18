@@ -20,6 +20,7 @@
 					"managerID" => $managerRequests[$i]->getManager()->getID(),
 					"fullName" => $managerRequests[$i]->getManager()->getFullName(),
 					"email" => $managerRequests[$i]->getManager()->getEmail(),
+					"hasCompleteAuthority" => $managerRequests[$i]->getHasCompleteAuthority(),
 					"status" => $managerRequests[$i]->getStatus(),
 				);
 			}
