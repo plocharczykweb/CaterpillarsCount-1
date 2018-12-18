@@ -24,11 +24,11 @@
 					}
 					die("false|There is no need for termination here. " . $manager->getFullName() . " is not a manager of this site anyway.");
 				}
-				die("false|You are the site creator, not a manager. You cannot terminate yourself.");
+				die("false|You cannot terminate yourself.");
 			}
       			die("false|We could not locate that manager's account. Please reload the page and try again.");
     		}
-    		die("false|You did not create this site, so you cannot oversee its management.");
+    		die("false|You do not have permission to oversee this site's management.");
   	}
   	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
