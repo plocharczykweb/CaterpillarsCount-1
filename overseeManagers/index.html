@@ -110,12 +110,37 @@
 				window.location = "mailto:" + emailParts.join('@');
 			}
 			
+			var togglingCreatorPermissions = [];
 			function toggleCreatorPermissions(managerID){
-				if($("#manager" + Number(managerID)).find("img").eq(0)[0].src.indexOf("Outline") > -1){
-					$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/crownFilled.png";
-				}
-				else{
-					$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/crownOutline.png";
+				if(togglingCreatorPermissions.indexOf(managerID.toString()) == -1){
+					togglingCreatorPermissions[togglingCreatorPermissions.length] = managerID.toString();
+					
+					var shouldHaveCreatorPermissions = ($("#manager" + Number(managerID)).find("img").eq(0)[0].src.indexOf("Outline") > -1);
+					$.get("../php/setManagerCreatorPermissions.php?managerID=" + Number(managerID) + "&creatorPermissions=" + shouldHaveCreatorPermissions + "email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+						//success
+						if(data.indexOf("true|") == 0){
+							if(shouldHaveCreatorPermissions){
+								$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/crownFilled.png";
+							}
+							else{
+								$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/crownOutline.png";
+							}
+						}
+						else{
+							queueNotice("error", data.replace("false|", ""));
+						}
+					})
+					.fail(function(){
+						//error
+						queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+					})
+					.always(function(){
+						//complete
+						var managerIDIndex = togglingCreatorPermissions.indexOf(managerID.toString());
+						if (managerIDIndex > -1) {
+							togglingCreatorPermissions.splice(managerIDIndex, 1);
+						}
+					});
 				}
 			}
 
@@ -376,7 +401,7 @@
 		<main>
 			<div class="panel">
 				<h2>Oversee Managers</h2>
-				<div class="tagline">Your managers can do anything with this site that you can do, with the exception of altering the site's managers. That privilege is reserved for you alone.</div>
+				<div class="tagline">By default, your managers can do anything with this site that you can do, with the exception of editing the list of this site's managers. If you've added a manager that you would like to promote to be able to do this, click the crown icon by their name to grant them that authoriy.</div>
 				<div class="content">
 					<div id="topSection">
 						<div class="inputTitle">Add a new site manager:</div>
