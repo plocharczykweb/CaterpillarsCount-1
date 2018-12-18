@@ -631,7 +631,14 @@ class Site
 	
 	public function hasCreatorPermissions($user){
 		if(is_object($user) && get_class($user) == "User"){
-			return ($user->getEmail() == $this->getCreator()->getEmail() || $user->getEmail() == "plocharczykweb@gmail.com" || $user->getEmail() == "hurlbert@bio.unc.edu");
+			if($user->getEmail() == $this->getCreator()->getEmail() || $user->getEmail() == "plocharczykweb@gmail.com" || $user->getEmail() == "hurlbert@bio.unc.edu"){
+				return true;
+			}
+			
+			$managerRequest = ManagerRequest::findByManagerAndSite($user, $this);
+			if(get_class($managerRequest) == "ManagerRequest"){
+				return $managerRequest->getHasCompleteAuthority();
+			}
 		}
 		return false;
 	}
