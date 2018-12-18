@@ -41,7 +41,7 @@
       			}
       			die("false|There is no Caterpillars Count! user associated with that email address.");
     		}
-		die("false|You did not create this site, so you cannot oversee its management.");
+		die("false|You do not have permission to oversee this site's management.");
 	}
   	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
