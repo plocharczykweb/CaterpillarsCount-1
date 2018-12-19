@@ -16,6 +16,10 @@
     		if(is_object($site) && get_class($site) == "Site" && $site->hasCreatorPermissions($user)){
       			$manager = User::findByEmail($managerEmail);
       			if(is_object($manager) && get_class($manager) == "User"){
+				if($managerEmail == $site->getCreator()->getEmail()){
+					die("false|" . $manager->getFullName() . " is the creator of this site and already has complete authority over it.");
+				}
+				
 				$managerRequest = ManagerRequest::findByManagerAndSite($manager, $site);
 				if($managerRequest !== null){
 					if($managerRequest->getStatus() == "Pending"){
