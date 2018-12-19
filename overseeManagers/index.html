@@ -304,6 +304,7 @@
 			}
 
 			function terminate(managerID){
+				$("#manager" + Number(managerID)).find("img").eq(0)[0].style.display = "none";
 				$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].innerHTML = "";
 				$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].style.backgroundImage = "url('../images/rolling.svg')";
 				var xhttp = new XMLHttpRequest();
@@ -316,6 +317,7 @@
 							}
 						}
 						else{
+							$("#manager" + Number(managerID)).find("img").eq(0)[0].style.display = "";
 							$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].innerHTML = "&times;";
 							$("#manager" + Number(managerID))[0].getElementsByTagName("div")[0].style.backgroundImage = "url('#')";
 							var terminateError = this.responseText.replace("false|", "");
