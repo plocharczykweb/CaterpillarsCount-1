@@ -117,6 +117,8 @@
 					
 					var shouldHaveCreatorPermissions = ($("#manager" + Number(managerID)).find("img").eq(0)[0].src.indexOf("Outline") > -1);
 					$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/rolling.svg";
+					$("#manager" + Number(managerID)).find("img").eq(0)[0].style.height = "24px";
+					$("#manager" + Number(managerID)).find("img").eq(0)[0].style.marginTop = "-12px";
 					$.get("../php/setManagerCreatorPermissions.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&managerID=" + Number(managerID) + "&creatorPermissions=" + shouldHaveCreatorPermissions + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 						//success
 						if(data.indexOf("true|") == 0){
@@ -143,6 +145,9 @@
 					})
 					.always(function(){
 						//complete
+						$("#manager" + Number(managerID)).find("img").eq(0)[0].style.height = "";
+						$("#manager" + Number(managerID)).find("img").eq(0)[0].style.marginTop = "";
+						
 						var managerIDIndex = togglingCreatorPermissions.indexOf(managerID.toString());
 						if (managerIDIndex > -1) {
 							togglingCreatorPermissions.splice(managerIDIndex, 1);
