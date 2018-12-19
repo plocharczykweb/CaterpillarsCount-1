@@ -266,15 +266,19 @@
 						if(this.responseText.indexOf("true") == 0){
 							var newManager = JSON.parse(this.responseText.replace("true|", ""));
 							$("#topSection")[0].style.borderRadius = "";
-
+								
+							var crownSRC = "../images/crownOutline.png";
 							if($("#manager" + newManager["managerID"]).length > 0){
+								crownSRC = $("#manager" + newManager["managerID"]).find("img").eq(0)[0].src;
 								var innerHTMLToReplaceWith = "<span class=\"highlighted pointer underline\" onclick=\"email(['" + newManager["email"].split("@")[0] + "', '" + newManager["email"].split("@")[1] + "']);\">" + newManager["fullName"] + "</span>";
+								innerHTMLToReplaceWith += "<img src=\"" + crownSRC + "\" onclick=\"toggleCreatorPermissions('" + newManager["managerID"] + "');\"/>";
 								innerHTMLToReplaceWith += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "\\'s management services at this site?', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + newManager["managerID"] + "');});\">&times;</div>";
 								$("#manager" + newManager["managerID"])[0].innerHTML = innerHTMLToReplaceWith;
 							}
 							else{
 								var htmlToAdd = "<div id=\"manager" + newManager["managerID"] + "\">";
 								htmlToAdd += "<span class=\"highlighted pointer underline\" onclick=\"email(['" + newManager["email"].split("@")[0] + "', '" + newManager["email"].split("@")[1] + "']);\">" + newManager["fullName"] + "</span>";
+								htmlToAdd += "<img src=\"" + crownSRC + "\" onclick=\"toggleCreatorPermissions('" + newManager["managerID"] + "');\"/>";
 								htmlToAdd += " (request pending)<div onclick=\"promptConfirm('Are you sure you want to cancel your request for " + newManager["fullName"] + "\\'s management services at this site?', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + newManager["managerID"] + "');});\">&times;</div>";
 								htmlToAdd += "</div>";
 								$("#managers").append(htmlToAdd);
