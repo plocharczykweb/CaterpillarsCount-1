@@ -116,6 +116,7 @@
 					togglingCreatorPermissions[togglingCreatorPermissions.length] = managerID.toString();
 					
 					var shouldHaveCreatorPermissions = ($("#manager" + Number(managerID)).find("img").eq(0)[0].src.indexOf("Outline") > -1);
+					$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/rolling.svg";
 					$.get("../php/setManagerCreatorPermissions.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "managerID=" + Number(managerID) + "&creatorPermissions=" + shouldHaveCreatorPermissions + "email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 						//success
 						if(data.indexOf("true|") == 0){
@@ -133,6 +134,12 @@
 					.fail(function(){
 						//error
 						queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+						if(shouldHaveCreatorPermissions){
+							$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/crownOutline.png";
+						}
+						else{
+							$("#manager" + Number(managerID)).find("img").eq(0)[0].src = "../images/crownFilled.png";
+						}
 					})
 					.always(function(){
 						//complete
@@ -156,7 +163,11 @@
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div id=\"manager" + managers[i]["managerID"] + "\">";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
-								htmlToAdd += "<img src=\"../images/crownOutline.png\" onclick=\"toggleCreatorPermissions('" + managers[i]["managerID"] + "');\"/>";
+								var crownSRC = "../images/crownOutline.png";
+								if(managers[i]["hasCompleteAuthority"]){
+									crownSRC = "../images/crownFilled.png";
+								}
+								htmlToAdd += "<img src=\"" + crownSRC + "\" onclick=\"toggleCreatorPermissions('" + managers[i]["managerID"] + "');\"/>";
 								if(managers[i]["status"] == "Approved"){
 									htmlToAdd += "<div onclick=\"promptConfirm('Are you sure you want to terminate " + managers[i]["fullName"] + "\\'s management position at this site? ', 'Nevermind.', 'Continue. I am sure!', function(){}, function(){terminate('" + managers[i]["managerID"] + "');});\">&times;</div>";
 								}
