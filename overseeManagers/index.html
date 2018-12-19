@@ -131,6 +131,9 @@
 						}
 						else{
 							queueNotice("error", data.replace("false|", ""));
+							if(data.replace("false|", "") == "Your log in dissolved. Maybe you logged in on another device."){
+								logOut();
+							}
 						}
 					})
 					.fail(function(){
