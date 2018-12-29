@@ -63,7 +63,7 @@
 		
 		$addCirclesSentence = "";
 		if($currentCircles == 2){
-			$addCirclesSentence = " We also encourage you to consider adding another circle or two of survey branches, which we've recently&nbsp;<a style=\"color:#6faf6d; font-weight: normal; text-decoration: underline;\" href=\"https://www.caterpillarscount.unc.edu/redirects/circlePaper\" target=\"_blank\"><span style=\"color: #6faf6d;\">shown</span></a> can increase the accuracy of your data.";
+			$addCirclesSentence = " We also encourage you to consider adding another circle or two of survey branches, which we've recently&nbsp;<a style=\"color:#6faf6d; font-weight: normal; text-decoration: underline;\" href=\"https://caterpillarscount.unc.edu/redirects/circlePaper\" target=\"_blank\"><span style=\"color: #6faf6d;\">shown</span></a> can increase the accuracy of your data.";
 		}
 		
 		$participant = "participant";
