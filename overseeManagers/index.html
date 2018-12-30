@@ -170,13 +170,13 @@
 							if(managers === null){managers = [];}
 
 							var htmlToAdd = "";
-							htmlToAdd += "<div id=\"manager" + siteCreator["siteCreatorID"] + "\">";
+							htmlToAdd += "<div id=\"siteCreator" + siteCreator["siteCreatorID"] + "\">";
 							htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + siteCreator["email"].split("@")[0] + "', '" + siteCreator["email"].split("@")[1] + "']);\">" + siteCreator["fullName"] + "</span>";
 							if(window.localStorage.getItem("email") == siteCreator["email"]){
-								htmlToAdd += "<div style=\"padding:5px;border:2px solid #999;font-size:12px;cursor:pointer;\">CLICK TO RESIGN</div>";
+								htmlToAdd += "<div style=\"padding:5px;border:2px solid #999;font-size:12px;cursor:pointer;width:auto;height:auto;\">CLICK TO RESIGN</div>";
 							}
 							else{
-								htmlToAdd += "<div style=\"padding:5px;border:2px solid #999;font-size:12px;\">SITE OWNER</div>";
+								htmlToAdd += "<div style=\"padding:5px;border:2px solid #999;font-size:12px;width:auto;height:auto;\">SITE OWNER</div>";
 							}
 							htmlToAdd += "</div>";
 							for(var i = 0; i < managers.length; i++){
@@ -227,29 +227,39 @@
 				$.get("../php/getManagers.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
-						var managers = JSON.parse(data.replace("true|", ""));
+						var authorities = JSON.parse(this.responseText.replace("true|", ""));
+						var siteCreator = authorities[0];
+						var managers = authorities[1];
 						if(managers === null){managers = [];}
 
 						//check if each status on page reflects status from back end
+						if($("#siteCreator" + siteCreator["siteCreatorID"]).length == 0){
+							loadManagers();
+							return true;
+						}
 						for(var i = 0; i < managers.length; i++){
 							if($("#manager" + managers[i]["managerID"]).length > 0){
 								var managerDiv = $("#manager" + managers[i]["managerID"])[0];
 								if(managers[i]["status"] == "Approved" && managerDiv.innerHTML.indexOf("(request") > 0){
 									//approved but not showing approved
 									loadManagers();
+									return true;
 								}
 								else if(managers[i]["status"] == "Pending" && managerDiv.innerHTML.indexOf("(request pending)") == -1){
 									//pending but not showing pending
 									loadManagers();
+									return true;
 								}
 								else if(managers[i]["status"] == "Denied" && managerDiv.innerHTML.indexOf("(request denied)") == -1){
 									//denied but not showing denied
 									loadManagers();
+									return true;
 								}
 							}
 							else{
 								//somehow missing manager on page
 								loadManagers();
+								return true;
 							}
 						}
 
@@ -266,6 +276,7 @@
 							}
 							if(!verified){
 								loadManagers();
+								return true;
 							}
 						}
 					}
