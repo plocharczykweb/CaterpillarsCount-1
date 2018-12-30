@@ -24,7 +24,13 @@
 					"status" => $managerRequests[$i]->getStatus(),
 				);
 			}
-      			die("true|" . json_encode($managers));
+			
+			$siteCreator = array(
+				"siteCreatorID" => $site->getCreator()->getID(),
+				"fullName" => $site->getCreator()->getFullName(), 
+				"email" => $site->getCreator()->getEmail()
+			);
+      			die("true|" . json_encode(array($siteCreator, $managers)));
     		}
     		die("false|You do not have permission to oversee this site's management.");
   	}
