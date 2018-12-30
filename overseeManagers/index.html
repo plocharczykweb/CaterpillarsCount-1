@@ -173,10 +173,10 @@
 							htmlToAdd += "<div id=\"siteCreator" + siteCreator["siteCreatorID"] + "\">";
 							htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + siteCreator["email"].split("@")[0] + "', '" + siteCreator["email"].split("@")[1] + "']);\">" + siteCreator["fullName"] + "</span>";
 							if(window.localStorage.getItem("email") == siteCreator["email"]){
-								htmlToAdd += "<div style=\"padding:5px;border:0px none transparent;background:#fed136;color:#fff;font-size:12px;margin-top:-13px;width:auto;height:auto;border-radius:4px;overflow:hidden;\">CLICK TO RESIGN</div>";
+								htmlToAdd += "<div style=\"padding:5px;border:0px none transparent;background:#fed136;color:#fff;font-size:12px;margin-top:-13px;width:auto;height:auto;cursor:pointer;border-radius:4px;overflow:hidden;\">CLICK TO RESIGN</div>";
 							}
 							else{
-								htmlToAdd += "<div style=\"padding:1px 3px;border:1px solid #999;background:#eee;font-size:9px;margin-top:-6.5px;cursor:pointer;width:auto;height:auto;\">SITE OWNER</div>";
+								htmlToAdd += "<div style=\"padding:1px 3px;border:1px solid #999;background:#eee;font-size:9px;margin-top:-6.5px;width:auto;height:auto;\">SITE OWNER</div>";
 							}
 							htmlToAdd += "</div>";
 							for(var i = 0; i < managers.length; i++){
