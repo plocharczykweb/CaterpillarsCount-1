@@ -3,33 +3,34 @@
 	
 	require_once('orm/User.php');
 	require_once('orm/Site.php');
-	require_once('orm/ManagerRequest.php');
 	
   	$siteID = $_GET["siteID"];
   	$managerID = $_GET["managerID"];
-  	$creatorPermissions = filter_var($_GET["creatorPermissions"], FILTER_VALIDATE_BOOLEAN);
+  	$demotedPosition = $_GET["demotedPosition"];
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
 	
 	$user = User::findBySignInKey($email, $salt);
 	if(is_object($user) && get_class($user) == "User"){
     		$site = Site::findByID($siteID);
-    		if(is_object($site) && get_class($site) == "Site" && $site->hasCreatorPermissions($user)){
+    		if(is_object($site) && get_class($site) == "Site" && $site->getCreator()->getID() == $user->getID()){
       			$manager = User::findByID($managerID);
       			if(is_object($manager) && get_class($manager) == "User"){
 				if($manager != $user){
-					$managerRequest = ManagerRequest::findByManagerAndSite($manager, $site);
-					if(get_class($managerRequest) == "ManagerRequest"){
-						$managerRequest->setHasCompleteAuthority($creatorPermissions);
+					$switchResult = $site->setCreator($manager, $demotedPosition);
+					if($switchResult === true){
 						die("true|");
 					}
-					die("false|" . $manager->getFullName() . " is not a manager of this site.");
+					else if($switchResult === false){
+						die("false|" . $manager->getFullName() . " is not a manager of this site.");
+					}
+					die("false|" . $switchResult);
 				}
-				die("false|You cannot edit your own authority level.");
+				die("false|You are already the owner of this site.");
 			}
-      			die("false|We could not locate that manager's account. Please reload the page and try again.");
+      			die("false|We could not locate the account of the manager you would like to replace you as site owner. Please reload the page and try again.");
     		}
-    		die("false|You do not have permission to oversee this site's management.");
+    		die("false|You do not have permission to appoint a new owner of this site.");
   	}
   	die("false|Your log in dissolved. Maybe you logged in on another device.");
 ?>
