@@ -341,8 +341,8 @@ class Site
 	public function setCreator($manager, $demotedPosition){
 		if(!$this->deleted){
 			$dbconn = (new Keychain)->getDatabaseConnection();
-			$managerRequest = ManagerRequest::findByManagerAndSite($manager, $site);
-			if(get_class($managerRequest) == "ManagerRequest"){
+			$managerRequest = ManagerRequest::findByManagerAndSite($manager, $this);
+			if(is_object($managerRequest) && get_class($managerRequest) == "ManagerRequest" && $managerRequest->getStatus() == "Approved"){
 				//delete manager request
 				$managerRequest->permanentDelete();
 				
