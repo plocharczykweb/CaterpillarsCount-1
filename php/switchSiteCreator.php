@@ -22,7 +22,7 @@
 						die("true|");
 					}
 					else if($switchResult === false){
-						die("false|" . $manager->getFullName() . " is not a manager of this site.");
+						die("false|" . $manager->getFullName() . " has not been approved as a manager of this site.");
 					}
 					die("false|" . $switchResult);
 				}
