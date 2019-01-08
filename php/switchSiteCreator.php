@@ -6,7 +6,7 @@
 	
   	$siteID = $_GET["siteID"];
   	$managerID = $_GET["managerID"];
-  	$demotedPosition = $_GET["demotedPosition"];
+  	$demotedPosition = $_GET["demotedPosition"]; //"unaffiliated", "highManagement", or "lowManagement"
 	$email = $_GET["email"];
 	$salt = $_GET["salt"];
 	
