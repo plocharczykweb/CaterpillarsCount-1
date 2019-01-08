@@ -338,7 +338,7 @@ class Site
 	}
 	
 //SETTERS
-	public function setCreator($manager){
+	public function setCreator($manager, $demotedPosition){
 		if(!$this->deleted){
 			$dbconn = (new Keychain)->getDatabaseConnection();
 			$managerRequest = ManagerRequest::findByManagerAndSite($manager, $site);
@@ -352,7 +352,9 @@ class Site
 				$this->creator = $manager;
 				
 				//create a new approved manager request with complete authority
-				mysqli_query($dbconn, "INSERT INTO ManagerRequest (`UserFKOfManager`, `SiteFK`, `HasCompleteAuthority`, `Status`) VALUES ('" . $lastCreator->getID() . "', '" . $this->id . "', '1', 'Approved')");
+				if($demotedPosition != "unaffiliated"){
+					mysqli_query($dbconn, "INSERT INTO ManagerRequest (`UserFKOfManager`, `SiteFK`, `HasCompleteAuthority`, `Status`) VALUES ('" . $lastCreator->getID() . "', '" . $this->id . "', '" . ($demotedPosition == "highManagement") . "', 'Approved')");
+				}
 				
 				mysqli_close($dbconn);
 				return true;
