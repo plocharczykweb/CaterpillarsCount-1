@@ -338,6 +338,30 @@ class Site
 	}
 	
 //SETTERS
+	public function setCreator($manager){
+		if(!$this->deleted){
+			$dbconn = (new Keychain)->getDatabaseConnection();
+			$managerRequest = ManagerRequest::findByManagerAndSite($manager, $site);
+			if(get_class($managerRequest) == "ManagerRequest"){
+				//delete manager request
+				$managerRequest->permanentDelete();
+				
+				//set manager as creator
+				mysqli_query($dbconn, "UPDATE Site SET UserFKOfCreator='" . $manager->getID() . "' WHERE ID='" . $this->id . "'");
+				$lastCreator = $this->creator;
+				$this->creator = $manager;
+				
+				//create a new approved manager request with complete authority
+				mysqli_query($dbconn, "INSERT INTO ManagerRequest (`UserFKOfManager`, `SiteFK`, `HasCompleteAuthority`, `Status`) VALUES ('" . $lastCreator->getID() . "', '" . $this->id . "', '1', 'Approved')");
+				
+				mysqli_close($dbconn);
+				return true;
+			}
+			mysqli_close($dbconn);
+		}
+		return false;
+	}
+	
 	public function setName($name){
 		if(!$this->deleted){
 			$dbconn = (new Keychain)->getDatabaseConnection();
