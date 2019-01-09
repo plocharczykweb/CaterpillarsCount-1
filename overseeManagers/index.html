@@ -285,11 +285,11 @@
 							for(var i = 0; i < managers.length; i++){
 								htmlToAdd += "<div id=\"manager" + managers[i]["managerID"] + "\">";
 								htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + managers[i]["email"].split("@")[0] + "', '" + managers[i]["email"].split("@")[1] + "']);\">" + managers[i]["fullName"] + "</span>";
+								var crownSRC = "../images/crownOutline.png";
+								if(managers[i]["hasCompleteAuthority"]){
+									crownSRC = "../images/crownFilled.png";
+								}
 								if(window.localStorage.getItem("email") != managers[i]["email"]){
-									var crownSRC = "../images/crownOutline.png";
-									if(managers[i]["hasCompleteAuthority"]){
-										crownSRC = "../images/crownFilled.png";
-									}
 									htmlToAdd += "<img src=\"" + crownSRC + "\" onclick=\"toggleCreatorPermissions('" + managers[i]["managerID"] + "');\"/>";
 									if(managers[i]["status"] == "Approved"){
 										newApprovedManagersArray[newApprovedManagersArray.length] = managers[i];
@@ -301,6 +301,9 @@
 									else{
 										htmlToAdd += " (request denied)<div onclick=\"terminate('" + managers[i]["managerID"] + "');\">&times;</div>";
 									}
+								}
+								else{
+									htmlToAdd += "<div style=\"cursor:default;padding:1px 3px;border:1px solid #999;background:#eee;font-size:9px;margin-top:-6.5px;width:auto;height:auto;\">ME (<img src=\"" + crownSRC + "\" style=\"height:10px;\"/>)</div>";
 								}
 								htmlToAdd += "</div>";
 							}
