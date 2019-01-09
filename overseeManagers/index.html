@@ -97,6 +97,90 @@
 				margin-top: -8px;
 				cursor:pointer;
 			}
+			
+			#resignationPromptBlock{
+				background:rgba(0,0,0,.4);
+				position:fixed;
+				top:0px;
+				left:0px;
+				z-index:99997;
+				width:100%;
+				height:100%;
+				display:none;
+			}
+			#resignationPrompt{
+				text-align:left;
+				position:fixed;
+				top:0px;
+				width:500px;
+				box-sizing:border-box;
+				left:50%;
+				margin:100px 0px 0px -250px;
+				z-index:99998;
+				padding:20px 30px 0px 30px;
+				color:#444;
+				font-size:16px;
+				background:#fff;
+				border-radius:10px;
+				overflow:hidden;
+				-webkit-box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.6);
+				-moz-box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.6);
+				box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.6);
+				font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				display:none;
+			}
+			@media screen and (max-width: 555px) {
+				#resignationPrompt{
+					width:90%;
+					margin:50px 0px 0px -45%;
+				}
+			}
+			#resignationPrompt>div:nth-of-type(1){
+				overflow:scroll;
+				box-sizing:border-box;
+			}
+			#resignationPrompt>div:nth-of-type(2){
+				margin:20px -30px -20px -30px;
+				border-top:1px solid #eee;
+				padding:0px 15px;
+				box-sizing:border-box;
+			}
+			#resignationPrompt button{
+				border:0px none transparent;
+				color:#0072c9;
+				padding:10px;
+				float:right;
+				font-size:16px;
+				background:transparent;
+				cursor:pointer;
+			}
+
+			.radioButtonOptions{
+				padding:15px;
+			}
+			.radioButtonOption{
+				display:table;
+				padding:2px 0px;
+				cursor:pointer;
+			}
+			.radioButtonCell{
+				display:table-cell;
+				vertical-align:middle;
+			}
+			.radioButton{
+				display:inline-block;
+				border:1px solid #777;
+				border-radius:9999px;
+				margin-right:4px;
+			}
+			.radioButton>div{
+				display:inline-block;
+				width:10px;
+				height:10px;
+				margin:2px;
+				background:#e3e3e3;
+				border-radius:999px;
+			}
 		</style>
 		<script>
 			requireLogIn();
@@ -104,6 +188,11 @@
 			$(document).ready(function(){
 				loadBackgroundImage($("#splashImage"), "../images/splash.png");
 				loadManagers();
+				resizeResignationPrompt();
+				
+				$(window).resize(function(){
+					resizeResignationPrompt();
+				});
 			});
 
 			function email(emailParts){
@@ -174,7 +263,7 @@
 							htmlToAdd += "<div id=\"siteCreator" + siteCreator["siteCreatorID"] + "\">";
 							htmlToAdd += 	"<span class=\"highlighted pointer underline\" onclick=\"email(['" + siteCreator["email"].split("@")[0] + "', '" + siteCreator["email"].split("@")[1] + "']);\">" + siteCreator["fullName"] + "</span>";
 							if(window.localStorage.getItem("email") == siteCreator["email"]){
-								htmlToAdd += "<div style=\"padding:5px;border:0px none transparent;background:#ddd;font-size:12px;margin-top:-13px;width:auto;height:auto;cursor:pointer;border-radius:4px;overflow:hidden;\" onclick=\"queueNotice('alert', 'Resignation functionality is currently under construction. Please check back soon.');\">RESIGN</div>";
+								htmlToAdd += "<div style=\"padding:5px;border:0px none transparent;background:#ddd;font-size:12px;margin-top:-13px;width:auto;height:auto;cursor:pointer;border-radius:4px;overflow:hidden;\" onclick=\"showResignationPrompt();\">RESIGN</div>";
 							}
 							else{
 								htmlToAdd += "<div style=\"cursor:default;padding:1px 3px;border:1px solid #999;background:#eee;font-size:9px;margin-top:-6.5px;width:auto;height:auto;\">SITE OWNER</div>";
@@ -363,6 +452,67 @@
 				xhttp.open("GET", "../php/terminateManager.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&managerID=" + Number(managerID) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), true);
 				xhttp.send();
 			}
+			
+			function resizeResignationPrompt(){
+				$("#resignationPrompt>div").eq(0)[0].style.maxHeight = window.innerHeight - Number($("#resignationPrompt").css("marginTop").replace(/\D/g, "")) -  180;
+			}
+			
+			function selectRadioOption(ele){
+				$(ele).parent().find(".radioButton>div").css({background:""});
+				$(ele).find(".radioButton>div").css({background:"#4296d6"});
+			}
+
+			function showResignationPrompt(){
+				if(approvedManagers.length < 1){
+					queueNotice('error', 'Before you can resign, you must have an approved manager on staff to fill your role.');
+					return false;
+				}
+				var htmlToAdd = "";
+				for(var i = 0; i < approvedManagers.length; i++){
+					var fillStyle = "";
+					if(i == 0){
+						fillStyle = " style=\"background:#4296d6;\"";
+					}
+					htmlToAdd += "<div id=\"managerRadioOption" + approvedManagers[i]["managerID"] + "\" class=\"radioButtonOption\" onclick=\"selectRadioOption(this);\">";
+					htmlToAdd += 	"<div class=\"radioButtonCell\">";
+					htmlToAdd += 		"<div class=\"radioButton\"><div" + fillStyle + "></div></div>";
+					htmlToAdd += 	"</div>";
+					htmlToAdd += 	"<div class=\"radioButtonCell\">" + approvedManagers[i]["fullName"] + "</div>";
+				    	htmlToAdd += "</div>";
+				}
+				$("#resignationPrompt .radioButtonOptions").eq(1)[0].innerHTML = htmlToAdd;
+				
+				$("#resignationPromptBlock").stop().fadeIn(200);
+				$("#resignationPrompt").stop().fadeIn(200);
+			}
+
+			function hideResignationPrompt(){
+				$("#resignationPromptBlock").stop().fadeOut(200);
+				$("#resignationPrompt").stop().fadeOut(200);
+			}
+			
+			function resign(){
+				var radioButtonOptions = $("#resignationPrompt .radioButtonOptions").eq(0).find(".radioButtonOption");
+				var demotedPosition = "";
+				var availableOptions = ["highManagement", "lowManagement", "noAffiliation"];
+				for(var i = 0; i < radioButtonOptions.length; i++){
+					if(radioButtonOptions.eq(i).find(".radioButton>div").eq(0)[0].style.background != ""){
+						demotedPosition = availableOptions[i];
+						break;
+					}
+				}
+				
+				radioButtonOptions = $("#resignationPrompt .radioButtonOptions").eq(1).find(".radioButtonOption");
+				var newSiteOwner = -1;
+				for(var i = 0; i < radioButtonOptions.length; i++){
+					if(radioButtonOptions.eq(i).find(".radioButton>div").eq(0)[0].style.background != ""){
+						newSiteOwner = Number(radioButtonOptions.eq(i)[0].id.replace(/\D/g, ""));
+						break;
+					}
+				}
+				
+				alert(demotedPosition + " " + newSiteOwner);
+			}
 		</script>
 	</head>
 	<body>
@@ -377,6 +527,39 @@
 		<div id="confirmation" onclick="hideNotice();"></div>
 		<div id="alert" onclick="hideNotice();"></div>
 		<div id="promptInteractionBlock"></div>
+		<div id="resignationPromptBlock"></div>
+		<div id="resignationPrompt">
+			<div>
+				<div>What position would you like to assume at this site now?</div>
+				<div class="radioButtonOptions">
+				    <div class="radioButtonOption" onclick="selectRadioOption(this);">
+					<div class="radioButtonCell">
+						<div class="radioButton"><div style="background:#4296d6;"></div></div>
+					</div>
+					<div class="radioButtonCell">High Management</div>
+				    </div>
+				    <div class="radioButtonOption" onclick="selectRadioOption(this);">
+					<div class="radioButtonCell">
+						<div class="radioButton"><div></div></div>
+					</div>
+					<div class="radioButtonCell">Low Management</div>
+				    </div>
+				    <div class="radioButtonOption" onclick="selectRadioOption(this);">
+					<div class="radioButtonCell">
+						<div class="radioButton"><div></div></div>
+					</div>
+					<div class="radioButtonCell">No Affiliation</div>
+				    </div>
+				</div>
+				<div>Which manager would you like to replace you as site owner?</div>
+				<div class="radioButtonOptions"></div>
+    			</div>
+			<div>
+				<button onclick="resign();">RESIGN</button>
+				<button onclick="hideResignationPrompt();">Cancel</button>
+				<div class="clearBoth"></div>
+			</div>
+		</div>
 		<div id="noticeInteractionBlock" onclick="hideNotice();"></div>
 		<div id="confirm">
 			<div></div>
