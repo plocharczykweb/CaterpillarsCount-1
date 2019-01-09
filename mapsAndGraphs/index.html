@@ -1886,6 +1886,8 @@
 				$("#mapSpace")[0].style.height = mapHeight + "px";
 			}
 			
+			var lastSiteSortingMetric = "Year";
+			var lastUserSortingMetric = "Year";
 			var numberOfShownSiteRankings = 10;
 			var numberOfShownUserRankings = 10;
 			var siteRankings = [];
@@ -1896,8 +1898,17 @@
 				$.get("../php/getSiteRankings.php", function(data){
 					//success
 					siteRankings = JSON.parse(data);
+					
+					lastSiteSortingMetric = "Total";
+					for(var i = 0; i < siteRankings.length; i++){
+						if(siteRankings[i]["Year"] > 0){
+							lastSiteSortingMetric = "Year";
+							break;
+						}
+					}
+					
 					if(++loadedRankingsDataCount == 2){
-						populateLeaderboard("Year");
+						populateLeaderboard(lastSiteSortingMetric);
 					}
 				})
 				.fail(function(){
@@ -1914,8 +1925,17 @@
 					if(data.indexOf("true|") == 0){
 						data = data.replace("true|", "");
 						userRankings = JSON.parse(data);
+						
+						lastUserSortingMetric = "Total";
+						for(var i = 0; i < userRankings.length; i++){
+							if(userRankings[i]["Year"] > 0){
+								lastUserSortingMetric = "Year";
+								break;
+							}
+						}
+						
 						if(++loadedRankingsDataCount == 2){
-							populateLeaderboard("Year");
+							populateLeaderboard(lastSiteSortingMetric);
 						}
 					}
 					else{
@@ -1933,8 +1953,6 @@
 				});
 			}
 			
-			var lastSiteSortingMetric = "Year";
-			var lastUserSortingMetric = "Year";
 			function populateLeaderboard(sortingMetric){
 				if(loadedRankingsDataCount < 2){return false;}
 				
