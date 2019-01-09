@@ -507,7 +507,7 @@
 			function resign(){
 				var radioButtonOptions = $("#resignationPrompt .radioButtonOptions").eq(0).find(".radioButtonOption");
 				var demotedPosition = "";
-				var availableOptions = ["highManagement", "lowManagement", "noAffiliation"];
+				var availableOptions = ["highManagement", "lowManagement", "unaffiliated"];
 				for(var i = 0; i < radioButtonOptions.length; i++){
 					if(radioButtonOptions.eq(i).find(".radioButton>div").eq(0)[0].style.background != ""){
 						demotedPosition = availableOptions[i];
