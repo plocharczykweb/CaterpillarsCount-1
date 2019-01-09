@@ -347,23 +347,23 @@
 								var managerDiv = $("#manager" + managers[i]["managerID"])[0];
 								if(managers[i]["status"] == "Approved" && managerDiv.innerHTML.indexOf("(request") > 0){
 									//approved but not showing approved
-									loadManagers();
+									loadManagers();alert("1");
 									return true;
 								}
 								else if(managers[i]["status"] == "Pending" && managerDiv.innerHTML.indexOf("(request pending)") == -1){
 									//pending but not showing pending
-									loadManagers();
+									loadManagers();alert("2");
 									return true;
 								}
 								else if(managers[i]["status"] == "Denied" && managerDiv.innerHTML.indexOf("(request denied)") == -1){
 									//denied but not showing denied
-									loadManagers();
+									loadManagers();alert("3");
 									return true;
 								}
 							}
 							else{
 								//somehow missing manager on page
-								loadManagers();
+								loadManagers();alert("4");
 								return true;
 							}
 						}
