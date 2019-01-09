@@ -539,6 +539,10 @@
 				$.get("../php/switchSiteCreator.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&managerID=" + newSiteOwner + "&demotedPosition=" + demotedPosition + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
+						if(demotedPosition == "unaffiliated"){
+							window.location = "../manageMySites";
+						}
+						loadManagers();
 						hideResignationPrompt();
 						queueNotice("confirmation", "You have resigned from the position of site owner.");
 					}
