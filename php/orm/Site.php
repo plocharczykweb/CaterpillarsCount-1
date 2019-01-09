@@ -357,6 +357,10 @@ class Site
 				}
 				
 				mysqli_close($dbconn);
+				
+				$message = "<div style=\"text-align:center;border-radius:5px;padding:20px;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;\"><div style=\"text-align:left;color:#777;margin-bottom:40px;font-size:20px;\">" . $lastCreator->getFullName() . " has resigned and promoted you to the position of Owner of the \"" . $this->name . "\" Caterpillars Count! site in " . $this->region . ". Please sign in to your <a href='https://caterpillarscount.unc.edu/manageMySites'>Manage My Sites</a> page using this email address (" . $manager->getEmail() . ") to maintain this site as needed.</div><a href='https://caterpillarscount.unc.edu/manageMySites'><button style=\"border:0px none transparent;background:#fed136; border-radius:5px;padding:20px 40px;font-size:20px;color:#fff;font-family:'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;font-weight:bold;cursor:pointer;\">MANAGE MY SITES</button></a><div style=\"padding-top:40px;margin-top:40px;margin-left:-40px;margin-right:-40px;border-top:1px solid #eee;color:#bbb;font-size:14px;\"></div></div>";
+				email($manager->getEmail(), "You are now the owner of " . $this->name . " for Caterpillars Count!", $message);
+				
 				return true;
 			}
 			mysqli_close($dbconn);
