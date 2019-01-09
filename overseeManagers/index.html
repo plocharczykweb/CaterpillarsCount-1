@@ -189,7 +189,7 @@
 				background-size:contain;
 				background-repeat:no-repeat;
 				background-position:center;
-				opacity:.7;
+				opacity:0.3;
 				display:none;
 			}
 		</style>
@@ -534,7 +534,28 @@
 				
 				$("#resignationProcessing")[0].style.display = "block";
 				$("#resignationPromptButtons")[0].style.display = "none";
-				alert(demotedPosition + " " + newSiteOwner);
+				$.get("../php/switchSiteCreator.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&managerID=" + newSiteOwner + "&demotedPosition=" + demotedPosition + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
+					//success
+					if(data.indexOf("true|") == 0){
+						hideResignationPrompt();
+						queueNotice("confirmation", "You have resigned from the position of site owner.");
+					}
+					else{
+						queueNotice("error", data.replace("false|", ""));
+						if(data.replace("false|", "") == "Your log in dissolved. Maybe you logged in on another device."){
+							logOut();
+						}
+					}
+				})
+				.fail(function(){
+					//error
+					queueNotice("error", "Your request did not process. You may have a weak internet connection, or our servers might be busy. Please try again.");
+				})
+				.always(function(){
+					//complete
+					$("#resignationProcessing")[0].style.display = "";
+					$("#resignationPromptButtons")[0].style.display = "";
+				});
 			}
 		</script>
 	</head>
