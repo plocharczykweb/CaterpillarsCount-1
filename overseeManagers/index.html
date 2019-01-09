@@ -332,7 +332,7 @@
 				$.get("../php/getManagers.php?siteID=" + encodeURIComponent(window.location.toString().substring(window.location.toString().indexOf("?s=") + 3)) + "&email=" + encodeURIComponent(window.localStorage.getItem("email")) + "&salt=" + window.localStorage.getItem("salt"), function(data){
 					//success
 					if(data.indexOf("true|") == 0){
-						var authorities = JSON.parse(this.responseText.replace("true|", ""));
+						var authorities = JSON.parse(data.replace("true|", ""));
 						var siteCreator = authorities[0];
 						var managers = authorities[1];
 						if(managers === null){managers = [];}
