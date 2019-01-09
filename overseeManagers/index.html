@@ -103,7 +103,7 @@
 				position:fixed;
 				top:0px;
 				left:0px;
-				z-index:99997;
+				z-index:99996;
 				width:100%;
 				height:100%;
 				display:none;
@@ -117,7 +117,7 @@
 				left:50%;
 				margin:100px 0px 0px -250px;
 				z-index:99998;
-				padding:20px 30px 0px 30px;
+				padding:20px 30px;
 				color:#444;
 				font-size:16px;
 				background:#fff;
@@ -180,6 +180,17 @@
 				margin:2px;
 				background:#e3e3e3;
 				border-radius:999px;
+			}
+			
+			#resignationProcessing{
+				height:18px;
+				margin:10px;
+				background-image:url("../images/rollingBlack.svg");
+				background-size:contain;
+				background-repeat:no-repeat;
+				background-position:center;
+				opacity:.7;
+				display:none;
 			}
 		</style>
 		<script>
@@ -511,6 +522,18 @@
 					}
 				}
 				
+				if(demotedPosition == ""){
+					queueNotice('error', 'Select a new position for yourself.');
+					return false;
+				}
+				
+				if(newSiteOwner == -1){
+				   	queueNotice('error', 'Select a manager to take over for you as site owner.');
+					return false;
+				}
+				
+				$("#resignationProcessing")[0].style.display = "block";
+				$("#resignationPromptButtons")[0].style.display = "none";
 				alert(demotedPosition + " " + newSiteOwner);
 			}
 		</script>
@@ -551,13 +574,16 @@
 					<div class="radioButtonCell">No Affiliation</div>
 				    </div>
 				</div>
-				<div>Which manager would you like to replace you as site owner?</div>
+				<div>Which approved manager on your staff would you like to replace you as site owner?</div>
 				<div class="radioButtonOptions"></div>
     			</div>
 			<div>
-				<button onclick="resign();">RESIGN</button>
-				<button onclick="hideResignationPrompt();">Cancel</button>
-				<div class="clearBoth"></div>
+				<div id="resignationProcessing"></div>
+				<div id="resignationPromptButtons">
+					<button onclick="resign();">RESIGN</button>
+					<button onclick="hideResignationPrompt();">Cancel</button>
+					<div class="clearBoth"></div>
+				</div>
 			</div>
 		</div>
 		<div id="noticeInteractionBlock" onclick="hideNotice();"></div>
