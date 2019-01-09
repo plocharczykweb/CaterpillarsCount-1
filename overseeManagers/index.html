@@ -339,7 +339,7 @@
 
 						//check if each status on page reflects status from back end
 						if($("#siteCreator" + siteCreator["siteCreatorID"]).length == 0){
-							loadManagers();alert("0");
+							loadManagers();
 							return true;
 						}
 						for(var i = 0; i < managers.length; i++){
@@ -347,41 +347,43 @@
 								var managerDiv = $("#manager" + managers[i]["managerID"])[0];
 								if(managers[i]["status"] == "Approved" && managerDiv.innerHTML.indexOf("(request") > 0){
 									//approved but not showing approved
-									loadManagers();alert("1");
+									loadManagers();
 									return true;
 								}
 								else if(managers[i]["status"] == "Pending" && managerDiv.innerHTML.indexOf("(request pending)") == -1){
 									//pending but not showing pending
-									loadManagers();alert("2");
+									loadManagers();
 									return true;
 								}
 								else if(managers[i]["status"] == "Denied" && managerDiv.innerHTML.indexOf("(request denied)") == -1){
 									//denied but not showing denied
-									loadManagers();alert("3");
+									loadManagers();
 									return true;
 								}
 							}
 							else{
 								//somehow missing manager on page
-								loadManagers();alert("4");
+								loadManagers();
 								return true;
 							}
 						}
 
-						//check if there is one on the page that should not be on the page
+						//check if there is a manager on the page that should not be on the page
 						var managerDivs = $("#managers>div");
 						for(var i = 0; i < managerDivs.length; i++){
-							var idFromPage = Number(managerDivs.eq(i)[0].id.replace("manager", ""));
-							var verified = false;
-							for(var j = 0; j < managers.length; j++){
-								if(Number(managers[j]["managerID"]) == idFromPage){
-									verified = true;
-									break;
+							if(managerDivs.eq(i)[0].id.indexOf("manager") > -1){
+								var idFromPage = Number(managerDivs.eq(i)[0].id.replace("manager", ""));
+								var verified = false;
+								for(var j = 0; j < managers.length; j++){
+									if(Number(managers[j]["managerID"]) == idFromPage){
+										verified = true;
+										break;
+									}
 								}
-							}
-							if(!verified){
-								loadManagers();
-								return true;
+								if(!verified){
+									loadManagers();
+									return true;
+								}
 							}
 						}
 					}
